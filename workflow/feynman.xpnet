@@ -1,0 +1,31 @@
+<defun name="feynman">
+  <in name="branchtype" type="string" place="branchtype"/>
+  <in name="julia_code" type="string" place="julia_code"/>
+  <out name="result" type="string" place="result"/>
+
+  <net>
+    <place name="branchtype" type="string"/>
+    <place name="julia_code" type="string"/>
+    <place name="result" type="string">
+      <token>
+        <value>0</value>
+      </token>
+    </place>
+
+    <transition name="feynman">
+      <defun>
+        <in name="value" type="int"/>
+        <inout name="sum" type="int"/>
+
+        <module name="feynman" function="plus (value, sum)">
+        <code><![CDATA[
+          sum += value;
+        ]]></code>
+        </module>
+      </defun>
+
+      <connect-in port="value" place="values"/>
+      <connect-inout port="result" place="result"/>
+    </transition>
+  </net>
+</defun>
