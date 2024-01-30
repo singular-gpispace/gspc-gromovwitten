@@ -4,5 +4,6 @@
         "ostream": "cpp",
         "vector": "cpp",
         "iostream": "cpp"
-    }
+    },
+    "C_Cpp.default.compilerPath": "/usr/bin/g++-11"
 }
