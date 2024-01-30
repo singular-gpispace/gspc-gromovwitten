@@ -70,7 +70,7 @@ vector<vector<int>> parti(int d, int n)
 
 int main()
 {
-    int d = 5;
+    int d = 4;
     int n = 6;
     auto result = parti(d, n);
 
