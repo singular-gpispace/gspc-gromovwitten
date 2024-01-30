@@ -28,7 +28,7 @@ namespace feynman
    list p = partition(_degree, _N);
     for (vector<int> pa : p) {
         //vector<vector<int> > values_map;
-        //values_map.push_back("values", pa);
+        values_map.push_back("values", pa);
         values_on_ports.emplace("branchtype",values_map);
     }
     values_on_ports.emplace ("julia_code", _mycode);

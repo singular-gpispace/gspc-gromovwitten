@@ -1,8 +1,8 @@
 #include <iostream>
 #include <vector>
+#include "print.hpp"
 
 using namespace std;
-
 // Define the list type as a vector of vectors of integers
 typedef vector<vector<int> > list;
 
