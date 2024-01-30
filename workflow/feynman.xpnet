@@ -1,21 +1,23 @@
 <defun name="feynman">
-  <in name="branchtype" type="string" place="branchtype"/>
-  <in name="julia_code" type="string" place="julia_code"/>
+  <in name="degree" type="int" place="degree"/>
+  <in name="edges" type="string" place="edges"/>
+  <in name="graph" type="string" place="graph"/>
   <out name="result" type="string" place="result"/>
 
   <net>
-    <place name="branchtype" type="string"/>
-    <place name="julia_code" type="string"/>
+    <place name="degree" type="int"/>
+    <place name="edges" type="string"/>
+    <place name="graph" type="string"/>
     <place name="result" type="string">
       <token>
         <value>0</value>
       </token>
     </place>
 
-    <transition name="feynman">
+    <transition name="partition">
       <defun>
-        <in name="value" type="int"/>
-        <inout name="sum" type="int"/>
+        <in name="edges" type="string"/>
+        <inout name="degree" type="int"/>
 
         <module name="feynman" function="plus (value, sum)">
         <code><![CDATA[
@@ -23,9 +25,45 @@
         ]]></code>
         </module>
       </defun>
-
-      <connect-in port="value" place="values"/>
-      <connect-inout port="result" place="result"/>
+      <connect-in port="edge" place="edge"/>
+      <connect-inout port="degree" place="young"/>
     </transition>
+
+    <place name="young" type="string" />
+
+    <transition name="permutation">
+      <defun>
+        <inout name="branchtype" type="string"/>
+
+        <module name="feynman" function="plus (value, sum)">
+        <code><![CDATA[
+          sum += value;
+        ]]></code>
+        </module>
+      </defun>
+        
+      <connect-in port="branchtype" place="young"/>
+      <connect-inout port="branchtype" place="branchtype"/>
+    </transition>
+    
+    <place name="branchtype" type="string" />
+    
+     <transition name="feynman">
+      <defun>
+        <inout name="branchtype" type="string"/>
+        <in name="graph" type="string"/>
+
+        <module name="feynman" function="plus (value, sum)">
+        <code><![CDATA[
+          sum += value;
+        ]]></code>
+        </module>
+      </defun>
+      <connect-in port="graph" place="graph"/>
+      <connect-in port="branchtype" place="branchtype"/>
+      <connect-out port="branchtype" place="result"/>
+    </transition>
+    
+    
   </net>
 </defun>
