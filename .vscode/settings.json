@@ -3,7 +3,8 @@
         "*.yml": "yaml",
         "ostream": "cpp",
         "vector": "cpp",
-        "iostream": "cpp"
+        "iostream": "cpp",
+        "numeric": "cpp"
     },
     "C_Cpp.default.compilerPath": "/usr/bin/g++-11"
 }
