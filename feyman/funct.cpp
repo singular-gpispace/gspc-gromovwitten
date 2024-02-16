@@ -84,6 +84,30 @@ std::vector<int> flip_signature(const FeynmanGraph& G, const std::vector<int>& p
 
     return b;
 }
+int factorial(int n) {
+    if (n <= 1) {
+        return 1;
+    } else {
+        return n * factorial(n - 1);
+    }
+}
+    std::vector<std::tuple<int, std::vector<int> > > signature_and_multiplicities(const FeynmanGraph& G, std::vector<int> a ) {
+    std::vector<Edge> ee=G.edges();
+    std::vector<int> p;
+    std::vector<std::tuple<int, std::vector<int> > > b;
+    std::vector<int> l( G.nv(),0);
+    std::vector<std::vector<int> > y;
+
+    if (count_zero(a)<=1){
+        b.push_back(std::make_tuple(factorial(G.nv()),a)) ;
+        return b;
+    }
+    else{
+        for ()
+    }
+}
+
+
 
 
 int main() {
