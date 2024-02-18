@@ -22,7 +22,7 @@ private:
     std::vector<Edge> _edges;
 
 public:
-    FeynmanGraph(const std::vector<std::pair<int, int>>& edges);
+    FeynmanGraph(const std::vector<std::pair<int, int> >& edges);
 
     std::vector<Edge> getEdges() const;
 
