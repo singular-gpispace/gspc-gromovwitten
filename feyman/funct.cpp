@@ -4,6 +4,46 @@
 #include <algorithm>
 #include <unordered_map>
 #include "feynman.hpp"
+#include <functional>
+#include <cmath>
+#include <numeric>
+
+std::vector<std::pair<std::pair<int, int>, std::pair<int, int>>> cons0(const FeynmanGraph& G, int j, int N) {
+    std::vector<std::pair<std::pair<int, int>, std::pair<int, int>>> v;
+   std::vector<Edge> ee=G.edges();
+    for (int i = 1; i <= N; ++i) {
+        if (ee[j].src < ee[j].dst)
+            v.push_back(std::make_pair(std::make_pair(ee[j].src, -i), std::make_pair(ee[j].dst, +i)));
+        else
+            v.push_back(std::make_pair(std::make_pair(ee[j].dst, +i), std::make_pair(ee[j].src, -i)));
+    }
+    return v;
+}
+
+std::vector<std::pair<std::pair<int, int>, std::pair<int, int>>> cons(const FeynmanGraph& G, int j, int N) {
+    std::vector<std::pair<std::pair<int, int>, std::pair<int, int>>> v;
+   std::vector<Edge> ee=G.edges();
+    for (int i = 1; i <= N; ++i) {
+        if (ee[j].dst < ee[j].src)
+            v.push_back(std::make_pair(std::make_pair(ee[j].dst, -i), std::make_pair(ee[j].src, +i)));
+        else
+            v.push_back(std::make_pair(std::make_pair(ee[j].src, +i), std::make_pair(ee[j].dst, -i)));
+    }
+    return v;
+}
+
+std::vector<std::pair<std::pair<int, int>, std::pair<int, int>>> prot(const FeynmanGraph& G, int j, int a, int N) {
+    std::vector<std::pair<std::pair<int, int>, std::pair<int, int>>> x_powers;
+   std::vector<Edge> ee=G.edges();
+
+    for (int w = 1; w <= a; ++w) {
+        if (a % w == 0) {
+            x_powers.push_back(std::make_pair(std::make_pair(ee[j].src, +w), std::make_pair(ee[j].dst, -w)));
+            x_powers.push_back(std::make_pair(std::make_pair(ee[j].src, -w), std::make_pair(ee[j].dst, +w)));
+        }
+    }
+    return x_powers;
+}
 
 // Function to replace -1 with 0 and 0 with -1 in a vector
 std::vector<int> replaces(const std::vector<int>& arr) {
@@ -122,7 +162,7 @@ std::vector<std::vector<int>> permutation(std::vector<int>& vec) {
     return per; // Return the vector of permutations
 }
 
-
+/*
 //define signature_and_multiplicities.
 std::vector<std::tuple<int, std::vector<int>>> signature_and_multiplicities(const FeynmanGraph& G, const std::vector<int>& a) {
     std::vector<Edge> ee = G.edges();
@@ -208,7 +248,7 @@ std::vector<std::tuple<int, std::vector<int>>> signature_and_multiplicities(cons
         }
     }
 }
-
+*/
 
 
 std::vector<std::tuple<int, std::vector<int>>> signature_and_multiplicitie(const FeynmanGraph& G, const std::vector<int>& a) {
@@ -311,47 +351,196 @@ void sum_exp(std::vector<int>& res, const std::vector<std::vector<std::pair<int,
         }
     }
 }
-template<typename T>
-std::vector<std::vector<T>> cartesian_product2(const std::vector<std::vector<std::pair<T, T>>>& uu) {
-    std::vector<std::vector<T>> res;
-
-    if (uu.empty()) {
-        return res; // Return an empty vector if input is empty
-    }
-
-    // Calculate the total number of combinations
-    size_t total_combinations = 1;
-    for (const auto& vec : uu) {
-        total_combinations *= vec.size();
-    }
-
-    // Initialize the result vector with the correct size
-    res.resize(total_combinations);
-
-    // Fill the result vector with Cartesian product combinations
-    for (size_t i = 0; i < total_combinations; ++i) {
-        std::vector<T> combination;
-        size_t index = i;
-        for (const auto& vec : uu) {
-            combination.push_back(vec[index % vec.size()].first);
-            index /= vec.size();
+void CartesianRecurse(std::vector<std::vector<std::pair<std::pair<int, int>, std::pair<int, int>>>> &accum,
+                      std::vector<std::pair<std::pair<int, int>, std::pair<int, int>>> stack,
+                      const std::vector<std::vector<std::pair<std::pair<int, int>, std::pair<int, int>>>> &sequences,
+                      int index) {
+    std::vector<std::pair<std::pair<int, int>, std::pair<int, int>>> sequence = sequences[index];
+    
+    for (const auto& tuple : sequence) {
+        stack.push_back(tuple);
+        
+        if (index == 0) {
+            // If this is the last sequence, add the current stack to the accum vector
+            accum.push_back(stack);
+        } else {
+            // Otherwise, recursively call CartesianRecurse with the next sequence
+            CartesianRecurse(accum, stack, sequences, index - 1);
         }
-        res[i] = combination;
+        
+        // Remove the last element from the stack for backtracking
+        stack.pop_back();
     }
+}
 
+std::vector<std::vector<std::pair<std::pair<int, int>, std::pair<int, int>>>> CartesianProduct(
+    const std::vector<std::vector<std::pair<std::pair<int, int>, std::pair<int, int>>>> &sequences) {
+    
+    std::vector<std::vector<std::pair<std::pair<int, int>, std::pair<int, int>>>> accum;
+    std::vector<std::pair<std::pair<int, int>, std::pair<int, int>>> stack;
+    
+    if (!sequences.empty())
+        CartesianRecurse(accum, stack, sequences, sequences.size() - 1);
+    
+    return accum;
+}
+using Element = std::pair<std::pair<int, int>, std::pair<int, int>>;
+using Sequence = std::vector<Element>;
+
+bool m(const Sequence& u, std::vector<int>& v) {
+    for (const auto& pp : u) {
+        v[pp.first.first] += pp.first.second;
+        v[pp.second.first] += pp.second.second;
+    }
+    return std::all_of(v.begin(), v.end(), [](int val) { return val == 0; });
+}
+
+std::vector<Sequence> mergetuple(const std::vector<Sequence>& uu) {
+    std::vector<Sequence> res;
+    int N = 0;
+    for (const auto& subvec : uu) {
+        for (const auto& elem : subvec) {
+            N = std::max({N, elem.first.first, elem.second.first});
+        }
+    }
+    std::vector<int> v(N + 1, 0);
+
+    std::function<void(const Sequence&, std::vector<int>&)> m_wrapper = [&](const Sequence& u, std::vector<int>& v) {
+        if (m(u, v)) {
+            res.push_back(u);
+        }
+        std::fill(v.begin(), v.end(), 0);
+    };
+
+    std::vector<std::vector<Element>> cartesian_product = CartesianProduct(uu);
+
+    for (const auto& u : cartesian_product) {
+        m_wrapper(u, v);
+    }
     return res;
 }
 
+double sum_absolute_products(std::vector<Sequence> tt) {
+    double total_abs_product = 0;
+    for (auto &t : tt) {
+        double abs_product = 1.0;
+        for (auto &ui : t) {
+            abs_product *= abs(ui.first.second );
+        }
+        total_abs_product += abs_product;
+    }
+    return total_abs_product;
+}
+
+/* 
+double feynman_integral(const FeynmanGraph& G, const std::vector<int>& a) {
+    std::vector<Edge> ee = G.edges();
+    int N = accumulate(a.begin(), a.end(), 0);
+    std::vector<std::tuple<int, std::vector<int>>> f = signature_and_multiplicities(G, a);
+    std::vector<int> fey;
+
+    for (size_t i = 0; i < f.size(); i++) {
+        std::vector<std::vector<std::pair<std::pair<int, int>, std::pair<int, int>>>> tmp;
+        for (size_t j = 0; j < std::get<1>(f[i]).size(); j++) {
+            if (std::get<1>(f[i])[j] == -1) {
+                tmp.push_back(cons(G, j, N));
+            } else if (std::get<1>(f[i])[j] == 0) {
+                tmp.push_back(cons0(G, j, N));
+            } else {
+                tmp.push_back(prot(G, j, std::get<1>(f[i])[j], N));
+            }
+        }
+        fey.push_back(sum_absolute_products(mergetuple(tmp)));
+        return tmp;
+    }
+
+    // Here you can do something with the fey vector if needed
+    // For example, you can calculate the sum of its elements and return it
+    //return  //accumulate(fey.begin(), fey.end(), 0.0); // Assuming fey is a vector of integers
+}*/
 
 
+
+/*double feynman_integral_b(FeynmanGraph& G, const std::vector<int>& a, const std::vector<int>& l = std::vector<int>()) {
+    std::vector<Edge> ee = G.edges(); 
+    int N = std::accumulate(a.begin(), a.end(), 0);
+    std::vector<std::tuple<int, std::vector<int>>>  f = signature_and_multiplicities(G, a);
+    std::vector<double> fey;
+    for (size_t i = 0; i < f.size(); ++i) {
+        std::vector<Sequence> tmp;
+        for (size_t j = 0; j < f[i].second.size(); ++j) {
+            if (f[i].second[j] == -1) {
+                tmp.push_back(cons(F, j, N));
+            } else if (f[i].second[j] == 0) {
+                tmp.push_back(cons0(F, j, N));
+            } else {
+                tmp.push_back(prot(F, j, f[i].second[j], N));
+            }
+            for (const auto& element : sequence) {
+        std::cout << "(" << element.first.first << ", " << element.first.second << "), (" 
+                  << element.second.first << ", " << element.second.second << ")" << std::endl;
+    }
+        }
+        std::vector<Sequence> tt = mergetuple(tmp);
+        double ty = sum_absolute_products(tt);
+        fey.push_back(f[i].first * ty);
+    }
+    return std::accumulate(fey.begin(), fey.end(), 0.0);
+}
+*/
+
+
+double feynman_integral(FeynmanGraph& G, const std::vector<int>& a, const std::vector<int>& l = {}) {
+    std::vector<Edge> ee = G.edges(); 
+    int N = std::accumulate(a.begin(), a.end(), 0);
+    std::vector<std::tuple<int, std::vector<int>>> f = signature_and_multiplicitie(G, a);
+    std::vector<double> fey;
+
+    for (const auto& item : f) {
+        int factor = std::get<0>(item);
+        const auto& multiplicities = std::get<1>(item);
+
+        std::vector<Sequence> tmp;
+        for (size_t j = 0; j < a.size(); ++j) {
+            const auto& multiplicity = multiplicities[j]; 
+            if (multiplicity == -1) {
+                tmp.push_back(cons(G, j + 1, N));
+            } else if (multiplicity == 0) {
+                tmp.push_back(cons0(G, j + 1, N));
+            } else {
+                tmp.push_back(prot(G, j + 1, multiplicity, N));
+            }
+            
+        }
+
+        std::vector<Sequence> tt = mergetuple(tmp);
+
+                // Output the result
+                                std::cout << "mergetuple"<<std::endl;
+            for (const auto& vec : tt) {
+                for (const auto& tuple : vec) {
+                    std::cout << "(( " << tuple.first.first << ", " << tuple.first.second << " ), ( "
+                            << tuple.second.first << ", " << tuple.second.second << ")), ";
+                }
+                std::cout << std::endl;
+            }
+
+
+                double ty = sum_absolute_products(tt);
+                fey.push_back(factor * ty);
+            }
+
+    return std::accumulate(fey.begin(), fey.end(), 0.0);
+}
 
 
 int main() {
     std::vector<std::pair<int, int>> edges = {{1, 3}, {1, 2}, {1, 2}, {2, 4}, {3, 4}, {3, 4}};
     FeynmanGraph graph(edges);
     std::vector<int> aa = {0, 2, 1, 0, 0, 1};
+    
 
-    std::cout << "signature_multiplicities is " << std::endl;
+    /* std::cout << "signature_multiplicities is " << std::endl;
     std::vector<std::tuple<int, std::vector<int>>> ss = signature_and_multiplicitie(graph, aa);
     for (const auto& tuple : ss) {
         std::cout << std::get<0>(tuple) << ", ";
@@ -362,24 +551,43 @@ int main() {
     }
     signature_and_multiplicitie(graph, aa);
    
-    // Define the input vectors
-    std::vector<std::vector<std::pair<int, int>>> uu = {
-        {{{1, 1}, {3, -1}}, {{1, 2}, {3, -2}}, {{1, 3}, {3, -3}}, {{1, 4}, {3, -4}}},
-        {{{1, 1}, {2, -1}}, {{1, -1}, {2, 1}}},
-        {{{1, 1}, {2, -1}}, {{1, -1}, {2, 1}}, {{1, 3}, {2, -3}}, {{1, -3}, {2, 3}}},
-        {{{2, -1}, {4, 1}}, {{2, -2}, {4, 2}}, {{2, -3}, {4, 3}}, {{2, -4}, {4, 4}}},
-        {{{3, 1}, {4, -1}}, {{3, 2}, {4, -2}}, {{3, 3}, {4, -3}}, {{3, 4}, {4, -4}}},
-        {{{3, 1}, {4, -1}}, {{3, 2}, {4, -2}}, {{3, 3}, {4, -3}}, {{3, 4}, {4, -4}}}
-    };
+    Define the input vectors
+     std::vector<std::vector<std::pair<std::pair<int, int>, std::pair<int, int>>>> uu={
+ {{{1, 1}, {3, -1}}, {{1, 2}, {3, -2}}, {{1, 3}, {3, -3}}, {{1, 4}, {3, -4}}},
+ {{{1, 1}, {2, -1}}, {{1, -1}, {2, 1}}},
+ {{{1, 1}, {2, -1}}, {{1, -1}, {2, 1}}, {{1, 3}, {2, -3}}, {{1, -3}, {2, 3}}},
+ {{{2, -1}, {4, 1}}, {{2, -2}, {4, 2}}, {{2, -3}, {4, 3}}, {{2, -4}, {4, 4}}},
+ {{{3, 1}, {4, -1}}, {{3, 2}, {4, -2}}, {{3, 3}, {4, -3}}, {{3, 4}, {4, -4}}},
+ {{{3, 1}, {4, -1}}, {{3, 2}, {4, -2}}, {{3, 3}, {4, -3}}, {{3, 4}, {4, -4}}}
+};
 
-    auto result = cartesian_product2(uu);
+     std::vector<Sequence> res = mergetuple(uu);
 
-    // Print the result
-    for (const auto& vec : result) {
-        for (const auto& pair : vec) {
-            std::cout << "(" << pair.first << ", " << pair.second << ") ";
+    // Output the result
+    for (const auto& vec : res) {
+        for (const auto& tuple : vec) {
+            std::cout << "(( " << tuple.first.first << ", " << tuple.first.second << " ), ( "
+                      << tuple.second.first << ", " << tuple.second.second << ")), ";
         }
         std::cout << std::endl;
     }
+
+std::cout << "Sum of absolute products: " << sum_absolute_products(res) << std::endl;
+   std::vector<Sequence> fe= feynman_integral(graph,aa);
+std::cout << "vector uu is: " << std::endl;
+    for (const auto& u : fe) {
+        std::cout << "{";
+        for (auto it = u.begin(); it != u.end(); ++it) {
+            std::cout << "((" << it->first.first << ", " << it->first.second << "), (" 
+                      << it->second.first << ", " << it->second.second << "))";
+            if (std::next(it) != u.end()) {
+                std::cout << ", ";
+            }
+        }
+        std::cout << "}" << std::endl;
+    }
+*/
+std::cout << "Sum of absolute products: " << feynman_integral(graph,aa) << std::endl;
+
     return 0;
 }
