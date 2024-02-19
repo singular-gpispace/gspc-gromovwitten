@@ -3,9 +3,9 @@
 #include <tuple>
 #include "feynman.hpp"
 
-std::vector<std::pair<std::pair<int, int>, std::pair<int, int>>> cons0(const FeynmanIntegral& F, int j, int N) {
+std::vector<std::pair<std::pair<int, int>, std::pair<int, int>>> cons0(const FeynmanGraph& G, int j, int N) {
     std::vector<std::pair<std::pair<int, int>, std::pair<int, int>>> v;
-    std::vector<Edge> ee = F.getGraph().getEdges();
+   std::vector<Edge> ee=G.edges();
     for (int i = 1; i <= N; ++i) {
         if (ee[j].src < ee[j].dst)
             v.push_back(std::make_pair(std::make_pair(ee[j].src, -i), std::make_pair(ee[j].dst, +i)));
@@ -15,9 +15,9 @@ std::vector<std::pair<std::pair<int, int>, std::pair<int, int>>> cons0(const Fey
     return v;
 }
 
-std::vector<std::pair<std::pair<int, int>, std::pair<int, int>>> cons(const FeynmanIntegral& F, int j, int N) {
+std::vector<std::pair<std::pair<int, int>, std::pair<int, int>>> cons(const FeynmanGraph& G, int j, int N) {
     std::vector<std::pair<std::pair<int, int>, std::pair<int, int>>> v;
-    std::vector<Edge> ee = F.getGraph().getEdges();
+   std::vector<Edge> ee=G.edges();
     for (int i = 1; i <= N; ++i) {
         if (ee[j].dst < ee[j].src)
             v.push_back(std::make_pair(std::make_pair(ee[j].dst, -i), std::make_pair(ee[j].src, +i)));
@@ -27,9 +27,9 @@ std::vector<std::pair<std::pair<int, int>, std::pair<int, int>>> cons(const Feyn
     return v;
 }
 
-std::vector<std::pair<std::pair<int, int>, std::pair<int, int>>> prot(const FeynmanIntegral& F, int j, int a, int N) {
+std::vector<std::pair<std::pair<int, int>, std::pair<int, int>>> prot(const FeynmanGraph& G, int j, int a, int N) {
     std::vector<std::pair<std::pair<int, int>, std::pair<int, int>>> x_powers;
-    std::vector<Edge> ee = F.getGraph().getEdges();
+   std::vector<Edge> ee=G.edges();
 
     for (int w = 1; w <= a; ++w) {
         if (a % w == 0) {
@@ -40,7 +40,7 @@ std::vector<std::pair<std::pair<int, int>, std::pair<int, int>>> prot(const Feyn
     return x_powers;
 }
 
-// Main function for testing
+/*
 int main() {
 
     std::vector<std::pair<int, int>> edges = {{1, 2}, {2, 3}, {3, 4}};
@@ -88,7 +88,8 @@ int main() {
         }
         std::cout << "}" << std::endl;
     }
-       std::cout << "vector uu[1] is : " << std::endl;
+
+std::cout << "vector uu[1] is : " << std::endl;
 
  for (const auto& item : uu[1]) {
         std::cout << "((" << item.first.first << ", " << item.first.second << "), (" 
@@ -97,3 +98,4 @@ int main() {
 
     return 0;
 }
+*/ 

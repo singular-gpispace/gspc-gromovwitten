@@ -3,7 +3,9 @@
 #include <tuple>
 #include <functional>
 #include <algorithm>
-
+#include <cmath>
+#include "feynman.hpp"
+#include <numeric>
 void CartesianRecurse(std::vector<std::vector<std::pair<std::pair<int, int>, std::pair<int, int>>>> &accum,
                       std::vector<std::pair<std::pair<int, int>, std::pair<int, int>>> stack,
                       const std::vector<std::vector<std::pair<std::pair<int, int>, std::pair<int, int>>>> &sequences,
@@ -70,18 +72,32 @@ std::vector<Sequence> mergetuple(const std::vector<Sequence>& uu) {
     for (const auto& u : cartesian_product) {
         m_wrapper(u, v);
     }
-
     return res;
 }
+
+double sum_absolute_products(std::vector<Sequence> tt) {
+    double total_abs_product = 0;
+    for (auto &t : tt) {
+        double abs_product = 1.0;
+        for (auto &ui : t) {
+            abs_product *= abs(ui.first.second );
+        }
+        total_abs_product += abs_product;
+    }
+    return total_abs_product;
+}
+
+
+
 int main() {
-    std::vector<std::vector<std::pair<std::pair<int, int>, std::pair<int, int>>>> uu ={
-        { {{1, 2}, {3, -2}}, {{1, 3}, {3, -3}}},
-         {{{1, -1}, {2, 1}}},
-        {{{1, 1}, {2, -1}}, {{1, -1}, {2, 1}}},
-        { {{2, -2}, {4, 2}}, {{2, -3}, {4, 3}}},
-        {{{3, 1}, {4, -1}},  {{3, 4}, {4, -4}}},
-        {{{3, 1}, {4, -1}}, {{3, 2}, {4, -2}}}
-       };
+    std::vector<std::vector<std::pair<std::pair<int, int>, std::pair<int, int>>>> uu={
+ {{{1, 1}, {3, -1}}, {{1, 2}, {3, -2}}, {{1, 3}, {3, -3}}, {{1, 4}, {3, -4}}},
+ {{{1, 1}, {2, -1}}, {{1, -1}, {2, 1}}},
+ {{{1, 1}, {2, -1}}, {{1, -1}, {2, 1}}, {{1, 3}, {2, -3}}, {{1, -3}, {2, 3}}},
+ {{{2, -1}, {4, 1}}, {{2, -2}, {4, 2}}, {{2, -3}, {4, 3}}, {{2, -4}, {4, 4}}},
+ {{{3, 1}, {4, -1}}, {{3, 2}, {4, -2}}, {{3, 3}, {4, -3}}, {{3, 4}, {4, -4}}},
+ {{{3, 1}, {4, -1}}, {{3, 2}, {4, -2}}, {{3, 3}, {4, -3}}, {{3, 4}, {4, -4}}}
+};
 
     std::vector<Sequence> res = mergetuple(uu);
 
@@ -89,10 +105,11 @@ int main() {
     for (const auto& vec : res) {
         for (const auto& tuple : vec) {
             std::cout << "(( " << tuple.first.first << ", " << tuple.first.second << " ), ( "
-                      << tuple.second.first << ", " << tuple.second.second << " )) ";
+                      << tuple.second.first << ", " << tuple.second.second << ")), ";
         }
         std::cout << std::endl;
     }
 
+std::cout << "Sum of absolute products: " << sum_absolute_products(res) << std::endl;
     return 0;
 }
