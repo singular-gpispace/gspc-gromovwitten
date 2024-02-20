@@ -495,6 +495,14 @@ double feynman_integral(FeynmanGraph& G, const std::vector<int>& a, const std::v
     int N = std::accumulate(a.begin(), a.end(), 0);
     std::vector<std::tuple<int, std::vector<int>>> f = signature_and_multiplicitie(G, a);
     std::vector<double> fey;
+    std::cout << "signature_multiplicities is " << std::endl;
+    for (const auto& tuple : f) {
+        std::cout << std::get<0>(tuple) << ", ";
+        for (const auto& val : std::get<1>(tuple)) {
+            std::cout << val << " ";
+        }
+        std::cout << std::endl;
+    }
 
     for (const auto& item : f) {
         int factor = std::get<0>(item);
@@ -509,14 +517,24 @@ double feynman_integral(FeynmanGraph& G, const std::vector<int>& a, const std::v
                 tmp.push_back(cons(G, j + 1, N));
 
                 Sequence result_cons0=cons(G, j + 1, N);
-                std::cout << "cons result:" << std::endl;
+                std::cout << "cons result -1:" << std::endl;
                 for (const auto& item : result_cons0) {  
                 std::cout << "(" << item.first.first << ", " << item.first.second << "), (" 
                         << item.second.first << ", " << item.second.second << ")" << std::endl;
                 }
+                std::cout << "cons result:" << std::endl;
 
             } else if (multiplicity == 0) {
                 tmp.push_back(cons0(G, j + 1, N));
+
+                Sequence result_cons=cons0(G, j + 1, N);
+                std::cout << "cons result 0 :" << std::endl;
+                for (const auto& item : result_cons) {  
+                std::cout << "(" << item.first.first << ", " << item.first.second << "), (" 
+                        << item.second.first << ", " << item.second.second << ")" << std::endl;
+                }
+                std::cout << " " << std::endl;
+
             } else {
                 tmp.push_back(prot(G, j + 1, multiplicity, N));
             }
