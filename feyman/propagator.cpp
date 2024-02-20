@@ -40,24 +40,24 @@ std::vector<std::pair<std::pair<int, int>, std::pair<int, int>>> prot(const Feyn
     return x_powers;
 }
 
-/*
+
 int main() {
 
-    std::vector<std::pair<int, int>> edges = {{1, 2}, {2, 3}, {3, 4}};
+    std::vector<std::pair<int, int>> edges = {{1, 3}, {1, 2}, {1, 2}, {2, 4}, {3, 4}, {3, 4}};
     FeynmanGraph graph(edges);
     FeynmanIntegral integral(graph);
 
-    int j = 1;
+    int j = 0;
     int N = 4;
 
-    auto result_cons0 = cons0(integral, j, N);
+    auto result_cons0 = cons0(graph, j, N);
     std::cout << "cons0 result:" << std::endl;
     for (const auto& item : result_cons0) {  
         std::cout << "(" << item.first.first << ", " << item.first.second << "), (" 
                   << item.second.first << ", " << item.second.second << ")" << std::endl;
     }
 
-    auto result_cons = cons(integral, j, N);
+    auto result_cons = cons(graph, 1, N);
     std::cout << "cons result:" << std::endl;
     for (const auto& item : result_cons) {
         std::cout << "(" << item.first.first << ", " << item.first.second << "), (" 
@@ -65,7 +65,7 @@ int main() {
     }
 
     int a = 3;
-    auto result_prot = prot(integral, j, a, N);
+    auto result_prot = prot(graph, 2, a, N);
     std::cout << "prot result:" << std::endl;
     for (const auto& item : result_prot) {
         std::cout << "(" << item.first.first << ", " << item.first.second << "), (" 
@@ -98,4 +98,3 @@ std::cout << "vector uu[1] is : " << std::endl;
 
     return 0;
 }
-*/ 

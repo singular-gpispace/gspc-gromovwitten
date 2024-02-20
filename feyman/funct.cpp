@@ -501,22 +501,38 @@ double feynman_integral(FeynmanGraph& G, const std::vector<int>& a, const std::v
         const auto& multiplicities = std::get<1>(item);
 
         std::vector<Sequence> tmp;
-        for (size_t j = 0; j < a.size(); ++j) {
+        for (size_t j = 0; j < a.size(); j++) {
             const auto& multiplicity = multiplicities[j]; 
+           // std::cout << "multiplicity "<< multiplicity<<"  j: "<<j<<std::endl;
+
             if (multiplicity == -1) {
                 tmp.push_back(cons(G, j + 1, N));
+
+                Sequence result_cons0=cons(G, j + 1, N);
+                std::cout << "cons result:" << std::endl;
+                for (const auto& item : result_cons0) {  
+                std::cout << "(" << item.first.first << ", " << item.first.second << "), (" 
+                        << item.second.first << ", " << item.second.second << ")" << std::endl;
+                }
+
             } else if (multiplicity == 0) {
                 tmp.push_back(cons0(G, j + 1, N));
             } else {
                 tmp.push_back(prot(G, j + 1, multiplicity, N));
             }
-            
+              
+
         }
+         for (const auto& vec : tmp) {
+                for (const auto& tuple : vec) {
+                    std::cout << "(( " << tuple.first.first << ", " << tuple.first.second << " ), ( "
+                    << tuple.second.first << ", " << tuple.second.second << ")), ";
+                }
+                std::cout << std::endl;
+            }
+          std::cout << "mergetuple is   "<< std::endl;
 
-        std::vector<Sequence> tt = mergetuple(tmp);
-
-                // Output the result
-                                std::cout << "mergetuple"<<std::endl;
+            std::vector<Sequence> tt = mergetuple(tmp);
             for (const auto& vec : tt) {
                 for (const auto& tuple : vec) {
                     std::cout << "(( " << tuple.first.first << ", " << tuple.first.second << " ), ( "
@@ -524,20 +540,34 @@ double feynman_integral(FeynmanGraph& G, const std::vector<int>& a, const std::v
                 }
                 std::cout << std::endl;
             }
+            double ty = sum_absolute_products(tt);
+
+        //std::cout << "mergetuple "<< tmp.size()<<std::endl;
 
 
-                double ty = sum_absolute_products(tt);
-                fey.push_back(factor * ty);
+                // Output the result
+          //  std::cout << "mergetuple "<< tt.size()<<std::endl;
+           /* for (const auto& vec : tt) {
+                for (const auto& tuple : vec) {
+                    std::cout << "(( " << tuple.first.first << ", " << tuple.first.second << " ), ( "
+                            << tuple.second.first << ", " << tuple.second.second << ")), ";
+                }
+                std::cout << std::endl;
+            }*/
+
+
+                //double ty = sum_absolute_products(tt);
+               // fey.push_back(factor * ty);
             }
 
-    return std::accumulate(fey.begin(), fey.end(), 0.0);
+    return 0.0; //std::accumulate(fey.begin(), fey.end(), 0.0);
 }
 
 
 int main() {
     std::vector<std::pair<int, int>> edges = {{1, 3}, {1, 2}, {1, 2}, {2, 4}, {3, 4}, {3, 4}};
     FeynmanGraph graph(edges);
-    std::vector<int> aa = {0, 2, 1, 0, 0, 1};
+    std::vector<int> aa = {0, 2, 2, 2, 2, 2};
     
 
     /* std::cout << "signature_multiplicities is " << std::endl;
@@ -587,7 +617,7 @@ std::cout << "vector uu is: " << std::endl;
         std::cout << "}" << std::endl;
     }
 */
-std::cout << "Sum of absolute products: " << feynman_integral(graph,aa) << std::endl;
+std::cout << "Feynman Integral is : \n " << feynman_integral(graph,aa) << std::endl;
 
     return 0;
 }
