@@ -7,6 +7,7 @@
 #include <functional>
 #include <cmath>
 #include <numeric>
+#include <chrono>
 
 std::vector<std::pair<std::pair<int, int>, std::pair<int, int>>> cons0(const FeynmanGraph& G, int j, int N) {
     std::vector<std::pair<std::pair<int, int>, std::pair<int, int>>> v;
@@ -328,10 +329,73 @@ std::vector<std::tuple<int, std::vector<int>>> signature_and_multiplicitie(const
             int val = it->second;
             b.push_back(std::make_tuple(dd * val, key));
         }
+
+        if (b.size() == 1) {
+            return b;
+        } 
+        else {
+            std::vector<std::tuple<int, std::vector<int>>> group;
+
+            for (const auto& pair1 : b) {
+                int n = std::get<0>(pair1);
+                std::vector<int> values1 = std::get<1>(pair1);
+               /* std::cout<<n<<std::endl;
+                std::cout<<"[";
+                for (int val:values1){
+                    std::cout<<""<<val<<" ";
+                }
+                std::cout << "]" << std::endl;
+*/
+                int mm = 2 * n;
+                auto it1 = std::find(group.begin(), group.end(), pair1);
+                auto it2 = std::find(group.begin(), group.end(), std::make_tuple(mm, values1));
+              
+                if (it1 != group.end() || it2 != group.end()) {
+                    continue;
+                }
+
+                bool equiv = false;
+
+                for (const auto& pair2 : b) {
+                    int m = std::get<0>(pair2);
+                    std::vector<int> values2 = std::get<1>(pair2);
+                    int mm = 2 * n;
+                    auto it1 = std::find(group.begin(), group.end(), pair2);
+                    auto it2 = std::find(group.begin(), group.end(), std::make_tuple(2 * m, values2));
+
+                    if (it1 != group.end() || it2 != group.end()) {
+                        continue;
+                    }
+
+                    if (n == m && values1 == replaces(values2)) {
+                       /* std::cout<<"values2"<<std::endl;
+                        std::cout << '[';
+                        bool first = true;
+                        for (auto const& e : values2) {
+                            if (first) { 
+                                first = false; 
+                            } else { 
+                                std::cout << ", "; 
+                            }
+                        std::cout << e;
+                        }
+                        std::cout << ']' << std::endl;
+                        */
+                        equiv = true;
+                        break;
+                    }
+                }
+               // std::cout <<" equiv = " <<equiv << std::endl;
+
+                if (equiv) {
+                    group.push_back(std::make_tuple(mm, values1));
+                }
+            }
+
+            return group;
+        }
     }
-    return b;
 }
-#include <vector>
 
 void sum_exp(std::vector<int>& res, const std::vector<std::vector<std::pair<int, int>>>& uu) {
     for (const auto& pairs : uu) {
@@ -495,15 +559,15 @@ double feynman_integral(FeynmanGraph& G, const std::vector<int>& a, const std::v
     int N = std::accumulate(a.begin(), a.end(), 0);
     std::vector<std::tuple<int, std::vector<int>>> f = signature_and_multiplicitie(G, a);
     std::vector<double> fey;
-    std::cout << "signature_multiplicities is " << std::endl;
+    /*std::cout << "signature_multiplicities is " << std::endl;
     for (const auto& tuple : f) {
         std::cout << std::get<0>(tuple) << ", ";
         for (const auto& val : std::get<1>(tuple)) {
             std::cout << val << " ";
         }
         std::cout << std::endl;
-    }
-
+    }    std::cout << std::endl;
+    */
     for (const auto& item : f) {
         int factor = std::get<0>(item);
         const auto& multiplicities = std::get<1>(item);
@@ -514,33 +578,37 @@ double feynman_integral(FeynmanGraph& G, const std::vector<int>& a, const std::v
            // std::cout << "multiplicity "<< multiplicity<<"  j: "<<j<<std::endl;
 
             if (multiplicity == -1) {
-                tmp.push_back(cons(G, j + 1, N));
+                tmp.push_back(cons(G, j , N));
 
-                Sequence result_cons0=cons(G, j + 1, N);
+               /* Sequence result_cons=cons(G, j , N);
                 std::cout << "cons result -1:" << std::endl;
-                for (const auto& item : result_cons0) {  
+                for (const auto& item : result_cons) {  
                 std::cout << "(" << item.first.first << ", " << item.first.second << "), (" 
                         << item.second.first << ", " << item.second.second << ")" << std::endl;
                 }
                 std::cout << "cons result:" << std::endl;
+                */
 
             } else if (multiplicity == 0) {
-                tmp.push_back(cons0(G, j + 1, N));
+                tmp.push_back(cons0(G, j , N));
 
-                Sequence result_cons=cons0(G, j + 1, N);
+              /*  Sequence result_cons=cons0(G, j , N);
                 std::cout << "cons result 0 :" << std::endl;
                 for (const auto& item : result_cons) {  
                 std::cout << "(" << item.first.first << ", " << item.first.second << "), (" 
                         << item.second.first << ", " << item.second.second << ")" << std::endl;
                 }
                 std::cout << " " << std::endl;
+                */
 
             } else {
-                tmp.push_back(prot(G, j + 1, multiplicity, N));
+                tmp.push_back(prot(G, j , multiplicity, N));
             }
               
 
         }
+          /*std::cout << "tmp is   "<< std::endl;
+
          for (const auto& vec : tmp) {
                 for (const auto& tuple : vec) {
                     std::cout << "(( " << tuple.first.first << ", " << tuple.first.second << " ), ( "
@@ -548,16 +616,18 @@ double feynman_integral(FeynmanGraph& G, const std::vector<int>& a, const std::v
                 }
                 std::cout << std::endl;
             }
-          std::cout << "mergetuple is   "<< std::endl;
-
+            */
             std::vector<Sequence> tt = mergetuple(tmp);
+
+         /* std::cout << "mergetuple is   "<< std::endl;
+
             for (const auto& vec : tt) {
                 for (const auto& tuple : vec) {
                     std::cout << "(( " << tuple.first.first << ", " << tuple.first.second << " ), ( "
                             << tuple.second.first << ", " << tuple.second.second << ")), ";
                 }
                 std::cout << std::endl;
-            }
+            }*/
             double ty = sum_absolute_products(tt);
 
         //std::cout << "mergetuple "<< tmp.size()<<std::endl;
@@ -575,17 +645,17 @@ double feynman_integral(FeynmanGraph& G, const std::vector<int>& a, const std::v
 
 
                 //double ty = sum_absolute_products(tt);
-               // fey.push_back(factor * ty);
+                fey.push_back(factor * ty);
             }
 
-    return 0.0; //std::accumulate(fey.begin(), fey.end(), 0.0);
+    return std::accumulate(fey.begin(), fey.end(), 0.0);
 }
 
 
 int main() {
     std::vector<std::pair<int, int>> edges = {{1, 3}, {1, 2}, {1, 2}, {2, 4}, {3, 4}, {3, 4}};
     FeynmanGraph graph(edges);
-    std::vector<int> aa = {0, 2, 2, 2, 2, 2};
+    std::vector<int> aa = {0, 0, 2, 2, 2, 2};
     
 
     /* std::cout << "signature_multiplicities is " << std::endl;
@@ -635,7 +705,21 @@ std::cout << "vector uu is: " << std::endl;
         std::cout << "}" << std::endl;
     }
 */
-std::cout << "Feynman Integral is : \n " << feynman_integral(graph,aa) << std::endl;
+//std::cout << feynman_integral(graph,aa) << std::endl;
+// Start measuring time
+    auto start_time = std::chrono::steady_clock::now();
+
+    // Call your function
+    feynman_integral(graph,aa);
+
+    // End measuring time
+    auto end_time = std::chrono::steady_clock::now();
+
+    // Calculate duration
+    auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end_time - start_time);
+
+    // Print duration
+    std::cout << "Time taken by feynman_integral_b: " << duration.count() << " milliseconds" << std::endl;
 
     return 0;
 }
