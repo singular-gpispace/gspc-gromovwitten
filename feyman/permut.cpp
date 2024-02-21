@@ -9,7 +9,6 @@ using namespace std;
 // Forward declaration of parti function
 std::vector<std::vector<int>> parti(int d, int n);
 
-
 void generateAndPrintPermutations(std::vector<int> vec)
 {
     // Sort the vector to ensure permutations are unique

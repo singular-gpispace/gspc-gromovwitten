@@ -650,7 +650,10 @@ double feynman_integral(FeynmanGraph& G, const std::vector<int>& a, const std::v
 
     return std::accumulate(fey.begin(), fey.end(), 0.0);
 }
-
+std::vector<int> feynman_integral_degree(const FeynmanGraph& G,int d){
+    std::vector<Edge> ee=G.edges();
+    
+}
 
 int main() {
     std::vector<std::pair<int, int>> edges = {{1, 3}, {1, 2}, {1, 2}, {2, 4}, {3, 4}, {3, 4}};
