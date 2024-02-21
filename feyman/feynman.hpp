@@ -47,5 +47,7 @@ public:
     const FeynmanGraph& getGraph() const;
 
 };
+std::vector<std::vector<int>>  partition(int d, int N) ;
+
 
 #endif // FEYNMAN_HPP
