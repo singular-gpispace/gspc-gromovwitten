@@ -58,11 +58,14 @@ std::vector<std::vector<int>> combination(std::vector<int> (*f)(std::vector<int>
 }
 
 int main() {
-     std::vector<int> partition = {0, 2, 1, 1};
+     std::vector<int> partition = {1, 0, 2, 0, 0, 1};
     std::vector<int> next = next_partition(partition);
+    for (int num : next) {
+            std::cout << num << " ";
+        }
+    std::cout<<std::endl;
     
-    
-    std::vector<std::vector<int>> partitions = combination(next_partition, 4, 4);
+    std::vector<std::vector<int>> partitions = combination(next_partition, 6, 4);
     for (const auto& partition : partitions) {
         for (int num : partition) {
             std::cout << num << " ";
