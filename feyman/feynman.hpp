@@ -48,6 +48,7 @@ public:
 
 };
 std::vector<std::vector<int>>  partition(int d, int N) ;
-
+std::vector<std::vector<int>> combination(std::vector<int> (*f)(std::vector<int>), int k, int d) ;
+std::vector<int> next_partition(std::vector<int> a);
 
 #endif // FEYNMAN_HPP

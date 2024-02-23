@@ -554,7 +554,7 @@ double feynman_integral(const FeynmanGraph& G, const std::vector<int>& a) {
 */
 
 
-double feynman_integral(FeynmanGraph& G, const std::vector<int>& a, const std::vector<int>& l = {}) {
+double feynman_integral(const FeynmanGraph& G, const std::vector<int>& a, const std::vector<int>& l = {}) {
     std::vector<Edge> ee = G.edges(); 
     int N = std::accumulate(a.begin(), a.end(), 0);
     std::vector<std::tuple<int, std::vector<int>>> f = signature_and_multiplicitie(G, a);
@@ -650,14 +650,21 @@ double feynman_integral(FeynmanGraph& G, const std::vector<int>& a, const std::v
 
     return std::accumulate(fey.begin(), fey.end(), 0.0);
 }
-std::vector<int> feynman_integral_degree(const FeynmanGraph& G,int d){
-    std::vector<Edge> ee=G.edges();
+std::vector<double> feynman_integral_degree(const FeynmanGraph& G,int d){
+    int n=G.ne();
+    std::vector<double> re;
+    std::vector<std::vector<int>> P=combination(next_partition,n,d);
+    for (std::vector<int> a:P){
+        re.push_back(feynman_integral(G,a));
+    }
+    return re;
     
 }
 
 int main() {
     std::vector<std::pair<int, int>> edges = {{1, 3}, {1, 2}, {1, 2}, {2, 4}, {3, 4}, {3, 4}};
     FeynmanGraph graph(edges);
+    int n=graph.ne();
     std::vector<int> aa = {0, 0, 2, 2, 2, 2};
     
 
@@ -723,6 +730,15 @@ std::cout << "vector uu is: " << std::endl;
 
     // Print duration
     std::cout << "Time taken by feynman_integral_b: " << duration.count() << " milliseconds" << std::endl;
+
+    int d=4;
+    std::vector<double> fey=feynman_integral_degree(graph,d);
+    std::cout<<"[";
+    for(double fe:fey){
+        std::cout<<""<<fe<<" ";
+    }
+    std::cout << "]" << std::endl;
+    
 
     return 0;
 }
