@@ -3,11 +3,15 @@
 #include <tuple>
 #include <functional>
 
-void CartesianRecurse(std::vector<std::vector<std::pair<std::pair<int, int>, std::pair<int, int>>>> &accum,
-                      std::vector<std::pair<std::pair<int, int>, std::pair<int, int>>> stack,
-                      const std::vector<std::vector<std::pair<std::pair<int, int>, std::pair<int, int>>>> &sequences,
+
+using Element = std::pair<std::pair<int, int>, std::pair<int, int>>;
+using Sequence = std::vector<Element>;
+
+void CartesianRecurse(std::vector<Sequence> &accum,
+                      Sequence   stack,
+                      const std::vector<Sequence  > &sequences,
                       int index) {
-    std::vector<std::pair<std::pair<int, int>, std::pair<int, int>>> sequence = sequences[index];
+    Sequence   sequence = sequences[index];
     
     for (const auto& tuple : sequence) {
         stack.push_back(tuple);
@@ -25,11 +29,11 @@ void CartesianRecurse(std::vector<std::vector<std::pair<std::pair<int, int>, std
     }
 }
 
-std::vector<std::vector<std::pair<std::pair<int, int>, std::pair<int, int>>>> CartesianProduct(
-    const std::vector<std::vector<std::pair<std::pair<int, int>, std::pair<int, int>>>> &sequences) {
+std::vector<Sequence  > CartesianProduct(
+    const std::vector<Sequence  > &sequences) {
     
-    std::vector<std::vector<std::pair<std::pair<int, int>, std::pair<int, int>>>> accum;
-    std::vector<std::pair<std::pair<int, int>, std::pair<int, int>>> stack;
+    std::vector<Sequence  > accum;
+    Sequence   stack;
     
     if (!sequences.empty())
         CartesianRecurse(accum, stack, sequences, sequences.size() - 1);
@@ -39,12 +43,12 @@ std::vector<std::vector<std::pair<std::pair<int, int>, std::pair<int, int>>>> Ca
 
 int main() {
     // Example usage
-    std::vector<std::vector<std::pair<std::pair<int, int>, std::pair<int, int>>>> sequences = {
+    std::vector<Sequence  > sequences = {
         {{{1, 1}, {3, -1}}, {{1, 2}, {3, -2}}, {{1, 3}, {3, -3}}, {{1, 4}, {3, -4}}},
         {{{1, 1}, {2, -1}}, {{1, -1}, {2, 1}}}
     };
 
-    std::vector<std::vector<std::pair<std::pair<int, int>, std::pair<int, int>>>> res = CartesianProduct(sequences);
+    std::vector<Sequence  > res = CartesianProduct(sequences);
 
     // Output the result
     for (const auto& vec : res) {

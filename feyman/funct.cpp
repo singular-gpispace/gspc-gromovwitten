@@ -9,8 +9,13 @@
 #include <numeric>
 #include <chrono>
 
-std::vector<std::pair<std::pair<int, int>, std::pair<int, int>>> cons0(const FeynmanGraph& G, int j, int N) {
-    std::vector<std::pair<std::pair<int, int>, std::pair<int, int>>> v;
+
+
+using Element = std::pair<std::pair<int, int>, std::pair<int, int>>;
+using Sequence = std::vector<Element>;
+
+Sequence  cons0(const FeynmanGraph& G, int j, int N) {
+    Sequence  v;
    std::vector<Edge> ee=G.edges();
     for (int i = 1; i <= N; ++i) {
         if (ee[j].src < ee[j].dst)
@@ -21,8 +26,8 @@ std::vector<std::pair<std::pair<int, int>, std::pair<int, int>>> cons0(const Fey
     return v;
 }
 
-std::vector<std::pair<std::pair<int, int>, std::pair<int, int>>> cons(const FeynmanGraph& G, int j, int N) {
-    std::vector<std::pair<std::pair<int, int>, std::pair<int, int>>> v;
+Sequence  cons(const FeynmanGraph& G, int j, int N) {
+    Sequence  v;
    std::vector<Edge> ee=G.edges();
     for (int i = 1; i <= N; ++i) {
         if (ee[j].dst < ee[j].src)
@@ -33,8 +38,8 @@ std::vector<std::pair<std::pair<int, int>, std::pair<int, int>>> cons(const Feyn
     return v;
 }
 
-std::vector<std::pair<std::pair<int, int>, std::pair<int, int>>> prot(const FeynmanGraph& G, int j, int a, int N) {
-    std::vector<std::pair<std::pair<int, int>, std::pair<int, int>>> x_powers;
+Sequence  prot(const FeynmanGraph& G, int j, int a, int N) {
+    Sequence  x_powers;
    std::vector<Edge> ee=G.edges();
 
     for (int w = 1; w <= a; ++w) {
@@ -75,24 +80,6 @@ int preimg(const std::vector<int>& L, int xi) {
     }
     return -1; // Return -1 if the element is not found
 }
-
-// Custom hash function for vectors
-struct VectorHash {
-    size_t operator()(const std::vector<int>& vec) const {
-        size_t hash = 0;
-        for (int i : vec) {
-            hash ^= std::hash<int>()(i);
-        }
-        return hash;
-    }
-};
-
-// Custom equality function for vectors
-struct VectorEqual {
-    bool operator()(const std::vector<int>& lhs, const std::vector<int>& rhs) const {
-        return lhs.size() == rhs.size() && std::equal(lhs.begin(), lhs.end(), rhs.begin());
-    }
-};
 
 // Function to count the occurrences of vectors in a vector of vectors
 std::unordered_map<std::vector<int>, int, VectorHash, VectorEqual> count_member(const std::vector<std::vector<int> >& itr){
@@ -135,6 +122,7 @@ int factorial(int n) {
 }
 
 //print vector function
+/*
 void printVector(const std::vector<int> &vec)
 {
     for (int value : vec){
@@ -147,7 +135,7 @@ void printVector(const std::vector<int> &vec)
     }
     std::cout << std::endl;
 }
-
+*/
 std::vector<std::vector<int>> permutation(std::vector<int>& vec) {
     // Sort the vector to ensure permutations are unique
     std::sort(vec.begin(), vec.end());
@@ -290,27 +278,27 @@ std::vector<std::tuple<int, std::vector<int>>> signature_and_multiplicitie(const
         }
         std::cout << std::endl;
         */
-    std::vector<std::vector<int>> per = permutation(p);
-     /*
-    for (const std::vector<int>& elt : per) {
-        for (int value : elt) {
-            if (value == *elt.begin()) {
-                std::cout << " " << value;
-            } else {
-                std::cout << ", " << value;
+        std::vector<std::vector<int>> per = permutation(p);
+        /*
+        for (const std::vector<int>& elt : per) {
+            for (int value : elt) {
+                if (value == *elt.begin()) {
+                    std::cout << " " << value;
+                } else {
+                    std::cout << ", " << value;
+                }
             }
-        }
             std::cout << std::endl;
 
-    }*/
+        }*/
 
-    std::cout << std::endl;
-        int dd = factorial(G.nv()) / per.size();
-       // std::cout <<" size of p "<< per.size()<< std::endl;
+        std::cout << std::endl;
+            int dd = factorial(G.nv()) / per.size();
+        // std::cout <<" size of p "<< per.size()<< std::endl;
 
-        for (const auto& ga : permutation(p)) {
-            y.push_back(flip_signature(G, ga, a));
-    }
+            for (const auto& ga : permutation(p)) {
+                y.push_back(flip_signature(G, ga, a));
+        }
         
         // Print the vector y
         /*
@@ -322,7 +310,6 @@ std::vector<std::tuple<int, std::vector<int>>> signature_and_multiplicitie(const
             std::cout << std::endl;
         }
         */
-
         std::unordered_map<std::vector<int>, int, VectorHash, VectorEqual> py = count_member(y);
         for (auto it = py.begin(); it != py.end(); ++it) {
             const std::vector<int>& key = it->first;
@@ -345,7 +332,7 @@ std::vector<std::tuple<int, std::vector<int>>> signature_and_multiplicitie(const
                     std::cout<<""<<val<<" ";
                 }
                 std::cout << "]" << std::endl;
-*/
+                */
                 int mm = 2 * n;
                 auto it1 = std::find(group.begin(), group.end(), pair1);
                 auto it2 = std::find(group.begin(), group.end(), std::make_tuple(mm, values1));
@@ -415,11 +402,11 @@ void sum_exp(std::vector<int>& res, const std::vector<std::vector<std::pair<int,
         }
     }
 }
-void CartesianRecurse(std::vector<std::vector<std::pair<std::pair<int, int>, std::pair<int, int>>>> &accum,
-                      std::vector<std::pair<std::pair<int, int>, std::pair<int, int>>> stack,
-                      const std::vector<std::vector<std::pair<std::pair<int, int>, std::pair<int, int>>>> &sequences,
+void CartesianRecurse(std::vector<Sequence > &accum,
+                      Sequence  stack,
+                      const std::vector<Sequence > &sequences,
                       int index) {
-    std::vector<std::pair<std::pair<int, int>, std::pair<int, int>>> sequence = sequences[index];
+    Sequence  sequence = sequences[index];
     
     for (const auto& tuple : sequence) {
         stack.push_back(tuple);
@@ -437,20 +424,16 @@ void CartesianRecurse(std::vector<std::vector<std::pair<std::pair<int, int>, std
     }
 }
 
-std::vector<std::vector<std::pair<std::pair<int, int>, std::pair<int, int>>>> CartesianProduct(
-    const std::vector<std::vector<std::pair<std::pair<int, int>, std::pair<int, int>>>> &sequences) {
+std::vector<Sequence > CartesianProduct(const std::vector<Sequence > &sequences) {
     
-    std::vector<std::vector<std::pair<std::pair<int, int>, std::pair<int, int>>>> accum;
-    std::vector<std::pair<std::pair<int, int>, std::pair<int, int>>> stack;
+    std::vector<Sequence > accum;
+    Sequence  stack;
     
     if (!sequences.empty())
         CartesianRecurse(accum, stack, sequences, sequences.size() - 1);
     
     return accum;
 }
-using Element = std::pair<std::pair<int, int>, std::pair<int, int>>;
-using Sequence = std::vector<Element>;
-
 bool m(const Sequence& u, std::vector<int>& v) {
     for (const auto& pp : u) {
         v[pp.first.first] += pp.first.second;
@@ -504,7 +487,7 @@ double feynman_integral(const FeynmanGraph& G, const std::vector<int>& a) {
     std::vector<int> fey;
 
     for (size_t i = 0; i < f.size(); i++) {
-        std::vector<std::vector<std::pair<std::pair<int, int>, std::pair<int, int>>>> tmp;
+        std::vector<Sequence > tmp;
         for (size_t j = 0; j < std::get<1>(f[i]).size(); j++) {
             if (std::get<1>(f[i])[j] == -1) {
                 tmp.push_back(cons(G, j, N));
@@ -554,7 +537,7 @@ double feynman_integral(const FeynmanGraph& G, const std::vector<int>& a) {
 */
 
 
-double feynman_integral(const FeynmanGraph& G, const std::vector<int>& a, const std::vector<int>& l = {}) {
+double feynman_integral(const FeynmanGraph& G, const std::vector<int>& a) {
     std::vector<Edge> ee = G.edges(); 
     int N = std::accumulate(a.begin(), a.end(), 0);
     std::vector<std::tuple<int, std::vector<int>>> f = signature_and_multiplicitie(G, a);
@@ -658,9 +641,8 @@ std::vector<double> feynman_integral_degree(const FeynmanGraph& G,int d){
         re.push_back(feynman_integral(G,a));
     }
     return re;
-    
 }
-
+   /*
 int main() {
     std::vector<std::pair<int, int>> edges = {{1, 3}, {1, 2}, {1, 2}, {2, 4}, {3, 4}, {3, 4}};
     FeynmanGraph graph(edges);
@@ -668,7 +650,7 @@ int main() {
     std::vector<int> aa = {0, 0, 2, 2, 2, 2};
     
 
-    /* std::cout << "signature_multiplicities is " << std::endl;
+     std::cout << "signature_multiplicities is " << std::endl;
     std::vector<std::tuple<int, std::vector<int>>> ss = signature_and_multiplicitie(graph, aa);
     for (const auto& tuple : ss) {
         std::cout << std::get<0>(tuple) << ", ";
@@ -680,7 +662,7 @@ int main() {
     signature_and_multiplicitie(graph, aa);
    
     Define the input vectors
-     std::vector<std::vector<std::pair<std::pair<int, int>, std::pair<int, int>>>> uu={
+     std::vector<Sequence > uu={
  {{{1, 1}, {3, -1}}, {{1, 2}, {3, -2}}, {{1, 3}, {3, -3}}, {{1, 4}, {3, -4}}},
  {{{1, 1}, {2, -1}}, {{1, -1}, {2, 1}}},
  {{{1, 1}, {2, -1}}, {{1, -1}, {2, 1}}, {{1, 3}, {2, -3}}, {{1, -3}, {2, 3}}},
@@ -715,7 +697,9 @@ std::cout << "vector uu is: " << std::endl;
         std::cout << "}" << std::endl;
     }
 */
-//std::cout << feynman_integral(graph,aa) << std::endl;
+
+ //std::cout << "feynman is"<<feynman_integral(graph,aa) << std::endl;
+ /*
 // Start measuring time
     auto start_time = std::chrono::steady_clock::now();
 
@@ -729,16 +713,16 @@ std::cout << "vector uu is: " << std::endl;
     auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end_time - start_time);
 
     // Print duration
-    std::cout << "Time taken by feynman_integral_b: " << duration.count() << " milliseconds" << std::endl;
-
+    std::cout << "Time taken by feynman_integral_b: " << duration.count() << " milliseconds" << std::endl << std::flush;
     int d=4;
     std::vector<double> fey=feynman_integral_degree(graph,d);
     std::cout<<"[";
     for(double fe:fey){
         std::cout<<""<<fe<<" ";
     }
-    std::cout << "]" << std::endl;
+    std::cout << "]" ;
     
 
     return 0;
 }
+*/
