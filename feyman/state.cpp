@@ -56,7 +56,7 @@ std::vector<std::vector<int>> combination(std::vector<int> (*f)(std::vector<int>
     }
     return ru;
 }
-
+/*
 int main() {
      std::vector<int> partition = {1, 0, 2, 0, 0, 1};
     std::vector<int> next = next_partition(partition);
@@ -74,3 +74,4 @@ int main() {
     }
     return 0;
 }
+*/
