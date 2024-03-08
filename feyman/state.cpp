@@ -56,9 +56,43 @@ std::vector<std::vector<int>> combination(std::vector<int> (*f)(std::vector<int>
     }
     return ru;
 }
-/*
+std::vector<std::vector<int>> combinations(std::vector<int> (*f) (std::vector<int>), std::vector<int> x){
+    int k=x.size();
+    
+    if (k == 0) {
+        throw std::invalid_argument("k should be nonzero");
+    }
+    int d= std::accumulate(x.begin(),x.end(),0);
+    int n = binomial(d + k - 1, d);
+    int e = d - x[0];
+    std::vector<std::vector<int>> ru;
+    std::vector<int> result = x;    
+    std::vector<int> y(k, 0); 
+    y[0] = x[0] - 1;
+    y[k - 1] = e + 1;
+    for (int i = 0; i < n; ++i) {
+        if (result != y) {
+            result = next_partition(result);
+            ru.push_back(result);
+        } else {
+            break;
+        }
+    }
+    return ru;
+}
+
+std::vector<std::vector<int>> sum_degree(int n, int d){
+    std::vector<std::vector<int>> ru;
+    for(int e=0; e<d; e++){
+        std::vector<int> x(n,0);
+        x[0]=d-e; 
+        x[n-1]=e;
+        ru.push_back(x);
+    }
+    return ru;
+}
 int main() {
-     std::vector<int> partition = {1, 0, 2, 0, 0, 1};
+    /* std::vector<int> partition = {1, 0, 2, 0, 0, 1};
     std::vector<int> next = next_partition(partition);
     for (int num : next) {
             std::cout << num << " ";
@@ -72,6 +106,24 @@ int main() {
         }
         std::cout << std::endl;
     }
+*/
+    std::vector<int> x = {};
+    std::vector<std::vector<int>> result = combinations(next_partition, x);
+    for (const auto& partition : result) {
+        for (int val : partition) {
+            std::cout << val << " ";
+        }
+        std::cout << std::endl;
+    }
+            std::cout << " sum_degree : "<<std::endl;
+            std::vector<std::vector<int>> sum_deg=sum_degree(3,8);
+            for (std::vector<int> v:sum_deg){
+                for (int i :v){
+                    std::cout<<i<< " " ;
+                }
+                        std::cout << std::endl;
+
+            }
+
     return 0;
 }
-*/
