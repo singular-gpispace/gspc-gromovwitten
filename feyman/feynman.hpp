@@ -63,7 +63,7 @@ int count_zero(const std::vector<int>& arr);
 int preimg(const std::vector<int>& L, int xi);
 
 
-// Custom hash function for vectors
+//  hash function for vectors
 struct VectorHash {
     size_t operator()(const std::vector<int>& vec) const {
         size_t hash = 0;
@@ -74,7 +74,7 @@ struct VectorHash {
     }
 };
 
-// Custom equality function for vectors
+//  equality  for vectors
 struct VectorEqual {
     bool operator()(const std::vector<int>& lhs, const std::vector<int>& rhs) const {
         return lhs.size() == rhs.size() && std::equal(lhs.begin(), lhs.end(), rhs.begin());
@@ -95,4 +95,5 @@ std::vector<Sequence> mergetuple(const std::vector<Sequence>& uu);
 double sum_absolute_products(std::vector<Sequence> tt);
 double feynman_integral(const FeynmanGraph& G, const std::vector<int>& a);
 std::vector<double> feynman_integral_degree(const FeynmanGraph& G,int d);
+
 #endif // FEYNMAN_HPP

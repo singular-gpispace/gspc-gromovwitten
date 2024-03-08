@@ -80,7 +80,12 @@ std::cout << "vector uu is: " << std::endl;
         std::cout<<""<<fe<<" ";
     }
     std::cout << "]" ;
-    
+        std::cout<<std::endl;
 
+    double su=0;
+    for (double u:fey){
+        su+=u;
+    }
+    std::cout<<su<<std::endl;
     return 0;
 }
