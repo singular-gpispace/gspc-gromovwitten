@@ -1,0 +1,69 @@
+<defun name="feynman">
+
+    <in name="degree" type="string" place="degree"/>
+    <in name="edge" type="string" place="edge"/>
+
+    <out name="result" type="string" place="result"/>
+    
+    <net>
+  
+      <place name="degree" type="string"/>
+      <place name="edge" type="string"/>
+      <place name="result" type="string"/>
+  
+      <transition name="partition">
+        <defun>
+          <inout name="d" type="string"/>
+          <in name="n" type="string"/>
+          <module name="Partition" function="young (d,n)">
+            <cinclude href="iostream"/>
+            <code><![CDATA[
+
+            ]]></code>
+          </module>
+        </defun>
+        <connect-in port="n" place="edge"/>
+        <connect-in port="d" place="degree"/>
+        <connect-out port="d" place="Young_Diagram"/>
+      </transition>
+
+      <place name="Young_Diagram" type="string"/>
+
+
+  <transition name="permutation">
+        <defun>
+          <inout name="v" type="string"/>
+          <module name="permutation" function="vect(v)">
+            <cinclude href="iostream"/>
+            <code><![CDATA[
+              
+            ]]></code>
+          </module>
+        </defun>
+        <connect-in port="v" place="Young_Diagram"/>
+        <connect-out port="v" place="branchtype"/>
+      </transition>
+
+      <place name="branchtype" type="string"/>
+      <place name="graph" type="string"/>
+
+
+      <transition name="feynman">
+        <defun>
+          <inout name="a" type="string"/>
+          <in name="G" type="string"/>
+
+          <module name="feynman" function="plus()">
+          <code><![CDATA[
+            
+          ]]></code>
+          </module>
+        </defun>
+        <connect-in port="G" place="graph"/>
+        <connect-in port="a" place="branchtype"/>
+        <connect-out port="a" place="result"/>
+      </transition>
+  
+    </net>
+  
+  </defun>
