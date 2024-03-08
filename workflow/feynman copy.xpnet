@@ -1,21 +1,20 @@
 <defun name="feynman">
 
-    <in name="degree" type="string" place="degree"/>
-    <in name="edge" type="string" place="edge"/>
+    <in name="degree" type="int" place="degree"/>
+    <in name="edge" type="int" place="edge"/>
 
-    <out name="result" type="string" place="result"/>
-    
     <net>
   
-      <place name="degree" type="string"/>
-      <place name="edge" type="string"/>
-      <place name="result" type="string"/>
+      <place name="degree" type="int"/>
+      <place name="edge" type="int"/>
   
       <transition name="partition">
         <defun>
-          <inout name="d" type="string"/>
-          <in name="n" type="string"/>
-          <module name="Partition" function="young (d,n)">
+          <in name="d" type="int"/>
+          <in name="n" type="int"/>
+          <out name="v" type="string"/>
+
+          <module name="Partition" function="sum_degree (d,n)">
             <cinclude href="iostream"/>
             <code><![CDATA[
 
@@ -24,23 +23,23 @@
         </defun>
         <connect-in port="n" place="edge"/>
         <connect-in port="d" place="degree"/>
-        <connect-out port="d" place="Young_Diagram"/>
+        <connect-out port="v" place="vector_branch_type"/>
       </transition>
 
-      <place name="Young_Diagram" type="string"/>
+      <place name="vector_branch_type" type="string"/>
 
 
-  <transition name="permutation">
+  <transition name="Combination">
         <defun>
           <inout name="v" type="string"/>
-          <module name="permutation" function="vect(v)">
+          <module name="" function="generate_combination">
             <cinclude href="iostream"/>
             <code><![CDATA[
               
             ]]></code>
           </module>
         </defun>
-        <connect-in port="v" place="Young_Diagram"/>
+        <connect-in port="v" place="vector_branch_type"/>
         <connect-out port="v" place="branchtype"/>
       </transition>
 
@@ -50,10 +49,11 @@
 
       <transition name="feynman">
         <defun>
-          <inout name="a" type="string"/>
+          <in name="a" type="string"/>
           <in name="G" type="string"/>
+          <out name="s" type="int"/>
 
-          <module name="feynman" function="plus()">
+          <module name="feynman" function="branch_type(a)">
           <code><![CDATA[
             
           ]]></code>
@@ -61,9 +61,69 @@
         </defun>
         <connect-in port="G" place="graph"/>
         <connect-in port="a" place="branchtype"/>
-        <connect-out port="a" place="result"/>
+        <connect-out port="s" place="fey"/>
+
       </transition>
-  
+
+  <place name="fey" type="int"/>
+
+      <transition name="RHS">
+        <defun>
+          <inout name="a" type="int"/>
+          <inout name="s" type="control"/>
+
+          <module name="token" function="plus()">
+          <code><![CDATA[
+            
+          ]]></code>
+          </module>
+        </defun>
+        <connect-in port="a" place="fey"/>
+        <connect-in port="s" place="right_init"/>
+        <connect-out port="s" place="left_init"/>
+        <connect-out port="a" place="R"/>
+
+      </transition>
+
+  <place name="left_init" type="control"/>
+  <place name="right_init" type="control"/>
+
+      <transition name="LHS">
+        <defun>
+          <inout name="a" type="int"/>
+          <inout name="s" type="control"/>
+
+          <module name="token" function="count()">
+          <code><![CDATA[
+            
+          ]]></code>
+          </module>
+        </defun>
+        <connect-in port="s" place="left_init"/>
+        <connect-out port="s" place="right_init"/>
+        <connect-in port="a" place="fey"/>
+        <connect-out port="a" place="L"/>
+      </transition>
+
+
+<place name="L" type="int"/>
+  <place name="R" type="int"/>
+
+      <transition name="Reduce">
+        <defun>
+          <out name="s" type="int"/>
+          <in name="value" type="int"/>
+
+          <module name="sum" function="plus()">
+          <code><![CDATA[
+            
+          ]]></code>
+          </module>
+        </defun>
+        <connect-in port="value" place="L"/>
+        <connect-in port="value" place="R"/>
+        <connect-out port="s" place="fey"/>
+      </transition>
     </net>
   
   </defun>
