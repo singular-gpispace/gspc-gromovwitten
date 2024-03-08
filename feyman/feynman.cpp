@@ -1,7 +1,7 @@
 #include "feynman.hpp"
 Edge::Edge(int src, int dst) : src(src), dst(dst) {}
 
-// Constructor definition for FeynmanGraph
+// Constructor  for FeynmanGraph
 FeynmanGraph::FeynmanGraph(const std::vector<std::pair<int, int>>& edges) {
     for (const auto& e : edges) {
         _edges.emplace_back(e.first, e.second);
@@ -38,7 +38,7 @@ std::vector<Edge> FeynmanGraph::edges() const {
     return _edges;
 }
 
-// Constructor definition for FeynmanIntegral
+// Constructor   FeynmanIntegral
 FeynmanIntegral::FeynmanIntegral(const FeynmanGraph& G) : G(G) {}
 
 const FeynmanGraph& FeynmanIntegral::getGraph() const {
