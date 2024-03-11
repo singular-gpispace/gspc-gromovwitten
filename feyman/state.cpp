@@ -81,6 +81,7 @@ std::vector<std::vector<int>> combinations(std::vector<int> (*f) (std::vector<in
     return ru;
 }
 
+
 std::vector<std::vector<int>> sum_degree(int n, int d){
     std::vector<std::vector<int>> ru;
     for(int e=0; e<d; e++){
