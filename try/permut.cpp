@@ -2,6 +2,12 @@
 #include <algorithm>
 #include <vector>
 #include "print.hpp"
+#include "parti.hpp"
+
+using namespace std;
+
+// Forward declaration of parti function
+std::vector<std::vector<int>> parti(int d, int n);
 
 
 void generateAndPrintPermutations(std::vector<int> vec)
@@ -15,7 +21,6 @@ void generateAndPrintPermutations(std::vector<int> vec)
         printVector(vec);
     } while (std::next_permutation(vec.begin(), vec.end()));
 }
-
 
 int main()
 {

@@ -80,7 +80,9 @@ std::vector<std::vector<int>> combinations(std::vector<int> (*f) (std::vector<in
     }
     return ru;
 }
-
+std::vector<std::vector<int>> generate_combination(std::vector<int> x) {
+    return combinations(next_partition, x);
+}
 
 std::vector<std::vector<int>> sum_degree(int n, int d){
     std::vector<std::vector<int>> ru;
@@ -108,8 +110,8 @@ int main() {
         std::cout << std::endl;
     }
 */
-    std::vector<int> x = {};
-    std::vector<std::vector<int>> result = combinations(next_partition, x);
+    std::vector<int> x = {4,0,0,0};
+    std::vector<std::vector<int>> result = generate_combination(x);//combinations(next_partition, x);
     for (const auto& partition : result) {
         for (int val : partition) {
             std::cout << val << " ";

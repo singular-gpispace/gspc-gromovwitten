@@ -13,35 +13,45 @@
         <defun>
           <in name="d" type="int"/>
           <in name="n" type="int"/>
-          <out name="v" type="string"/>
+          <out name="v" type="string"/> 
 
-          <module name="Partition" function="sum_degree (d,n)">
+          <module name="Sum_degree" function="v sum_degree (n,d)">
             <cinclude href="iostream"/>
+            <cinclude href="vector"/>
             <code><![CDATA[
+              std::vector<std::vector<int>> ru;
+              for(int e=0; e<d; e++){
+              std::vector<int> x(n,0);
+              x[0]=d-e; 
+              x[n-1]=e;
+              ru.push_back(x);
+              }
+              return ru;
 
             ]]></code>
           </module>
         </defun>
         <connect-in port="n" place="edge"/>
         <connect-in port="d" place="degree"/>
-        <connect-out port="v" place="vector_branch_type"/>
+        <connect-out port="v" place="d_vectors"/>
       </transition>
 
-      <place name="vector_branch_type" type="string"/>
+      <place name="d_vectors" type="string"/>
 
 
   <transition name="Combination">
         <defun>
-          <inout name="v" type="string"/>
-          <module name="" function="generate_combination">
+          <in name="v" type="string"/>
+          <out name="vec" type="string"/>
+          <module name="Combination" function="vec generate_combination(v)">
             <cinclude href="iostream"/>
             <code><![CDATA[
               
             ]]></code>
           </module>
         </defun>
-        <connect-in port="v" place="vector_branch_type"/>
-        <connect-out port="v" place="branchtype"/>
+        <connect-in port="v" place="d_vectors"/>
+        <connect-out port="vec" place="branchtype"/>
       </transition>
 
       <place name="branchtype" type="string"/>
@@ -54,7 +64,7 @@
           <in name="G" type="string"/>
           <out name="s" type="int"/>
 
-          <module name="feynman" function="branch_type(a)">
+          <module name="feynman" function="s feynman_integral(G,a)">
           <code><![CDATA[
             
           ]]></code>

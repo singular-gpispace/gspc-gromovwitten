@@ -3,6 +3,7 @@
     <in name="degree" type="int" place="degree"/>
     <in name="edge" type="int" place="edge"/>
 
+    
     <net>
   
       <place name="degree" type="int"/>
