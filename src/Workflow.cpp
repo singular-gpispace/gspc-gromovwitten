@@ -9,9 +9,9 @@ namespace feynman
     namespace po = boost::program_options;
 
     ParametersDescription workflow_opts ("Workflow");
-    workflow_opts.add_options()("N", po::value<int>()->required());
+    workflow_opts.add_options()("N", po::value<int>()->required()); //edges
     workflow_opts.add_options()("degree", po::value<int>()->required());
-    workflow_opts.add_options()("mycode", po::value<string>()->required());
+    workflow_opts.add_options()("graph", po::value<string>()->required());
 
     return workflow_opts;
   }
@@ -19,19 +19,19 @@ namespace feynman
   Workflow::Workflow (Parameters const& args)
     : _N (args.at ("N").as<int>()) //number of edges.
      _degree (args.at ("d").as<int>()) // given degree
-    , _mycode (args.at ("mycode").as<sdt::string>()) //Julia code. 
+    , _graph (args.at ("graph").as<sdt::string>()) // graph. 
   {}
 
   ValuesOnPorts Workflow::inputs() const
   {
     ValuesOnPorts::Map values_on_ports;
-   list p = partition(_degree, _N);
+   list p = sum_degree(_N,_degree);
     for (vector<int> pa : p) {
         //vector<vector<int> > values_map;
         values_map.push_back("values", pa);
         values_on_ports.emplace("branchtype",values_map);
     }
-    values_on_ports.emplace ("julia_code", _mycode);
+    values_on_ports.emplace ("graph", _graph);
 
     return values_on_ports;
   }
