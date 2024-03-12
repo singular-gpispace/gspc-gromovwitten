@@ -1,8 +1,8 @@
 #include <iostream>
 #include <vector>
 #include <numeric>
-#include <algorithm>
-#include <stdexcept>
+//#include <algorithm>
+//#include <stdexcept>
 
 // Calculate binomial coefficient (n choose k)
 int binomial(int n, int k) {
@@ -62,15 +62,13 @@ std::vector<std::vector<int> > combinations(std::vector<int> (*f) (std::vector<i
     if (k == 0) {
         throw std::invalid_argument("k should be nonzero");
     }
-        std::vector<std::vector<int> > ru;
+    std::vector<std::vector<int> > ru;
     int d= std::accumulate(x.begin(),x.end(),0);
-
-     std::vector<int> v(k , 0);
+    std::vector<int> v(k , 0);
     v[0] = d;
 
     if (v==x){
      ru.push_back(v);
-
     }
     int n = binomial(d + k - 1, d);
     int e = d - x[0];
@@ -78,6 +76,7 @@ std::vector<std::vector<int> > combinations(std::vector<int> (*f) (std::vector<i
     std::vector<int> y(k, 0); 
     y[0] = x[0] - 1;
     y[k - 1] = e + 1;
+    
     for (int i = 0; i < n; ++i) {
         if (result != y) {
             result = next_partition(result);
@@ -86,9 +85,6 @@ std::vector<std::vector<int> > combinations(std::vector<int> (*f) (std::vector<i
             break;
         }
     }
-    
-    
-
     return ru;
 }
 std::vector<std::vector<int> > generate_combination(std::vector<int> x) {
