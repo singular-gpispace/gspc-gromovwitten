@@ -3,9 +3,7 @@
   <in name="degree" type="int" place="degree"/>
   <in name="edge" type="int" place="edge"/>
 
-  
   <net>
-
     <place name="degree" type="int"/>
     <place name="edge" type="int"/>
 
@@ -171,16 +169,18 @@
     <transition name="Reduce">
       <defun>
         <out name="s" type="int"/>
-        <in name="value" type="int"/>
+        <in name="l" type="int"/>
+        <in name="r" type="int"/>
 
-        <module name="sum" function="plus()">
+        <module name="sum" function=" s add(l,r)">
         <code><![CDATA[
-          
+          int su = lhs + rhs;
+          return su
         ]]></code>
         </module>
       </defun>
-      <connect-in port="value" place="L"/>
-      <connect-in port="value" place="R"/>
+      <connect-in port="l" place="L"/>
+      <connect-in port="r" place="R"/>
       <connect-out port="s" place="fey"/>
     </transition>
   </net>
