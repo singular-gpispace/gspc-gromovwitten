@@ -11,6 +11,7 @@ std::string vectorToString(const std::vector<std::vector<int>>& vec) {
         ss << '\n'; // Assuming you want a newline between inner vectors
     }
     return ss.str();
+<<<<<<< HEAD:feynman/vector_to_string.cpp
 }
 
 
@@ -54,4 +55,6 @@ std::vector<std::vector<int>> flattenVector(const std::vector<std::vector<std::v
         }
     }
     return flat_vector;
+=======
+>>>>>>> a82aebba16c36151f63270400d6287ecd9186dec:feyman/vector_to_string.cpp
 }
