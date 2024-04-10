@@ -1,23 +1,19 @@
-cmake_minimum_required (VERSION 3.15)
-project (aggregate_sum
+cmake_minimum_required (VERSION 3.16)
+project (feynman
   LANGUAGES CXX
 )
 
 set (CMAKE_CXX_STANDARD 14)
 set (CMAKE_CXX_STANDARD_REQUIRED ON)
+find_package (GPISpace REQUIRED)
 
-find_package (GPISpace REQUIRED
-  COMPONENTS
-    DO_NOT_CHECK_GIT_SUBMODULES
-)
 find_package (util-generic REQUIRED)
 find_package (util-cmake REQUIRED)
-find_package (Boost 1.61.0 REQUIRED
+find_package (Boost 1.63 REQUIRED
   COMPONENTS
      filesystem
      program_options
 )
-
 include (util-cmake/add_macros)
 
 set (BUNDLE_ROOT "libexec/bundle")
@@ -47,6 +43,8 @@ add_custom_command (
   COMMAND
     GPISpace::pnetc
       --gen-cxxflags="-O3"
+      --gen-cxxflags="-I${PROJECT_SOURCE_DIR}/include"
+      --force-overwrite-file=true
       --input="${PETRI_NET}"
       --output="/dev/null"
       --path-to-cpp="${WRAPPER_DIRECTORY}"
@@ -70,6 +68,7 @@ extended_add_executable (NAME "${DRIVER_BINARY}"
     src/Workflow.cpp
     src/WorkflowResult.cpp
     src/ValuesOnPorts.cpp
+    src/feynman.cpp
   INCLUDE_DIRECTORIES PRIVATE include
   LIBRARIES PRIVATE Util::Generic
                     GPISpace::execution
@@ -80,6 +79,7 @@ extended_add_executable (NAME "${DRIVER_BINARY}"
   INSTALL_DESTINATION bin
 )
 bundle_GPISpace_add_rpath (TARGET "${DRIVER_BINARY}" INSTALL_DIRECTORY "bin")
+
 
 install (FILES
   "${COMPILED_PETRI_NET}"

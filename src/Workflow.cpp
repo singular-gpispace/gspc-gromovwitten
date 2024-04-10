@@ -1,47 +1,48 @@
+#include <../include/feynman/Workflow.hpp>
+#include <../include/feynman/feynman.hpp> 
+//#include <../feynman/funct.cpp>
+#include <../feynman/state.cpp>
+
 #include <feynman/Workflow.hpp>
-#include "partition.cpp"
 #include <iostream>
 
 namespace feynman
 {
-  ParametersDescription Workflow::options()
-  {
-    namespace po = boost::program_options;
+    ParametersDescription Workflow::options()
+    {
+        namespace po = boost::program_options;
 
-    ParametersDescription workflow_opts ("Workflow");
-    workflow_opts.add_options()("N", po::value<int>()->required()); //edges
-    workflow_opts.add_options()("degree", po::value<int>()->required());
-    workflow_opts.add_options()("graph", po::value<string>()->required());
+        ParametersDescription workflow_opts("Workflow");
+        workflow_opts.add_options()("N", po::value<int>()->required()); //edges
+        workflow_opts.add_options()("degree", po::value<int>()->required());
+        workflow_opts.add_options()("graph", po::value<std::string>()->required());
 
-    return workflow_opts;
-  }
-
-  Workflow::Workflow (Parameters const& args)
-    : _N (args.at ("N").as<int>()) //number of edges.
-     _degree (args.at ("d").as<int>()) // given degree
-    , _graph (args.at ("graph").as<sdt::string>()) // graph. 
-  {}
-
-  ValuesOnPorts Workflow::inputs() const
-  {
-    ValuesOnPorts::Map values_on_ports;
-   list p = sum_degree(_N,_degree);
-    for (vector<int> pa : p) {
-        //vector<vector<int> > values_map;
-        values_map.push_back("values", pa);
-        values_on_ports.emplace("branchtype",values_map);
+        return workflow_opts;
     }
-    values_on_ports.emplace ("graph", _graph);
 
-    return values_on_ports;
-  }
+    Workflow::Workflow(Parameters const &args)
+        : _N(args.at("N").as<int>()) // number of edges.
+        , _degree(args.at("degree").as<int>()) // given degree
+        , _graph(args.at("graph").as<std::string>()) // graph.
+    {
+    }
 
-  int Workflow::process (WorkflowResult const& results) const
-  {
-    auto const& feynman_degree = results.get<std::string> ("feynman_degree");
+    ValuesOnPorts Workflow::inputs() const
+    {
+        ValuesOnPorts::Map values_on_ports;
+        values_on_ports.emplace("N", _N);
+        values_on_ports.emplace("degree", _degree);
+        values_on_ports.emplace("graph", _graph);
 
-    std::cout << "feynman: " << feynman << std::endl;
+        return values_on_ports;
+    }
 
-    return  EXIT_SUCCESS ;
-  }
+    int Workflow::process(WorkflowResult const &results) const
+    {
+        auto const &feynm = results.get<int>("fey_out");
+
+        std::cout << "feynman_degree: " << feynm << std::endl;
+
+        return EXIT_SUCCESS;
+    }
 }
