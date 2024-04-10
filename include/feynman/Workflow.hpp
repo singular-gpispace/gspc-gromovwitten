@@ -1,5 +1,5 @@
 #pragma once
-
+#include <string>
 #include <feynman/Parameters.hpp>
 #include <feynman/ValuesOnPorts.hpp>
 #include <feynman/WorkflowResult.hpp>
@@ -11,13 +11,15 @@ namespace feynman
   public:
     static ParametersDescription options();
 
-    Workflow (Parameters const& parameters);
+    Workflow(Parameters const& parameters);
 
     ValuesOnPorts inputs() const;
 
-    int process (WorkflowResult const& result) const;
+    int process(WorkflowResult const& result) const;
 
   private:
     int _N;
+    int _degree;
+    std::string _graph;
   };
 }

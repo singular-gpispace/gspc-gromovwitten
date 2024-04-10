@@ -1,0 +1,66 @@
+[ 36%] Generating gen/pnetc/op/libfeynman.so
+[ 36%] Building CXX object CMakeFiles/feynman.dir/src/WorkflowResult.cpp.o
+[ 63%] Building CXX object CMakeFiles/feynman.dir/src/Workflow.cpp.o
+[ 45%] Building CXX object CMakeFiles/feynman.dir/src/parse_parameters_from_commandline.cpp.o
+[ 54%] Building CXX object CMakeFiles/feynman.dir/src/ValuesOnPorts.cpp.o
+[ 54%] Building CXX object CMakeFiles/feynman.dir/src/main.cpp.o
+[ 54%] Generating feynman.pnet
+[ 72%] Building CXX object CMakeFiles/feynman.dir/src/execute.cpp.o
+[ 72%] Built target compiled_petri_net
+[ 81%] Building CXX object CMakeFiles/feynman.dir/src/feynman.cpp.o
+[ 90%] Linking CXX executable feynman
+[ 90%] Built target feynman
+[100%] Generating bundle-feynman
+[100%] Built target feynman-bundled-libraries
+[100%] Built target workflow_library
+Install the project...
+-- Install configuration: ""
+-- Installing: /home/atraore/gpi/try_gpi/gpispace/bin/libexec/bundle/gpispace/bin/gspc-bootstrap-rifd
+-- Installing: /home/atraore/gpi/try_gpi/gpispace/bin/libexec/bundle/gpispace/bin/gspc-rifd
+-- Installing: /home/atraore/gpi/try_gpi/gpispace/bin/libexec/bundle/gpispace/bin/gspc-teardown-rifd
+-- Installing: /home/atraore/gpi/try_gpi/gpispace/bin/libexec/bundle/gpispace/lib/libGPISpace-APIGuard.so
+-- Installing: /home/atraore/gpi/try_gpi/gpispace/bin/libexec/bundle/gpispace/lib/libdrts-context.so
+-- Installing: /home/atraore/gpi/try_gpi/gpispace/bin/libexec/bundle/gpispace/lib/libgspc.so
+-- Installing: /home/atraore/gpi/try_gpi/gpispace/bin/libexec/bundle/gpispace/lib/libwe-dev.so
+-- Installing: /home/atraore/gpi/try_gpi/gpispace/bin/libexec/bundle/gpispace/libexec/gspc/agent
+-- Installing: /home/atraore/gpi/try_gpi/gpispace/bin/libexec/bundle/gpispace/libexec/gspc/drts-kernel
+-- Installing: /home/atraore/gpi/try_gpi/gpispace/bin/libexec/bundle/gpispace/libexec/gspc/gspc-logging-demultiplexer.exe
+-- Installing: /home/atraore/gpi/try_gpi/gpispace/bin/libexec/bundle/gpispace/bin/iml-bootstrap-rifd
+-- Installing: /home/atraore/gpi/try_gpi/gpispace/bin/libexec/bundle/gpispace/bin/iml-teardown-rifd
+-- Installing: /home/atraore/gpi/try_gpi/gpispace/bin/libexec/bundle/gpispace/lib/libIML-Client.so
+-- Installing: /home/atraore/gpi/try_gpi/gpispace/bin/libexec/bundle/gpispace/libexec/iml/iml-gpi-server
+-- Installing: /home/atraore/gpi/try_gpi/gpispace/bin/libexec/bundle/gpispace/libexec/iml/iml-rifd
+-- Installing: /home/atraore/gpi/try_gpi/gpispace/bin/libexec/bundle/gpispace/libexec/iml/libIMLPrivate-Installation.so
+-- Installing: /home/atraore/gpi/try_gpi/gpispace/bin/libexec/bundle/gpispace/version
+-- Up-to-date: /home/atraore/gpi/try_gpi/gpispace/bin/libexec/bundle/gpispace/lib/libIML-Client.so
+-- Up-to-date: /home/atraore/gpi/try_gpi/gpispace/bin/libexec/bundle/gpispace/libexec/iml/iml-gpi-server
+-- Up-to-date: /home/atraore/gpi/try_gpi/gpispace/bin/libexec/bundle/gpispace/libexec/iml/iml-rifd
+-- Up-to-date: /home/atraore/gpi/try_gpi/gpispace/bin/libexec/bundle/gpispace/libexec/iml/libIMLPrivate-Installation.so
+-- Up-to-date: /home/atraore/gpi/try_gpi/gpispace/bin/libexec/bundle/gpispace/bin/iml-bootstrap-rifd
+-- Up-to-date: /home/atraore/gpi/try_gpi/gpispace/bin/libexec/bundle/gpispace/bin/iml-teardown-rifd
+-- Installing: /home/atraore/gpi/try_gpi/gpispace/bin/bin/feynman
+-- Set runtime path of "/home/atraore/gpi/try_gpi/gpispace/bin/bin/feynman" to "$ORIGIN/../libexec/bundle/lib:$ORIGIN/../libexec/bundle/gpispace/lib:$ORIGIN/../libexec/bundle/gpispace/libexec/iml"
+-- Installing: /home/atraore/gpi/try_gpi/gpispace/bin/libexec/bundle/lib
+-- Installing: /home/atraore/gpi/try_gpi/gpispace/bin/libexec/bundle/lib/libboost_filesystem.so.1.63.0
+-- Installing: /home/atraore/gpi/try_gpi/gpispace/bin/libexec/bundle/lib/libssh2.so.1
+-- Installing: /home/atraore/gpi/try_gpi/gpispace/bin/libexec/bundle/lib/libboost_unit_test_framework.so.1.63.0
+-- Installing: /home/atraore/gpi/try_gpi/gpispace/bin/libexec/bundle/lib/libboost_regex.so.1.63.0
+-- Installing: /home/atraore/gpi/try_gpi/gpispace/bin/libexec/bundle/lib/libboost_program_options.so.1.63.0
+-- Installing: /home/atraore/gpi/try_gpi/gpispace/bin/libexec/bundle/lib/libcrypto.so.3
+-- Installing: /home/atraore/gpi/try_gpi/gpispace/bin/libexec/bundle/lib/libboost_date_time.so.1.63.0
+-- Installing: /home/atraore/gpi/try_gpi/gpispace/bin/libexec/bundle/lib/libboost_context.so.1.63.0
+-- Installing: /home/atraore/gpi/try_gpi/gpispace/bin/libexec/bundle/lib/libstdc++.so.6
+-- Installing: /home/atraore/gpi/try_gpi/gpispace/bin/libexec/bundle/lib/libboost_system.so.1.63.0
+-- Installing: /home/atraore/gpi/try_gpi/gpispace/bin/libexec/bundle/lib/libboost_thread.so.1.63.0
+-- Installing: /home/atraore/gpi/try_gpi/gpispace/bin/libexec/bundle/lib/libboost_coroutine.so.1.63.0
+-- Installing: /home/atraore/gpi/try_gpi/gpispace/bin/libexec/bundle/lib/libboost_chrono.so.1.63.0
+-- Installing: /home/atraore/gpi/try_gpi/gpispace/bin/libexec/bundle/lib/libboost_atomic.so.1.63.0
+-- Installing: /home/atraore/gpi/try_gpi/gpispace/bin/libexec/bundle/lib/libboost_iostreams.so.1.63.0
+-- Installing: /home/atraore/gpi/try_gpi/gpispace/bin/libexec/bundle/lib/libboost_timer.so.1.63.0
+-- Installing: /home/atraore/gpi/try_gpi/gpispace/bin/libexec/bundle/lib/libboost_serialization.so.1.63.0
+-- Installing: /home/atraore/gpi/try_gpi/gpispace/bin/libexec/bundle/lib/libgcc_s.so.1
+-- Installing: /home/atraore/gpi/try_gpi/gpispace/bin/libexec/bundle/lib/libssl.so.3
+-- Installing: /home/atraore/gpi/try_gpi/gpispace/bin/libexec/bundle/lib/libGPISpace-APIGuard.so
+-- Installing: /home/atraore/gpi/try_gpi/gpispace/bin/libexec/bundle/lib/libbz2.so.1.0
+-- Installing: /home/atraore/gpi/try_gpi/gpispace/bin/pnet/feynman.pnet
+-- Installing: /home/atraore/gpi/try_gpi/gpispace/bin/lib/libfeynman.so

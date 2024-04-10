@@ -2,6 +2,7 @@
 #include <feynman/execute.hpp>
 #include <feynman/Parameters.hpp>
 #include <feynman/Workflow.hpp>
+#include <../include/feynman/feynman.hpp> 
 
 #include <util-generic/print_exception.hpp>
 
