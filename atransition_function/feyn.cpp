@@ -29,6 +29,8 @@ std::vector< int> av= {2, 1, 1};
 
     int nv = nbv.size(); //nb vertices.
     std::cout<<" nv = "<<nv<<std::endl;
+    std::cout<<" Gv = "<<Gv.size()<<std::endl;
+
     int N = std::accumulate(av.begin(), av.end(), 0);
    // std::vector<std::tuple<int, std::vector<int>>> f = signature_and_multiplicitie(Gv, av);
     std::vector<int> p;

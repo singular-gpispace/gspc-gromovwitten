@@ -381,6 +381,30 @@ src/parse_parameters_from_commandline.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/feynman.dir/build.make CMakeFiles/feynman.dir/src/parse_parameters_from_commandline.cpp.s
 .PHONY : src/parse_parameters_from_commandline.cpp.s
 
+src/state.o: src/state.cpp.o
+.PHONY : src/state.o
+
+# target to build an object file
+src/state.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/feynman.dir/build.make CMakeFiles/feynman.dir/src/state.cpp.o
+.PHONY : src/state.cpp.o
+
+src/state.i: src/state.cpp.i
+.PHONY : src/state.i
+
+# target to preprocess a source file
+src/state.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/feynman.dir/build.make CMakeFiles/feynman.dir/src/state.cpp.i
+.PHONY : src/state.cpp.i
+
+src/state.s: src/state.cpp.s
+.PHONY : src/state.s
+
+# target to generate assembly for a file
+src/state.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/feynman.dir/build.make CMakeFiles/feynman.dir/src/state.cpp.s
+.PHONY : src/state.cpp.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -418,6 +442,9 @@ help:
 	@echo "... src/parse_parameters_from_commandline.o"
 	@echo "... src/parse_parameters_from_commandline.i"
 	@echo "... src/parse_parameters_from_commandline.s"
+	@echo "... src/state.o"
+	@echo "... src/state.i"
+	@echo "... src/state.s"
 .PHONY : help
 
 

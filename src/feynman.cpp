@@ -3,29 +3,27 @@
 #include <tuple>
 #include <algorithm>
 #include <unordered_map>
-//#include "../include/feynman/feynman.hpp"
+//#include "../../workflow/feynman.hpp"
 #include <functional>
 #include <cmath>
 #include <numeric>
 #include <chrono>
-#include <sstream>
 #include <unordered_set>
-#include <stack>
 
 
 using Element = std::pair<std::pair<int, int>, std::pair<int, int>>;
 using Sequence = std::vector<Element>;
 
 Sequence  cons0(const std::vector<std::pair<int, int>>& G, int j, int N) {
-    Sequence  vv;
+    Sequence  v;
 
     for (int i = 1; i <= N; ++i) {
         if (G[j].first < G[j].second)
-            vv.push_back(std::make_pair(std::make_pair(G[j].first, -i), std::make_pair(G[j].second, +i)));
+            v.push_back(std::make_pair(std::make_pair(G[j].first, -i), std::make_pair(G[j].second, +i)));
         else
-            vv.push_back(std::make_pair(std::make_pair(G[j].second, +i), std::make_pair(G[j].first, -i)));
+            v.push_back(std::make_pair(std::make_pair(G[j].second, +i), std::make_pair(G[j].first, -i)));
     }
-    return vv;
+    return v;
 }
 
 Sequence  cons(const std::vector<std::pair<int, int>>& G, int j, int N) {
@@ -39,6 +37,27 @@ Sequence  cons(const std::vector<std::pair<int, int>>& G, int j, int N) {
     }
     return v;
 }
+std::vector<std::vector<int>> pairsToVectorOfVectors(const std::vector<std::pair<int, int>>& pairs) {
+    std::vector<std::vector<int>> result;
+    for (const auto& pair : pairs) {
+        std::vector<int> temp;
+        temp.push_back(pair.first);
+        temp.push_back(pair.second);
+        result.push_back(temp);
+    }
+    return result;
+}
+
+std::vector<std::pair<int, int>> vectorOfVectorsToPairs(const std::vector<std::vector<int>>& vecOfVec) {
+    std::vector<std::pair<int, int>> result;
+    for (const auto& vec : vecOfVec) {
+        if (vec.size() >= 2) {
+            result.emplace_back(vec[0], vec[1]);
+        }
+    }
+    return result;
+}
+
 Sequence  prot(const std::vector<std::pair<int, int>>& G, int j, int a, int N) {
     Sequence  x_powers;
 
@@ -69,7 +88,6 @@ void sum_exp(std::vector<int>& res, const std::vector<std::vector<std::pair<int,
         }
     }
 }
-/*
 void CartesianRecurse(std::vector<Sequence > &accum,
                       Sequence  stack,
                       const std::vector<Sequence > &sequences,
@@ -91,34 +109,8 @@ void CartesianRecurse(std::vector<Sequence > &accum,
         stack.pop_back();
     }
 }
-void CartesianRecurse(std::vector<Sequence>& accum,
-                      Sequence stack,
-                      const std::vector<Sequence>& sequences,
-                      int index) {
-    std::stack<std::tuple<Sequence, int>> stackIndex;
-    stackIndex.push(std::make_tuple(stack, index));
-    
-    while (!stackIndex.empty()) {
-        auto [curStack, curIndex] = stackIndex.top();
-        stackIndex.pop();
-        
-        Sequence sequence = sequences[curIndex];
-        
-        for (const auto& tuple : sequence) {
-            curStack.push_back(tuple);
-            
-            if (curIndex == 0) {
-                accum.push_back(curStack);
-            } else {
-                stackIndex.push(std::make_tuple(curStack, curIndex - 1));
-            }
-            
-            curStack.pop_back();
-        }
-    }
-}
 
-std::vector<Sequence > CartesianProducts(const std::vector<Sequence > &sequences) {
+std::vector<Sequence > CartesianProduct(const std::vector<Sequence > &sequences) {
     
     std::vector<Sequence > accum;
     Sequence  stack;
@@ -128,82 +120,6 @@ std::vector<Sequence > CartesianProducts(const std::vector<Sequence > &sequences
     
     return accum;
 }
-std::vector<Sequence> CartesianProductss(const std::vector<Sequence>& tmp) {
-    std::vector<Sequence> cartesian_product;
-    Sequence stack;
-
-    std::stack<std::pair<Sequence, int>> stackIndex;
-    if (!tmp.empty())
-        stackIndex.push(std::make_pair(stack, tmp.size() - 1));
-
-    while (!stackIndex.empty()) {
-        std::pair<Sequence, int> topPair = stackIndex.top();
-        stackIndex.pop();
-
-        Sequence curStack = topPair.first;
-        int curIndex = topPair.second;
-
-        Sequence sequence = tmp[curIndex];
-
-        for (const auto& tuple : sequence) {
-            curStack.push_back(tuple);
-
-            if (curIndex == 0) {
-                cartesian_product.push_back(curStack);
-            } else {
-                stackIndex.push(std::make_pair(curStack, curIndex - 1));
-            }
-
-            curStack.pop_back();
-        }
-    }
-
-    return cartesian_product;
-}
-*/
-
-std::vector<Sequence> CartesianProduct(const std::vector<Sequence>& tmp) {
-    std::vector<Sequence> cartesian_product;
-    Sequence stack;
-
-    std::stack<std::pair<Sequence, int>> stackIndex;
-    if (!tmp.empty())
-        stackIndex.push(std::make_pair(stack, tmp.size() - 1));
-
-    while (!stackIndex.empty()) {
-        // Retrieve the top pair from stackIndex
-        std::pair<Sequence, int> topPair = stackIndex.top();
-        stackIndex.pop();
-
-        // Extract curStack and curIndex from the top pair
-        Sequence curStack = topPair.first;
-        int curIndex = topPair.second;
-
-        // Retrieve the current sequence from tmp
-        Sequence sequence = tmp[curIndex];
-
-        // Iterate over elements of the current sequence
-        for (const auto& tuple : sequence) {
-            // Add tuple to curStack
-            curStack.push_back(tuple);
-
-            if (curIndex == 0) {
-                // If at the last sequence, add curStack to cartesian_product
-                cartesian_product.push_back(curStack);
-            } else {
-                // Push curStack and curIndex - 1 to stackIndex
-                stackIndex.push(std::make_pair(curStack, curIndex - 1));
-            }
-
-            // Remove the last tuple from curStack
-            curStack.pop_back();
-        }
-    }
-
-    return cartesian_product;
-}
-
-
 bool m(const Sequence& u, std::vector<int>& v) {
     for (const auto& pp : u) {
         v[pp.first.first] += pp.first.second;
@@ -212,7 +128,7 @@ bool m(const Sequence& u, std::vector<int>& v) {
     return std::all_of(v.begin(), v.end(), [](int val) { return val == 0; });
 }
 
-std::vector<Sequence> mergetuples(const std::vector<Sequence>& uu) {
+std::vector<Sequence> mergetuple(const std::vector<Sequence>& uu) {
     std::vector<Sequence> res;
     int N = 0;
     for (const auto& subvec : uu) {
@@ -237,73 +153,6 @@ std::vector<Sequence> mergetuples(const std::vector<Sequence>& uu) {
     return res;
 }
 
-std::vector<Sequence> mergetuple(const std::vector<Sequence>& uu) {
-    std::vector<Sequence> res;
-    int N = 0;
-    for (const auto& subvec : uu) {
-        for (const auto& elem : subvec) {
-            N = std::max({N, elem.first.first, elem.second.first});
-        }
-    }
-    std::vector<int> v(N + 1, 0);
- std::vector<Sequence> cartesian_product;
-    Sequence stack;
-
-    std::stack<std::pair<Sequence, int>> stackIndex;
-    if (!uu.empty())
-        stackIndex.push(std::make_pair(stack, uu.size() - 1));
-
-    while (!stackIndex.empty()) {
-        // Retrieve the top pair from stackIndex
-        std::pair<Sequence, int> topPair = stackIndex.top();
-        stackIndex.pop();
-
-        // Extract curStack and curIndex from the top pair
-        Sequence curStack = topPair.first;
-        int curIndex = topPair.second;
-
-        // Retrieve the current sequence from tmp
-        Sequence sequence = uu[curIndex];
-
-        // Iterate over elements of the current sequence
-        for (const auto& tuple : sequence) {
-            // Add tuple to curStack
-            curStack.push_back(tuple);
-
-            if (curIndex == 0) {
-                // If at the last sequence, add curStack to cartesian_product
-                cartesian_product.push_back(curStack);
-            } else {
-                // Push curStack and curIndex - 1 to stackIndex
-                stackIndex.push(std::make_pair(curStack, curIndex - 1));
-            }
-
-            // Remove the last tuple from curStack
-            curStack.pop_back();
-        }
-    }
-
-
-
-    for (const auto& u : cartesian_product) {
-        bool allZero = true;
-        for (const auto& pp : u) {
-            v[pp.first.first] += pp.first.second;
-            v[pp.second.first] += pp.second.second;
-        }
-        for (int val : v) {
-            if (val != 0) {
-                allZero = false;
-                break;
-            }
-        }
-        if (allZero) {
-            res.push_back(u);
-        }
-        std::fill(v.begin(), v.end(), 0);
-    }
-    return res;
-}
 int sum_absolute_products(std::vector<Sequence> tt) {
     int total_abs_product = 0;
     for (auto &t : tt) {
@@ -316,20 +165,20 @@ int sum_absolute_products(std::vector<Sequence> tt) {
     return total_abs_product;
 }
 
-std::vector<std::tuple<int,std::vector<int>>> signature_and_multiplicitie(const std::vector<std::pair<int, int>>& Gv, const std::vector<int>& av) {
+std::vector<std::tuple<int,std::vector<int>>> signature_and_multiplicitie(const std::vector<std::pair<int, int>>& G, const std::vector<int>& a) {
     std::vector<int> p;
     std::vector<std::tuple<int, std::vector<int>>> b;
     std::unordered_set<int> nbv;
-    for (const auto& e : Gv) {
+    for (const auto& e : G) {
         nbv.insert(e.first);
         nbv.insert(e.second);
     }
     int nv = nbv.size();
     std::vector<int> l(nv, 0);
 
-    for (size_t i = 0; i < Gv.size(); i++) {
-        int ai = av[i];
-        std::pair<int, int> ev = Gv[i];
+    for (size_t i = 0; i < G.size(); i++) {
+        int ai = a[i];
+        std::pair<int, int> ev = G[i];
         if (ai == 0 && ev.first != ev.second) {
             l[ev.first - 1] = 1;
             l[ev.second - 1] = 1;
@@ -357,11 +206,11 @@ std::vector<std::tuple<int,std::vector<int>>> signature_and_multiplicitie(const 
     }
 
     for (const auto& ga : per) {
-        std::vector<int> flip(av.size(), 0);
+        std::vector<int> flip(a.size(), 0);
 
-    for (size_t i = 0; i < av.size(); ++i) {
-        int ai = av[i];
-        std::pair<int, int> ev = Gv[i];
+    for (size_t i = 0; i < a.size(); ++i) {
+        int ai = a[i];
+        std::pair<int, int> ev = G[i];
 
         if (ai == 0 && ev.first != ev.second) {
             int ii = -1;
@@ -430,7 +279,13 @@ std::vector<std::tuple<int,std::vector<int>>> signature_and_multiplicitie(const 
                 for (const auto& pair1 : b) {
                     int n = std::get<0>(pair1);
                     std::vector<int> values1 = std::get<1>(pair1);
-                
+                /* std::cout<<n<<std::endl;
+                    std::cout<<"[";
+                    for (int val:values1){
+                        std::cout<<""<<val<<" ";
+                    }
+                    std::cout << "]" << std::endl;
+                    */
                     int mm = 2 * n;
                     auto it1 = std::find(group.begin(), group.end(), pair1);
                     auto it2 = std::find(group.begin(), group.end(), std::make_tuple(mm, values1));
@@ -457,7 +312,19 @@ std::vector<std::tuple<int,std::vector<int>>> signature_and_multiplicitie(const 
                         }
                         
                         if (n == m && values1 == result_arr) {
-                       
+                        /* std::cout<<"values2"<<std::endl;
+                            std::cout << '[';
+                            bool first = true;
+                            for (auto const& e : values2) {
+                                if (first) { 
+                                    first = false; 
+                                } else { 
+                                    std::cout << ", "; 
+                                }
+                            std::cout << e;
+                            }
+                            std::cout << ']' << std::endl;
+                            */
                             equiv = true;
                             break;
                         }
@@ -474,297 +341,38 @@ std::vector<std::tuple<int,std::vector<int>>> signature_and_multiplicitie(const 
 }
 
 
-int feynman_integral(const std::vector<std::pair<int, int>>& Gv, const std::vector<int>& av) {
-   int N = std::accumulate(av.begin(), av.end(), 0);
-   // std::vector<std::tuple<int, std::vector<int>>> f = signature_and_multiplicitie(Gv, av);
-    std::vector<int> p;
-    std::vector<std::tuple<int, std::vector<int>>> b;
-    std::unordered_set<int> nbv;
-    for (const auto& e : Gv) {
-        nbv.insert(e.first);
-        nbv.insert(e.second);
-    }
-    int nv = nbv.size();
-    std::vector<int> l(nv, 0);
-
-    for (size_t i = 0; i < Gv.size(); i++) {
-        int ai = av[i];
-        std::pair<int, int> ev = Gv[i];
-        if (ai == 0 && ev.first != ev.second) {
-            l[ev.first - 1] = 1;
-            l[ev.second - 1] = 1;
-        }
-    }
-
-    for (size_t i = 0; i < l.size(); i++) {
-        int li = l[i];
-        if (li == 1) {
-            p.push_back(i + 1);
-        }
-    }
-
-    std::sort(p.begin(), p.end());
-
-    std::vector<std::vector<int>> per;
-    do {
-        per.push_back(p);
-    } while (std::next_permutation(p.begin(), p.end()));
-
-
-    int fact = 1;
-    for(int i = 1; i <= nv; i++) {
-        fact *= i;
-    }
-
-    for (const auto& ga : per) {
-        std::vector<int> flip(av.size(), 0);
-
-    for (size_t i = 0; i < av.size(); ++i) {
-        int ai = av[i];
-        std::pair<int, int> ev = Gv[i];
-
-        if (ai == 0 && ev.first != ev.second) {
-            int ii = -1;
-            int ij = -1;
-            for (size_t j = 0; j < ga.size(); ++j) {
-                if (ga[j] == ev.first) {
-                    ii = j;
-                }
-                if (ga[j] == ev.second) {
-                    ij = j;
-                }
-            }
-                
-            if (ii != -1 && ij != -1) {
-                if (ii < ij) {
-                    flip[i] = -1;
-                } else {
-                    flip[i] = 0;
-                }
-            }
-        } else if (ev.first == ev.second) {
-            flip[i] = -2;
-        } else if (ai != 0 && ev.first != ev.second) {
-            flip[i] = ai;
-        }
-    }
-  
-         std::vector<int> tmp=    flip;
-
-         bool comp = false;
-         int j = 0;
-         while (!comp && j < b.size()) {
-            int tt=1;
-                std::vector<int> bb=std::get<1>(b[j]);
-               if (tmp.size() != bb.size()) 
-                     tt=0;
-
-                for (std::size_t i = 0; i < tmp.size(); ++i) {
-                    if (tmp[i] != bb[i])
-                         tt=0;
-                }
-
-             if (tt) { // Accessing the second element of the tuple
-                 comp = true;
-                 std::get<0>(b[j]) += 1;
-             } else {
-                 j++;
-             }
-         }
-         if (!comp) {
-             b.push_back(std::make_tuple(1, tmp));
-         }
-    }
-        std::vector<std::tuple<int, std::vector<int>>> f;
-
-    for (size_t i = 0; i < b.size(); i++) {
-        for (auto& element : std::get<1>(b[i])) {
-            element *= fact / per.size();
-        }
-    }
-    if (b.size() == 1) {
-                 f= b;
-            } 
-            else {
-                std::vector<std::tuple<int, std::vector<int>>> group;
-
-                for (const auto& pair1 : b) {
-                    int n = std::get<0>(pair1);
-                    std::vector<int> values1 = std::get<1>(pair1);
-                
-                    int mm = 2 * n;
-                    auto it1 = std::find(group.begin(), group.end(), pair1);
-                    auto it2 = std::find(group.begin(), group.end(), std::make_tuple(mm, values1));
-                
-                    if (it1 != group.end() || it2 != group.end()) {
-                        continue;
-                    }
-
-                    bool equiv = false;
-
-                    for (const auto& pair2 : b) {
-                        int m = std::get<0>(pair2);
-                        std::vector<int> values2 = std::get<1>(pair2);
-                        int mm = 2 * n;
-                        auto it1 = std::find(group.begin(), group.end(), pair2);
-                        auto it2 = std::find(group.begin(), group.end(), std::make_tuple(2 * m, values2));
-
-                        if (it1 != group.end() || it2 != group.end()) {
-                            continue;
-                        }
-                        std::vector<int> result_arr;
-                        for (int x : values2) {
-                            result_arr.push_back(x == -1 ? 0 : (x == 0 ? -1 : x));
-                        }
-                        
-                        if (n == m && values1 == result_arr) {
-                       
-                            equiv = true;
-                            break;
-                        }
-                    }
-                // std::cout <<" equiv = " <<equiv << std::endl;
-
-                    if (equiv) {
-                        group.push_back(std::make_tuple(mm, values1));
-                    }
-                }
-
-                 f=group;
-            }
-    int myfey;
+int feynman_integral(const std::vector<std::pair<int, int>>& G, const std::vector<int>& a) {
+    int N = std::accumulate(a.begin(), a.end(), 0);
+    std::vector<std::tuple<int, std::vector<int>>> f = signature_and_multiplicitie(G, a);
     std::vector<int> fey;
     for (const auto& item : f) {
         int factor = std::get<0>(item);
         const auto& multiplicities = std::get<1>(item);
         std::vector<Sequence> tmp;
-        for (size_t j = 0; j < av.size(); j++) {
+        for (size_t j = 0; j < a.size(); j++) {
             const auto& multiplicity = multiplicities[j]; 
             if (multiplicity == -1) {
-                Sequence  v;
-
-        for (int i = 1; i <= N; ++i) {
-            if (Gv[j].second < Gv[j].first)
-                v.push_back(std::make_pair(std::make_pair(Gv[j].second, -i), std::make_pair(Gv[j].first, +i)));
-            else
-                v.push_back(std::make_pair(std::make_pair(Gv[j].first, +i), std::make_pair(Gv[j].second, -i)));
-        }
-                        tmp.push_back(v);
-
+                tmp.push_back(cons(G, j , N));
             } else if (multiplicity == 0) {
-            Sequence  vv;
-            for (int i = 1; i <= N; ++i) {
-                if (Gv[j].first < Gv[j].second)
-                    vv.push_back(std::make_pair(std::make_pair(Gv[j].first, -i), std::make_pair(Gv[j].second, +i)));
-                else
-                    vv.push_back(std::make_pair(std::make_pair(Gv[j].second, +i), std::make_pair(Gv[j].first, -i)));
-            }
-                                    tmp.push_back(vv);
-
+                tmp.push_back(cons0(G, j , N));
             } else {
-
-                Sequence  x_powers;
-
-
-    for (int w = 1; w <= multiplicity; ++w) {
-        if (multiplicity % w == 0) {
-            x_powers.push_back(std::make_pair(std::make_pair(Gv[j].first, +w), std::make_pair(Gv[j].second, -w)));
-            x_powers.push_back(std::make_pair(std::make_pair(Gv[j].first, -w), std::make_pair(Gv[j].second, +w)));
-        }
-    }
-                 tmp.push_back(x_powers);
+                tmp.push_back(prot(G, j , multiplicity, N));
             }
         }
-         //   std::vector<Sequence> tt = mergetuple(tmp);
-            std::vector<Sequence> res;
-    int N = 0;
-    for (const auto& subvec : tmp) {
-        for (const auto& elem : subvec) {
-            N = std::max({N, elem.first.first, elem.second.first});
-        }
-    }
-    std::vector<int> v(N + 1, 0);
- std::vector<Sequence> cartesian_product;
-    Sequence stack;
-
-    std::stack<std::pair<Sequence, int>> stackIndex;
-    if (!tmp.empty())
-        stackIndex.push(std::make_pair(stack, tmp.size() - 1));
-
-    while (!stackIndex.empty()) {
-        // Retrieve the top pair from stackIndex
-        std::pair<Sequence, int> topPair = stackIndex.top();
-        stackIndex.pop();
-
-        // Extract curStack and curIndex from the top pair
-        Sequence curStack = topPair.first;
-        int curIndex = topPair.second;
-
-        // Retrieve the current sequence from tmp
-        Sequence sequence = tmp[curIndex];
-
-        // Iterate over elements of the current sequence
-        for (const auto& tuple : sequence) {
-            // Add tuple to curStack
-            curStack.push_back(tuple);
-
-            if (curIndex == 0) {
-                // If at the last sequence, add curStack to cartesian_product
-                cartesian_product.push_back(curStack);
-            } else {
-                // Push curStack and curIndex - 1 to stackIndex
-                stackIndex.push(std::make_pair(curStack, curIndex - 1));
-            }
-
-            // Remove the last tuple from curStack
-            curStack.pop_back();
-        }
-    }
-
-    for (const auto& u : cartesian_product) {
-        bool allZero = true;
-        for (const auto& pp : u) {
-            v[pp.first.first] += pp.first.second;
-            v[pp.second.first] += pp.second.second;
-        }
-        for (int val : v) {
-            if (val != 0) {
-                allZero = false;
-                break;
-            }
-        }
-        if (allZero) {
-            res.push_back(u);
-        }
-        std::fill(v.begin(), v.end(), 0);
-    }
-            //int ty = sum_absolute_products(res);
-             int ty = 0;
-            for (auto &t : res) {
-                int abs_product = 1.0;
-                for (auto &ui : t) {
-                    abs_product *= abs(ui.first.second );
-                }
-                ty += abs_product;
-            }
+            std::vector<Sequence> tt = mergetuple(tmp);
+            int ty = sum_absolute_products(tt);
             fey.push_back(factor * ty);
             }
-    myfey= std::accumulate(fey.begin(), fey.end(), 0.0);
-    return myfey;
+    return std::accumulate(fey.begin(), fey.end(), 0.0);
 }
- 
- 
 
  /*
 int main() {
    std::vector<std::pair<int, int>> edges = {{1, 3}, {1, 2}, {1, 2}, {2, 4}, {3, 4}, {3, 4}};
-    std::vector<std::pair<int, int>> graph=edges;
+    std::vector<std::pair<int, int>> graph(edges);
     int n=graph.size();
     std::vector<int> aa = {0, 2, 1, 0, 0, 1};
     std::vector<int> ga = {4, 2, 3, 1};
-     int fe= feynman_integral(edges,aa);
-
-    std::cout << "feynman is "<<fe << std::endl;
 
      std::cout << "signature_multiplicities is " << std::endl;
     std::vector<std::tuple<int, std::vector<int>>> ss = signature_and_multiplicitie(graph, aa);
@@ -776,6 +384,7 @@ int main() {
         std::cout << std::endl;
     }
     signature_and_multiplicitie(graph, aa);
+   
    // Define the input vectors
      std::vector<Sequence > uu={
  {{{1, 1}, {3, -1}}, {{1, 2}, {3, -2}}, {{1, 3}, {3, -3}}, {{1, 4}, {3, -4}}},
@@ -798,9 +407,10 @@ int main() {
     }
 
 std::cout << "Sum of absolute products: " << sum_absolute_products(res) << std::endl;
+  int fe= feynman_integral(graph,aa);
 
-  
- /*
+ std::cout << "feynman is"<<feynman_integral(graph,aa) << std::endl;
+
 // Start measuring time
     auto start_time = std::chrono::steady_clock::now();
 

@@ -1,6 +1,8 @@
 #ifndef _PNETC_OP_feynman_feynman_integral_degree
 #define _PNETC_OP_feynman_feynman_integral_degree
 
+#include <list>
+#include <we/type/value.hpp>
 #include <string>
 
 namespace pnetc
@@ -11,7 +13,7 @@ namespace pnetc
     {
       int feynman_integral_degree
         ( const std::string& G
-        , const std::string& a
+        , const std::list<pnet::type::value::value_type>& a
         );
     }
   }

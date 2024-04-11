@@ -1,7 +1,7 @@
 #include <../include/feynman/Workflow.hpp>
 #include <../include/feynman/feynman.hpp> 
 //#include <../feynman/funct.cpp>
-#include <../feynman/state.cpp>
+//#include <../feynman/state.cpp>
 
 #include <feynman/Workflow.hpp>
 #include <iostream>

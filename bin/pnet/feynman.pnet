@@ -7,13 +7,13 @@ BQAAAAAAAAA=
 0 0 5 graph 0 0 0 6 string 0 0 0 0 0 0 0 15 0 0 0 0
 
 BAAAAAAAAAA=
-9 d_vectors 0 6 string 0 15 0 0
+9 d_vectors 0 4 list 0 15 0 0
 
 AwAAAAAAAAA=
 7 fey_out 0 3 int 0 15 0 0
 
 AgAAAAAAAAA=
-10 branchtype 0 6 string 0 15 0 0
+10 branchtype 0 4 list 0 15 0 0
 
 AQAAAAAAAAA=
 1 N 0 3 int 0 15 0 0
@@ -43,7 +43,7 @@ AwAAAAAAAAA=
 0 0 3 13 0 0 0
 
 AgAAAAAAAAA=
-9 partition 0 0 0 7 feynman 7 sum_deg 0 0 0 1 0 0 0 0 0 0 0 1 1 0 0 0 0 0 2 13 0 0 0 0 0
+9 partition 0 0 0 10 sum_degree 7 sum_deg 0 0 0 1 0 0 0 0 0 0 0 1 1 0 0 0 0 0 2 13 0 0 0 0 0
 
 AQAAAAAAAAA=
 0 0 1 n 0 0 0 0 0 0 3 int 0 0 0 15 0 0
@@ -52,7 +52,7 @@ AAAAAAAAAAA=
 1 d 0 0 3 int 0 15 0 0 1 13 0
 
 AgAAAAAAAAA=
-1 v 1 0 0 0 6 string 0 15 0 0 0 1 0
+1 v 1 0 0 0 4 list 0 15 0 0 0 1 0
 
 AwAAAAAAAAA=
 15 0 0 0 0 0 0 0 0 0 0 0 0
@@ -61,13 +61,13 @@ AAA=
 0 0 0
 
 AQAAAAAAAAA=
-11 Combination 0 7 feynman 9 partition 0 1 0 0 0 0 0 1 1 0 1 13 0
+11 Combination 0 15 combination_vec 9 partition 0 1 0 0 0 0 0 1 1 0 1 13 0
 
 AAAAAAAAAAA=
-1 v 0 0 6 string 0 15 0 0 1 13 0
+1 v 0 0 4 list 0 15 0 0 1 13 0
 
 AQAAAAAAAAA=
-3 vec 1 0 6 string 0 15 0 0 0 1 0
+3 vec 1 0 4 list 0 15 0 0 0 1 0
 
 AgAAAAAAAAA=
 15 0 0 0 0 0 0
@@ -82,7 +82,7 @@ AQAAAAAAAAA=
 1 G 0 0 6 string 0 15 0 0
 
 AAAAAAAAAAA=
-1 a 0 0 6 string 0 15 0 0 1 13 0
+1 a 0 0 4 list 0 15 0 0 1 13 0
 
 AgAAAAAAAAA=
 1 s 1 0 3 int 0 15 0 0 0 1 0
@@ -126,13 +126,21 @@ AQAAAAAAAAA=
 AwAAAAAAAAA=
 
 AAAAAAAAAAA=
-0 0 3 13 0 0 0
+0 0 1 13 0 0 0
 
-AgAAAAAAAAA=
+AAAAAAAAAAA=
 0 0 1 13 0 0 0
 
 AgAAAAAAAAA=
 0 0
+
+AwAAAAAAAAA=
+15 0 0 2 13 0
+
+AgAAAAAAAAA=
+1 13 0
+
+AgAAAAAAAAA=
 
 BAAAAAAAAAA=
 15 0 0
@@ -143,15 +151,7 @@ AQAAAAAAAAA=
 AQAAAAAAAAA=
 
 AgAAAAAAAAA=
-15 0 0
-
-AAAAAAAAAAA=
-1 13 0
-
-AgAAAAAAAAA=
-
-AwAAAAAAAAA=
-15 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 3 13 0 0 0
+15 0 0 0 0 0 1 0 0 0 0 1 0 0 0 3 13 0 0 0
 
 AgAAAAAAAAA=
 0 0 2 13 0 0 0

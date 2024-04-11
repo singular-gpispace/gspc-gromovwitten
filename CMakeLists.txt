@@ -44,6 +44,7 @@ add_custom_command (
     GPISpace::pnetc
       --gen-cxxflags="-O3"
       --gen-cxxflags="-I${PROJECT_SOURCE_DIR}/include"
+      --gen-cxxflags="-I${PROJECT_SOURCE_DIR}/src"
       --force-overwrite-file=true
       --input="${PETRI_NET}"
       --output="/dev/null"
@@ -68,7 +69,9 @@ extended_add_executable (NAME "${DRIVER_BINARY}"
     src/Workflow.cpp
     src/WorkflowResult.cpp
     src/ValuesOnPorts.cpp
+    src/state.cpp
     src/feynman.cpp
+
   INCLUDE_DIRECTORIES PRIVATE include
   LIBRARIES PRIVATE Util::Generic
                     GPISpace::execution
