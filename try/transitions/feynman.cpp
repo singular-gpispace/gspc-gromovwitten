@@ -365,7 +365,7 @@ int feynman_integral(const std::vector<std::pair<int, int>>& G, const std::vecto
     return std::accumulate(fey.begin(), fey.end(), 0.0);
 }
 
-
+ /*
 int main() {
    std::vector<std::pair<int, int>> edges = {{1, 3}, {1, 2}, {1, 2}, {2, 4}, {3, 4}, {3, 4}};
     std::vector<std::pair<int, int>> graph(edges);
@@ -409,7 +409,7 @@ std::cout << "Sum of absolute products: " << sum_absolute_products(res) << std::
   int fe= feynman_integral(graph,aa);
 
  std::cout << "feynman is"<<feynman_integral(graph,aa) << std::endl;
- /*
+
 // Start measuring time
     auto start_time = std::chrono::steady_clock::now();
 
@@ -432,6 +432,6 @@ std::cout << "Sum of absolute products: " << sum_absolute_products(res) << std::
     }
     std::cout << "]" ;
     
-*/
     return 0;
 }
+*/

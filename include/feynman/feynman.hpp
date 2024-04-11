@@ -113,7 +113,7 @@ std::vector<std::vector<int> > generate_combination(std::vector<int> x);
 std::vector<std::vector<int>> flattenVector(const std::vector<std::vector<std::vector<int>>>& ge) ;
 std::vector<std::vector<int>> pairsToVectorOfVectors(const std::vector<std::pair<int, int>>& pairs);
 std::vector<std::pair<int, int>> vectorOfVectorsToPairs(const std::vector<std::vector<int>>& vecOfVec);
-
+int binomial(int n, int k);
 
 
 

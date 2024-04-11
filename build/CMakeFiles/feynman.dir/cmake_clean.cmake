@@ -13,6 +13,8 @@ file(REMOVE_RECURSE
   "CMakeFiles/feynman.dir/src/main.cpp.o.d"
   "CMakeFiles/feynman.dir/src/parse_parameters_from_commandline.cpp.o"
   "CMakeFiles/feynman.dir/src/parse_parameters_from_commandline.cpp.o.d"
+  "CMakeFiles/feynman.dir/src/state.cpp.o"
+  "CMakeFiles/feynman.dir/src/state.cpp.o.d"
   "feynman"
   "feynman.pdb"
 )

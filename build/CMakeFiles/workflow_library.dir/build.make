@@ -70,7 +70,7 @@ CMakeFiles/workflow_library: gen/pnetc/op/libfeynman.so
 
 gen/pnetc/op/libfeynman.so: ../workflow/feynman.xpnet
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/atraore/gpi/try_gpi/gpispace/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Generating gen/pnetc/op/libfeynman.so"
-	/home/atraore/spack/opt/spack/linux-ubuntu22.04-skylake/gcc-11.3.0/gpi-space-23.06-gxye6b7ngsnbxnzjkfsfqtvanynyghdk/bin/pnetc --gen-cxxflags="-O3" --gen-cxxflags="-I/home/atraore/gpi/try_gpi/gpispace/include" --force-overwrite-file=true --input="/home/atraore/gpi/try_gpi/gpispace/workflow/feynman.xpnet" --output="/dev/null" --path-to-cpp="/home/atraore/gpi/try_gpi/gpispace/build/gen"
+	/home/atraore/spack/opt/spack/linux-ubuntu22.04-skylake/gcc-11.3.0/gpi-space-23.06-gxye6b7ngsnbxnzjkfsfqtvanynyghdk/bin/pnetc --gen-cxxflags="-O3" --gen-cxxflags="-I/home/atraore/gpi/try_gpi/gpispace/include" --gen-cxxflags="-I/home/atraore/gpi/try_gpi/gpispace/src" --force-overwrite-file=true --input="/home/atraore/gpi/try_gpi/gpispace/workflow/feynman.xpnet" --output="/dev/null" --path-to-cpp="/home/atraore/gpi/try_gpi/gpispace/build/gen"
 	+make -C /home/atraore/gpi/try_gpi/gpispace/build/gen
 
 workflow_library: CMakeFiles/workflow_library
