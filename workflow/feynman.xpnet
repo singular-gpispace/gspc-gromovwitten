@@ -3,7 +3,7 @@
   <in name="degree" type="int" place="degree"/>
   <in name="N" type="int" place="N"/>
   <in name="graph" type="string" place="graph"/>
-  <out name="fey_out" type="int" place="fey_out"/>
+  <out name="L" type="int" place="L"/> 
 
   <net>
     <place name="degree" type="int"/>
@@ -503,9 +503,65 @@
       <connect-read port="G" place="graph"/>
       <connect-in port="a" place="branchtype"/>
       <connect-out port="s" place="fey_out"/>
-
     </transition>
    
+    <transition name="RHS">
+      <defun>
+        <inout name="a" type="int"/>
+        <inout name="s" type="control"/>
+        <module name="token" function="plus()">
+        <code><![CDATA[
+        ]]></code>
+        </module>
+      </defun>
+      <connect-in port="a" place="fey_out"/>
+      <connect-in port="s" place="right_init"/>
+      <connect-out port="s" place="left_init"/>
+      <connect-out port="a" place="R"/>
+
+    </transition>
+<place name="left_init" type="control">
+  <token><value>[]</value></token>
+</place>
+<place name="right_init" type="control"/>
+
+    <transition name="LHS">
+      <defun>
+        <inout name="a" type="int"/>
+        <inout name="s" type="control"/>
+
+        <module name="token" function="count()">
+        <code><![CDATA[
+          
+        ]]></code>
+        </module>
+      </defun>
+      <connect-in port="s" place="left_init"/>
+      <connect-out port="s" place="right_init"/>
+      <connect-in port="a" place="fey_out"/>
+      <connect-out port="a" place="L"/>
+    </transition>
+
+
+<place name="L" type="int"/>
+<place name="R" type="int"/>
+
+    <transition name="Reduce">
+      <defun>
+        <out name="s" type="int"/>
+        <in name="l" type="int"/>
+        <in name="r" type="int"/>
+        <module name="sum" function=" s add(s,l,r)">
+        <code><![CDATA[
+        int su = l + r;
+        return su;
+        ]]></code>
+        </module>
+      </defun>
+      <connect-in port="l" place="L"/>
+      <connect-in port="r" place="R"/>
+      <connect-out port="s" place="fey_out"/>
+    </transition>
   </net>
 
 </defun>
