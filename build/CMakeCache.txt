@@ -340,7 +340,7 @@ CP:FILEPATH=/usr/bin/cp
 GPISpace_DIR:PATH=/home/atraore/spack/opt/spack/linux-ubuntu22.04-skylake/gcc-11.3.0/gpi-space-23.06-gxye6b7ngsnbxnzjkfsfqtvanynyghdk/share/GPISpace/cmake
 
 //No help, variable specified on the command line.
-GPISpace_ROOT:UNINITIALIZED=/home/atraore/spack/opt/spack/linux-ubuntu22.04-skylake/gcc-11.3.0/gpi-space-23.06-gxye6b7ngsnbxnzjkfsfqtvanynyghdk
+GPISpace_ROOT:UNINITIALIZED=/home/atraore/spack/
 
 GSPC_HOME:PATH=/home/atraore/spack/opt/spack/linux-ubuntu22.04-skylake/gcc-11.3.0/gpi-space-23.06-gxye6b7ngsnbxnzjkfsfqtvanynyghdk
 
