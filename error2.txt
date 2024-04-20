@@ -1,5 +1,0 @@
-[ 18%] Built target compiled_petri_net
-[ 18%] Generating gen/pnetc/op/libfeynman.so
-Consolidate compiler generated dependencies of target feynman
-[ 90%] Built target feynman
-[100%] Built target feynman-bundled-libraries
