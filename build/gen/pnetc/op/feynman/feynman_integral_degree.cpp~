@@ -26,7 +26,7 @@ namespace pnetc
       {
 #line 406 "/home/atraore/gpi/try_gpi/gpispace/workflow/feynman.xpnet"
 
-std::string G_copy=G;
+      std::string G_copy=G;
 // Remove double quotes at the beginning and end
 if (!G_copy.empty() && G_copy.front() == '"' && G_copy.back() == '"') {
 	G_copy = G_copy.substr(1, G_copy.size() - 2);
@@ -74,22 +74,21 @@ for (const auto& vec : Gvec) {
 }
  std::istringstream iss(a);
 
-// Read the factor from the string
-int factor;
-char comma;
-iss >> factor >> comma;
+    // Read the factor from the string
+    int factor;
+    char comma;
+    iss >> factor >> comma;
 
-// Read the vector of integers from the string
-std::vector<int> av;
-int value;
-while (iss >> value) {
-    av.push_back(value); // Read each integer and push it into the vector
-    iss >> comma; // Read the comma after each integer
-}
+    // Read the vector of integers from the string
+    std::vector<int> av;
+    int value;
+    while (iss >> value) {
+        av.push_back(value); // Read each integer and push it into the vector
+        iss >> comma; // Read the comma after each integer
+    }
 if (av.size() != Gv.size()) {
 	throw std::runtime_error("av should be of length " + std::to_string(Gv.size()) + ", but it is of size " + std::to_string(av.size()));
-} 
-else {
+} else {
 	std::unordered_set<int> nbv;
 	for (const auto& e : Gv) {
 		nbv.insert(e.first);
@@ -97,7 +96,7 @@ else {
 	}
 	int nv = nbv.size();
 	//nb vertices.
-  int N = std::accumulate(av.begin(), av.end(), 0, [](int sum, int val) {
+int N = std::accumulate(av.begin(), av.end(), 0, [](int sum, int val) {
         return sum + (val > 0 ? val : 0);
     });        
     
@@ -251,8 +250,9 @@ else {
           //std::cout<<"myfey "<< myfey<<std::endl;
 
           //std::cout<<"myfey "<< myfey<<std::endl;
-    }        
+
           return myfey;
+    }        
 }  
         
       }

@@ -32,7 +32,7 @@ cmake --build "/home/atraore/gpi/try_gpi/gpispace/build" --target install -j $(n
 
 
 
-./feynman \
+/home/atraore/gpi/try_gpi/gpispace/bin/bin/feynman \
   --gspc-home /home/atraore/spack/opt/spack/linux-ubuntu22.04-skylake/gcc-11.3.0/gpi-space-23.06-gxye6b7ngsnbxnzjkfsfqtvanynyghdk/ \
   --nodefile /home/atraore/gpispace/nodefile \
   --rif-strategy ssh \
@@ -45,7 +45,7 @@ cmake --build "/home/atraore/gpi/try_gpi/gpispace/build" --target install -j $(n
 
 
 
-./feynman \
+/home/atraore/gpi/try_gpi/gpispace/bin/bin/feynman \
   --gspc-home /home/atraore/spack/opt/spack/linux-ubuntu22.04-skylake/gcc-11.3.0/gpi-space-23.06-gxye6b7ngsnbxnzjkfsfqtvanynyghdk/ \
   --nodefile /home/atraore/gpispace/nodefile \
   --rif-strategy ssh \

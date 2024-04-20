@@ -349,6 +349,8 @@
             f=group;
           }
         }
+    // s is of type list
+    // f is of type vector<tuple<int, vector<int>> f;
     
 using pnet_value = pnet::type::value::value_type;
 using pnet_list = std::list<pnet_value>;
@@ -404,7 +406,7 @@ using pnet_list = std::list<pnet_value>;
         <cinclude href="unordered_set"/>
         <cinclude href="../include/feynman/feynman.hpp"/>
         <code><![CDATA[
-std::string G_copy=G;
+     std::string G_copy=G;
 // Remove double quotes at the beginning and end
 if (!G_copy.empty() && G_copy.front() == '"' && G_copy.back() == '"') {
 	G_copy = G_copy.substr(1, G_copy.size() - 2);
@@ -452,22 +454,22 @@ for (const auto& vec : Gvec) {
 }
  std::istringstream iss(a);
 
-// Read the factor from the string
-int factor;
-char comma;
-iss >> factor >> comma;
+    // Read the factor from the string
+    int factor;
+    char comma;
+    iss >> factor >> comma;
 
-// Read the vector of integers from the string
-std::vector<int> av;
-int value;
-while (iss >> value) {
-    av.push_back(value); // Read each integer and push it into the vector
-    iss >> comma; // Read the comma after each integer
-}
+    // Read the vector of integers from the string
+    std::vector<int> av;
+    int value;
+    while (iss >> value) {
+        av.push_back(value); // Read each integer and push it into the vector
+        iss >> comma; // Read the comma after each integer
+    }
+  std::cout<<"factor= " <<factor<< std::endl;
 if (av.size() != Gv.size()) {
 	throw std::runtime_error("av should be of length " + std::to_string(Gv.size()) + ", but it is of size " + std::to_string(av.size()));
-} 
-else {
+} else {
 	std::unordered_set<int> nbv;
 	for (const auto& e : Gv) {
 		nbv.insert(e.first);
@@ -475,163 +477,127 @@ else {
 	}
 	int nv = nbv.size();
 	//nb vertices.
-  int N = std::accumulate(av.begin(), av.end(), 0, [](int sum, int val) {
+int N = std::accumulate(av.begin(), av.end(), 0, [](int sum, int val) {
         return sum + (val > 0 ? val : 0);
     });        
     
-       int myfey;
-      std::vector<int> fey;
-        for (int i = 1; i <= 1; ++i) {
-            int j=0;
-                                std::vector<Sequence> tmp;
+      int myfey;
+          std::vector<int> fey;
 
-                for (const auto& multiplicity : av) {
-                    if (multiplicity == -1) {
-                                    Sequence v;
+          for (const auto& multiplicity : av) {
+         
+          std::vector<Sequence> tmp;
+          for (size_t j = 0; j < av.size(); j++) {
+          if (multiplicity == -1) {
+            Sequence  v;
+            for (int i = 1; i <= N; ++i) {
+              if (Gv[j].second < Gv[j].first)
+                v.push_back(std::make_pair(std::make_pair(Gv[j].second, -i), std::make_pair(Gv[j].first, +i)));
+              else
+                v.push_back(std::make_pair(std::make_pair(Gv[j].first, +i), std::make_pair(Gv[j].second, -i)));
+              }
+            tmp.push_back(v);
+          } 
+          else if (multiplicity == 0) {
+            Sequence  vv;
+            for (int i = 1; i <= N; ++i) {
+            if (Gv[j].first < Gv[j].second)
+              vv.push_back(std::make_pair(std::make_pair(Gv[j].first, -i), std::make_pair(Gv[j].second, +i)));
+            else
+              vv.push_back(std::make_pair(std::make_pair(Gv[j].second, +i), std::make_pair(Gv[j].first, -i)));
+            }
+            tmp.push_back(vv);
+          } else {
 
-                        for (int i = 1; i <= N; ++i) {
+          Sequence  x_powers;
+          for (int w = 1; w <= multiplicity; ++w) {
+          if (multiplicity % w == 0) {
+          x_powers.push_back(std::make_pair(std::make_pair(Gv[j].first, +w), std::make_pair(Gv[j].second, -w)));
+          x_powers.push_back(std::make_pair(std::make_pair(Gv[j].first, -w), std::make_pair(Gv[j].second, +w)));
+          }
+          }
+          tmp.push_back(x_powers);
+          }
+          }
+          //   std::vector<Sequence> tt = mergetuple(tmp);
+          std::vector<Sequence> res;
+          int N = 0;
+          for (const auto& subvec : tmp) {
+          for (const auto& elem : subvec) {
+          N = std::max({N, elem.first.first, elem.second.first});
+          }
+          }
+          std::vector<int> v(N + 1, 0);
+          std::vector<Sequence> cartesian_product;
+          Sequence stack;
 
-                        if (Gv[j].second < Gv[j].first)
-                            v.push_back(std::make_pair(std::make_pair(Gv[j].second, -i),
-                                                    std::make_pair(Gv[j].first, +i)));
-                        else
-                            v.push_back(std::make_pair(std::make_pair(Gv[j].first, +i),
-                                                    std::make_pair(Gv[j].second, -i)));
-                        }
-                            /*   std::cout << "cons result:" << std::endl;
-                                                    std::cout << "multiplicity :" <<multiplicity <<std::endl;
+          std::stack<std::pair<Sequence, int>> stackIndex;
+          if (!tmp.empty())
+          stackIndex.push(std::make_pair(stack, tmp.size() - 1));
 
-                                for (const auto& item : v) {  
-                                std::cout << "(" << item.first.first << ", " << item.first.second << "), (" 
-                                        << item.second.first << ", " << item.second.second << ")" << std::endl;
-                                }
-                                std::cout  << std::endl; */
-                        tmp.push_back(v);
-                    } 
-                    else if (multiplicity == 0) {
-                                    Sequence vv;
+          while (!stackIndex.empty()) {
+          // Retrieve the top pair from stackIndex
+          std::pair<Sequence, int> topPair = stackIndex.top();
+          stackIndex.pop();
 
-                        for (int i = 1; i <= N; ++i) {
-                            if (Gv[j].first < Gv[j].second){
-                                vv.push_back(std::make_pair(std::make_pair(Gv[j].first, -i),
-                                                            std::make_pair(Gv[j].second, +i)));
-                            }
-                            else{
-                                vv.push_back(std::make_pair(std::make_pair(Gv[j].second, +i),
-                                                            std::make_pair(Gv[j].first, -i)));
-                            }
-                        }
-                        tmp.push_back(vv);
-                        /*  std::cout << "cons result 0 :" << std::endl;
-                        for (const auto& item : vv) {  
-                        std::cout << "(" << item.first.first << ", " << item.first.second << "), (" 
-                                << item.second.first << ", " << item.second.second << ")" << std::endl;
-                        }
-                        std::cout << " " << std::endl; */
+          // Extract curStack and curIndex from the top pair
+          Sequence curStack = topPair.first;
+          int curIndex = topPair.second;
 
-                    } 
-                    else {
-                            Sequence x_powers;
+          // Retrieve the current sequence from tmp
+          Sequence sequence = tmp[curIndex];
 
-                        for (int w = 1; w <= multiplicity; ++w) {
-                            if (multiplicity % w == 0) {
-                                x_powers.push_back(
-                                    std::make_pair(std::make_pair(Gv[j].first, +w),
-                                                std::make_pair(Gv[j].second, -w)));
-                                x_powers.push_back(
-                                    std::make_pair(std::make_pair(Gv[j].first, -w),
-                                                std::make_pair(Gv[j].second, +w)));
-                            }
-                        }
-                        tmp.push_back(x_powers);
-                    }
+          // Iterate over elements of the current sequence
+          for (const auto& tuple : sequence) {
+          // Add tuple to curStack
+          curStack.push_back(tuple);
 
-                    j++;
-                }
+          if (curIndex == 0) {
+          // If at the last sequence, add curStack to cartesian_product
+          cartesian_product.push_back(curStack);
+          } else {
+          // Push curStack and curIndex - 1 to stackIndex
+          stackIndex.push(std::make_pair(curStack, curIndex - 1));
+          }
 
-                    //   std::vector<Sequence> tt = mergetuple(tmp);
+          // Remove the last tuple from curStack
+          curStack.pop_back();
+          }
+          }
 
-                    int Nm = 0;
-                    for (const auto& subvec : tmp) {
-                        for (const auto& elem : subvec) {
-                            Nm = std::max({Nm, elem.first.first, elem.second.first});
-                        }
-                    }
-                    std::vector<int> vy(Nm + 1, 0);
-                    std::vector<Sequence> cartesian_product;
-                    Sequence stack;
-
-                    std::stack<std::pair<Sequence, int>> stackIndex;
-                    if (!tmp.empty())
-                    stackIndex.push(std::make_pair(stack, tmp.size() - 1));
-
-                    while (!stackIndex.empty()) {
-                    // Retrieve the top pair from stackIndex
-                    std::pair<Sequence, int> topPair = stackIndex.top();
-                    stackIndex.pop();
-
-                    // Extract curStack and curIndex from the top pair
-                    Sequence curStack = topPair.first;
-                    int curIndex = topPair.second;
-
-                    // Retrieve the current sequence from tmp
-                    Sequence sequence = tmp[curIndex];
-
-                    // Iterate over elements of the current sequence
-                    for (const auto& tuple : sequence) {
-                        // Add tuple to curStack
-                        curStack.push_back(tuple);
-
-                        if (curIndex == 0) {
-                        // If at the last sequence, add curStack to cartesian_product
-                        cartesian_product.push_back(curStack);
-                        } else {
-                        // Push curStack and curIndex - 1 to stackIndex
-                        stackIndex.push(std::make_pair(curStack, curIndex - 1));
-                        }
-
-                        // Remove the last tuple from curStack
-                        curStack.pop_back();
-                    }
-                    }
-                    std::vector<Sequence> res;
-
-                    for (const auto& u : cartesian_product) {
-                        bool allZero = true;
-                        for (const auto& pp : u) {
-                            vy[pp.first.first] += pp.first.second;
-                            vy[pp.second.first] += pp.second.second;
-                        }
-                        for (int val : vy) {
-                            if (val != 0) {
-                            allZero = false;
-                            break;
-                            }
-                        }
-                        if (allZero) {
-                            res.push_back(u);
-                        }
-                        std::fill(vy.begin(), vy.end(), 0);
-                    }
-
-                    // int ty = sum_absolute_products(res);
-                    int ty = 0;
-                    for (auto& t : res) {
-                        int abs_product = 1.0;
-                        for (auto& ui : t) {
-                            abs_product *= abs(ui.first.second);
-                        }
-                        ty += abs_product;
-                    }
-                        fey.push_back(factor * ty);
-            myfey = std::accumulate(fey.begin(), fey.end(), 0.0);
-
+          for (const auto& u : cartesian_product) {
+          bool allZero = true;
+          for (const auto& pp : u) {
+          v[pp.first.first] += pp.first.second;
+          v[pp.second.first] += pp.second.second;
+          }
+          for (int val : v) {
+          if (val != 0) {
+          allZero = false;
+          break;
+          }
+          }
+          if (allZero) {
+          res.push_back(u);
+          }
+          std::fill(v.begin(), v.end(), 0);
+          }
+          //int ty = sum_absolute_products(res);
+          int ty = 0;
+          for (auto &t : res) {
+          int abs_product = 1.0;
+          for (auto &ui : t) {
+          abs_product *= abs(ui.first.second );
+          }
+          ty += abs_product;
+          }
+          fey.push_back(factor * ty);
+          }
+          myfey= std::accumulate(fey.begin(), fey.end(), 0.0);
           //std::cout<<"myfey "<< myfey<<std::endl;
 
-          //std::cout<<"myfey "<< myfey<<std::endl;
-    }        
           return myfey;
-}  
+    }          
         ]]></code>
         </module>
       </defun>

@@ -71,7 +71,7 @@ CMakeFiles/feynman-bundled-libraries: bundle-feynman
 bundle-feynman: feynman
 bundle-feynman: /home/atraore/spack/opt/spack/linux-ubuntu22.04-skylake/gcc-11.3.0/gpi-space-23.06-gxye6b7ngsnbxnzjkfsfqtvanynyghdk/share/util-cmake/cmake/include/util-cmake/bundle.sh
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/atraore/gpi/try_gpi/gpispace/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Generating bundle-feynman"
-	/usr/bin/bash /home/atraore/spack/opt/spack/linux-ubuntu22.04-skylake/gcc-11.3.0/gpi-space-23.06-gxye6b7ngsnbxnzjkfsfqtvanynyghdk/share/util-cmake/cmake/include/util-cmake/bundle.sh /home/atraore/gpi/try_gpi/gpispace/build/bundle-feynman /usr/bin/chrpath /home/atraore/gpi/try_gpi/gpispace/build/feynman
+	/usr/bin/bash /home/atraore/spack/opt/spack/linux-ubuntu22.04-skylake/gcc-11.3.0/gpi-space-23.06-gxye6b7ngsnbxnzjkfsfqtvanynyghdk/share/util-cmake/cmake/include/util-cmake/bundle.sh /home/atraore/gpi/try_gpi/gpispace/build/bundle-feynman /home/atraore/spack/opt/spack/linux-ubuntu22.04-skylake/gcc-11.3.0/chrpath-0.16-mtbt34vndku7oygvzfaxqzeqtwa3ahh6/bin/chrpath /home/atraore/gpi/try_gpi/gpispace/build/feynman
 
 feynman-bundled-libraries: CMakeFiles/feynman-bundled-libraries
 feynman-bundled-libraries: bundle-feynman

@@ -39,10 +39,15 @@ namespace feynman
 
     int Workflow::process(WorkflowResult const &results) const
     {
-        auto const &feynm = results.get<int>("L");
+         // auto const &signature = results.get<int>("s");
+
+       //  std::cout << " signature is : " << signature << std::endl;
+        
+       auto const &feynm = results.get<int> ("L");
 
         std::cout << "feynman_degree: " << feynm << std::endl;
-
+        
+        std::cout << std::endl;
         return EXIT_SUCCESS;
     }
 }

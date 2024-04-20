@@ -1,14 +1,14 @@
 Performing C++ SOURCE FILE Test CXX_COMPILER_SUPPORTS__Wundefined_reinterpret_cast failed with the following output:
 Change Dir: /home/atraore/gpi/try_gpi/gpispace/build/CMakeFiles/CMakeTmp
 
-Run Build Command(s):/usr/bin/gmake -f Makefile cmTC_ca987/fast && /usr/bin/gmake  -f CMakeFiles/cmTC_ca987.dir/build.make CMakeFiles/cmTC_ca987.dir/build
+Run Build Command(s):/usr/bin/gmake -f Makefile cmTC_f21c2/fast && /usr/bin/gmake  -f CMakeFiles/cmTC_f21c2.dir/build.make CMakeFiles/cmTC_f21c2.dir/build
 gmake[1]: Entering directory '/home/atraore/gpi/try_gpi/gpispace/build/CMakeFiles/CMakeTmp'
-Building CXX object CMakeFiles/cmTC_ca987.dir/src.cxx.o
-/usr/bin/c++ -DCXX_COMPILER_SUPPORTS__Wundefined_reinterpret_cast  -Wundefined-reinterpret-cast -std=gnu++14 -o CMakeFiles/cmTC_ca987.dir/src.cxx.o -c /home/atraore/gpi/try_gpi/gpispace/build/CMakeFiles/CMakeTmp/src.cxx
+Building CXX object CMakeFiles/cmTC_f21c2.dir/src.cxx.o
+/usr/bin/c++ -DCXX_COMPILER_SUPPORTS__Wundefined_reinterpret_cast  -Wundefined-reinterpret-cast -std=gnu++14 -o CMakeFiles/cmTC_f21c2.dir/src.cxx.o -c /home/atraore/gpi/try_gpi/gpispace/build/CMakeFiles/CMakeTmp/src.cxx
 c++: error: unrecognized command-line option '-Wundefined-reinterpret-cast'
-gmake[1]: *** [CMakeFiles/cmTC_ca987.dir/build.make:78: CMakeFiles/cmTC_ca987.dir/src.cxx.o] Error 1
+gmake[1]: *** [CMakeFiles/cmTC_f21c2.dir/build.make:78: CMakeFiles/cmTC_f21c2.dir/src.cxx.o] Error 1
 gmake[1]: Leaving directory '/home/atraore/gpi/try_gpi/gpispace/build/CMakeFiles/CMakeTmp'
-gmake: *** [Makefile:127: cmTC_ca987/fast] Error 2
+gmake: *** [Makefile:127: cmTC_f21c2/fast] Error 2
 
 
 Source file was:
@@ -16,14 +16,14 @@ int main() { return 0; }
 Performing C++ SOURCE FILE Test CXX_COMPILER_SUPPORTS__Wextra_semi_stmt failed with the following output:
 Change Dir: /home/atraore/gpi/try_gpi/gpispace/build/CMakeFiles/CMakeTmp
 
-Run Build Command(s):/usr/bin/gmake -f Makefile cmTC_0b501/fast && /usr/bin/gmake  -f CMakeFiles/cmTC_0b501.dir/build.make CMakeFiles/cmTC_0b501.dir/build
+Run Build Command(s):/usr/bin/gmake -f Makefile cmTC_e0335/fast && /usr/bin/gmake  -f CMakeFiles/cmTC_e0335.dir/build.make CMakeFiles/cmTC_e0335.dir/build
 gmake[1]: Entering directory '/home/atraore/gpi/try_gpi/gpispace/build/CMakeFiles/CMakeTmp'
-Building CXX object CMakeFiles/cmTC_0b501.dir/src.cxx.o
-/usr/bin/c++ -DCXX_COMPILER_SUPPORTS__Wextra_semi_stmt  -Wextra-semi-stmt -std=gnu++14 -o CMakeFiles/cmTC_0b501.dir/src.cxx.o -c /home/atraore/gpi/try_gpi/gpispace/build/CMakeFiles/CMakeTmp/src.cxx
+Building CXX object CMakeFiles/cmTC_e0335.dir/src.cxx.o
+/usr/bin/c++ -DCXX_COMPILER_SUPPORTS__Wextra_semi_stmt  -Wextra-semi-stmt -std=gnu++14 -o CMakeFiles/cmTC_e0335.dir/src.cxx.o -c /home/atraore/gpi/try_gpi/gpispace/build/CMakeFiles/CMakeTmp/src.cxx
 c++: error: unrecognized command-line option '-Wextra-semi-stmt'; did you mean '-Wextra-semi'?
-gmake[1]: *** [CMakeFiles/cmTC_0b501.dir/build.make:78: CMakeFiles/cmTC_0b501.dir/src.cxx.o] Error 1
+gmake[1]: *** [CMakeFiles/cmTC_e0335.dir/build.make:78: CMakeFiles/cmTC_e0335.dir/src.cxx.o] Error 1
 gmake[1]: Leaving directory '/home/atraore/gpi/try_gpi/gpispace/build/CMakeFiles/CMakeTmp'
-gmake: *** [Makefile:127: cmTC_0b501/fast] Error 2
+gmake: *** [Makefile:127: cmTC_e0335/fast] Error 2
 
 
 Source file was:
