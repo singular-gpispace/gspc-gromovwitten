@@ -1,8 +1,6 @@
 #include <we/loader/macros.hpp>
 
 #include <pnetc/op/feynman/feynman_integral_degree.hpp>
-#include <list>
-#include <we/type/value.hpp>
 #include <string>
 
 namespace pnetc
@@ -19,7 +17,7 @@ namespace pnetc
         )
       {
         const std::string & G (::boost::get< std::string > (_pnetc_input.value (std::list<std::string> (1, "G"))));
-        const std::list<pnet::type::value::value_type> & a (::boost::get< std::list<pnet::type::value::value_type> > (_pnetc_input.value (std::list<std::string> (1, "a"))));
+        const std::string & a (::boost::get< std::string > (_pnetc_input.value (std::list<std::string> (1, "a"))));
         _pnetc_output.bind_and_discard_ref (std::list<std::string> (1, "s"), 
         ::pnetc::op::feynman::feynman_integral_degree (G, a));
       }

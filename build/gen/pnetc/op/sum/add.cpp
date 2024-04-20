@@ -11,7 +11,7 @@ namespace pnetc
         , const int& r
         )
       {
-#line 555 "/home/atraore/gpi/try_gpi/gpispace/workflow/feynman.xpnet"
+#line 654 "/home/atraore/gpi/try_gpi/gpispace/workflow/feynman.xpnet"
 
         int su = l + r;
         return su;

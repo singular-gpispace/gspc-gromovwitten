@@ -3,7 +3,7 @@
   <in name="degree" type="int" place="degree"/>
   <in name="N" type="int" place="N"/>
   <in name="graph" type="string" place="graph"/>
-  <out name="L" type="int" place="L"/> 
+  <out name="fey_out" type="int" place="fey_out"/> 
 
   <net>
     <place name="degree" type="int"/>
@@ -349,9 +349,11 @@
             f=group;
           }
         }
-    
-using pnet_value = pnet::type::value::value_type;
-using pnet_list = std::list<pnet_value>;
+    // s is of type list from Gpi-Space
+    // f is of type std::vector<std::tuple<int, std::vector<int>> f;
+
+  using pnet_value = pnet::type::value::value_type;
+  using pnet_list = std::list<pnet_value>;
     for (const auto& tuple : f) {
         int index = std::get<0>(tuple);
         const auto& fiVector = std::get<1>(tuple); // Get the vector<int> fi
@@ -404,7 +406,7 @@ using pnet_list = std::list<pnet_value>;
         <cinclude href="unordered_set"/>
         <cinclude href="../include/feynman/feynman.hpp"/>
         <code><![CDATA[
-std::string G_copy=G;
+     std::string G_copy=G;
 // Remove double quotes at the beginning and end
 if (!G_copy.empty() && G_copy.front() == '"' && G_copy.back() == '"') {
 	G_copy = G_copy.substr(1, G_copy.size() - 2);
@@ -452,22 +454,21 @@ for (const auto& vec : Gvec) {
 }
  std::istringstream iss(a);
 
-// Read the factor from the string
-int factor;
-char comma;
-iss >> factor >> comma;
+    // Read the factor from the string
+    int factor;
+    char comma;
+    iss >> factor >> comma;
 
-// Read the vector of integers from the string
-std::vector<int> av;
-int value;
-while (iss >> value) {
-    av.push_back(value); // Read each integer and push it into the vector
-    iss >> comma; // Read the comma after each integer
-}
+    // Read the vector of integers from the string
+    std::vector<int> av;
+    int value;
+    while (iss >> value) {
+        av.push_back(value); // Read each integer and push it into the vector
+        iss >> comma; // Read the comma after each integer
+    }
 if (av.size() != Gv.size()) {
 	throw std::runtime_error("av should be of length " + std::to_string(Gv.size()) + ", but it is of size " + std::to_string(av.size()));
-} 
-else {
+} else {
 	std::unordered_set<int> nbv;
 	for (const auto& e : Gv) {
 		nbv.insert(e.first);
@@ -475,7 +476,7 @@ else {
 	}
 	int nv = nbv.size();
 	//nb vertices.
-  int N = std::accumulate(av.begin(), av.end(), 0, [](int sum, int val) {
+int N = std::accumulate(av.begin(), av.end(), 0, [](int sum, int val) {
         return sum + (val > 0 ? val : 0);
     });        
     
@@ -628,75 +629,17 @@ else {
 
           //std::cout<<"myfey "<< myfey<<std::endl;
 
-          //std::cout<<"myfey "<< myfey<<std::endl;
-    }        
           return myfey;
-}  
+    }          
+}
         ]]></code>
         </module>
-      </defun>
+      </defun>*
       <connect-read port="G" place="graph"/>
       <connect-in port="a" place="sign"/>
       <connect-out port="s" place="fey_out"/>
     </transition>
    
-    <transition name="RHS">
-      <defun>
-        <inout name="a" type="int"/>
-        <inout name="s" type="control"/>
-        <module name="token" function="plus()">
-        <code><![CDATA[
-        ]]></code>
-        </module>
-      </defun>
-      <connect-in port="a" place="fey_out"/>
-      <connect-in port="s" place="right_init"/>
-      <connect-out port="s" place="left_init"/>
-      <connect-out port="a" place="R"/>
-
-    </transition>
-<place name="left_init" type="control">
-  <token><value>[]</value></token>
-</place>
-<place name="right_init" type="control"/>
-
-    <transition name="LHS">
-      <defun>
-        <inout name="a" type="int"/>
-        <inout name="s" type="control"/>
-
-        <module name="token" function="count()">
-        <code><![CDATA[
-          
-        ]]></code>
-        </module>
-      </defun>
-      <connect-in port="s" place="left_init"/>
-      <connect-out port="s" place="right_init"/>
-      <connect-in port="a" place="fey_out"/>
-      <connect-out port="a" place="L"/>
-    </transition>
-
-
-<place name="L" type="int"/>
-<place name="R" type="int"/>
-
-    <transition name="Reduce">
-      <defun>
-        <out name="s" type="int"/>
-        <in name="l" type="int"/>
-        <in name="r" type="int"/>
-        <module name="sum" function=" s add(s,l,r)">
-        <code><![CDATA[
-        int su = l + r;
-        return su;
-        ]]></code>
-        </module>
-      </defun>
-      <connect-in port="l" place="L"/>
-      <connect-in port="r" place="R"/>
-      <connect-out port="s" place="fey_out"/>
-    </transition>
   </net>
 
 </defun>
