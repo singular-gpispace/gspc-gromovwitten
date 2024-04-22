@@ -1,94 +1,101 @@
-cmake_minimum_required (VERSION 3.16)
-project (feynman
+cmake_minimum_required(VERSION 3.16)
+project(feynman
   LANGUAGES CXX
 )
 
-set (CMAKE_CXX_STANDARD 14)
-set (CMAKE_CXX_STANDARD_REQUIRED ON)
-find_package (GPISpace REQUIRED)
+set(CMAKE_CXX_STANDARD 14)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+find_package(GPISpace REQUIRED)
 
-find_package (util-generic REQUIRED)
-find_package (util-cmake REQUIRED)
-find_package (Boost 1.63 REQUIRED
+find_package(util-generic REQUIRED)
+find_package(util-cmake REQUIRED)
+find_package(Boost 1.63 REQUIRED
   COMPONENTS
-     filesystem
-     program_options
+  filesystem
+  program_options
 )
-include (util-cmake/add_macros)
+include(util-cmake/add_macros)
 
-set (BUNDLE_ROOT "libexec/bundle")
-bundle_GPISpace (DESTINATION "${BUNDLE_ROOT}/gpispace"
+set(BUNDLE_ROOT "libexec/bundle")
+bundle_GPISpace(DESTINATION "${BUNDLE_ROOT}/gpispace"
   COMPONENTS runtime
 )
 
-set (PETRI_NET "${PROJECT_SOURCE_DIR}/workflow/${PROJECT_NAME}.xpnet")
-set (COMPILED_PETRI_NET "${PROJECT_BINARY_DIR}/${PROJECT_NAME}.pnet")
-set (WRAPPER_DIRECTORY "${PROJECT_BINARY_DIR}/gen")
-set (WRAPPER_LIBRARY "${WRAPPER_DIRECTORY}/pnetc/op/lib${PROJECT_NAME}.so")
-set (DRIVER_BINARY "${PROJECT_NAME}")
+set(PETRI_NET "${PROJECT_SOURCE_DIR}/workflow/${PROJECT_NAME}.xpnet")
+set(COMPILED_PETRI_NET "${PROJECT_BINARY_DIR}/${PROJECT_NAME}.pnet")
+set(WRAPPER_DIRECTORY "${PROJECT_BINARY_DIR}/gen")
+set(WRAPPER_LIBRARY "${WRAPPER_DIRECTORY}/pnetc/op/lib${PROJECT_NAME}.so")
+set(DRIVER_BINARY "${PROJECT_NAME}")
 
-add_custom_command (
+add_custom_command(
   COMMAND
-    GPISpace::pnetc --input="${PETRI_NET}" --output="${COMPILED_PETRI_NET}"
+  GPISpace::pnetc --input="${PETRI_NET}" --output="${COMPILED_PETRI_NET}"
   OUTPUT "${COMPILED_PETRI_NET}"
   DEPENDS "${PETRI_NET}"
 )
-add_custom_target (compiled_petri_net
+add_custom_target(compiled_petri_net
   ALL
   DEPENDS
-    "${COMPILED_PETRI_NET}"
+  "${COMPILED_PETRI_NET}"
 )
 
-add_custom_command (
+add_custom_command(
   COMMAND
-    GPISpace::pnetc
-      --gen-cxxflags="-O3"
-      --gen-cxxflags="-I${PROJECT_SOURCE_DIR}/include"
-      --gen-cxxflags="-I${PROJECT_SOURCE_DIR}/src"
-      --force-overwrite-file=true
-      --input="${PETRI_NET}"
-      --output="/dev/null"
-      --path-to-cpp="${WRAPPER_DIRECTORY}"
+  GPISpace::pnetc
+  --gen-cxxflags="-O3"
+  --gen-cxxflags="-I${PROJECT_SOURCE_DIR}/include"
+  --gen-cxxflags="-I${PROJECT_SOURCE_DIR}/src"
+  --force-overwrite-file=true
+  --input="${PETRI_NET}"
+  --output="/dev/null"
+  --path-to-cpp="${WRAPPER_DIRECTORY}"
   COMMAND
-    +make -C "${WRAPPER_DIRECTORY}"
+  +make -C "${WRAPPER_DIRECTORY}"
   OUTPUT "${WRAPPER_LIBRARY}"
   DEPENDS "${PETRI_NET}"
 )
-add_custom_target (workflow_library
+add_custom_target(workflow_library
   ALL
   DEPENDS
-    "${WRAPPER_LIBRARY}"
+  "${WRAPPER_LIBRARY}"
 )
 
-extended_add_executable (NAME "${DRIVER_BINARY}"
+extended_add_executable(NAME "${DRIVER_BINARY}"
   DONT_APPEND_EXE_SUFFIX
   SOURCES
-    src/parse_parameters_from_commandline.cpp
-    src/execute.cpp
-    src/main.cpp
-    src/Workflow.cpp
-    src/WorkflowResult.cpp
-    src/ValuesOnPorts.cpp
-    src/state.cpp
-    src/feynman.cpp
+  src/parse_parameters_from_commandline.cpp
+  src/execute.cpp
+  src/main.cpp
+  src/Workflow.cpp
+  src/WorkflowResult.cpp
+  src/ValuesOnPorts.cpp
+  src/state.cpp
+  src/feynman.cpp
 
   INCLUDE_DIRECTORIES PRIVATE include
   LIBRARIES PRIVATE Util::Generic
-                    GPISpace::execution
-                    Boost::headers
-                    Boost::filesystem
-                    Boost::program_options
+  GPISpace::execution
+  Boost::headers
+  Boost::filesystem
+  Boost::program_options
   INSTALL
   INSTALL_DESTINATION bin
 )
-bundle_GPISpace_add_rpath (TARGET "${DRIVER_BINARY}" INSTALL_DIRECTORY "bin")
+bundle_GPISpace_add_rpath(TARGET "${DRIVER_BINARY}" INSTALL_DIRECTORY "bin")
 
-
-install (FILES
+install(FILES
   "${COMPILED_PETRI_NET}"
   DESTINATION pnet
 )
-install (FILES
+install(FILES
   "${WRAPPER_LIBRARY}"
+
   DESTINATION lib
 )
+
+# Find all .so files in the specified directory
+file(GLOB LIBRARY_FILES "${WRAPPER_DIRECTORY}/pnetc/op/*.so")
+
+# Install all found .so files to the 'lib' directory
+install(FILES ${LIBRARY_FILES}
+  DESTINATION lib)
