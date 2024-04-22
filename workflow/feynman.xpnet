@@ -479,12 +479,11 @@ else {
         return sum + (val > 0 ? val : 0);
     });        
     
-       int myfey;
+      int myfey;
       std::vector<int> fey;
         for (int i = 1; i <= 1; ++i) {
             int j=0;
-                                std::vector<Sequence> tmp;
-
+            std::vector<Sequence> tmp;
                 for (const auto& multiplicity : av) {
                     if (multiplicity == -1) {
                                     Sequence v;

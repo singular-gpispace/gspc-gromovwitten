@@ -114,7 +114,7 @@ Boost_UNIT_TEST_FRAMEWORK_LIBRARY_DEBUG:FILEPATH=/home/atraore/spack/opt/spack/l
 Boost_UNIT_TEST_FRAMEWORK_LIBRARY_RELEASE:FILEPATH=/home/atraore/spack/opt/spack/linux-ubuntu22.04-skylake/gcc-11.3.0/boost-1.63.0-q5xh5vlq3ihagc7f5ql4erhsofvamt6m/lib/libboost_unit_test_framework-mt.so
 
 //chrpath is required for bundling
-CHRPATH_BINARY:FILEPATH=/home/atraore/spack/opt/spack/linux-ubuntu22.04-skylake/gcc-11.3.0/chrpath-0.16-mtbt34vndku7oygvzfaxqzeqtwa3ahh6/bin/chrpath
+CHRPATH_BINARY:FILEPATH=/usr/bin/chrpath
 
 //Path to a program.
 CMAKE_ADDR2LINE:FILEPATH=/usr/bin/addr2line
@@ -340,7 +340,7 @@ CP:FILEPATH=/usr/bin/cp
 GPISpace_DIR:PATH=/home/atraore/spack/opt/spack/linux-ubuntu22.04-skylake/gcc-11.3.0/gpi-space-23.06-gxye6b7ngsnbxnzjkfsfqtvanynyghdk/share/GPISpace/cmake
 
 //No help, variable specified on the command line.
-GPISpace_ROOT:UNINITIALIZED=/home/atraore/spack/
+GPISpace_ROOT:UNINITIALIZED=/home/atraore/spack/opt/spack/linux-ubuntu22.04-skylake/gcc-11.3.0/gpi-space-23.06-gxye6b7ngsnbxnzjkfsfqtvanynyghdk
 
 GSPC_HOME:PATH=/home/atraore/spack/opt/spack/linux-ubuntu22.04-skylake/gcc-11.3.0/gpi-space-23.06-gxye6b7ngsnbxnzjkfsfqtvanynyghdk
 
@@ -365,22 +365,22 @@ INSTALL_RPATH_DIRS:STRING=
 MV:FILEPATH=/usr/bin/mv
 
 //The directory containing a CMake configuration file for Qt5Core.
-Qt5Core_DIR:PATH=/home/atraore/spack/opt/spack/linux-ubuntu22.04-skylake/gcc-11.3.0/qt-5.15.11-hb2ma3twsaalasbco5ymnyf2lhsvjgsx/lib/cmake/Qt5Core
+Qt5Core_DIR:PATH=/usr/lib/x86_64-linux-gnu/cmake/Qt5Core
 
 //The directory containing a CMake configuration file for Qt5Gui.
-Qt5Gui_DIR:PATH=/home/atraore/spack/opt/spack/linux-ubuntu22.04-skylake/gcc-11.3.0/qt-5.15.11-hb2ma3twsaalasbco5ymnyf2lhsvjgsx/lib/cmake/Qt5Gui
+Qt5Gui_DIR:PATH=/usr/lib/x86_64-linux-gnu/cmake/Qt5Gui
 
 //The directory containing a CMake configuration file for Qt5Widgets.
-Qt5Widgets_DIR:PATH=/home/atraore/spack/opt/spack/linux-ubuntu22.04-skylake/gcc-11.3.0/qt-5.15.11-hb2ma3twsaalasbco5ymnyf2lhsvjgsx/lib/cmake/Qt5Widgets
+Qt5Widgets_DIR:PATH=/usr/lib/x86_64-linux-gnu/cmake/Qt5Widgets
 
 //The directory containing a CMake configuration file for Qt5.
-Qt5_DIR:PATH=/home/atraore/spack/opt/spack/linux-ubuntu22.04-skylake/gcc-11.3.0/qt-5.15.11-hb2ma3twsaalasbco5ymnyf2lhsvjgsx/lib/cmake/Qt5
+Qt5_DIR:PATH=/usr/lib/x86_64-linux-gnu/cmake/Qt5
 
 //Path to a program.
 RM:FILEPATH=/usr/bin/rm
 
 //Path to a program.
-TAR:FILEPATH=/home/atraore/spack/opt/spack/linux-ubuntu22.04-skylake/gcc-11.3.0/tar-1.34-xtmig74pbrxipr2ghzozmixehd5up7v5/bin/tar
+TAR:FILEPATH=/usr/bin/tar
 
 //Value Computed by CMake
 feynman_BINARY_DIR:STATIC=/home/atraore/gpi/try_gpi/gpispace/build
@@ -649,7 +649,7 @@ FIND_PACKAGE_MESSAGE_DETAILS_Boost:INTERNAL=[/home/atraore/spack/opt/spack/linux
 //Details about finding Threads
 FIND_PACKAGE_MESSAGE_DETAILS_Threads:INTERNAL=[TRUE][v()]
 //Details about finding UnixCommands
-FIND_PACKAGE_MESSAGE_DETAILS_UnixCommands:INTERNAL=[/usr/bin/bash][/usr/bin/cp][/usr/bin/gzip][/usr/bin/mv][/usr/bin/rm][/home/atraore/spack/opt/spack/linux-ubuntu22.04-skylake/gcc-11.3.0/tar-1.34-xtmig74pbrxipr2ghzozmixehd5up7v5/bin/tar][v()]
+FIND_PACKAGE_MESSAGE_DETAILS_UnixCommands:INTERNAL=[/usr/bin/bash][/usr/bin/cp][/usr/bin/gzip][/usr/bin/mv][/usr/bin/rm][/usr/bin/tar][v()]
 //ADVANCED property for variable: GSPC_HOME
 GSPC_HOME-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: GZIP
