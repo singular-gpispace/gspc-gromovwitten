@@ -21,10 +21,25 @@ bundle_GPISpace(DESTINATION "${BUNDLE_ROOT}/gpispace"
   COMPONENTS runtime
 )
 
+# extended_add_library (NAME feynman_implementation
+# TYPE SHARED
+# SOURCES "src/test.cpp"
+# INCLUDE_DIRECTORIES PUBLIC "${CMAKE_SOURCE_DIR}"
+# COMPILE_DEFINITIONS SING_NDEBUG OM_NDEBUG
+# INSTALL INSTALL_DESTINATION "lib"
+# )
+add_library(feynman_implementation SHARED "src/test.cpp" "src/feynman.cpp" "src/state.cpp")
+target_include_directories(feynman_implementation PUBLIC "${CMAKE_SOURCE_DIR}")
+
+set_target_properties(feynman_implementation
+  PROPERTIES
+  INSTALL_RPATH_USE_LINK_PATH TRUE
+)
+
 set(PETRI_NET "${PROJECT_SOURCE_DIR}/workflow/${PROJECT_NAME}.xpnet")
 set(COMPILED_PETRI_NET "${PROJECT_BINARY_DIR}/${PROJECT_NAME}.pnet")
 set(WRAPPER_DIRECTORY "${PROJECT_BINARY_DIR}/gen")
-set(WRAPPER_LIBRARY "${WRAPPER_DIRECTORY}/pnetc/op/lib${PROJECT_NAME}.so")
+set(WRAPPER_LIBRARY "${WRAPPER_DIRECTORY}/pnetc/op/lib${PROJECT_NAME}_module.so")
 set(DRIVER_BINARY "${PROJECT_NAME}")
 
 add_custom_command(
@@ -44,7 +59,11 @@ add_custom_command(
   GPISpace::pnetc
   --gen-cxxflags="-O3"
   --gen-cxxflags="-I${PROJECT_SOURCE_DIR}/include"
-  --gen-cxxflags="-I${PROJECT_SOURCE_DIR}/src"
+  --gen-cxxflags="-I${PROJECT_SOURCE_DIR}/include/feynman"
+
+  --gen-ldflags="-L${PROJECT_BINARY_DIR}"
+  --gen-ldflags="-lfeynman_implementation"
+  --gen-ldflags="-Wl,-rpath=${CMAKE_INSTALL_PREFIX}/lib"
   --force-overwrite-file=true
   --input="${PETRI_NET}"
   --output="/dev/null"
@@ -53,6 +72,7 @@ add_custom_command(
   +make -C "${WRAPPER_DIRECTORY}"
   OUTPUT "${WRAPPER_LIBRARY}"
   DEPENDS "${PETRI_NET}"
+  feynman_implementation
 )
 add_custom_target(workflow_library
   ALL
@@ -60,6 +80,7 @@ add_custom_target(workflow_library
   "${WRAPPER_LIBRARY}"
 )
 
+# target_link_libraries("${WRAPPER_LIBRARY}" PRIVATE feynman_implementation)
 extended_add_executable(NAME "${DRIVER_BINARY}"
   DONT_APPEND_EXE_SUFFIX
   SOURCES
@@ -70,7 +91,6 @@ extended_add_executable(NAME "${DRIVER_BINARY}"
   src/WorkflowResult.cpp
   src/ValuesOnPorts.cpp
   src/state.cpp
-  src/feynman.cpp
 
   INCLUDE_DIRECTORIES PRIVATE include
   LIBRARIES PRIVATE Util::Generic
@@ -78,24 +98,21 @@ extended_add_executable(NAME "${DRIVER_BINARY}"
   Boost::headers
   Boost::filesystem
   Boost::program_options
+  feynman_implementation
+
   INSTALL
   INSTALL_DESTINATION bin
 )
+
 bundle_GPISpace_add_rpath(TARGET "${DRIVER_BINARY}" INSTALL_DIRECTORY "bin")
 
 install(FILES
   "${COMPILED_PETRI_NET}"
   DESTINATION pnet
 )
+install(TARGETS feynman_implementation
+  DESTINATION lib)
 install(FILES
   "${WRAPPER_LIBRARY}"
-
   DESTINATION lib
 )
-
-# Find all .so files in the specified directory
-file(GLOB LIBRARY_FILES "${WRAPPER_DIRECTORY}/pnetc/op/*.so")
-
-# Install all found .so files to the 'lib' directory
-install(FILES ${LIBRARY_FILES}
-  DESTINATION lib)
