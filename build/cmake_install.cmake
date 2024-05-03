@@ -166,17 +166,6 @@ if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_
   file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib" TYPE FILE FILES "/home/atraore/gpi/try_gpi/gpispace/build/gen/pnetc/op/libfeynman.so")
 endif()
 
-if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib" TYPE FILE FILES
-    "/home/atraore/gpi/try_gpi/gpispace/build/gen/pnetc/op/libcombination_vec.so"
-    "/home/atraore/gpi/try_gpi/gpispace/build/gen/pnetc/op/libfeynman.so"
-    "/home/atraore/gpi/try_gpi/gpispace/build/gen/pnetc/op/libsignature.so"
-    "/home/atraore/gpi/try_gpi/gpispace/build/gen/pnetc/op/libsum.so"
-    "/home/atraore/gpi/try_gpi/gpispace/build/gen/pnetc/op/libsum_degree.so"
-    "/home/atraore/gpi/try_gpi/gpispace/build/gen/pnetc/op/libtoken.so"
-    )
-endif()
-
 if(CMAKE_INSTALL_COMPONENT)
   set(CMAKE_INSTALL_MANIFEST "install_manifest_${CMAKE_INSTALL_COMPONENT}.txt")
 else()
