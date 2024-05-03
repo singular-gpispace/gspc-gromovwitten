@@ -45,9 +45,3 @@
 /home/atraore/gpi/try_gpi/gpispace/bin/libexec/bundle/lib/libbz2.so.1.0
 /home/atraore/gpi/try_gpi/gpispace/bin/pnet/feynman.pnet
 /home/atraore/gpi/try_gpi/gpispace/bin/lib/libfeynman.so
-/home/atraore/gpi/try_gpi/gpispace/bin/lib/libcombination_vec.so
-/home/atraore/gpi/try_gpi/gpispace/bin/lib/libfeynman.so
-/home/atraore/gpi/try_gpi/gpispace/bin/lib/libsignature.so
-/home/atraore/gpi/try_gpi/gpispace/bin/lib/libsum.so
-/home/atraore/gpi/try_gpi/gpispace/bin/lib/libsum_degree.so
-/home/atraore/gpi/try_gpi/gpispace/bin/lib/libtoken.so

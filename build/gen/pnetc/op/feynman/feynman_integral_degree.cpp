@@ -101,12 +101,11 @@ else {
         return sum + (val > 0 ? val : 0);
     });        
     
-       int myfey;
+  int myfey;
       std::vector<int> fey;
         for (int i = 1; i <= 1; ++i) {
             int j=0;
-                                std::vector<Sequence> tmp;
-
+            std::vector<Sequence> tmp;
                 for (const auto& multiplicity : av) {
                     if (multiplicity == -1) {
                                     Sequence v;
@@ -171,11 +170,117 @@ else {
                     j++;
                 }
 
+                
+                      std::unordered_map<int, std::vector<std::pair<int, int>>> positions_dict;
+
+                    for (int i = 0; i < Gv.size(); i++)
+                    {
+                        int x = Gv[i].first;
+                        int y = Gv[i].second;
+
+                        if (positions_dict.count(x))
+                        {
+                            positions_dict[x].emplace_back(i, 0);
+                        }
+                        else
+                        {
+                            positions_dict[x] = {{i, 0}};
+                        }
+
+                        if (positions_dict.count(y))
+                        {
+                            positions_dict[y].emplace_back(i, 1);
+                        }
+                        else
+                        {
+                            positions_dict[y] = {{i, 1}};
+                        }
+                    }
+                    std::unordered_map<int, std::vector<std::pair<int, int>>> positions = positions_dict;
+
+                    std::vector<Sequence> uni2(tmp.size());
+                    for (size_t u = 0; u < tmp.size(); u++)
+                    {
+                        uni2[u] = Sequence(tmp[u].size(), std::make_pair(std::make_pair(0, 0), std::make_pair(0, 0)));
+                    }
+
+                    for (const auto &pair : Gv)
+                    {
+                        int i1 = pair.first;
+                        int i2 = pair.second;
+                        int idx11 = positions.at(i1)[0].first;
+                        int pos11 = positions.at(i1)[0].second;
+
+                        int idx12 = positions.at(i2)[0].first;
+                        int pos12 = positions.at(i2)[0].second;
+
+                        int idx21 = positions.at(i1)[1].first;
+                        int pos21 = positions.at(i1)[1].second;
+                        int idx22 = positions.at(i2)[1].first;
+                        int pos22 = positions.at(i2)[1].second;
+                        int idx31 = positions.at(i1)[2].first;
+                        int pos31 = positions.at(i1)[2].second;
+                        int idx32 = positions.at(i2)[2].first;
+                        int pos32 = positions.at(i2)[2].second;
+                        for (size_t j11 = 0; j11 < tmp[idx11].size(); j11++)
+                        {
+                            int w11 = (pos11 == 0) ? tmp[idx11][j11].first.second : tmp[idx11][j11].second.second;
+
+                            for (size_t j12 = 0; j12 < tmp[idx12].size(); j12++)
+                            {
+                                int w12 = (pos12 == 0) ? tmp[idx12][j12].first.second : tmp[idx12][j12].second.second;
+
+                                for (size_t j21 = 0; j21 < tmp[idx21].size(); j21++)
+                                {
+                                    int w21 = (pos21 == 0) ? tmp[idx21][j21].first.second : tmp[idx21][j21].second.second;
+
+                                    for (size_t j22 = 0; j22 < tmp[idx22].size(); j22++)
+                                    {
+                                        int w22 = (pos22 == 0) ? tmp[idx22][j22].first.second : tmp[idx22][j22].second.second;
+
+                                        for (size_t j31 = 0; j31 < tmp[idx31].size(); j31++)
+                                        {
+                                            int w31 = (pos31 == 0) ? tmp[idx31][j31].first.second : tmp[idx31][j31].second.second;
+
+                                            for (size_t j32 = 0; j32 < tmp[idx32].size(); j32++)
+                                            {
+                                                int w32 = (pos32 == 0) ? tmp[idx32][j32].first.second : tmp[idx32][j32].second.second;
+
+                                                if (w11 + w21 + w31 == 0 && w12 + w22 + w32 == 0)
+                                                {
+
+                                                    uni2[idx11][j11] = tmp[idx11][j11];
+                                                    uni2[idx21][j21] = tmp[idx21][j21];
+                                                    uni2[idx31][j31] = tmp[idx31][j31];
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                    std::vector<Sequence> uni_f2;
+                    for (const auto &subvec : uni2)
+                    {
+                        Sequence filtered_subvec;
+                        for (const auto &elem : subvec)
+                        {
+                            if (elem != std::make_pair(std::make_pair(0, 0), std::make_pair(0, 0)))
+                            {
+                                filtered_subvec.push_back(elem);
+                            }
+                        }
+                        uni_f2.push_back(filtered_subvec);
+                    }
                     //   std::vector<Sequence> tt = mergetuple(tmp);
 
                     int Nm = 0;
-                    for (const auto& subvec : tmp) {
-                        for (const auto& elem : subvec) {
+                    for (const auto &subvec : uni_f2)
+                    {
+                        for (const auto &elem : subvec)
+                        {
                             Nm = std::max({Nm, elem.first.first, elem.second.first});
                         }
                     }
@@ -184,53 +289,63 @@ else {
                     Sequence stack;
 
                     std::stack<std::pair<Sequence, int>> stackIndex;
-                    if (!tmp.empty())
-                    stackIndex.push(std::make_pair(stack, tmp.size() - 1));
+                    if (!uni_f2.empty())
+                        stackIndex.push(std::make_pair(stack, uni_f2.size() - 1));
 
-                    while (!stackIndex.empty()) {
-                    // Retrieve the top pair from stackIndex
-                    std::pair<Sequence, int> topPair = stackIndex.top();
-                    stackIndex.pop();
+                    while (!stackIndex.empty())
+                    {
+                        // Retrieve the top pair from stackIndex
+                        std::pair<Sequence, int> topPair = stackIndex.top();
+                        stackIndex.pop();
 
-                    // Extract curStack and curIndex from the top pair
-                    Sequence curStack = topPair.first;
-                    int curIndex = topPair.second;
+                        // Extract curStack and curIndex from the top pair
+                        Sequence curStack = topPair.first;
+                        int curIndex = topPair.second;
 
-                    // Retrieve the current sequence from tmp
-                    Sequence sequence = tmp[curIndex];
+                        // Retrieve the current sequence from uni_f2
+                        Sequence sequence = uni_f2[curIndex];
 
-                    // Iterate over elements of the current sequence
-                    for (const auto& tuple : sequence) {
-                        // Add tuple to curStack
-                        curStack.push_back(tuple);
+                        // Iterate over elements of the current sequence
+                        for (const auto &tuple : sequence)
+                        {
+                            // Add tuple to curStack
+                            curStack.push_back(tuple);
 
-                        if (curIndex == 0) {
-                        // If at the last sequence, add curStack to cartesian_product
-                        cartesian_product.push_back(curStack);
-                        } else {
-                        // Push curStack and curIndex - 1 to stackIndex
-                        stackIndex.push(std::make_pair(curStack, curIndex - 1));
+                            if (curIndex == 0)
+                            {
+                                // If at the last sequence, add curStack to cartesian_product
+                                cartesian_product.push_back(curStack);
+                            }
+                            else
+                            {
+                                // Push curStack and curIndex - 1 to stackIndex
+                                stackIndex.push(std::make_pair(curStack, curIndex - 1));
+                            }
+
+                            // Remove the last tuple from curStack
+                            curStack.pop_back();
                         }
-
-                        // Remove the last tuple from curStack
-                        curStack.pop_back();
-                    }
                     }
                     std::vector<Sequence> res;
 
-                    for (const auto& u : cartesian_product) {
+                    for (const auto &u : cartesian_product)
+                    {
                         bool allZero = true;
-                        for (const auto& pp : u) {
+                        for (const auto &pp : u)
+                        {
                             vy[pp.first.first] += pp.first.second;
                             vy[pp.second.first] += pp.second.second;
                         }
-                        for (int val : vy) {
-                            if (val != 0) {
-                            allZero = false;
-                            break;
+                        for (int val : vy)
+                        {
+                            if (val != 0)
+                            {
+                                allZero = false;
+                                break;
                             }
                         }
-                        if (allZero) {
+                        if (allZero)
+                        {
                             res.push_back(u);
                         }
                         std::fill(vy.begin(), vy.end(), 0);
