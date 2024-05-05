@@ -7,11 +7,14 @@ namespace pnetc
     namespace feynman_module
     {
       void plus
-        ()
+        ( const unsigned long& s
+        , unsigned long& sum
+        )
       {
-#line 291 "/home/atraore/gpi/try_gpi/gpispace/workflow/feynman.xpnet"
+#line 296 "/home/atraore/gpi/try_gpi/gpispace/workflow/feynman.xpnet"
 
-        
+            sum += s;
+          
       }
     }
   }

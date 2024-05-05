@@ -3,13 +3,13 @@
   <in name="degree" type="int" place="degree"/>
   <in name="N" type="int" place="N"/>
   <in name="graph" type="string" place="graph"/>
-  <out name="L" type="unsigned long" place="L"/> 
+  <out name="sum" type="unsigned long" place="sum"/> 
 
   <net>
     <place name="degree" type="int"/>
     <place name="N" type="int"/>
-  <place name="fey_out" type="unsigned long" />
-
+   <place name="fey_out" type="unsigned long" />
+ 
     <transition name="partition">
       <defun>
         <in name="d" type="int"/>
@@ -283,62 +283,23 @@ return fe;
       <connect-out port="s" place="fey_out"/>
     </transition>
    
-    <transition name="RHS">
-      <defun>
-        <inout name="a" type="unsigned long"/>
-        <inout name="s" type="control"/>
-        <module name="feynman_module" function="plus()">
-        <code><![CDATA[
-        ]]></code>
-        </module>
-      </defun>
-      <connect-in port="a" place="fey_out"/>
-      <connect-in port="s" place="right_init"/>
-      <connect-out port="s" place="left_init"/>
-      <connect-out port="a" place="R"/>
-
-    </transition>
-<place name="left_init" type="control">
-  <token><value>[]</value></token>
-</place>
-<place name="right_init" type="control"/>
-
-    <transition name="LHS">
-      <defun>
-        <inout name="a" type="unsigned long"/>
-        <inout name="s" type="control"/>
-
-        <module name="feynman_module" function="count()">
-        <code><![CDATA[
-          
-        ]]></code>
-        </module>
-      </defun>
-      <connect-in port="s" place="left_init"/>
-      <connect-out port="s" place="right_init"/>
-      <connect-in port="a" place="fey_out"/>
-      <connect-out port="a" place="L"/>
-    </transition>
-
-
-<place name="L" type="unsigned long"/>
-<place name="R" type="unsigned long"/>
-
+    <place name="sum" type="unsigned long">
+      <token>
+        <value>0UL</value>
+      </token>
+    </place>
     <transition name="Reduce">
       <defun>
-        <out name="s" type="unsigned long"/>
-        <in name="l" type="unsigned long"/>
-        <in name="r" type="unsigned long"/>
-        <module name="feynman_module" function=" s add(s,l,r)">
-        <code><![CDATA[
-        unsigned long su = l + r;
-        return su;
-        ]]></code>
+        <in name="s" type="unsigned long"/>
+       <inout name="sum" type="unsigned long"/>
+       <module name="feynman_module" function="plus (s, sum)">
+          <code><![CDATA[
+            sum += s;
+          ]]></code>
         </module>
       </defun>
-      <connect-in port="l" place="L"/>
-      <connect-in port="r" place="R"/>
-      <connect-out port="s" place="fey_out"/>
+      <connect-in port="s" place="fey_out"/>
+      <connect-inout port="sum" place="sum"/>
     </transition>
   </net>
 
