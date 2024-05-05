@@ -4,7 +4,7 @@ CwAAAAAAAAA=
 0 0 11 13 0 0 0
 
 CgAAAAAAAAA=
-0 0 1 R 0 0 0 3 int 0 0 0 0 0 0 0 15 0 0 0 0
+0 0 1 R 0 0 0 13 unsigned long 0 0 0 0 0 0 0 15 0 0 0 0
 
 CQAAAAAAAAA=
 10 right_init 0 7 control 0 15 0 0
@@ -16,7 +16,7 @@ BwAAAAAAAAA=
 5 graph 0 6 string 0 15 0 0
 
 BgAAAAAAAAA=
-1 L 0 3 int 0 15 0 0
+1 L 0 13 unsigned long 0 15 0 0
 
 BQAAAAAAAAA=
 4 sign 0 6 string 0 15 0 0
@@ -25,7 +25,7 @@ BAAAAAAAAAA=
 9 d_vectors 0 4 list 0 15 0 0
 
 AwAAAAAAAAA=
-7 fey_out 0 3 int 0 15 0 0
+7 fey_out 0 13 unsigned long 0 15 0 0
 
 AgAAAAAAAAA=
 10 branchtype 0 4 list 0 15 0 0
@@ -73,7 +73,7 @@ BwAAAAAAAAA=
 0 0 7 13 0 0 0
 
 BgAAAAAAAAA=
-9 partition 0 0 0 10 sum_degree 7 sum_deg 0 0 0 1 0 0 0 0 0 0 0 1 1 0 0 0 0 0 2 13 0 0 0 0 0
+9 partition 0 0 0 14 feynman_module 7 sum_deg 0 0 0 1 0 0 0 0 0 0 0 1 1 0 0 0 0 0 2 13 0 0 0 0 0
 
 AQAAAAAAAAA=
 0 0 1 n 0 0 0 0 0 0 3 int 0 0 0 15 0 0
@@ -91,19 +91,19 @@ AAA=
 0 0 0
 
 BQAAAAAAAAA=
-3 LHS 0 5 token 5 count 0 1 0 0 0 0 0 1 1 0 2 13 0
+3 LHS 0 14 feynman_module 5 count 0 1 0 0 0 0 0 1 1 0 2 13 0
 
 AQAAAAAAAAA=
 1 s 0 0 7 control 0 15 0 0
 
 AAAAAAAAAAA=
-1 a 0 0 3 int 0 15 0 0 2 13 0
+1 a 0 0 13 unsigned long 0 15 0 0 2 13 0
 
 AwAAAAAAAAA=
 1 s 1 0 7 control 0 15 0 0
 
 AgAAAAAAAAA=
-1 a 1 0 3 int 0 15 0 0 0 1 0
+1 a 1 0 13 unsigned long 0 15 0 0 0 1 0
 
 BAAAAAAAAAA=
 15 0 0 0 0 0 0
@@ -112,7 +112,7 @@ AAA=
 0
 
 BAAAAAAAAAA=
-11 Combination 0 15 combination_vec 9 partition 0 1 0 0 0 0 0 1 1 0 1 13 0
+11 Combination 0 14 feynman_module 9 partition 0 1 0 0 0 0 0 1 1 0 1 13 0
 
 AAAAAAAAAAA=
 1 v 0 0 4 list 0 15 0 0 1 13 0
@@ -127,7 +127,7 @@ AAA=
 0
 
 AwAAAAAAAAA=
-9 signature 0 9 signature 27 signature_and_multiplicitie 0 1 0 0 0 0 0 1 1 0 2 13 0
+9 signature 0 14 feynman_module 28 signature_and_multiplicities 0 1 0 0 0 0 0 1 1 0 2 13 0
 
 AQAAAAAAAAA=
 1 G 0 0 6 string 0 15 0 0
@@ -145,7 +145,7 @@ AAA=
 0
 
 AgAAAAAAAAA=
-14 feynman_degree 0 7 feynman 23 feynman_integral_degree 0 1 0 0 0 0 0 1 1 0 2 13 0
+14 feynman_degree 0 14 feynman_module 23 feynman_integral_degree 0 1 0 0 0 0 0 1 1 0 2 13 0
 
 AQAAAAAAAAA=
 1 G 0 0 6 string 0 15 0 0
@@ -154,7 +154,7 @@ AAAAAAAAAAA=
 1 a 0 0 6 string 0 15 0 0 1 13 0
 
 AgAAAAAAAAA=
-1 s 1 0 3 int 0 15 0 0 0 1 0
+1 s 1 0 13 unsigned long 0 15 0 0 0 1 0
 
 AwAAAAAAAAA=
 15 0 0 0 0 0 0
@@ -163,19 +163,19 @@ AAA=
 0
 
 AQAAAAAAAAA=
-3 RHS 0 5 token 4 plus 0 1 0 0 0 0 0 1 1 0 2 13 0
+3 RHS 0 14 feynman_module 4 plus 0 1 0 0 0 0 0 1 1 0 2 13 0
 
 AQAAAAAAAAA=
 1 s 0 0 7 control 0 15 0 0
 
 AAAAAAAAAAA=
-1 a 0 0 3 int 0 15 0 0 2 13 0
+1 a 0 0 13 unsigned long 0 15 0 0 2 13 0
 
 AwAAAAAAAAA=
 1 s 1 0 7 control 0 15 0 0
 
 AgAAAAAAAAA=
-1 a 1 0 3 int 0 15 0 0 0 1 0
+1 a 1 0 13 unsigned long 0 15 0 0 0 1 0
 
 BAAAAAAAAAA=
 15 0 0 0 0 0 0
@@ -184,16 +184,16 @@ AAA=
 0
 
 AAAAAAAAAAA=
-6 Reduce 0 3 sum 3 add 0 1 0 0 0 0 0 1 1 0 2 13 0
+6 Reduce 0 14 feynman_module 3 add 0 1 0 0 0 0 0 1 1 0 2 13 0
 
 AgAAAAAAAAA=
-1 r 0 0 3 int 0 15 0 0
+1 r 0 0 13 unsigned long 0 15 0 0
 
 AQAAAAAAAAA=
-1 l 0 0 3 int 0 15 0 0 1 13 0
+1 l 0 0 13 unsigned long 0 15 0 0 1 13 0
 
 AAAAAAAAAAA=
-1 s 1 0 3 int 0 15 0 0 0 1 0
+1 s 1 0 13 unsigned long 0 15 0 0 0 1 0
 
 AwAAAAAAAAA=
 15 0 0 0 0 0 0
@@ -502,7 +502,7 @@ AAAAAAAAAAA=
 15 0 0 1 13 0
 
 AwAAAAAAAAA=
-1 L 1 0 3 int 1 0
+1 L 1 0 13 unsigned long 1 0
 
 BgAAAAAAAAA=
 15 0 0 0 1 0

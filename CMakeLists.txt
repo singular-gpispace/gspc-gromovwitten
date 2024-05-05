@@ -21,15 +21,22 @@ bundle_GPISpace(DESTINATION "${BUNDLE_ROOT}/gpispace"
   COMPONENTS runtime
 )
 
-# extended_add_library (NAME feynman_implementation
-# TYPE SHARED
-# SOURCES "src/test.cpp"
-# INCLUDE_DIRECTORIES PUBLIC "${CMAKE_SOURCE_DIR}"
-# COMPILE_DEFINITIONS SING_NDEBUG OM_NDEBUG
-# INSTALL INSTALL_DESTINATION "lib"
-# )
-add_library(feynman_implementation SHARED "src/test.cpp" "src/feynman.cpp" "src/state.cpp")
+# FLINT include and library directories
+set(FLINT_INCLUDE_DIR "/usr/local/include/flint/")
+set(FLINT_LIB_DIR "/usr/local/lib/")
+
+# FLINT include directory
+include_directories(${FLINT_INCLUDE_DIR})
+
+# FLINT library directory
+link_directories(${FLINT_LIB_DIR})
+
+# Configure and add  library target
+add_library(feynman_implementation SHARED "src/feynman.cpp")
 target_include_directories(feynman_implementation PUBLIC "${CMAKE_SOURCE_DIR}")
+
+# Link against FLINT library
+target_link_libraries(feynman_implementation PRIVATE flint)
 
 set_target_properties(feynman_implementation
   PROPERTIES
@@ -90,7 +97,6 @@ extended_add_executable(NAME "${DRIVER_BINARY}"
   src/Workflow.cpp
   src/WorkflowResult.cpp
   src/ValuesOnPorts.cpp
-  src/state.cpp
 
   INCLUDE_DIRECTORIES PRIVATE include
   LIBRARIES PRIVATE Util::Generic
