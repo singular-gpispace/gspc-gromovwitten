@@ -3,12 +3,12 @@
   <in name="degree" type="int" place="degree"/>
   <in name="N" type="int" place="N"/>
   <in name="graph" type="string" place="graph"/>
-  <out name="L" type="int" place="L"/> 
+  <out name="L" type="unsigned long" place="L"/> 
 
   <net>
     <place name="degree" type="int"/>
     <place name="N" type="int"/>
-  <place name="fey_out" type="int" />
+  <place name="fey_out" type="unsigned long" />
 
     <transition name="partition">
       <defun>
@@ -16,7 +16,7 @@
         <in name="n" type="int"/>
         <out name="v" type="list"/> 
 
-        <module name="sum_degree" function=" sum_deg (n,d,v)">
+        <module name="feynman_module" function=" sum_deg (n,d,v)">
           <cinclude href="iostream"/>
           <cinclude href="vector"/>
           <cinclude href="sstream"/>
@@ -50,7 +50,7 @@
         <in name="v" type="list"/>
         <out name="vec" type="list"/>
 
-        <module name="combination_vec" function=" partition(v, vec)">
+        <module name="feynman_module" function=" partition(v, vec)">
           <cinclude href="iostream"/>
           <cinclude href="vector"/>
           <cinclude href="numeric"/>
@@ -64,74 +64,19 @@
               x.push_back(*ptr);
             
           }
-          /*
-            std::vector<std::vector<int>> comb = generate_combination(x);
-            for (const auto& element : comb) {
-            std::list<pnet::type::value::value_type> temp;
-                for (int xi : element) {
-                  temp.push_back(pnet::type::value::value_type(xi));
-                }
-                vec.push_back(temp);
-            }
-            */
-          int k=x.size();
-        if (k == 0) {
-            throw std::invalid_argument("k should be nonzero");
-        }
-        std::vector<std::vector<int> > ru;
-        int d= std::accumulate(x.begin(),x.end(),0);
-        std::vector<int> xv(k , 0);
-        xv[0] = d;
-        if (xv==x){
-        std::list<pnet::type::value::value_type> tempxv;
-        for (int xi : x) {
-            tempxv.push_back(pnet::type::value::value_type(xi));
-        }
-        vec.push_back(tempxv);
-        }
-        int n = 1;
-        int nn=d + k - 1;
-        int k1=d;
-        for (int i = 1; i <= k1; ++i) {
-            n *= (nn - i + 1);
-            n /= i;
-        }        int e = d - x[0];
-        std::vector<int> a = x;    
-        std::vector<int> y(k, 0); 
-        y[0] = x[0] - 1;
-        y[k - 1] = e + 1;
-        
-        for (int i = 0; i < n; ++i) {
-            if (a != y) {
-                //a = next_partition(a);
-                for (int i = k - 1; i >= 0; --i) {
-                    if (i == k - 1 && a[i] == d) {
-                        //vec.push_back(a);
-                        break;
-                    } else {
-                        for (int j = i - 1; j >= 0; --j) {
-                            if (a[j] != 0) {
-                                --a[j];
-                                int ak = a[k - 1];
-                                a[k - 1] = 0;
-                                a[j + 1] = ak + 1;
-                            // vec.push_back(a);
-                                break;                       
-                                }
-                        }
-                    }
-                    //vec.push_back(a);
-                    break;
-                }
-          std::list<pnet::type::value::value_type> temp_a;
-        for (int xi : a) {
+      
+    vector2d gen=iterate( x);
+      using pnet_value = pnet::type::value::value_type;
+    using pnet_list = std::list<pnet_value>;
+        for (std::vector<int> &a : gen)
+    {
+        pnet_list temp_a;
+        for (int xi : a)
+        {
             temp_a.push_back(pnet::type::value::value_type(xi));
         }
         vec.push_back(temp_a);
-            } else {
-                break;
-            }
-        }
+    }
 
           ]]></code>
         </module>
@@ -147,14 +92,15 @@
     <in name="a" type="list"/>
     <in name="G" type="string"/>
     <out name="s" type="list"/>
-    <module name="signature" function=" signature_and_multiplicitie(G, a,s)">
+    <module name="feynman_module" function=" signature_and_multiplicities(G, a,s)">
       <cinclude href="iostream"/>
       <cinclude href="vector"/>
       <cinclude href="numeric"/>
       <cinclude href="sstream"/>
-            <cinclude href="tuple"/>
+            <cinclude href="algorithm"/>
+      <cinclude href="tuple"/>
+         <cinclude href="feynman.hpp"/>
 
-      <cinclude href="../include/feynman/feynman.hpp"/>
 
       <code><![CDATA[
         std::string G_copy=G;
@@ -204,154 +150,16 @@
           }
         }
 
-                  std::vector<std::tuple<int, std::vector<int>>> f;
-
-        std::vector<int> av;
+            std::vector<int> av;
         for (const auto& elem : a) {
           if (auto ptr = boost::get<int>(&elem)) {
             av.push_back(*ptr);
           }
         }
-        if (av.size() != Gv.size()) {
-          throw std::runtime_error("av should be of length " + std::to_string(Gv.size()) + ", but it is of size " + std::to_string(av.size()));
-        } else {
-          std::unordered_set<int> nbv;
-          for (const auto& e : Gv) {
-            nbv.insert(e.first);
-            nbv.insert(e.second);
-          }
-          int nv = nbv.size();
-          //nb vertices.
-          int N = std::accumulate(av.begin(), av.end(), 0);
-          // std::vector<std::tuple<int, std::vector<int>>> f = signature_and_multiplicitie(Gv, av);
-          std::vector<int> p;
-          std::vector<std::tuple<int, std::vector<int>>> b;
-          std::vector<int> l(nv, 0);
-          for (size_t i = 0; i < Gv.size(); i++) {
-            int ai = av[i];
-            std::pair<int, int> ev = Gv[i];
-            if (ai == 0 && ev.first != ev.second) {
-              l[ev.first - 1] = 1;
-              l[ev.second - 1] = 1;
-            }
-          }
-          for (size_t i = 0; i < l.size(); i++) {
-            int li = l[i];
-            if (li == 1) {
-              p.push_back(i + 1);
-            }
-          }
-          std::sort(p.begin(), p.end());
-          std::vector<std::vector<int>> per;
-          do {
-            per.push_back(p);
-          }
-          while (std::next_permutation(p.begin(), p.end()));
-          int fact = 1;
-          for (int i = 1; i <= nv; i++) {
-            fact *= i;
-          }
-          for (const auto& ga : per) {
-            std::vector<int> flip(av.size(), 0);
-            for (size_t i = 0; i < av.size(); ++i) {
-              int ai = av[i];
-              std::pair<int, int> ev = Gv[i];
-              if (ai == 0 && ev.first != ev.second) {
-                int ii = -1;
-                int ij = -1;
-                for (size_t j = 0; j < ga.size(); ++j) {
-                  if (ga[j] == ev.first) {
-                    ii = j;
-                  }
-                  if (ga[j] == ev.second) {
-                    ij = j;
-                  }
-                }
-                if (ii != -1 && ij != -1) {
-                  if (ii < ij) {
-                    flip[i] = -1;
-                  } else {
-                    flip[i] = 0;
-                  }
-                }
-              } else if (ev.first == ev.second) {
-                flip[i] = -2;
-              } else if (ai != 0 && ev.first != ev.second) {
-                flip[i] = ai;
-              }
-            }
-            std::vector<int> tmp=    flip;
-            bool comp = false;
-            int j = 0;
-            while (!comp && j < b.size()) {
-              int tt=1;
-              std::vector<int> bb=std::get<1>(b[j]);
-              if (tmp.size() != bb.size()) 
-                            tt=0;
-              for (std::size_t i = 0; i < tmp.size(); ++i) {
-                if (tmp[i] != bb[i])
-                                  tt=0;
-              }
-              if (tt) {
-                // Accessing the second element of the tuple
-                comp = true;
-                std::get<0>(b[j]) += 1;
-              } else {
-                j++;
-              }
-            }
-            if (!comp) {
-              b.push_back(std::make_tuple(1, tmp));
-            }
-          }
-          for (auto& tuple : b) {
-            int& element = std::get<0>(tuple);
-            // std::cout<<" element "<<element<<std::endl;
-            element *= fact / per.size();
-          }
-          if (b.size() == 1) {
-            f= b;
-          } else {
-            std::vector<std::tuple<int, std::vector<int>>> group;
-            for (const auto& pair1 : b) {
-              int n = std::get<0>(pair1);
-              std::vector<int> values1 = std::get<1>(pair1);
-              int mm = 2 * n;
-              auto it1 = std::find(group.begin(), group.end(), pair1);
-              auto it2 = std::find(group.begin(), group.end(), std::make_tuple(mm, values1));
-              if (it1 != group.end() || it2 != group.end()) {
-                continue;
-              }
-              bool equiv = false;
-              for (const auto& pair2 : b) {
-                int m = std::get<0>(pair2);
-                std::vector<int> values2 = std::get<1>(pair2);
-                int mm = 2 * n;
-                auto it1 = std::find(group.begin(), group.end(), pair2);
-                auto it2 = std::find(group.begin(), group.end(), std::make_tuple(2 * m, values2));
-                if (it1 != group.end() || it2 != group.end()) {
-                  continue;
-                }
-                std::vector<int> result_arr;
-                for (int x : values2) {
-                  result_arr.push_back(x == -1 ? 0 : (x == 0 ? -1 : x));
-                }
-                if (n == m && values1 == result_arr) {
-                  equiv = true;
-                  break;
-                }
-              }
-              // std::cout <<" equiv = " <<equiv << std::endl;
-              if (equiv) {
-                group.push_back(std::make_tuple(mm, values1));
-              }
-            }
-            f=group;
-          }
-        }
-    
-using pnet_value = pnet::type::value::value_type;
-using pnet_list = std::list<pnet_value>;
+
+    std::vector<std::tuple<int, std::vector<int>>> f= signature_and_multiplicitie( Gv,   av);
+    using pnet_value = pnet::type::value::value_type;
+    using pnet_list = std::list<pnet_value>;
     for (const auto& tuple : f) {
         int index = std::get<0>(tuple);
         const auto& fiVector = std::get<1>(tuple); // Get the vector<int> fi
@@ -388,9 +196,9 @@ using pnet_list = std::list<pnet_value>;
       <defun>
         <in name="a" type="string"/>
         <in name="G" type="string"/>
-        <out name="s" type="int"/>
+        <out name="s" type="unsigned long"/>
 
-        <module name="feynman" function="s feynman_integral_degree(G,a)">
+        <module name="feynman_module" function="s feynman_integral_degree(G,a)">
         <cinclude href="iostream"/>
         <cinclude href="vector"/>
         <cinclude href="numeric"/>
@@ -402,7 +210,7 @@ using pnet_list = std::list<pnet_value>;
         <cinclude href="sstream"/>
         <cinclude href="stack"/>
         <cinclude href="unordered_set"/>
-        <cinclude href="../include/feynman/feynman.hpp"/>
+         <cinclude href="feynman.hpp"/>
         <code><![CDATA[
 std::string G_copy=G;
 // Remove double quotes at the beginning and end
@@ -464,291 +272,11 @@ while (iss >> value) {
     av.push_back(value); // Read each integer and push it into the vector
     iss >> comma; // Read the comma after each integer
 }
-if (av.size() != Gv.size()) {
-	throw std::runtime_error("av should be of length " + std::to_string(Gv.size()) + ", but it is of size " + std::to_string(av.size()));
-} 
-else {
-	std::unordered_set<int> nbv;
-	for (const auto& e : Gv) {
-		nbv.insert(e.first);
-		nbv.insert(e.second);
-	}
-	int nv = nbv.size();
-	//nb vertices.
-  int N = std::accumulate(av.begin(), av.end(), 0, [](int sum, int val) {
-        return sum + (val > 0 ? val : 0);
-    });        
-    
-  int myfey;
-      std::vector<int> fey;
-        for (int i = 1; i <= 1; ++i) {
-            int j=0;
-            std::vector<Sequence> tmp;
-                for (const auto& multiplicity : av) {
-                    if (multiplicity == -1) {
-                                    Sequence v;
+unsigned long fe= feynman_integral_type( Gv,  std::make_tuple(factor, std::vector<int>{}), av);
+return fe;
 
-                        for (int i = 1; i <= N; ++i) {
-
-                        if (Gv[j].second < Gv[j].first)
-                            v.push_back(std::make_pair(std::make_pair(Gv[j].second, -i),
-                                                    std::make_pair(Gv[j].first, +i)));
-                        else
-                            v.push_back(std::make_pair(std::make_pair(Gv[j].first, +i),
-                                                    std::make_pair(Gv[j].second, -i)));
-                        }
-                            /*   std::cout << "cons result:" << std::endl;
-                                                    std::cout << "multiplicity :" <<multiplicity <<std::endl;
-
-                                for (const auto& item : v) {  
-                                std::cout << "(" << item.first.first << ", " << item.first.second << "), (" 
-                                        << item.second.first << ", " << item.second.second << ")" << std::endl;
-                                }
-                                std::cout  << std::endl; */
-                        tmp.push_back(v);
-                    } 
-                    else if (multiplicity == 0) {
-                                    Sequence vv;
-
-                        for (int i = 1; i <= N; ++i) {
-                            if (Gv[j].first < Gv[j].second){
-                                vv.push_back(std::make_pair(std::make_pair(Gv[j].first, -i),
-                                                            std::make_pair(Gv[j].second, +i)));
-                            }
-                            else{
-                                vv.push_back(std::make_pair(std::make_pair(Gv[j].second, +i),
-                                                            std::make_pair(Gv[j].first, -i)));
-                            }
-                        }
-                        tmp.push_back(vv);
-                        /*  std::cout << "cons result 0 :" << std::endl;
-                        for (const auto& item : vv) {  
-                        std::cout << "(" << item.first.first << ", " << item.first.second << "), (" 
-                                << item.second.first << ", " << item.second.second << ")" << std::endl;
-                        }
-                        std::cout << " " << std::endl; */
-
-                    } 
-                    else {
-                            Sequence x_powers;
-
-                        for (int w = 1; w <= multiplicity; ++w) {
-                            if (multiplicity % w == 0) {
-                                x_powers.push_back(
-                                    std::make_pair(std::make_pair(Gv[j].first, +w),
-                                                std::make_pair(Gv[j].second, -w)));
-                                x_powers.push_back(
-                                    std::make_pair(std::make_pair(Gv[j].first, -w),
-                                                std::make_pair(Gv[j].second, +w)));
-                            }
-                        }
-                        tmp.push_back(x_powers);
-                    }
-
-                    j++;
-                }
-
-                
-                      std::unordered_map<int, std::vector<std::pair<int, int>>> positions_dict;
-
-                    for (int i = 0; i < Gv.size(); i++)
-                    {
-                        int x = Gv[i].first;
-                        int y = Gv[i].second;
-
-                        if (positions_dict.count(x))
-                        {
-                            positions_dict[x].emplace_back(i, 0);
-                        }
-                        else
-                        {
-                            positions_dict[x] = {{i, 0}};
-                        }
-
-                        if (positions_dict.count(y))
-                        {
-                            positions_dict[y].emplace_back(i, 1);
-                        }
-                        else
-                        {
-                            positions_dict[y] = {{i, 1}};
-                        }
-                    }
-                    std::unordered_map<int, std::vector<std::pair<int, int>>> positions = positions_dict;
-
-                    std::vector<Sequence> uni2(tmp.size());
-                    for (size_t u = 0; u < tmp.size(); u++)
-                    {
-                        uni2[u] = Sequence(tmp[u].size(), std::make_pair(std::make_pair(0, 0), std::make_pair(0, 0)));
-                    }
-
-                    for (const auto &pair : Gv)
-                    {
-                        int i1 = pair.first;
-                        int i2 = pair.second;
-                        int idx11 = positions.at(i1)[0].first;
-                        int pos11 = positions.at(i1)[0].second;
-
-                        int idx12 = positions.at(i2)[0].first;
-                        int pos12 = positions.at(i2)[0].second;
-
-                        int idx21 = positions.at(i1)[1].first;
-                        int pos21 = positions.at(i1)[1].second;
-                        int idx22 = positions.at(i2)[1].first;
-                        int pos22 = positions.at(i2)[1].second;
-                        int idx31 = positions.at(i1)[2].first;
-                        int pos31 = positions.at(i1)[2].second;
-                        int idx32 = positions.at(i2)[2].first;
-                        int pos32 = positions.at(i2)[2].second;
-                        for (size_t j11 = 0; j11 < tmp[idx11].size(); j11++)
-                        {
-                            int w11 = (pos11 == 0) ? tmp[idx11][j11].first.second : tmp[idx11][j11].second.second;
-
-                            for (size_t j12 = 0; j12 < tmp[idx12].size(); j12++)
-                            {
-                                int w12 = (pos12 == 0) ? tmp[idx12][j12].first.second : tmp[idx12][j12].second.second;
-
-                                for (size_t j21 = 0; j21 < tmp[idx21].size(); j21++)
-                                {
-                                    int w21 = (pos21 == 0) ? tmp[idx21][j21].first.second : tmp[idx21][j21].second.second;
-
-                                    for (size_t j22 = 0; j22 < tmp[idx22].size(); j22++)
-                                    {
-                                        int w22 = (pos22 == 0) ? tmp[idx22][j22].first.second : tmp[idx22][j22].second.second;
-
-                                        for (size_t j31 = 0; j31 < tmp[idx31].size(); j31++)
-                                        {
-                                            int w31 = (pos31 == 0) ? tmp[idx31][j31].first.second : tmp[idx31][j31].second.second;
-
-                                            for (size_t j32 = 0; j32 < tmp[idx32].size(); j32++)
-                                            {
-                                                int w32 = (pos32 == 0) ? tmp[idx32][j32].first.second : tmp[idx32][j32].second.second;
-
-                                                if (w11 + w21 + w31 == 0 && w12 + w22 + w32 == 0)
-                                                {
-
-                                                    uni2[idx11][j11] = tmp[idx11][j11];
-                                                    uni2[idx21][j21] = tmp[idx21][j21];
-                                                    uni2[idx31][j31] = tmp[idx31][j31];
-                                                }
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-
-                    std::vector<Sequence> uni_f2;
-                    for (const auto &subvec : uni2)
-                    {
-                        Sequence filtered_subvec;
-                        for (const auto &elem : subvec)
-                        {
-                            if (elem != std::make_pair(std::make_pair(0, 0), std::make_pair(0, 0)))
-                            {
-                                filtered_subvec.push_back(elem);
-                            }
-                        }
-                        uni_f2.push_back(filtered_subvec);
-                    }
-                    //   std::vector<Sequence> tt = mergetuple(tmp);
-
-                    int Nm = 0;
-                    for (const auto &subvec : uni_f2)
-                    {
-                        for (const auto &elem : subvec)
-                        {
-                            Nm = std::max({Nm, elem.first.first, elem.second.first});
-                        }
-                    }
-                    std::vector<int> vy(Nm + 1, 0);
-                    std::vector<Sequence> cartesian_product;
-                    Sequence stack;
-
-                    std::stack<std::pair<Sequence, int>> stackIndex;
-                    if (!uni_f2.empty())
-                        stackIndex.push(std::make_pair(stack, uni_f2.size() - 1));
-
-                    while (!stackIndex.empty())
-                    {
-                        // Retrieve the top pair from stackIndex
-                        std::pair<Sequence, int> topPair = stackIndex.top();
-                        stackIndex.pop();
-
-                        // Extract curStack and curIndex from the top pair
-                        Sequence curStack = topPair.first;
-                        int curIndex = topPair.second;
-
-                        // Retrieve the current sequence from uni_f2
-                        Sequence sequence = uni_f2[curIndex];
-
-                        // Iterate over elements of the current sequence
-                        for (const auto &tuple : sequence)
-                        {
-                            // Add tuple to curStack
-                            curStack.push_back(tuple);
-
-                            if (curIndex == 0)
-                            {
-                                // If at the last sequence, add curStack to cartesian_product
-                                cartesian_product.push_back(curStack);
-                            }
-                            else
-                            {
-                                // Push curStack and curIndex - 1 to stackIndex
-                                stackIndex.push(std::make_pair(curStack, curIndex - 1));
-                            }
-
-                            // Remove the last tuple from curStack
-                            curStack.pop_back();
-                        }
-                    }
-                    std::vector<Sequence> res;
-
-                    for (const auto &u : cartesian_product)
-                    {
-                        bool allZero = true;
-                        for (const auto &pp : u)
-                        {
-                            vy[pp.first.first] += pp.first.second;
-                            vy[pp.second.first] += pp.second.second;
-                        }
-                        for (int val : vy)
-                        {
-                            if (val != 0)
-                            {
-                                allZero = false;
-                                break;
-                            }
-                        }
-                        if (allZero)
-                        {
-                            res.push_back(u);
-                        }
-                        std::fill(vy.begin(), vy.end(), 0);
-                    }
-
-                    // int ty = sum_absolute_products(res);
-                    int ty = 0;
-                    for (auto& t : res) {
-                        int abs_product = 1.0;
-                        for (auto& ui : t) {
-                            abs_product *= abs(ui.first.second);
-                        }
-                        ty += abs_product;
-                    }
-                        fey.push_back(factor * ty);
-            myfey = std::accumulate(fey.begin(), fey.end(), 0.0);
-
-          //std::cout<<"myfey "<< myfey<<std::endl;
-
-          //std::cout<<"myfey "<< myfey<<std::endl;
-    }        
-          return myfey;
-}  
-        ]]></code>
-        </module>
+      ]]></code>
+      </module>
       </defun>
       <connect-read port="G" place="graph"/>
       <connect-in port="a" place="sign"/>
@@ -757,9 +285,9 @@ else {
    
     <transition name="RHS">
       <defun>
-        <inout name="a" type="int"/>
+        <inout name="a" type="unsigned long"/>
         <inout name="s" type="control"/>
-        <module name="token" function="plus()">
+        <module name="feynman_module" function="plus()">
         <code><![CDATA[
         ]]></code>
         </module>
@@ -777,10 +305,10 @@ else {
 
     <transition name="LHS">
       <defun>
-        <inout name="a" type="int"/>
+        <inout name="a" type="unsigned long"/>
         <inout name="s" type="control"/>
 
-        <module name="token" function="count()">
+        <module name="feynman_module" function="count()">
         <code><![CDATA[
           
         ]]></code>
@@ -793,17 +321,17 @@ else {
     </transition>
 
 
-<place name="L" type="int"/>
-<place name="R" type="int"/>
+<place name="L" type="unsigned long"/>
+<place name="R" type="unsigned long"/>
 
     <transition name="Reduce">
       <defun>
-        <out name="s" type="int"/>
-        <in name="l" type="int"/>
-        <in name="r" type="int"/>
-        <module name="sum" function=" s add(s,l,r)">
+        <out name="s" type="unsigned long"/>
+        <in name="l" type="unsigned long"/>
+        <in name="r" type="unsigned long"/>
+        <module name="feynman_module" function=" s add(s,l,r)">
         <code><![CDATA[
-        int su = l + r;
+        unsigned long su = l + r;
         return su;
         ]]></code>
         </module>

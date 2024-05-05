@@ -162,6 +162,19 @@ depend:
 .PHONY : depend
 
 #=============================================================================
+# Target rules for targets named feynman_implementation
+
+# Build rule for target.
+feynman_implementation: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 feynman_implementation
+.PHONY : feynman_implementation
+
+# fast build rule for target.
+feynman_implementation/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/feynman_implementation.dir/build.make CMakeFiles/feynman_implementation.dir/build
+.PHONY : feynman_implementation/fast
+
+#=============================================================================
 # Target rules for targets named compiled_petri_net
 
 # Build rule for target.
@@ -314,7 +327,7 @@ src/feynman.o: src/feynman.cpp.o
 
 # target to build an object file
 src/feynman.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/feynman.dir/build.make CMakeFiles/feynman.dir/src/feynman.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/feynman_implementation.dir/build.make CMakeFiles/feynman_implementation.dir/src/feynman.cpp.o
 .PHONY : src/feynman.cpp.o
 
 src/feynman.i: src/feynman.cpp.i
@@ -322,7 +335,7 @@ src/feynman.i: src/feynman.cpp.i
 
 # target to preprocess a source file
 src/feynman.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/feynman.dir/build.make CMakeFiles/feynman.dir/src/feynman.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/feynman_implementation.dir/build.make CMakeFiles/feynman_implementation.dir/src/feynman.cpp.i
 .PHONY : src/feynman.cpp.i
 
 src/feynman.s: src/feynman.cpp.s
@@ -330,7 +343,7 @@ src/feynman.s: src/feynman.cpp.s
 
 # target to generate assembly for a file
 src/feynman.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/feynman.dir/build.make CMakeFiles/feynman.dir/src/feynman.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/feynman_implementation.dir/build.make CMakeFiles/feynman_implementation.dir/src/feynman.cpp.s
 .PHONY : src/feynman.cpp.s
 
 src/main.o: src/main.cpp.o
@@ -381,30 +394,6 @@ src/parse_parameters_from_commandline.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/feynman.dir/build.make CMakeFiles/feynman.dir/src/parse_parameters_from_commandline.cpp.s
 .PHONY : src/parse_parameters_from_commandline.cpp.s
 
-src/state.o: src/state.cpp.o
-.PHONY : src/state.o
-
-# target to build an object file
-src/state.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/feynman.dir/build.make CMakeFiles/feynman.dir/src/state.cpp.o
-.PHONY : src/state.cpp.o
-
-src/state.i: src/state.cpp.i
-.PHONY : src/state.i
-
-# target to preprocess a source file
-src/state.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/feynman.dir/build.make CMakeFiles/feynman.dir/src/state.cpp.i
-.PHONY : src/state.cpp.i
-
-src/state.s: src/state.cpp.s
-.PHONY : src/state.s
-
-# target to generate assembly for a file
-src/state.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/feynman.dir/build.make CMakeFiles/feynman.dir/src/state.cpp.s
-.PHONY : src/state.cpp.s
-
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -421,6 +410,7 @@ help:
 	@echo "... feynman-bundled-libraries"
 	@echo "... workflow_library"
 	@echo "... feynman"
+	@echo "... feynman_implementation"
 	@echo "... src/ValuesOnPorts.o"
 	@echo "... src/ValuesOnPorts.i"
 	@echo "... src/ValuesOnPorts.s"
@@ -442,9 +432,6 @@ help:
 	@echo "... src/parse_parameters_from_commandline.o"
 	@echo "... src/parse_parameters_from_commandline.i"
 	@echo "... src/parse_parameters_from_commandline.s"
-	@echo "... src/state.o"
-	@echo "... src/state.i"
-	@echo "... src/state.s"
 .PHONY : help
 
 

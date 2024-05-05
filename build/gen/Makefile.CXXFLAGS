@@ -1,3 +1,3 @@
 CXXFLAGS += -O3
 CXXFLAGS += -I/home/atraore/gpi/try_gpi/gpispace/include
-CXXFLAGS += -I/home/atraore/gpi/try_gpi/gpispace/src
+CXXFLAGS += -I/home/atraore/gpi/try_gpi/gpispace/include/feynman

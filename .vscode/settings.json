@@ -82,7 +82,9 @@
         "thread": "cpp",
         "cfenv": "cpp",
         "cinttypes": "cpp",
-        "typeindex": "cpp"
+        "typeindex": "cpp",
+        "fstream": "cpp",
+        "valarray": "cpp"
     },
     "C_Cpp.default.compilerPath": "/usr/bin/g++-11"
 }

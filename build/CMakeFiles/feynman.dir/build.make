@@ -153,34 +153,6 @@ CMakeFiles/feynman.dir/src/ValuesOnPorts.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/feynman.dir/src/ValuesOnPorts.cpp.s"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/atraore/gpi/try_gpi/gpispace/src/ValuesOnPorts.cpp -o CMakeFiles/feynman.dir/src/ValuesOnPorts.cpp.s
 
-CMakeFiles/feynman.dir/src/state.cpp.o: CMakeFiles/feynman.dir/flags.make
-CMakeFiles/feynman.dir/src/state.cpp.o: ../src/state.cpp
-CMakeFiles/feynman.dir/src/state.cpp.o: CMakeFiles/feynman.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/atraore/gpi/try_gpi/gpispace/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building CXX object CMakeFiles/feynman.dir/src/state.cpp.o"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/feynman.dir/src/state.cpp.o -MF CMakeFiles/feynman.dir/src/state.cpp.o.d -o CMakeFiles/feynman.dir/src/state.cpp.o -c /home/atraore/gpi/try_gpi/gpispace/src/state.cpp
-
-CMakeFiles/feynman.dir/src/state.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/feynman.dir/src/state.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/atraore/gpi/try_gpi/gpispace/src/state.cpp > CMakeFiles/feynman.dir/src/state.cpp.i
-
-CMakeFiles/feynman.dir/src/state.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/feynman.dir/src/state.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/atraore/gpi/try_gpi/gpispace/src/state.cpp -o CMakeFiles/feynman.dir/src/state.cpp.s
-
-CMakeFiles/feynman.dir/src/feynman.cpp.o: CMakeFiles/feynman.dir/flags.make
-CMakeFiles/feynman.dir/src/feynman.cpp.o: ../src/feynman.cpp
-CMakeFiles/feynman.dir/src/feynman.cpp.o: CMakeFiles/feynman.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/atraore/gpi/try_gpi/gpispace/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Building CXX object CMakeFiles/feynman.dir/src/feynman.cpp.o"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/feynman.dir/src/feynman.cpp.o -MF CMakeFiles/feynman.dir/src/feynman.cpp.o.d -o CMakeFiles/feynman.dir/src/feynman.cpp.o -c /home/atraore/gpi/try_gpi/gpispace/src/feynman.cpp
-
-CMakeFiles/feynman.dir/src/feynman.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/feynman.dir/src/feynman.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/atraore/gpi/try_gpi/gpispace/src/feynman.cpp > CMakeFiles/feynman.dir/src/feynman.cpp.i
-
-CMakeFiles/feynman.dir/src/feynman.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/feynman.dir/src/feynman.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/atraore/gpi/try_gpi/gpispace/src/feynman.cpp -o CMakeFiles/feynman.dir/src/feynman.cpp.s
-
 # Object files for target feynman
 feynman_OBJECTS = \
 "CMakeFiles/feynman.dir/src/parse_parameters_from_commandline.cpp.o" \
@@ -188,9 +160,7 @@ feynman_OBJECTS = \
 "CMakeFiles/feynman.dir/src/main.cpp.o" \
 "CMakeFiles/feynman.dir/src/Workflow.cpp.o" \
 "CMakeFiles/feynman.dir/src/WorkflowResult.cpp.o" \
-"CMakeFiles/feynman.dir/src/ValuesOnPorts.cpp.o" \
-"CMakeFiles/feynman.dir/src/state.cpp.o" \
-"CMakeFiles/feynman.dir/src/feynman.cpp.o"
+"CMakeFiles/feynman.dir/src/ValuesOnPorts.cpp.o"
 
 # External object files for target feynman
 feynman_EXTERNAL_OBJECTS =
@@ -201,12 +171,11 @@ feynman: CMakeFiles/feynman.dir/src/main.cpp.o
 feynman: CMakeFiles/feynman.dir/src/Workflow.cpp.o
 feynman: CMakeFiles/feynman.dir/src/WorkflowResult.cpp.o
 feynman: CMakeFiles/feynman.dir/src/ValuesOnPorts.cpp.o
-feynman: CMakeFiles/feynman.dir/src/state.cpp.o
-feynman: CMakeFiles/feynman.dir/src/feynman.cpp.o
 feynman: CMakeFiles/feynman.dir/build.make
 feynman: /home/atraore/spack/opt/spack/linux-ubuntu22.04-skylake/gcc-11.3.0/gpi-space-23.06-gxye6b7ngsnbxnzjkfsfqtvanynyghdk/lib/libUtil-Generic.a
 feynman: /home/atraore/spack/opt/spack/linux-ubuntu22.04-skylake/gcc-11.3.0/boost-1.63.0-q5xh5vlq3ihagc7f5ql4erhsofvamt6m/lib/libboost_filesystem-mt.so
 feynman: /home/atraore/spack/opt/spack/linux-ubuntu22.04-skylake/gcc-11.3.0/boost-1.63.0-q5xh5vlq3ihagc7f5ql4erhsofvamt6m/lib/libboost_program_options-mt.so
+feynman: libfeynman_implementation.so
 feynman: /home/atraore/spack/opt/spack/linux-ubuntu22.04-skylake/gcc-11.3.0/boost-1.63.0-q5xh5vlq3ihagc7f5ql4erhsofvamt6m/lib/libboost_unit_test_framework-mt.so
 feynman: /home/atraore/spack/opt/spack/linux-ubuntu22.04-skylake/gcc-11.3.0/gpi-space-23.06-gxye6b7ngsnbxnzjkfsfqtvanynyghdk/lib/libgspc.so
 feynman: /home/atraore/spack/opt/spack/linux-ubuntu22.04-skylake/gcc-11.3.0/gpi-space-23.06-gxye6b7ngsnbxnzjkfsfqtvanynyghdk/lib/libwe-dev.so
@@ -223,7 +192,7 @@ feynman: /home/atraore/spack/opt/spack/linux-ubuntu22.04-skylake/gcc-11.3.0/boos
 feynman: /home/atraore/spack/opt/spack/linux-ubuntu22.04-skylake/gcc-11.3.0/boost-1.63.0-q5xh5vlq3ihagc7f5ql4erhsofvamt6m/lib/libboost_system-mt.so
 feynman: /home/atraore/spack/opt/spack/linux-ubuntu22.04-skylake/gcc-11.3.0/boost-1.63.0-q5xh5vlq3ihagc7f5ql4erhsofvamt6m/lib/libboost_atomic-mt.so
 feynman: CMakeFiles/feynman.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/atraore/gpi/try_gpi/gpispace/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Linking CXX executable feynman"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/atraore/gpi/try_gpi/gpispace/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Linking CXX executable feynman"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/feynman.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.

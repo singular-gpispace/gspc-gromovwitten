@@ -4,9 +4,9 @@
 #include <list>
 #include <tuple>
 #include <sstream> // for std::istringstream
-/* #include "../../code/boost/include/boost/variant.hpp"
-#include "../../code/util-generic/split.hpp"
-#include "../../code/we/type/value.hpp" */
+/* #include "../../../code/boost/include/boost/variant.hpp"
+#include "../../../code/util-generic/split.hpp"
+#include "../../../code/we/type/value.hpp" */
 #include <stdio.h>
 #include <flint/fmpz_mpoly.h>
 #include <stdlib.h> // for malloc and free
@@ -19,8 +19,21 @@
 #include <vector>     // Include for std::vector
 #include <numeric>
 #include <unordered_set> // for std::unordered_set
+/*
+using pnet_value = pnet::type::value::value_type;
+using pnet_list = std::list<pnet_value>;
+using pnet_list2d = std::list<std::list<pnet_value>>; */
+using vector2d = std::vector<std::vector<int>>;
+using list_type = std::list<std::string>; // Define list_type as std::list<std::string>
+
+vector2d gen_block(int d, int n);
+int binomial(int n, int k);
+std::vector<int> next_partition(std::vector<int> a);
+vector2d iterate(std::vector<int> xa);
+std::vector<std::tuple<int, std::vector<int>>> signature_and_multiplicitie(std::vector<std::pair<int, int>> G, const std::vector<int> a);
 
 void constterm(const int k, const int j, mp_limb_signed_t N, fmpz_mpoly_t result, const fmpz_mpoly_ctx_t ctx);
 void proterm(const int k, const int j, int a, mp_limb_signed_t N, fmpz_mpoly_t result, const fmpz_mpoly_ctx_t ctx);
-int feynman(std::vector<std::pair<int, int>> Gv, std::vector<int> av);
+int feynman_integral_type(std::vector<std::pair<int, int>> Gv, std::tuple<int, std::vector<int>> factor, std::vector<int> av);
+
 #endif // FEYNMAN_HPP

@@ -11,11 +11,11 @@ namespace feynman
   public:
     static ParametersDescription options();
 
-    Workflow(Parameters const& parameters);
+    Workflow(Parameters const &parameters);
 
     ValuesOnPorts inputs() const;
 
-    int process(WorkflowResult const& result) const;
+    int process(WorkflowResult const &result) const;
 
   private:
     int _N;
