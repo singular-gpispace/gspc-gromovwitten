@@ -27,7 +27,47 @@ using pnet_list2d = std::list<std::list<pnet_value>>;
 using vector2d = std::vector<std::vector<int>>;
 using list_type = std::list<std::string>; // Define list_type as std::list<std::string>
 
-vector2d gen_block(int d, int n)
+std::size_t get_memory_usage()
+{
+    struct rusage r_usage;
+    getrusage(RUSAGE_SELF, &r_usage);
+    return r_usage.ru_maxrss; // ru_maxrss is in kilobytes
+}
+
+template <typename Func>
+struct ResourceUsage
+{
+    std::size_t memory_usage; // in kilobytes
+    long long elapsed_time;   // in microseconds
+};
+
+template <typename Func>
+ResourceUsage<Func> measure_resource_usage(Func func)
+{
+    // Measure start time
+    auto start_time = std::chrono::steady_clock::now();
+
+    // Measure start memory usage
+    std::size_t start_memory = get_memory_usage();
+
+    // Execute the provided function
+    func();
+
+    // Measure end time
+    auto end_time = std::chrono::steady_clock::now();
+
+    // Measure end memory usage
+    std::size_t end_memory = get_memory_usage();
+
+    // Calculate elapsed time
+    auto elapsed_time = std::chrono::duration_cast<std::chrono::microseconds>(end_time - start_time).count();
+
+    // Calculate memory usage difference
+    std::size_t memory_usage = end_memory - start_memory;
+
+    return {memory_usage, elapsed_time};
+}
+vector2d gen_block(int n, int d)
 {
     vector2d v;
     for (int e = 0; e < d; e++)
@@ -399,7 +439,7 @@ void proterm(const int k, const int j, int a, mp_limb_signed_t N, fmpz_mpoly_t r
 
 std::vector<unsigned long> fey_degree;
 
-unsigned long feynman_integral_type(std::vector<std::pair<int, int>> Gv, std::tuple<int, std::vector<int>> factor, std::vector<int> av)
+unsigned long feynman_integral_type(std::vector<std::pair<int, int>> Gv, int factor, std::vector<int> av)
 {
     if (av.size() != Gv.size())
     {
@@ -479,7 +519,7 @@ unsigned long feynman_integral_type(std::vector<std::pair<int, int>> Gv, std::tu
         fmpz_mpoly_get_coeff_vars_ui(tmp, tmp, vars, exp_product, nv, ctx);
 
         // Multiply the coefficient by factor=2
-        fmpz_mpoly_scalar_mul_si(tmp, tmp, std::get<0>(factor), ctx);
+        fmpz_mpoly_scalar_mul_si(tmp, tmp, factor, ctx);
 
         ulong coeff;
         fmpz_t coeff_fmpz;
@@ -497,191 +537,60 @@ unsigned long feynman_integral_type(std::vector<std::pair<int, int>> Gv, std::tu
         return coeff;
     }
 }
-int feynman_integral(std::vector<std::pair<int, int>> Gv, std::vector<int> av)
+unsigned long feynman_integral_branch_type(std::vector<std::pair<int, int>> Gv, std::vector<int> a)
 {
-    // Count the number of unique vertices
-    std::unordered_set<int> nbv;
-    for (const auto &e : Gv)
+    std::vector<std::tuple<int, std::vector<int>>> f = signature_and_multiplicitie(Gv, a);
+    unsigned long sum = 0;
+    for (const auto &tuple : f)
     {
-        nbv.insert(e.first);
-        nbv.insert(e.second);
+        int factor = std::get<0>(tuple);
+        std::vector<int> av = std::get<1>(tuple);
+
+        unsigned long fe = feynman_integral_type(Gv, factor, av);
+        sum += fe;
     }
-    int nv = nbv.size();
-    std::vector<std::tuple<int, std::vector<int>>> f = signature_and_multiplicitie(Gv, av);
-
-    int factor = 2;
-    int N = std::accumulate(av.begin(), av.end(), 0);
-
-    fmpz_mpoly_ctx_t ctx;
-    fmpz_mpoly_ctx_init(ctx, nv, ORD_DEGLEX);
-    // Initialize tmp polynomial
-    fmpz_mpoly_t tmp;
-    fmpz_mpoly_init(tmp, ctx);
-    fmpz_mpoly_set_ui(tmp, 1, ctx);
-
-    for (int i = 1; i <= 1; ++i)
+    return sum;
+}
+unsigned long feynman_integral_degree(std::vector<std::pair<int, int>> Gv, int d)
+{
+    unsigned long sum = 0;
+    int ne = Gv.size();
+    vector2d gen = gen_block(ne, d);
+    for (std::vector<int> xa : gen)
     {
-        int j = 0;
-
-        for (const auto &multiplicity : av)
+        vector2d it = iterate(xa);
+        for (std::vector<int> xi : it)
         {
-            if (multiplicity == -1)
-            {
-                fmpz_mpoly_t constterm1_j;
-                fmpz_mpoly_init(constterm1_j, ctx);
-                constterm(Gv[j].first, Gv[j].second, N, constterm1_j, ctx);
-                fmpz_mpoly_mul(tmp, tmp, constterm1_j, ctx);
-                fmpz_mpoly_clear(constterm1_j, ctx);
-            }
-            else if (multiplicity == 0)
-            {
-                fmpz_mpoly_t constterm0_j;
-                fmpz_mpoly_init(constterm0_j, ctx);
-                constterm(Gv[j].second, Gv[j].first, N, constterm0_j, ctx);
-                fmpz_mpoly_mul(tmp, tmp, constterm0_j, ctx);
-
-                fmpz_mpoly_clear(constterm0_j, ctx);
-            }
-            else
-            {
-                fmpz_mpoly_t proterm_j;
-                fmpz_mpoly_init(proterm_j, ctx);
-                proterm(Gv[j].first, Gv[j].second, multiplicity, N, proterm_j, ctx);
-                fmpz_mpoly_mul(tmp, tmp, proterm_j, ctx);
-                fmpz_mpoly_clear(proterm_j, ctx);
-            }
-
-            j++;
+            sum += feynman_integral_branch_type(Gv, xi);
         }
     }
-
-    mp_limb_t exp_product[nv];
-    for (int i = 0; i < nv; ++i)
-    {
-        exp_product[i] = 3 * N;
-    }
-
-    // Initialize vars array
-    slong vars[nv];
-    for (int i = 0; i < nv; ++i)
-    {
-        vars[i] = i;
-    }
-    // Get the coefficient
-    fmpz_mpoly_get_coeff_vars_ui(tmp, tmp, vars, exp_product, nv, ctx);
-
-    // Multiply the coefficient by factor=2
-    fmpz_mpoly_scalar_mul_si(tmp, tmp, factor, ctx);
-
-    slong coeff;
-    fmpz_t coeff_fmpz;
-    fmpz_init(coeff_fmpz);
-    fmpz_mpoly_get_fmpz(coeff_fmpz, tmp, ctx);
-    coeff = fmpz_get_si(coeff_fmpz);
-    fmpz_clear(coeff_fmpz);
-
-    // Clear memory
-    fmpz_mpoly_clear(tmp, ctx);
-    fmpz_mpoly_ctx_clear(ctx);
-
-    // Return the result
-    return coeff;
-}
-
-std::size_t get_memory_usage()
-{
-    struct rusage r_usage;
-    getrusage(RUSAGE_SELF, &r_usage);
-    return r_usage.ru_maxrss; // ru_maxrss is in kilobytes
-}
-
-template <typename Func>
-struct ResourceUsage
-{
-    std::size_t memory_usage; // in kilobytes
-    long long elapsed_time;   // in microseconds
-};
-
-template <typename Func>
-ResourceUsage<Func> measure_resource_usage(Func func)
-{
-    // Measure start time
-    auto start_time = std::chrono::steady_clock::now();
-
-    // Measure start memory usage
-    std::size_t start_memory = get_memory_usage();
-
-    // Execute the provided function
-    func();
-
-    // Measure end time
-    auto end_time = std::chrono::steady_clock::now();
-
-    // Measure end memory usage
-    std::size_t end_memory = get_memory_usage();
-
-    // Calculate elapsed time
-    auto elapsed_time = std::chrono::duration_cast<std::chrono::microseconds>(end_time - start_time).count();
-
-    // Calculate memory usage difference
-    std::size_t memory_usage = end_memory - start_memory;
-
-    return {memory_usage, elapsed_time};
+    return sum;
 }
 
 int main()
 {
-    std::vector<std::pair<int, int>> Gv = {{1, 3}, {1, 2}, {1, 2}, {2, 4}, {3, 4}, {3, 4}};
-    // std::vector<int> av = {-1, 0, 2, 2, 2, 2};
+    // std::vector<std::pair<int, int>> Gv = {{1, 3}, {1, 2}, {1, 2}, {2, 4}, {3, 4}, {3, 4}};
+    std::vector<std::pair<int, int>> Gv = {{1, 2}, {1, 3}, {1, 4}, {2, 3}, {2, 4}, {3, 4}};
+
+    std::vector<int> av = {0, 0, 2, 2, 2, 2};
     std::vector<int> fey_degree;
     int n = 6;
-    int d = 4;
+    int d = 14;
+
     auto operation = [&]()
     {
-        vector2d gen = gen_block(d, n);
-        /* for (std::vector<int> ge : gen)
-        {
-            for (int g : ge)
-            {
-                std::cout << g << " ";
-            }
-            std::cout << std::endl;
-        } */
-        for (std::vector<int> x : gen)
-        {
-            vector2d it = iterate(x);
-            /*  for (std::vector<int> xi : it)
-             {
-                 for (int ai : xi)
-                 {
-                     std::cout << ai << " ";
-                 }
-                 std::cout << std::endl;
-             }
-            std::cout << std::endl;
-            */
-
-            for (std::vector<int> av : it)
-            {
-                std::vector<std::tuple<int, std::vector<int>>> sgn = signature_and_multiplicitie(Gv, av);
-                for (std::tuple<int, std::vector<int>> tuple : sgn)
-                {
-                    int factor = std::get<0>(tuple);
-                    std::vector<int> a = std::get<1>(tuple);
-                    unsigned long fe = feynman_integral_type(Gv, std::make_tuple(factor, std::vector<int>{}), a);
-                    fey_degree.push_back(fe);
-                }
-            }
-        }
-        return std::accumulate(fey_degree.begin(), fey_degree.end(), static_cast<unsigned long>(0));
+        return feynman_integral_degree(Gv, d);
     };
-    unsigned long result = operation();
-
-    std::cout << "Result: " << result << std::endl;
+    unsigned long fee = operation();
+    std::cout << "Result: " << fee << std::endl;
     auto usage = measure_resource_usage(operation);
 
     // Print the resource usage
     std::cout << "Elapsed time: " << usage.elapsed_time << " microseconds" << std::endl;
     std::cout << "Memory usage: " << usage.memory_usage << " KiB" << std::endl;
+    unsigned long fey = feynman_integral_degree(Gv, d);
+
+    std::cout << "Result: " << fey << std::endl;
+
     return 0;
 }
