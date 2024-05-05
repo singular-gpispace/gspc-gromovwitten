@@ -35,5 +35,5 @@ std::vector<std::tuple<int, std::vector<int>>> signature_and_multiplicitie(std::
 void constterm(const int k, const int j, mp_limb_signed_t N, fmpz_mpoly_t result, const fmpz_mpoly_ctx_t ctx);
 void proterm(const int k, const int j, int a, mp_limb_signed_t N, fmpz_mpoly_t result, const fmpz_mpoly_ctx_t ctx);
 int feynman_integral_type(std::vector<std::pair<int, int>> Gv, std::tuple<int, std::vector<int>> factor, std::vector<int> av);
-
+unsigned long feynman_integral_branch_type(std::vector<std::pair<int, int>> Gv, std::vector<int> a);
 #endif // FEYNMAN_HPP

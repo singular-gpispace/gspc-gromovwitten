@@ -67,6 +67,7 @@ ResourceUsage<Func> measure_resource_usage(Func func)
 
     return {memory_usage, elapsed_time};
 }
+
 vector2d gen_block(int d, int n)
 {
     vector2d v;

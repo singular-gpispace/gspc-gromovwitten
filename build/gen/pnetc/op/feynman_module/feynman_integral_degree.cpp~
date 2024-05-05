@@ -84,8 +84,7 @@ std::vector<int> av;
                 av.push_back( *ptr);
             }
         }
-
-unsigned long fe=feynman_integral_branch_type(Gv, av);
+unsigned long fe= feynman_integral_type( Gv,  std::make_tuple(factor, std::vector<int>{}), av);
 return fe;
 
       

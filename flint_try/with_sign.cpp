@@ -437,8 +437,6 @@ void proterm(const int k, const int j, int a, mp_limb_signed_t N, fmpz_mpoly_t r
     }
 }
 
-std::vector<unsigned long> fey_degree;
-
 unsigned long feynman_integral_type(std::vector<std::pair<int, int>> Gv, int factor, std::vector<int> av)
 {
     if (av.size() != Gv.size())
@@ -569,13 +567,13 @@ unsigned long feynman_integral_degree(std::vector<std::pair<int, int>> Gv, int d
 
 int main()
 {
-    // std::vector<std::pair<int, int>> Gv = {{1, 3}, {1, 2}, {1, 2}, {2, 4}, {3, 4}, {3, 4}};
-    std::vector<std::pair<int, int>> Gv = {{1, 2}, {1, 3}, {1, 4}, {2, 3}, {2, 4}, {3, 4}};
+    std::vector<std::pair<int, int>> Gv = {{1, 3}, {1, 2}, {1, 2}, {2, 4}, {3, 4}, {3, 4}};
+    // std::vector<std::pair<int, int>> Gv = {{1, 2}, {1, 3}, {1, 4}, {2, 3}, {2, 4}, {3, 4}};
 
     std::vector<int> av = {0, 0, 2, 2, 2, 2};
     std::vector<int> fey_degree;
     int n = 6;
-    int d = 14;
+    int d = 20;
 
     auto operation = [&]()
     {
@@ -588,9 +586,9 @@ int main()
     // Print the resource usage
     std::cout << "Elapsed time: " << usage.elapsed_time << " microseconds" << std::endl;
     std::cout << "Memory usage: " << usage.memory_usage << " KiB" << std::endl;
-    unsigned long fey = feynman_integral_degree(Gv, d);
+    // unsigned long fey = feynman_integral_degree(Gv, d);
 
-    std::cout << "Result: " << fey << std::endl;
+    // std::cout << "Result: " << fey << std::endl;
 
     return 0;
 }
