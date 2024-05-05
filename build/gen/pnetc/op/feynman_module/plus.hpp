@@ -9,7 +9,9 @@ namespace pnetc
     namespace feynman_module
     {
       void plus
-        ();
+        ( const unsigned long& s
+        , unsigned long& sum
+        );
     }
   }
 }

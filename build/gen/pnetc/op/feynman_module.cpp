@@ -51,26 +51,6 @@ namespace pnetc
     }
   }
 }
-#include <pnetc/op/feynman_module/count.hpp>
-
-namespace pnetc
-{
-  namespace op
-  {
-    namespace feynman_module
-    {
-      static void count
-        ( drts::worker::context *
-        , expr::eval::context const&
-        , expr::eval::context&
-        , std::map<std::string, void*> const&
-        )
-      {
-        ::pnetc::op::feynman_module::count ();
-      }
-    }
-  }
-}
 #include <pnetc/op/feynman_module/signature_and_multiplicities.hpp>
 #include <list>
 #include <we/type/value.hpp>
@@ -132,35 +112,15 @@ namespace pnetc
     {
       static void plus
         ( drts::worker::context *
-        , expr::eval::context const&
-        , expr::eval::context&
-        , std::map<std::string, void*> const&
-        )
-      {
-        ::pnetc::op::feynman_module::plus ();
-      }
-    }
-  }
-}
-#include <pnetc/op/feynman_module/add.hpp>
-
-namespace pnetc
-{
-  namespace op
-  {
-    namespace feynman_module
-    {
-      static void add
-        ( drts::worker::context *
         , expr::eval::context const&_pnetc_input
         , expr::eval::context&_pnetc_output
         , std::map<std::string, void*> const&
         )
       {
-        const unsigned long & l (::boost::get< unsigned long > (_pnetc_input.value (std::list<std::string> (1, "l"))));
-        const unsigned long & r (::boost::get< unsigned long > (_pnetc_input.value (std::list<std::string> (1, "r"))));
-        _pnetc_output.bind_and_discard_ref (std::list<std::string> (1, "s"), 
-        ::pnetc::op::feynman_module::add (l, r));
+        const unsigned long & s (::boost::get< unsigned long > (_pnetc_input.value (std::list<std::string> (1, "s"))));
+        unsigned long sum (::boost::get< unsigned long > (_pnetc_input.value (std::list<std::string> (1, "sum"))));
+        ::pnetc::op::feynman_module::plus (s, sum);
+        _pnetc_output.bind_and_discard_ref (std::list<std::string> (1, "sum"), sum);
       }
     }
   }
@@ -169,10 +129,8 @@ WE_MOD_INITIALIZE_START()
 {
   WE_REGISTER_FUN_AS (::pnetc::op::feynman_module::sum_deg,"sum_deg");
   WE_REGISTER_FUN_AS (::pnetc::op::feynman_module::partition,"partition");
-  WE_REGISTER_FUN_AS (::pnetc::op::feynman_module::count,"count");
   WE_REGISTER_FUN_AS (::pnetc::op::feynman_module::signature_and_multiplicities,"signature_and_multiplicities");
   WE_REGISTER_FUN_AS (::pnetc::op::feynman_module::feynman_integral_degree,"feynman_integral_degree");
   WE_REGISTER_FUN_AS (::pnetc::op::feynman_module::plus,"plus");
-  WE_REGISTER_FUN_AS (::pnetc::op::feynman_module::add,"add");
 }
 WE_MOD_INITIALIZE_END()

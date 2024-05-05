@@ -46,7 +46,7 @@ namespace feynman
         //  std::cout << " signature is : " << signature << std::endl;
 
         // auto const &feynm = results.get<int>("L");
-        auto const &feynm = results.get<unsigned long>("L");
+        auto const &feynm = results.get<unsigned long>("sum");
 
         std::cout << "feynman_degree: " << feynm << std::endl;
 

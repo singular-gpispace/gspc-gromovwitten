@@ -35,7 +35,7 @@ time ~/gpi/try_gpi/gpispace/bin/bin/feynman \
   --log-port 9876
 
 
-~/gpi/try_gpi/gpispace/bin/bin/feynman \
+time ~/gpi/try_gpi/gpispace/bin/bin/feynman \
   --gspc-home ~/spack/opt/spack/linux-ubuntu22.04-skylake/gcc-11.3.0/gpi-space-23.06-gxye6b7ngsnbxnzjkfsfqtvanynyghdk/ \
   --nodefile ~/gpispace/nodefile \
   --rif-strategy ssh \
