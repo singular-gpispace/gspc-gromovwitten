@@ -5,7 +5,9 @@
 
 #include <feynman/Workflow.hpp>
 #include <iostream>
-
+using pnet_value = pnet::type::value::value_type;
+using pnet_list = std::list<pnet_value>;
+using pnet_list2d = std::list<std::list<pnet_value, pnet_value>>;
 namespace feynman
 {
     ParametersDescription Workflow::options()

@@ -567,13 +567,13 @@ unsigned long feynman_integral_degree(std::vector<std::pair<int, int>> Gv, int d
 
 int main()
 {
-    std::vector<std::pair<int, int>> Gv = {{1, 3}, {1, 2}, {1, 2}, {2, 4}, {3, 4}, {3, 4}};
+    std::vector<std::pair<int, int>> Gv = {{1, 2}, {1, 2}, {1, 3}, {2, 4}, {3, 4}, {3, 5}, {4, 6}, {5, 6}, {5, 6}};
     // std::vector<std::pair<int, int>> Gv = {{1, 2}, {1, 3}, {1, 4}, {2, 3}, {2, 4}, {3, 4}};
 
-    std::vector<int> av = {0, 0, 2, 2, 2, 2};
+    // std::vector<int> av = {0, 0, 2, 2, 2, 2};
     std::vector<int> fey_degree;
-    int n = 6;
-    int d = 20;
+    int n = 9;
+    int d = 3;
 
     auto operation = [&]()
     {

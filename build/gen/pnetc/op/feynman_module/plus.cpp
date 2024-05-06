@@ -11,7 +11,7 @@ namespace pnetc
         , unsigned long& sum
         )
       {
-#line 296 "/home/atraore/gpi/try_gpi/gpispace/workflow/feynman.xpnet"
+#line 190 "/home/atraore/gpi/try_gpi/gpispace/workflow/feynman.xpnet"
 
             sum += s;
           
