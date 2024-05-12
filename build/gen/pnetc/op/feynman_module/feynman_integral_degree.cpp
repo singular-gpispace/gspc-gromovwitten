@@ -1,5 +1,6 @@
 #include <pnetc/op/feynman_module/feynman_integral_degree.hpp>
-#include <string>
+#include <list>
+#include <we/type/value.hpp>
 #include <iostream>
 #include <vector>
 #include <numeric>
@@ -20,73 +21,43 @@ namespace pnetc
     namespace feynman_module
     {
       unsigned long feynman_integral_degree
-        ( const std::string& G
-        , const std::string& a
+        ( const std::list<pnet::type::value::value_type>& G
+        , const std::list<pnet::type::value::value_type>& a
         )
       {
-#line 214 "/home/atraore/gpi/try_gpi/gpispace/workflow/feynman.xpnet"
+#line 181 "/home/atraore/gpi/try_gpi/gpispace/workflow/feynman.xpnet"
 
-std::string G_copy=G;
-// Remove double quotes at the beginning and end
-if (!G_copy.empty() && G_copy.front() == '"' && G_copy.back() == '"') {
-	G_copy = G_copy.substr(1, G_copy.size() - 2);
-}
-// Vector to store parsed values
-std::vector<std::vector<int>> Gvec;
-// Loop to parse the string
-std::vector<int> innerVec;
-std::string numString;
-bool inBraces = false;
-// Flag to track if currently parsing inside braces
-for (char ch : G_copy) {
-	if (isdigit(ch)) {
-		numString += ch;
-	} else if (ch == ',' || ch == ' ') {
-		if (!numString.empty()) {
-			innerVec.push_back(std::stoi(numString));
-			numString.clear();
-		}
-	} else if (ch == '{') {
-		inBraces = true;
-	} else if (ch == '}') {
-		if (!numString.empty()) {
-			innerVec.push_back(std::stoi(numString));
-			numString.clear();
-		}
-		if (!innerVec.empty()) {
-			Gvec.push_back(innerVec);
-			innerVec.clear();
-		}
-		inBraces = false;
-	}
-	// Check if we are outside the braces and encountered a comma or space
-	if (!inBraces && (ch == ',' || ch == ' ')) {
-		// Reset the inner vector if outside braces
-		innerVec.clear();
-	}
-}
-// Construct vector of pairs
-std::vector<std::pair<int, int>> Gv;
-for (const auto& vec : Gvec) {
-	if (vec.size() >= 2) {
-		Gv.emplace_back(vec[0], vec[1]);
-	}
-}
- std::istringstream iss(a);
 
-// Read the factor from the string
-int factor;
-char comma;
-iss >> factor >> comma;
+    using pnet_value = pnet::type::value::value_type;
+    using pnet_list = std::list<pnet_value>;
+    using pnet_list2d = std::list<std::list<pnet_value>>;
+            std::vector<int> xxx; // Define xxx outside the inner loop
+              for (const auto &vii : G)
+              {
+                  if (auto ptr = boost::get<int>(&vii))
+                  {                             // Check if the element is an integer
+                      xxx.push_back( *ptr ); // Push the integer to the vector xx
+                  }
+              }
+           std::vector<std::pair<int, int>> Gv;
+          
+              // Iterate over the vector of integers, creating pairs from consecutive elements
+              for (size_t i = 0; i < xxx.size(); i += 2)
+              {
+                  Gv.push_back(std::make_pair(xxx[i], xxx[i + 1]));
+              }
+             
+              int factor = boost::get<int>(*a.begin()); // Get the factor
+                std::vector<int> av;
+                  for (auto it = std::next(a.begin()); it != a.end(); ++it)
+                  {
+                      auto intValue = boost::get<int>(*it);
+                      av.push_back(intValue);
+                  }
+                  std::cout << std::endl;
+              
 
-// Read the vector of integers from the string
-std::vector<int> av;
-int value;
-while (iss >> value) {
-    av.push_back(value); // Read each integer and push it into the vector
-    iss >> comma; // Read the comma after each integer
-}
-unsigned long fe= feynman_integral_type( Gv,  std::make_tuple(factor, std::vector<int>{}), av);
+unsigned long fe= feynman_integral_type( Gv,  factor,  av);
 return fe;
 
       
