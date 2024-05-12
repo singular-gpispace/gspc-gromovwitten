@@ -16,7 +16,7 @@ cmake \
 
 
 cmake --build "~/gpi/try_gpi/gpispace/build" --target install -j $(nproc) >> ~/Dropbox/sage/error.txt 2>&1
-cmake --build "~/gpi/try_gpi/gpispace/build" --target install -j $(nproc) >> error.txt 2>&1
+cmake --build "~/gpi/try_gpi/gpispace/build" --target install -j $(nproc) > error.txt 2>&1
 
 
 ###############################################

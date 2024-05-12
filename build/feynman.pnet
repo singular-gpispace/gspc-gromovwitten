@@ -4,10 +4,10 @@ CAAAAAAAAAA=
 0 0 8 13 0 0 0
 
 BwAAAAAAAAA=
-0 0 5 graph 0 0 0 6 string 0 0 0 0 0 0 0 15 0 0 0 0
+0 0 5 graph 0 0 0 4 list 0 0 0 0 0 0 0 15 0 0 0 0
 
 BgAAAAAAAAA=
-4 sign 0 6 string 0 15 0 0
+4 sign 0 4 list 0 15 0 0
 
 BQAAAAAAAAA=
 9 d_vectors 0 4 list 0 15 0 0
@@ -91,7 +91,7 @@ AgAAAAAAAAA=
 9 signature 0 14 feynman_module 28 signature_and_multiplicities 0 1 0 0 0 0 0 1 1 0 2 13 0
 
 AQAAAAAAAAA=
-1 G 0 0 6 string 0 15 0 0
+1 G 0 0 4 list 0 15 0 0
 
 AAAAAAAAAAA=
 1 a 0 0 4 list 0 15 0 0 1 13 0
@@ -109,10 +109,10 @@ AQAAAAAAAAA=
 14 feynman_degree 0 14 feynman_module 23 feynman_integral_degree 0 1 0 0 0 0 0 1 1 0 2 13 0
 
 AQAAAAAAAAA=
-1 G 0 0 6 string 0 15 0 0
+1 G 0 0 4 list 0 15 0 0
 
 AAAAAAAAAAA=
-1 a 0 0 6 string 0 15 0 0 1 13 0
+1 a 0 0 4 list 0 15 0 0 1 13 0
 
 AgAAAAAAAAA=
 1 s 1 0 13 unsigned long 0 15 0 0 0 1 0
@@ -331,7 +331,7 @@ AAAAAAAAAAA=
 5 0 0 0 0 0 0 0 0 1 0 0 3 13 0
 
 AgAAAAAAAAA=
-5 graph 0 0 6 string 1 0
+5 graph 0 0 4 list 1 0
 
 BwAAAAAAAAA=
 15 0 0
