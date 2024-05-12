@@ -55,17 +55,12 @@ namespace pnetc
     {
         int first = std::get<0>(tuple);
         const auto& second = std::get<1>(tuple);
-          std::cout<<" first " <<first<<" :  ";
-          std::cout<<"  value ";
         pnet_list sublist;
         sublist.push_front(pnet_value(first)); // Insert factor at the beginning
         for (const auto& value : second)
         {
-          std::cout <<value<<"  ";
-
             sublist.push_back(pnet_value(value));
         }
-        std::cout<<std::endl;
         s.push_back(sublist);
     }
   

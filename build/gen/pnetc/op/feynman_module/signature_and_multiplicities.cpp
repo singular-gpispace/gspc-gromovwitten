@@ -38,8 +38,8 @@ namespace pnetc
               {
                   Gv.push_back(std::make_pair(xxx[i], xxx[i + 1]));
               }
-          // Read the vector of integers from the string
-          std::vector<int> av;
+
+              std::vector<int> av;
            for (const auto &xi : a){
                   if (auto ptr = boost::get<int>(&xi))
                   {

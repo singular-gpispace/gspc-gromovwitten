@@ -1,10 +1,10 @@
-I: starting base sdpa components on waas 36639 2122929...
+I: starting base sdpa components on waas 39975 2132507...
 I: starting top level gspc logging demultiplexer on waas
-   => accepting registration on 'TCP: <<waas:36027>>, SOCKET: <<waas:\07df4a>>'
-I: starting agent: agent-waas 36639 2122929-0 on rif entry point waas 36639 2122929
-I: starting worker workers (parent agent-waas 36639 2122929-0, 7/host, unlimited, 0 SHM) with parent agent-waas 36639 2122929-0 on rif entry point waas 36639 2122929
-terminating drts-kernel on waas 36639 2122929: 2122984 2122978 2122960 2122972 2122954 2122948 2122966
-terminating agent on waas 36639 2122929: 2122940
-terminating logging-demultiplexer on waas 36639 2122929: 2122934
-feynman_degree: 10285056
+   => accepting registration on 'TCP: <<waas:41643>>, SOCKET: <<waas:\0ffd78>>'
+I: starting agent: agent-waas 39975 2132507-0 on rif entry point waas 39975 2132507
+I: starting worker workers (parent agent-waas 39975 2132507-0, 7/host, unlimited, 0 SHM) with parent agent-waas 39975 2132507-0 on rif entry point waas 39975 2132507
+terminating drts-kernel on waas 39975 2132507: 2132555 2132561 2132543 2132537 2132531 2132525 2132549
+terminating agent on waas 39975 2132507: 2132517
+terminating logging-demultiplexer on waas 39975 2132507: 2132512
+feynman_degree: 21710052864
 
