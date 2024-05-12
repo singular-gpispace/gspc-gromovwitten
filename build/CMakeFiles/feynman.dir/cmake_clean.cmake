@@ -7,8 +7,6 @@ file(REMOVE_RECURSE
   "CMakeFiles/feynman.dir/src/WorkflowResult.cpp.o.d"
   "CMakeFiles/feynman.dir/src/execute.cpp.o"
   "CMakeFiles/feynman.dir/src/execute.cpp.o.d"
-  "CMakeFiles/feynman.dir/src/feynman.cpp.o"
-  "CMakeFiles/feynman.dir/src/feynman.cpp.o.d"
   "CMakeFiles/feynman.dir/src/main.cpp.o"
   "CMakeFiles/feynman.dir/src/main.cpp.o.d"
   "CMakeFiles/feynman.dir/src/parse_parameters_from_commandline.cpp.o"

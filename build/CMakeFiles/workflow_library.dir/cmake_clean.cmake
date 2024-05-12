@@ -1,6 +1,6 @@
 file(REMOVE_RECURSE
   "CMakeFiles/workflow_library"
-  "gen/pnetc/op/libfeynman.so"
+  "gen/pnetc/op/libfeynman_module.so"
 )
 
 # Per-language clean rules from dependency scanning.
