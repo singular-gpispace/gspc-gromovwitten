@@ -3,6 +3,7 @@
 
 #include <list>
 #include <we/type/value.hpp>
+#include <string>
 
 namespace pnetc
 {
@@ -11,7 +12,7 @@ namespace pnetc
     namespace feynman_module
     {
       unsigned long feynman_integral_degree
-        ( const std::list<pnet::type::value::value_type>& G
+        ( const std::string& G
         , const std::list<pnet::type::value::value_type>& a
         );
     }

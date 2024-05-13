@@ -110,7 +110,7 @@ std::vector<int> next_partition(std::vector<int> a)
     }
     return a;
 }
-vector2d iterate(const std::vector<int>& xa)
+vector2d iterate(std::vector<std::pair<int, int>> Gv, const std::vector<int>& xa)
 {
     vector2d gen;
 
@@ -141,8 +141,11 @@ vector2d iterate(const std::vector<int>& xa)
         {
 
             a = next_partition(a);
-
-            gen.push_back(a);
+            auto br = vertex_branch(Gv, a);
+            bool result = check_odd(br);
+            if (!result) {
+                gen.push_back(a);
+            }
         }
         else
         {
@@ -167,26 +170,18 @@ int main()
     //std::vector<std::pair<int, int>> ve = { {1, 2}, {1, 2}, {1, 2} }; // Example values for ve
 
     std::vector<int> aa = { 6,0,0,0, 0, 1 };
-    vector2d gen = iterate(aa);
+    vector2d gen = iterate(ve, aa);
     int s = 0;
     for (std::vector<int> a : gen)
     {
-        auto br = vertex_branch(ve, a);
-        bool result = check_odd(br);
-        if (!result) {
-            s += 1;
-
-            for (int ai : a)
-            {
-                std::cout << ai << " ";
-            }
-            std::cout << std::endl;
+        for (int ai : a)
+        {
+            std::cout << ai << " ";
         }
-
+        std::cout << std::endl;
     }
-    std::cout << gen.size() << std::endl;
-    std::cout << s << std::endl;
 
+    std::cout << gen.size() << std::endl;
     pnet_list2d vec;
 
     for (std::vector<int>& a : gen)
@@ -199,19 +194,6 @@ int main()
         vec.push_back(temp_a);
     }
 
-    std::cout << " from pnet to vec2d" << std::endl;
 
-    for (const auto& inner_list : vec)
-    {
-        for (const auto& xi : inner_list)
-        {
-            if (auto ptr = boost::get<int>(&xi))
-            {
-                std::cout << *ptr << " ";
-            }
-        }
-        std::cout << std::endl;
-    }
-    std::cout << std::endl;
     return 0;
 }

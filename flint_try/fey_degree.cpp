@@ -65,9 +65,9 @@ ResourceUsage<Func> measure_resource_usage(Func func)
     // Calculate memory usage difference
     std::size_t memory_usage = end_memory - start_memory;
 
-    return {memory_usage, elapsed_time};
+    return { memory_usage, elapsed_time };
 }
-vector2d gen_block(int d, int n)
+vector2d gen_block(int n, int d)
 {
     vector2d v;
     for (int e = 0; e < d; e++)
@@ -172,7 +172,7 @@ std::vector<std::tuple<int, std::vector<int>>> signature_and_multiplicitie(std::
     std::vector<int> p;
     std::vector<std::tuple<int, std::vector<int>>> b;
     std::unordered_set<int> nbv;
-    for (const auto &e : G)
+    for (const auto& e : G)
     {
         nbv.insert(e.first);
         nbv.insert(e.second);
@@ -214,7 +214,7 @@ std::vector<std::tuple<int, std::vector<int>>> signature_and_multiplicitie(std::
         fact *= i;
     }
 
-    for (const auto &ga : per)
+    for (const auto& ga : per)
     {
         std::vector<int> flip(a.size(), 0);
 
@@ -293,9 +293,9 @@ std::vector<std::tuple<int, std::vector<int>>> signature_and_multiplicitie(std::
             b.push_back(std::make_tuple(1, tmp));
         }
     }
-    for (auto &tuple : b)
+    for (auto& tuple : b)
     {
-        int &element = std::get<0>(tuple);
+        int& element = std::get<0>(tuple);
         // std::cout<<" element "<<element<<std::endl;
         element *= fact / per.size();
     }
@@ -307,7 +307,7 @@ std::vector<std::tuple<int, std::vector<int>>> signature_and_multiplicitie(std::
     {
         std::vector<std::tuple<int, std::vector<int>>> group;
 
-        for (const auto &pair1 : b)
+        for (const auto& pair1 : b)
         {
             int n = std::get<0>(pair1);
             std::vector<int> values1 = std::get<1>(pair1);
@@ -323,7 +323,7 @@ std::vector<std::tuple<int, std::vector<int>>> signature_and_multiplicitie(std::
 
             bool equiv = false;
 
-            for (const auto &pair2 : b)
+            for (const auto& pair2 : b)
             {
                 int m = std::get<0>(pair2);
                 std::vector<int> values2 = std::get<1>(pair2);
@@ -358,7 +358,8 @@ std::vector<std::tuple<int, std::vector<int>>> signature_and_multiplicitie(std::
         return group;
     }
 }
-void constterm(const int k, const int j, mp_limb_signed_t N, fmpz_mpoly_t result, const fmpz_mpoly_ctx_t ctx)
+
+void constterm(const int k, const int j, mp_limb_signed_t N, const int nv, fmpz_mpoly_t result, const fmpz_mpoly_ctx_t ctx)
 {
     // Initialize the result polynomial
     fmpz_mpoly_zero(result, ctx);
@@ -375,8 +376,8 @@ void constterm(const int k, const int j, mp_limb_signed_t N, fmpz_mpoly_t result
         fmpz_mpoly_init(term, ctx);
 
         // Set the coefficient and exponents in the polynomial term
-        ulong exp[N]; // Exponent vector for N variables
-        for (int idx = 0; idx < N; ++idx)
+        ulong exp[nv]; // Exponent vector for N variables
+        for (int idx = 0; idx < nv; ++idx)
         {
             exp[idx] = 0; // Initialize all exponents to 0
         }
@@ -392,7 +393,7 @@ void constterm(const int k, const int j, mp_limb_signed_t N, fmpz_mpoly_t result
     }
 }
 
-void proterm(const int k, const int j, int a, mp_limb_signed_t N, fmpz_mpoly_t result, const fmpz_mpoly_ctx_t ctx)
+void proterm(const int k, const int j, int a, mp_limb_signed_t N, const int nv, fmpz_mpoly_t result, const fmpz_mpoly_ctx_t ctx)
 {
     // Initialize the result polynomial
     fmpz_mpoly_zero(result, ctx);
@@ -415,10 +416,10 @@ void proterm(const int k, const int j, int a, mp_limb_signed_t N, fmpz_mpoly_t r
             fmpz_mpoly_init(term2, ctx);
 
             // Set the coefficients and exponents in the polynomial terms
-            ulong exp1[4] = {0};  // Exponent vector for the first term
+            ulong exp1[nv] = { 0 };  // Exponent vector for the first term
             exp1[k - 1] = exp_k1; // Set exponent for variable k
             exp1[j - 1] = exp_j1; // Set exponent for variable j
-            ulong exp2[4] = {0};  // Exponent vector for the second term
+            ulong exp2[nv] = { 0 };  // Exponent vector for the second term
             exp2[k - 1] = exp_k2; // Set exponent for variable k
             exp2[j - 1] = exp_j2; // Set exponent for variable j
 
@@ -437,9 +438,7 @@ void proterm(const int k, const int j, int a, mp_limb_signed_t N, fmpz_mpoly_t r
     }
 }
 
-std::vector<unsigned long> fey_degree;
-
-unsigned long feynman_integral_type(std::vector<std::pair<int, int>> Gv, std::tuple<int, std::vector<int>> factor, std::vector<int> av)
+unsigned long feynman_integral_type(std::vector<std::pair<int, int>> Gv, int factor, std::vector<int> av)
 {
     if (av.size() != Gv.size())
     {
@@ -450,7 +449,7 @@ unsigned long feynman_integral_type(std::vector<std::pair<int, int>> Gv, std::tu
     else
     {
         std::unordered_set<int> nbv;
-        for (const auto &e : Gv)
+        for (const auto& e : Gv)
         {
             nbv.insert(e.first);
             nbv.insert(e.second);
@@ -458,7 +457,8 @@ unsigned long feynman_integral_type(std::vector<std::pair<int, int>> Gv, std::tu
         int nv = nbv.size();
         // nb vertices.
         int N = std::accumulate(av.begin(), av.end(), 0, [](int sum, int val)
-                                { return sum + (val > 0 ? val : 0); });
+            { return sum + (val > 0 ? val : 0); });
+
         unsigned long p = 0;
         std::vector<int> fey_degree;
         fmpz_mpoly_ctx_t ctx;
@@ -472,13 +472,13 @@ unsigned long feynman_integral_type(std::vector<std::pair<int, int>> Gv, std::tu
         {
             int j = 0;
 
-            for (const auto &multiplicity : av)
+            for (const auto& multiplicity : av)
             {
                 if (multiplicity == -1)
                 {
                     fmpz_mpoly_t constterm1_j;
                     fmpz_mpoly_init(constterm1_j, ctx);
-                    constterm(Gv[j].first, Gv[j].second, N, constterm1_j, ctx);
+                    constterm(Gv[j].first, Gv[j].second, N, nv, constterm1_j, ctx);
                     fmpz_mpoly_mul(tmp, tmp, constterm1_j, ctx);
                     fmpz_mpoly_clear(constterm1_j, ctx);
                 }
@@ -486,7 +486,7 @@ unsigned long feynman_integral_type(std::vector<std::pair<int, int>> Gv, std::tu
                 {
                     fmpz_mpoly_t constterm0_j;
                     fmpz_mpoly_init(constterm0_j, ctx);
-                    constterm(Gv[j].second, Gv[j].first, N, constterm0_j, ctx);
+                    constterm(Gv[j].second, Gv[j].first, N, nv, constterm0_j, ctx);
                     fmpz_mpoly_mul(tmp, tmp, constterm0_j, ctx);
                     fmpz_mpoly_clear(constterm0_j, ctx);
                 }
@@ -494,7 +494,7 @@ unsigned long feynman_integral_type(std::vector<std::pair<int, int>> Gv, std::tu
                 {
                     fmpz_mpoly_t proterm_j;
                     fmpz_mpoly_init(proterm_j, ctx);
-                    proterm(Gv[j].first, Gv[j].second, multiplicity, N, proterm_j, ctx);
+                    proterm(Gv[j].first, Gv[j].second, multiplicity, N, nv, proterm_j, ctx);
                     fmpz_mpoly_mul(tmp, tmp, proterm_j, ctx);
                     fmpz_mpoly_clear(proterm_j, ctx);
                 }
@@ -515,11 +515,12 @@ unsigned long feynman_integral_type(std::vector<std::pair<int, int>> Gv, std::tu
         {
             vars[i] = i;
         }
+
         // Get the coefficient
         fmpz_mpoly_get_coeff_vars_ui(tmp, tmp, vars, exp_product, nv, ctx);
 
         // Multiply the coefficient by factor=2
-        fmpz_mpoly_scalar_mul_si(tmp, tmp, std::get<0>(factor), ctx);
+        fmpz_mpoly_scalar_mul_si(tmp, tmp, factor, ctx);
 
         ulong coeff;
         fmpz_t coeff_fmpz;
@@ -537,118 +538,62 @@ unsigned long feynman_integral_type(std::vector<std::pair<int, int>> Gv, std::tu
         return coeff;
     }
 }
-
-unsigned long feynman_integral(std::vector<std::pair<int, int>> Gv, std::vector<int> av)
+unsigned long feynman_integral_branch_type(std::vector<std::pair<int, int>> Gv, std::vector<int> a)
 {
-    // Count the number of unique vertices
-    std::unordered_set<int> nbv;
-    for (const auto &e : Gv)
+    std::vector<std::tuple<int, std::vector<int>>> f = signature_and_multiplicitie(Gv, a);
+    unsigned long sum = 0;
+    for (const auto& tuple : f)
     {
-        nbv.insert(e.first);
-        nbv.insert(e.second);
+        int factor = std::get<0>(tuple);
+        std::vector<int> av = std::get<1>(tuple);
+
+        unsigned long fe = feynman_integral_type(Gv, factor, av);
+        sum += fe;
     }
-    int nv = nbv.size();
+    return sum;
+}
+unsigned long feynman_integral_degree(std::vector<std::pair<int, int>> Gv, int d)
+{
+    unsigned long sum = 0;
     int ne = Gv.size();
-    std::vector<std::tuple<int, std::vector<int>>> f = signature_and_multiplicitie(Gv, av);
-
-    int N = std::accumulate(av.begin(), av.end(), 0);
-    mp_limb_t exp_product[nv];
-    for (int i = 0; i < nv; ++i)
+    vector2d gen = gen_block(ne, d);
+    for (std::vector<int> xa : gen)
     {
-        exp_product[i] = 3 * N;
-    }
-
-    // Initialize vars array
-    slong vars[nv];
-    for (int i = 0; i < nv; ++i)
-    {
-        vars[i] = i;
-    }
-
-    // Initialize polynomial context
-    fmpz_mpoly_ctx_t ctx;
-    fmpz_mpoly_ctx_init(ctx, nv, ORD_DEGLEX);
-
-    unsigned long p = 0;
-    for (int i = 0; i < f.size(); ++i)
-    {
-        int factor = std::get<0>(f[i]);
-        std::vector<int> multiplicities = std::get<1>(f[i]);
-        fmpz_mpoly_t tmp;
-        fmpz_mpoly_init(tmp, ctx);
-        fmpz_mpoly_set_ui(tmp, 1, ctx);
-        for (int j = 0; j < multiplicities.size(); ++j)
+        vector2d it = iterate(xa);
+        for (std::vector<int> xi : it)
         {
-            // Reset tmp to 1 at the beginning of each iteration of the inner loop
-            fmpz_mpoly_set_ui(tmp, 1, ctx);
-
-            int multiplicity = multiplicities[j];
-
-            if (multiplicity == -1)
-            {
-                fmpz_mpoly_t constterm1_j;
-                fmpz_mpoly_init(constterm1_j, ctx);
-                constterm(Gv[j].first, Gv[j].second, N, constterm1_j, ctx);
-                fmpz_mpoly_mul(tmp, tmp, constterm1_j, ctx);
-                fmpz_mpoly_clear(constterm1_j, ctx);
-            }
-            else if (multiplicity == 0)
-            {
-                fmpz_mpoly_t constterm0_j;
-                fmpz_mpoly_init(constterm0_j, ctx);
-                constterm(Gv[j].second, Gv[j].first, N, constterm0_j, ctx);
-                fmpz_mpoly_mul(tmp, tmp, constterm0_j, ctx);
-                fmpz_mpoly_clear(constterm0_j, ctx);
-            }
-            else
-            {
-                fmpz_mpoly_t proterm_j;
-                fmpz_mpoly_init(proterm_j, ctx);
-                proterm(Gv[j].first, Gv[j].second, multiplicity, N, proterm_j, ctx);
-                fmpz_mpoly_mul(tmp, tmp, proterm_j, ctx);
-                fmpz_mpoly_clear(proterm_j, ctx);
-            }
-
-            // Get the coefficient
-            fmpz_mpoly_get_coeff_vars_ui(tmp, tmp, vars, exp_product, nv, ctx);
-
-            // Multiply the coefficient by factor=2
-            fmpz_mpoly_scalar_mul_si(tmp, tmp, factor, ctx);
+            sum += feynman_integral_branch_type(Gv, xi);
         }
-
-        ulong coeff;
-        fmpz_t coeff_fmpz;
-        fmpz_init(coeff_fmpz);
-        fmpz_mpoly_get_fmpz(coeff_fmpz, tmp, ctx);
-        coeff = fmpz_get_ui(coeff_fmpz);
-        p += factor * coeff;
-
-        fmpz_clear(coeff_fmpz);
-        fmpz_mpoly_clear(tmp, ctx);
     }
-
-    // Clear memory
-    fmpz_mpoly_ctx_clear(ctx);
-
-    // Return the result
-    return p;
+    return sum;
 }
 
 int main()
 {
-    std::vector<std::pair<int, int>> Gv = {{1, 3}, {1, 2}, {1, 2}, {2, 4}, {3, 4}, {3, 4}};
-    std::vector<int> av = {0, 0, 2, 2, 2, 2};
+    std::vector<std::pair<int, int>> Gv = { {1, 2}, {1, 2}, {1, 3}, {2, 4}, {3, 4}, {3, 5}, {4, 6}, {5, 6}, {5, 6} };
+    // std::vector<std::pair<int, int>> Gv = {{1, 3}, {1, 2}, {1, 2}, {2, 4}, {3, 4}, {3, 4}};
+    // std::vector<int> av = {1, 2, 1, 2, 1, 2};
+
+    std::vector<int> av = { 2, 1, 1, 1, 2, 1, 1, 2, 1 };
+
     std::vector<int> fey_degree;
-    int n = 6;
-    int d = 4;
+    int n = 9;
+    int d = 8;
 
-    unsigned long fee = feynman_integral(Gv, av);
+    auto operation = [&]()
+        {
+            unsigned long fee = feynman_integral_degree(Gv, d);
+            std::cout << "Result: " << fee << std::endl;
 
-    std::cout << "Result: " << fee << std::endl;
-    /*  auto usage = measure_resource_usage(operation);
+        };
+    auto usage = measure_resource_usage(operation);
 
-     // Print the resource usage
-     std::cout << "Elapsed time: " << usage.elapsed_time << " microseconds" << std::endl;
-     std::cout << "Memory usage: " << usage.memory_usage << " KiB" << std::endl; */
+    // Print the resource usage
+    std::cout << "Elapsed time: " << usage.elapsed_time << " microseconds" << std::endl;
+    std::cout << "Memory usage: " << usage.memory_usage << " KiB" << std::endl;
+    // unsigned long fey = feynman_integral_degree(Gv, d);
+
+    // std::cout << "Result: " << fey << std::endl;
+
     return 0;
 }

@@ -16,10 +16,13 @@ cmake \
 
 
 cmake --build "~/gpi/try_gpi/gpispace/build" --target install -j $(nproc) >> ~/Dropbox/sage/error.txt 2>&1
-cmake --build "~/gpi/try_gpi/gpispace/build" --target install -j $(nproc) >> error.txt 2>&1
+cmake --build "~/gpi/try_gpi/gpispace/build" --target install -j $(nproc) > error.txt 2>&1
 
 
 ###############################################
+cd ~/spack/opt/spack/linux-ubuntu22.04-skylake/gcc-11.3.0/gpi-space-23.06-gxye6b7ngsnbxnzjkfsfqtvanynyghdk/bin
+
+./gspc-logging-to-stdout.exe --port 9876 > ~/gpi/try_gpi/gpispace/monitor.txt 2>&1
 
 
 
@@ -39,19 +42,19 @@ time ~/gpi/try_gpi/gpispace/bin/bin/feynman \
   --gspc-home ~/spack/opt/spack/linux-ubuntu22.04-skylake/gcc-11.3.0/gpi-space-23.06-gxye6b7ngsnbxnzjkfsfqtvanynyghdk/ \
   --nodefile ~/gpispace/nodefile \
   --rif-strategy ssh \
-  --topology "worker:7" \
+  --topology "worker:8" \
   --N 6 \
   --degree 4 \
   --graph "{{1, 2}, {1, 3}, {1, 4}, {2, 3}, {2, 4}, {3, 4}}" \
   --log-host localhost \
-  --log-port 9876
+  --log-port 9875
 
 
-time ~/gpi/try_gpi/gpispace/bin/bin/feynman \
+~/gpi/try_gpi/gpispace/bin/bin/feynman \
   --gspc-home ~/spack/opt/spack/linux-ubuntu22.04-skylake/gcc-11.3.0/gpi-space-23.06-gxye6b7ngsnbxnzjkfsfqtvanynyghdk/ \
   --nodefile ~/gpispace/nodefile \
   --rif-strategy ssh \
-  --topology "worker:7" \
+  --topology "worker:8" \
   --N 3 \
   --degree 4 \
   --graph "{{1, 2}, {1, 2}, {1, 2}}" \
@@ -65,8 +68,7 @@ time ~/gpi/try_gpi/gpispace/bin/bin/feynman \
   --rif-strategy ssh \
   --topology "worker:7" \
   --N 9 \
-  --degree 1 \
+  --degree 4 \
   --graph "{{1,2},{1,2},{1,3},{2,4},{3,4},{3,5},{4,6},{5,6},{5,6}}" \
   --log-host localhost \
   --log-port 9876
-

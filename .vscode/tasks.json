@@ -7,7 +7,7 @@
             "command": "bash",
             "args": [
                 "-c",
-                "export LD_LIBRARY_PATH=/usr/local/lib:$LD_LIBRARY_PATH && cd ${fileDirname} && g++ -I /usr/local/include/flint/ ${fileBasename} -o ${fileBasenameNoExtension} -L /usr/local/lib -lflint && ./${fileBasenameNoExtension}"
+                "export LD_LIBRARY_PATH=/usr/local/lib:$LD_LIBRARY_PATH && cd ${fileDirname} && g++ -O3 -I /usr/local/include/flint/ ${fileBasename} -o ${fileBasenameNoExtension} -L /usr/local/lib -lflint && ./${fileBasenameNoExtension}"
             ],
             "group": {
                 "kind": "build",
