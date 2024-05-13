@@ -5,6 +5,6 @@ ve=[(1,2),(1,2),(1,3),(2,4),(3,4),(3,5),(4,6),(5,6),(5,6)]
 
 F = FeynmanIntegral(ve);
 n=6
-d=4
+d=8
 show( substitute(feynman_integral_degree(F,d)))
 
