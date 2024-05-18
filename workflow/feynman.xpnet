@@ -16,20 +16,17 @@
         <in name="n" type="int"/>
         <out name="v" type="list"/>
 
-        <module name="feynman_module" function=" sum_deg (n,d,v)">
+        <module name="feynman_module" function=" gen_block_(n,d,v)">
           <cinclude href="iostream"/>
           <cinclude href="vector"/>
           <cinclude href="sstream"/>
+          <cinclude href="feynman.hpp"/>
           <code><![CDATA[
 
-
-   for (int e = 0; e < d; e++) {
-        std::list<int> x(n, 0);
-        x.front() = d - e;
-        x.back() = e;
-
+          vector2d gen=gen_block(n,d);
+    for (std::vector<int> ge:gen){
         std::list<pnet::type::value::value_type> temp;
-        for (int xi : x) {
+        for (int xi : ge) {
             temp.push_back(pnet::type::value::value_type(xi));
         }
         v.push_back(temp);

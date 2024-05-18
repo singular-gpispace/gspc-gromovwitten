@@ -2094,39 +2094,7 @@ CMakeFiles/feynman.dir/src/Workflow.cpp.o: ../src/Workflow.cpp \
   /usr/include/c++/11/bits/stl_list.h \
   /usr/include/c++/11/bits/list.tcc \
   ../include/feynman/WorkflowResult.hpp \
-  ../include/feynman/feynman.hpp \
-  /usr/local/include/flint/fmpz_mpoly.h \
-  /usr/local/include/flint/mpoly_types.h \
-  /usr/local/include/flint/fmpz_mod_types.h \
-  /usr/local/include/flint/fmpz_types.h \
-  /usr/local/include/flint/flint.h \
-  /usr/include/x86_64-linux-gnu/gmp.h \
-  /usr/local/include/flint/flint-config.h \
-  /usr/local/include/flint/longlong.h \
-  /usr/local/include/flint/longlong_asm_gcc.h \
-  /usr/local/include/flint/longlong_div_gnu.h \
-  /usr/local/include/flint/fq_nmod_types.h \
-  /usr/local/include/flint/nmod_types.h \
-  /usr/local/include/flint/n_poly_types.h \
-  /usr/local/include/flint/fmpz.h \
-  /usr/include/c++/11/fstream \
-  /usr/include/x86_64-linux-gnu/c++/11/bits/basic_file.h \
-  /usr/include/x86_64-linux-gnu/c++/11/bits/c++io.h \
-  /usr/include/c++/11/bits/fstream.tcc \
-  /usr/include/x86_64-linux-gnu/sys/resource.h \
-  /usr/include/x86_64-linux-gnu/bits/resource.h \
-  /usr/include/x86_64-linux-gnu/bits/types/struct_rusage.h \
-  /usr/include/c++/11/iostream \
-  /usr/include/c++/11/chrono \
-  /usr/include/c++/11/ratio \
-  /usr/include/c++/11/bits/parse_numbers.h \
-  /usr/include/c++/11/numeric \
-  /usr/include/c++/11/bits/stl_numeric.h \
-  /usr/include/c++/11/unordered_set \
-  /usr/include/c++/11/bits/hashtable.h \
-  /usr/include/c++/11/bits/hashtable_policy.h \
-  /usr/include/c++/11/bits/enable_special_members.h \
-  /usr/include/c++/11/bits/unordered_set.h
+  /usr/include/c++/11/iostream
 
 CMakeFiles/feynman.dir/src/WorkflowResult.cpp.o: ../src/WorkflowResult.cpp \
   /usr/include/stdc-predef.h \
@@ -6826,11 +6794,39 @@ CMakeFiles/feynman.dir/src/parse_parameters_from_commandline.cpp.o: ../src/parse
 
 /home/atraore/spack/opt/spack/linux-ubuntu22.04-skylake/gcc-11.3.0/gpi-space-23.06-gxye6b7ngsnbxnzjkfsfqtvanynyghdk/include/util-generic/print_exception.hpp:
 
+/usr/include/c++/11/numeric:
+
+/usr/include/x86_64-linux-gnu/bits/resource.h:
+
+/usr/include/x86_64-linux-gnu/c++/11/bits/c++io.h:
+
+/usr/include/x86_64-linux-gnu/c++/11/bits/basic_file.h:
+
+/usr/local/include/flint/nmod_types.h:
+
+/usr/local/include/flint/longlong_div_gnu.h:
+
+/usr/local/include/flint/fmpz_types.h:
+
+/usr/local/include/flint/mpoly_types.h:
+
+/usr/local/include/flint/fmpz_mpoly.h:
+
+../include/feynman/feynman.hpp:
+
 /home/atraore/spack/opt/spack/linux-ubuntu22.04-skylake/gcc-11.3.0/gpi-space-23.06-gxye6b7ngsnbxnzjkfsfqtvanynyghdk/include/drts/virtual_memory.hpp:
+
+/usr/include/c++/11/bits/enable_special_members.h:
+
+/usr/include/c++/11/bits/hashtable_policy.h:
 
 /usr/include/c++/11/unordered_map:
 
 /usr/include/c++/11/bits/std_mutex.h:
+
+/usr/include/c++/11/bits/parse_numbers.h:
+
+/usr/include/c++/11/chrono:
 
 /usr/include/c++/11/mutex:
 
@@ -6867,6 +6863,14 @@ CMakeFiles/feynman.dir/src/parse_parameters_from_commandline.cpp.o: ../src/parse
 /home/atraore/spack/opt/spack/linux-ubuntu22.04-skylake/gcc-11.3.0/gpi-space-23.06-gxye6b7ngsnbxnzjkfsfqtvanynyghdk/include/logging/endpoint.ipp:
 
 /home/atraore/spack/opt/spack/linux-ubuntu22.04-skylake/gcc-11.3.0/gpi-space-23.06-gxye6b7ngsnbxnzjkfsfqtvanynyghdk/include/logging/tcp_endpoint.ipp:
+
+/usr/local/include/flint/n_poly_types.h:
+
+/home/atraore/spack/opt/spack/linux-ubuntu22.04-skylake/gcc-11.3.0/gpi-space-23.06-gxye6b7ngsnbxnzjkfsfqtvanynyghdk/include/logging/tcp_endpoint.hpp:
+
+/usr/local/include/flint/fq_nmod_types.h:
+
+/home/atraore/spack/opt/spack/linux-ubuntu22.04-skylake/gcc-11.3.0/gpi-space-23.06-gxye6b7ngsnbxnzjkfsfqtvanynyghdk/include/logging/socket_endpoint.ipp:
 
 /home/atraore/spack/opt/spack/linux-ubuntu22.04-skylake/gcc-11.3.0/boost-1.63.0-q5xh5vlq3ihagc7f5ql4erhsofvamt6m/include/boost/asio/local/detail/endpoint.hpp:
 
@@ -6952,6 +6956,10 @@ CMakeFiles/feynman.dir/src/parse_parameters_from_commandline.cpp.o: ../src/parse
 
 /home/atraore/spack/opt/spack/linux-ubuntu22.04-skylake/gcc-11.3.0/boost-1.63.0-q5xh5vlq3ihagc7f5ql4erhsofvamt6m/include/boost/asio/basic_socket_streambuf.hpp:
 
+/usr/include/c++/11/unordered_set:
+
+/home/atraore/spack/opt/spack/linux-ubuntu22.04-skylake/gcc-11.3.0/boost-1.63.0-q5xh5vlq3ihagc7f5ql4erhsofvamt6m/include/boost/asio/detail/impl/reactive_socket_service_base.ipp:
+
 /home/atraore/spack/opt/spack/linux-ubuntu22.04-skylake/gcc-11.3.0/boost-1.63.0-q5xh5vlq3ihagc7f5ql4erhsofvamt6m/include/boost/asio/detail/reactive_socket_recvmsg_op.hpp:
 
 /home/atraore/spack/opt/spack/linux-ubuntu22.04-skylake/gcc-11.3.0/boost-1.63.0-q5xh5vlq3ihagc7f5ql4erhsofvamt6m/include/boost/asio/detail/reactive_socket_recv_op.hpp:
@@ -6965,6 +6973,10 @@ CMakeFiles/feynman.dir/src/parse_parameters_from_commandline.cpp.o: ../src/parse
 /home/atraore/spack/opt/spack/linux-ubuntu22.04-skylake/gcc-11.3.0/boost-1.63.0-q5xh5vlq3ihagc7f5ql4erhsofvamt6m/include/boost/asio/detail/shared_ptr.hpp:
 
 /home/atraore/spack/opt/spack/linux-ubuntu22.04-skylake/gcc-11.3.0/boost-1.63.0-q5xh5vlq3ihagc7f5ql4erhsofvamt6m/include/boost/asio/detail/reactive_socket_accept_op.hpp:
+
+/usr/local/include/flint/longlong.h:
+
+/home/atraore/spack/opt/spack/linux-ubuntu22.04-skylake/gcc-11.3.0/boost-1.63.0-q5xh5vlq3ihagc7f5ql4erhsofvamt6m/include/boost/asio/detail/reactive_null_buffers_op.hpp:
 
 /home/atraore/spack/opt/spack/linux-ubuntu22.04-skylake/gcc-11.3.0/boost-1.63.0-q5xh5vlq3ihagc7f5ql4erhsofvamt6m/include/boost/asio/detail/impl/buffer_sequence_adapter.ipp:
 
@@ -7226,51 +7238,7 @@ CMakeFiles/feynman.dir/src/parse_parameters_from_commandline.cpp.o: ../src/parse
 
 /home/atraore/spack/opt/spack/linux-ubuntu22.04-skylake/gcc-11.3.0/gpi-space-23.06-gxye6b7ngsnbxnzjkfsfqtvanynyghdk/include/we/signature_of.hpp:
 
-/usr/include/c++/11/bits/enable_special_members.h:
-
-/usr/include/c++/11/bits/hashtable_policy.h:
-
-/home/atraore/spack/opt/spack/linux-ubuntu22.04-skylake/gcc-11.3.0/boost-1.63.0-q5xh5vlq3ihagc7f5ql4erhsofvamt6m/include/boost/asio/detail/impl/reactive_socket_service_base.ipp:
-
-/usr/include/c++/11/unordered_set:
-
-/usr/include/c++/11/numeric:
-
-/usr/include/c++/11/bits/parse_numbers.h:
-
-/usr/include/c++/11/chrono:
-
 /usr/include/c++/11/iostream:
-
-/usr/include/x86_64-linux-gnu/bits/resource.h:
-
-/usr/include/x86_64-linux-gnu/c++/11/bits/c++io.h:
-
-/usr/include/x86_64-linux-gnu/c++/11/bits/basic_file.h:
-
-/home/atraore/spack/opt/spack/linux-ubuntu22.04-skylake/gcc-11.3.0/gpi-space-23.06-gxye6b7ngsnbxnzjkfsfqtvanynyghdk/include/logging/tcp_endpoint.hpp:
-
-/usr/local/include/flint/n_poly_types.h:
-
-/usr/local/include/flint/nmod_types.h:
-
-/home/atraore/spack/opt/spack/linux-ubuntu22.04-skylake/gcc-11.3.0/gpi-space-23.06-gxye6b7ngsnbxnzjkfsfqtvanynyghdk/include/logging/socket_endpoint.ipp:
-
-/usr/local/include/flint/fq_nmod_types.h:
-
-/usr/local/include/flint/longlong_div_gnu.h:
-
-/home/atraore/spack/opt/spack/linux-ubuntu22.04-skylake/gcc-11.3.0/boost-1.63.0-q5xh5vlq3ihagc7f5ql4erhsofvamt6m/include/boost/asio/detail/reactive_null_buffers_op.hpp:
-
-/usr/local/include/flint/longlong.h:
-
-/usr/local/include/flint/fmpz_types.h:
-
-/usr/local/include/flint/mpoly_types.h:
-
-/usr/local/include/flint/fmpz_mpoly.h:
-
-../include/feynman/feynman.hpp:
 
 /home/atraore/spack/opt/spack/linux-ubuntu22.04-skylake/gcc-11.3.0/boost-1.63.0-q5xh5vlq3ihagc7f5ql4erhsofvamt6m/include/boost/program_options/variables_map.hpp:
 
@@ -7434,9 +7402,9 @@ CMakeFiles/feynman.dir/src/parse_parameters_from_commandline.cpp.o: ../src/parse
 
 /usr/include/x86_64-linux-gnu/bits/types/struct_timespec.h:
 
-/home/atraore/spack/opt/spack/linux-ubuntu22.04-skylake/gcc-11.3.0/gpi-space-23.06-gxye6b7ngsnbxnzjkfsfqtvanynyghdk/include/logging/endpoint.hpp:
-
 /usr/include/c++/11/bits/hashtable.h:
+
+/home/atraore/spack/opt/spack/linux-ubuntu22.04-skylake/gcc-11.3.0/gpi-space-23.06-gxye6b7ngsnbxnzjkfsfqtvanynyghdk/include/logging/endpoint.hpp:
 
 /home/atraore/spack/opt/spack/linux-ubuntu22.04-skylake/gcc-11.3.0/boost-1.63.0-q5xh5vlq3ihagc7f5ql4erhsofvamt6m/include/boost/predef/compiler/watcom.h:
 
@@ -9078,9 +9046,9 @@ CMakeFiles/feynman.dir/src/parse_parameters_from_commandline.cpp.o: ../src/parse
 
 /home/atraore/spack/opt/spack/linux-ubuntu22.04-skylake/gcc-11.3.0/boost-1.63.0-q5xh5vlq3ihagc7f5ql4erhsofvamt6m/include/boost/serialization/split_free.hpp:
 
-/home/atraore/spack/opt/spack/linux-ubuntu22.04-skylake/gcc-11.3.0/boost-1.63.0-q5xh5vlq3ihagc7f5ql4erhsofvamt6m/include/boost/io_fwd.hpp:
-
 /usr/local/include/flint/flint.h:
+
+/home/atraore/spack/opt/spack/linux-ubuntu22.04-skylake/gcc-11.3.0/boost-1.63.0-q5xh5vlq3ihagc7f5ql4erhsofvamt6m/include/boost/io_fwd.hpp:
 
 /usr/include/c++/11/bits/locale_classes.tcc:
 

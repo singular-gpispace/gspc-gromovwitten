@@ -82,14 +82,14 @@
 <title>n0_port_2</title>
 <polygon fill="white" stroke="black" points="847.55,-543.33 795.92,-566.43 744.28,-543.33 744.33,-505.96 847.51,-505.96 847.55,-543.33"/>
 <text text-anchor="middle" x="795.92" y="-536.8" font-family="Times,serif" font-size="14.00">graph</text>
-<text text-anchor="middle" x="795.92" y="-521.8" font-family="Times,serif" font-size="14.00">string</text>
+<text text-anchor="middle" x="795.92" y="-521.8" font-family="Times,serif" font-size="14.00">list</text>
 </g>
 <!-- n0_place_6 -->
 <g id="node12" class="node">
 <title>n0_place_6</title>
 <ellipse fill="white" stroke="black" cx="1003.21" cy="-422" rx="41.94" ry="26.74"/>
 <text text-anchor="middle" x="1003.21" y="-425.8" font-family="Times,serif" font-size="14.00">graph</text>
-<text text-anchor="middle" x="1003.21" y="-410.8" font-family="Times,serif" font-size="14.00">string</text>
+<text text-anchor="middle" x="1003.21" y="-410.8" font-family="Times,serif" font-size="14.00">list</text>
 </g>
 <!-- n0_port_2&#45;&gt;n0_place_6 -->
 <g id="edge14" class="edge">
@@ -219,15 +219,15 @@
 <!-- n2_port_1 -->
 <g id="node20" class="node">
 <title>n2_port_1</title>
-<polygon fill="white" stroke="black" points="1321.65,-397.33 1270.01,-420.43 1218.38,-397.33 1218.42,-359.96 1321.6,-359.96 1321.65,-397.33"/>
+<polygon fill="white" stroke="black" points="1304.19,-397.33 1270.01,-420.43 1235.84,-397.33 1235.87,-359.96 1304.15,-359.96 1304.19,-397.33"/>
 <text text-anchor="middle" x="1270.01" y="-390.8" font-family="Times,serif" font-size="14.00">G</text>
-<text text-anchor="middle" x="1270.01" y="-375.8" font-family="Times,serif" font-size="14.00">string</text>
+<text text-anchor="middle" x="1270.01" y="-375.8" font-family="Times,serif" font-size="14.00">list</text>
 </g>
 <!-- n0_place_6&#45;&gt;n2_port_1 -->
 <g id="edge6" class="edge">
 <title>n0_place_6&#45;&gt;n2_port_1</title>
-<path fill="none" stroke="black" stroke-dasharray="5,2" d="M1044.14,-416.72C1087.67,-410.97 1157.82,-401.7 1208.2,-395.04"/>
-<polygon fill="black" stroke="black" points="1208.86,-398.48 1218.31,-393.7 1207.94,-391.54 1208.86,-398.48"/>
+<path fill="none" stroke="black" stroke-dasharray="5,2" d="M1044.14,-416.72C1093.07,-410.25 1175.66,-399.34 1225.97,-392.69"/>
+<polygon fill="black" stroke="black" points="1226.43,-396.16 1235.89,-391.38 1225.51,-389.22 1226.43,-396.16"/>
 </g>
 <!-- n1_condition -->
 <g id="node13" class="node">

@@ -1,6 +1,6 @@
 #include <we/loader/macros.hpp>
 
-#include <pnetc/op/feynman_module/sum_deg.hpp>
+#include <pnetc/op/feynman_module/gen_block_.hpp>
 #include <list>
 #include <we/type/value.hpp>
 
@@ -10,7 +10,7 @@ namespace pnetc
   {
     namespace feynman_module
     {
-      static void sum_deg
+      static void gen_block_
         ( drts::worker::context *
         , expr::eval::context const&_pnetc_input
         , expr::eval::context&_pnetc_output
@@ -20,7 +20,7 @@ namespace pnetc
         const int & n (::boost::get< int > (_pnetc_input.value (std::list<std::string> (1, "n"))));
         const int & d (::boost::get< int > (_pnetc_input.value (std::list<std::string> (1, "d"))));
         std::list<pnet::type::value::value_type> v;
-        ::pnetc::op::feynman_module::sum_deg (n, d, v);
+        ::pnetc::op::feynman_module::gen_block_ (n, d, v);
         _pnetc_output.bind_and_discard_ref (std::list<std::string> (1, "v"), v);
       }
     }
@@ -101,7 +101,7 @@ namespace pnetc
 }
 WE_MOD_INITIALIZE_START()
 {
-  WE_REGISTER_FUN_AS (::pnetc::op::feynman_module::sum_deg,"sum_deg");
+  WE_REGISTER_FUN_AS (::pnetc::op::feynman_module::gen_block_,"gen_block_");
   WE_REGISTER_FUN_AS (::pnetc::op::feynman_module::partition,"partition");
   WE_REGISTER_FUN_AS (::pnetc::op::feynman_module::feynman_integral_degree,"feynman_integral_degree");
   WE_REGISTER_FUN_AS (::pnetc::op::feynman_module::plus,"plus");

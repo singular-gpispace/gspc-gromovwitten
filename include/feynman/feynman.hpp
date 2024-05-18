@@ -25,10 +25,12 @@ using pnet_list = std::list<pnet_value>;
 using pnet_list2d = std::list<std::list<pnet_value>>; */
 using vector2d = std::vector<std::vector<int>>;
 using list_type = std::list<std::string>; // Define list_type as std::list<std::string>
-
+vector2d gen_block1(int d, int n);
+vector2d gen_block2(int d, int n);
 vector2d gen_block(int d, int n);
-int binomial(int n, int k);
+unsigned long  binomial(const int n, const int k);
 std::vector<int> next_partition(std::vector<int> a);
+vector2d iterate1(std::vector<int> xa);
 vector2d iterate(std::vector<int> xa);
 std::vector<std::tuple<int, std::vector<int>>> signature_and_multiplicitie(std::vector<std::pair<int, int>> G, const std::vector<int> a);
 
