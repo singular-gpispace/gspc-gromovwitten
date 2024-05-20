@@ -1,0 +1,71 @@
+#include <pnetc/op/feynman_module/signature_and_multiplicities.hpp>
+#include <list>
+#include <we/type/value.hpp>
+#include <iostream>
+#include <vector>
+#include <numeric>
+#include <sstream>
+#include <algorithm>
+#include <tuple>
+#include <feynman.hpp>
+
+namespace pnetc
+{
+  namespace op
+  {
+    namespace feynman_module
+    {
+      void signature_and_multiplicities
+        ( const std::list<pnet::type::value::value_type>& G
+        , const std::list<pnet::type::value::value_type>& a
+        , std::list<pnet::type::value::value_type>& s
+        )
+      {
+#line 105 "/home/atraore/gpi/try_gpi/gpispace/workflow/feynman.xpnet"
+
+       std::vector<int> xxx; // Define xxx outside the inner loop
+              for (const auto &vii : G)
+              {
+                  if (auto ptr = boost::get<int>(&vii))
+                  {                             // Check if the element is an integer
+                      xxx.push_back( *ptr ); // Push the integer to the vector xx
+                  }
+              }
+           std::vector<std::pair<int, int>> Gv;
+          
+              // Iterate over the vector of integers, creating pairs from consecutive elements
+              for (size_t i = 0; i < xxx.size(); i += 2)
+              {
+                  Gv.push_back(std::make_pair(xxx[i], xxx[i + 1]));
+              }
+          // Read the vector of integers from the string
+          std::vector<int> av;
+           for (const auto &xi : a){
+                  if (auto ptr = boost::get<int>(&xi))
+                  {
+                      av.push_back( *ptr);
+                  }
+            }
+    
+
+    std::vector<std::tuple<int, std::vector<int>>> f= signature_and_multiplicitie( Gv,   av);
+    using pnet_value = pnet::type::value::value_type;
+    using pnet_list = std::list<pnet_value>;
+      for (const auto& tuple : f)
+    {
+        int first = std::get<0>(tuple);
+        const auto& second = std::get<1>(tuple);
+        pnet_list sublist;
+        sublist.push_front(pnet_value(first)); // Insert factor at the beginning
+        for (const auto& value : second)
+        {
+            sublist.push_back(pnet_value(value));
+        }
+        s.push_back(sublist);
+    }
+  
+    
+      }
+    }
+  }
+}

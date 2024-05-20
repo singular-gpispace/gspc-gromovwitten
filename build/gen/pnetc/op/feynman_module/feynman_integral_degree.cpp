@@ -1,0 +1,67 @@
+#include <pnetc/op/feynman_module/feynman_integral_degree.hpp>
+#include <list>
+#include <we/type/value.hpp>
+#include <iostream>
+#include <vector>
+#include <numeric>
+#include <tuple>
+#include <algorithm>
+#include <unordered_map>
+#include <functional>
+#include <cmath>
+#include <sstream>
+#include <stack>
+#include <unordered_set>
+#include <feynman.hpp>
+
+namespace pnetc
+{
+  namespace op
+  {
+    namespace feynman_module
+    {
+      unsigned long feynman_integral_degree
+        ( const std::list<pnet::type::value::value_type>& G
+        , const std::list<pnet::type::value::value_type>& a
+        )
+      {
+#line 181 "/home/atraore/gpi/try_gpi/gpispace/workflow/feynman.xpnet"
+
+
+    using pnet_value = pnet::type::value::value_type;
+    using pnet_list = std::list<pnet_value>;
+    using pnet_list2d = std::list<std::list<pnet_value>>;
+            std::vector<int> xxx; // Define xxx outside the inner loop
+              for (const auto &vii : G)
+              {
+                  if (auto ptr = boost::get<int>(&vii))
+                  {                             // Check if the element is an integer
+                      xxx.push_back( *ptr ); // Push the integer to the vector xx
+                  }
+              }
+           std::vector<std::pair<int, int>> Gv;
+          
+              // Iterate over the vector of integers, creating pairs from consecutive elements
+              for (size_t i = 0; i < xxx.size(); i += 2)
+              {
+                  Gv.push_back(std::make_pair(xxx[i], xxx[i + 1]));
+              }
+             
+              int factor = boost::get<int>(*a.begin()); // Get the factor
+                std::vector<int> av;
+                  for (auto it = std::next(a.begin()); it != a.end(); ++it)
+                  {
+                      auto intValue = boost::get<int>(*it);
+                      av.push_back(intValue);
+                  }
+                  std::cout << std::endl;
+              
+
+unsigned long fe= feynman_integral_type( Gv,  factor,  av);
+return fe;
+
+      
+      }
+    }
+  }
+}
