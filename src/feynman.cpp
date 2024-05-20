@@ -127,10 +127,7 @@ vector2d iterate1(std::vector<int> xa)
     vector2d gen;
 
     int k = xa.size();
-    if (k == 0)
-    {
-        throw std::invalid_argument("k should be nonzero");
-    }
+
     int d = std::accumulate(xa.begin(), xa.end(), 0);
     if (d == xa[0])
     {
