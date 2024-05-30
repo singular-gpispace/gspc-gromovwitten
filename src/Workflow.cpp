@@ -57,7 +57,7 @@ namespace feynman
         ValuesOnPorts::Map values_on_ports;
         values_on_ports.emplace("N", _N);
         values_on_ports.emplace("degree", _degree);
-        values_on_ports.emplace("graph", graph_int);
+        // values_on_ports.emplace("graph", graph_int);
 
         return values_on_ports;
     }
@@ -69,7 +69,7 @@ namespace feynman
         //  std::cout << " signature is : " << signature << std::endl;
 
         // auto const &feynm = results.get<int>("L");
-        auto const& feynm = results.get<unsigned long>("sum");
+        auto const& feynm = results.get<unsigned long>("my_vectors");
 
         std::cout << "feynman_degree: " << feynm << std::endl;
 
