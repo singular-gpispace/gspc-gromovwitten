@@ -37,11 +37,11 @@ namespace feynman
 
     int Workflow::process(WorkflowResult const& results) const
     {
-        auto const& vectors = results.get_all<std::string>("vectors", _degree); // Assuming _N is the expected count
+        auto const& vectors = results.get_all<std::string>("branchtype", _degree); // Assuming _N is the expected count
 
         for (const auto& vec : vectors)
         {
-            std::cout << "vectors: " << vec << std::endl;
+            std::cout << "branchtype: " << vec << std::endl;
         }
 
         return EXIT_SUCCESS;
