@@ -2,7 +2,7 @@
 
   <in name="degree" type="int" place="degree"/>
   <in name="N" type="int" place="N"/>
-  <out name="my_vectors" type="list" place="my_vectors"/>
+  <out name="branchtype" type="list" place="branchtype"/>
 
   <net>
     <place name="degree" type="int"/>
@@ -20,33 +20,37 @@
           <cinclude href="sstream"/>
           <cinclude href="feynman.hpp"/>
           <code><![CDATA[
+            using pnet_value = pnet::type::value::value_type;
+            using pnet_list = std::list<pnet_value>;
             std::vector<int> x(n, 0);
               x.front() = d ;
-              using pnet_value = pnet::type::value::value_type;
+              pnet_list tmp;
               for (int xi : x)
               {
-                  v.push_back(pnet_value(xi));
+                tmp.push_back(pnet_value(xi));
               }
+              v.push_back(tmp);
+
               ]]>
           </code>
         </module>
       </defun>
       <connect-in port="n" place="N"/>
       <connect-in port="d" place="degree"/>
-      <connect-out port="v" place="d_vectors"/>
+      <connect-out-many port="v" place="d_vectors"/>
     </transition>
 
     <place name="d_vectors" type="list"/>
-    <place name="my_vectors" type="list"/>
+    <place name="my_vectors" type="string"/>
 
     <transition name="Combination">
       <defun>
         <in name="v" type="list"/>
-        <in name="v_copy" type="list"/>
+        <in name="v_copy" type="string"/>
         <out name="vec" type="list"/>
-        <out name="vec_copy" type="list"/>
+        <out name="vec_copy" type="string"/>
 
-        <module name="feynman_module" function=" part(v,v_copy, vec,vec_copy)">
+        <module name="feynman_module" function=" part(v, v_copy,vec,vec_copy)">
           <cinclude href="iostream"/>
           <cinclude href="vector"/>
           <cinclude href="numeric"/>
@@ -58,42 +62,19 @@
             using pnet_list = std::list<pnet_value>;
             int m=4;
             std::vector<int> x;
-              std::cout << " x is " << " ";
-          
-              for (const auto& elem : v) {
-                  auto ptr = boost::get<int>(&elem);
-                  x.push_back(*ptr);
-                  std::cout << *ptr << " ";
-              }
-          
-              for (int i = 1; i <= m; ++i) {
-                  x = next_partition(x);
-                  if (i == m) {
-                      std::cout << "myx is ";
-                      for (int xi : x) {
-                          vec_copy.push_back(pnet_value(xi));
-                          std::cout << xi << " ";
-                      }
-          
-                      std::cout << std::endl; // To move to the next line after printing
-                  }
-          
-                  pnet_list temp_a;
-                  for (int xi : x) {
-                      vec.push_back(pnet_value(xi)); // Simplified casting
-                  }
-          
-                  std::cout << std::endl; // To move to the next line after printing
-                  std::cout << " here " << std::endl;
-          
-                  for (const auto& elem : vec) {
-                      auto ptr = boost::get<int>(&elem);
-                      std::cout << *ptr << " ";
-                  }
-                  std::cout << std::endl;
-          
-              }
-          ]]>
+            std::cout << " x is " << " ";
+            for (const auto& elem : v) {
+              auto ptr = boost::get<int>(&elem);
+              x.push_back(*ptr);
+              std::cout << *ptr << " ";
+            }
+            std::stringstream ss;
+            for (int val : x) {
+                ss << val << ' ';
+            }
+            vec_copy = ss.str();
+            vec.push_back(ss.str());
+            ]]>
           </code>
         </module>
       </defun>
@@ -101,7 +82,6 @@
       <connect-in port="v_copy" place="my_vectors"/>
       <connect-out-many port="vec" place="branchtype"/>
       <connect-out port="vec_copy" place="my_vectors"/>
-
     </transition>
     <place name="branchtype" type="list"/>
 

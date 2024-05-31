@@ -4,9 +4,6 @@
 #include <feynman/ValuesOnPorts.hpp>
 #include <feynman/WorkflowResult.hpp>
 
-using pnet_value = pnet::type::value::value_type;
-using pnet_list = std::list<pnet_value>;
-using pnet_list2d = std::list<std::list<pnet_value>>;
 namespace feynman
 {
   class Workflow
@@ -19,12 +16,15 @@ namespace feynman
     ValuesOnPorts inputs() const;
 
     int process(WorkflowResult const& result) const;
+    using pnet_value = pnet::type::value::value_type;
+    using pnet_list = std::list<pnet_value>;
+    using pnet_list2d = std::list<std::list<pnet_value>>;
 
   private:
     int _N;
     int _degree;
     std::string _graph;
-    std::vector<int> G;
+    std::vector<int> G; // Declare Gv as a member variable
     pnet_list graph_int;
   };
 }

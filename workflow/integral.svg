@@ -23,96 +23,96 @@
 </g>
 <g id="clust4" class="cluster">
 <title>cluster_2</title>
-<polygon fill="yellow" stroke="black" points="288.71,-182 288.71,-542 522.71,-542 522.71,-182 288.71,-182"/>
+<polygon fill="yellow" stroke="black" points="288.71,-179 288.71,-539 522.71,-539 522.71,-179 288.71,-179"/>
 </g>
 <!-- n0_condition -->
 <g id="node1" class="node">
 <title>n0_condition</title>
-<polygon fill="white" stroke="black" points="18.19,-505 18.19,-541 129.19,-541 129.19,-505 18.19,-505"/>
-<text text-anchor="middle" x="73.69" y="-519.3" font-family="Times,serif" font-size="14.00">feynman_deg</text>
+<polygon fill="white" stroke="black" points="18.19,-508 18.19,-544 129.19,-544 129.19,-508 18.19,-508"/>
+<text text-anchor="middle" x="73.69" y="-522.3" font-family="Times,serif" font-size="14.00">feynman_deg</text>
 </g>
 <!-- n0_port_0 -->
 <g id="node2" class="node">
 <title>n0_port_0</title>
-<polygon fill="white" stroke="black" points="131.56,-455.33 73.69,-478.43 15.81,-455.33 15.87,-417.96 131.5,-417.96 131.56,-455.33"/>
-<text text-anchor="middle" x="73.69" y="-448.8" font-family="Times,serif" font-size="14.00">degree</text>
-<text text-anchor="middle" x="73.69" y="-433.8" font-family="Times,serif" font-size="14.00">int</text>
+<polygon fill="white" stroke="black" points="131.56,-452.33 73.69,-475.43 15.81,-452.33 15.87,-414.96 131.5,-414.96 131.56,-452.33"/>
+<text text-anchor="middle" x="73.69" y="-445.8" font-family="Times,serif" font-size="14.00">degree</text>
+<text text-anchor="middle" x="73.69" y="-430.8" font-family="Times,serif" font-size="14.00">int</text>
 </g>
 <!-- n0_place_0 -->
 <g id="node5" class="node">
 <title>n0_place_0</title>
-<ellipse fill="white" stroke="black" cx="214.04" cy="-445" rx="46.84" ry="26.74"/>
-<text text-anchor="middle" x="214.04" y="-448.8" font-family="Times,serif" font-size="14.00">degree</text>
-<text text-anchor="middle" x="214.04" y="-433.8" font-family="Times,serif" font-size="14.00">int</text>
+<ellipse fill="white" stroke="black" cx="214.04" cy="-442" rx="46.84" ry="26.74"/>
+<text text-anchor="middle" x="214.04" y="-445.8" font-family="Times,serif" font-size="14.00">degree</text>
+<text text-anchor="middle" x="214.04" y="-430.8" font-family="Times,serif" font-size="14.00">int</text>
 </g>
 <!-- n0_port_0&#45;&gt;n0_place_0 -->
 <g id="edge8" class="edge">
 <title>n0_port_0&#45;&gt;n0_place_0</title>
-<path fill="none" stroke="black" stroke-dasharray="1,5" d="M131.76,-445C143.52,-445 155.76,-445 167.07,-445"/>
+<path fill="none" stroke="black" stroke-dasharray="1,5" d="M131.76,-442C143.52,-442 155.76,-442 167.07,-442"/>
 </g>
 <!-- n0_port_1 -->
 <g id="node3" class="node">
 <title>n0_port_1</title>
-<polygon fill="white" stroke="black" points="105.12,-371.33 73.69,-394.43 42.26,-371.33 42.29,-333.96 105.09,-333.96 105.12,-371.33"/>
-<text text-anchor="middle" x="73.69" y="-364.8" font-family="Times,serif" font-size="14.00">N</text>
-<text text-anchor="middle" x="73.69" y="-349.8" font-family="Times,serif" font-size="14.00">int</text>
+<polygon fill="white" stroke="black" points="105.12,-368.33 73.69,-391.43 42.26,-368.33 42.29,-330.96 105.09,-330.96 105.12,-368.33"/>
+<text text-anchor="middle" x="73.69" y="-361.8" font-family="Times,serif" font-size="14.00">N</text>
+<text text-anchor="middle" x="73.69" y="-346.8" font-family="Times,serif" font-size="14.00">int</text>
 </g>
 <!-- n0_place_1 -->
 <g id="node6" class="node">
 <title>n0_place_1</title>
-<ellipse fill="white" stroke="black" cx="214.04" cy="-361" rx="27" ry="26.74"/>
-<text text-anchor="middle" x="214.04" y="-364.8" font-family="Times,serif" font-size="14.00">N</text>
-<text text-anchor="middle" x="214.04" y="-349.8" font-family="Times,serif" font-size="14.00">int</text>
+<ellipse fill="white" stroke="black" cx="214.04" cy="-358" rx="27" ry="26.74"/>
+<text text-anchor="middle" x="214.04" y="-361.8" font-family="Times,serif" font-size="14.00">N</text>
+<text text-anchor="middle" x="214.04" y="-346.8" font-family="Times,serif" font-size="14.00">int</text>
 </g>
 <!-- n0_port_1&#45;&gt;n0_place_1 -->
 <g id="edge9" class="edge">
 <title>n0_port_1&#45;&gt;n0_place_1</title>
-<path fill="none" stroke="black" stroke-dasharray="1,5" d="M105.39,-361C129.75,-361 163.45,-361 186.62,-361"/>
+<path fill="none" stroke="black" stroke-dasharray="1,5" d="M105.39,-358C129.75,-358 163.45,-358 186.62,-358"/>
 </g>
 <!-- n0_port_2 -->
 <g id="node4" class="node">
 <title>n0_port_2</title>
-<polygon fill="white" stroke="black" points="319.9,-38.67 405.71,-15.57 491.52,-38.67 491.44,-76.04 319.98,-76.04 319.9,-38.67"/>
-<text text-anchor="middle" x="405.71" y="-52.8" font-family="Times,serif" font-size="14.00">my_vectors</text>
+<polygon fill="white" stroke="black" points="331.62,-38.67 405.71,-15.57 479.8,-38.67 479.73,-76.04 331.69,-76.04 331.62,-38.67"/>
+<text text-anchor="middle" x="405.71" y="-52.8" font-family="Times,serif" font-size="14.00">d_vectors</text>
 <text text-anchor="middle" x="405.71" y="-37.8" font-family="Times,serif" font-size="14.00">list</text>
 </g>
-<!-- n0_place_4 -->
-<g id="node9" class="node">
-<title>n0_place_4</title>
-<ellipse fill="white" stroke="black" cx="620.01" cy="-193" rx="69.09" ry="26.74"/>
-<text text-anchor="middle" x="620.01" y="-196.8" font-family="Times,serif" font-size="14.00">my_vectors</text>
-<text text-anchor="middle" x="620.01" y="-181.8" font-family="Times,serif" font-size="14.00">list</text>
+<!-- n0_place_3 -->
+<g id="node8" class="node">
+<title>n0_place_3</title>
+<ellipse fill="white" stroke="black" cx="620.01" cy="-274" rx="60.21" ry="26.74"/>
+<text text-anchor="middle" x="620.01" y="-277.8" font-family="Times,serif" font-size="14.00">d_vectors</text>
+<text text-anchor="middle" x="620.01" y="-262.8" font-family="Times,serif" font-size="14.00">list</text>
 </g>
-<!-- n0_port_2&#45;&gt;n0_place_4 -->
+<!-- n0_port_2&#45;&gt;n0_place_3 -->
 <g id="edge10" class="edge">
-<title>n0_port_2&#45;&gt;n0_place_4</title>
-<path fill="none" stroke="black" stroke-dasharray="1,5" d="M446.64,-76.09C486.52,-103.13 547.15,-144.26 584.86,-169.84"/>
+<title>n0_port_2&#45;&gt;n0_place_3</title>
+<path fill="none" stroke="black" stroke-dasharray="1,5" d="M436.2,-76.26C461.31,-100.53 497.26,-137.83 522.71,-175 538.66,-198.29 531.72,-211.12 550.71,-232 558.58,-240.65 568.63,-248.15 578.6,-254.31"/>
 </g>
 <!-- n2_port_0 -->
 <g id="node17" class="node">
 <title>n2_port_0</title>
-<polygon fill="white" stroke="black" points="437.14,-455.33 405.71,-478.43 374.28,-455.33 374.31,-417.96 437.11,-417.96 437.14,-455.33"/>
-<text text-anchor="middle" x="405.71" y="-448.8" font-family="Times,serif" font-size="14.00">d</text>
-<text text-anchor="middle" x="405.71" y="-433.8" font-family="Times,serif" font-size="14.00">int</text>
+<polygon fill="white" stroke="black" points="437.14,-452.33 405.71,-475.43 374.28,-452.33 374.31,-414.96 437.11,-414.96 437.14,-452.33"/>
+<text text-anchor="middle" x="405.71" y="-445.8" font-family="Times,serif" font-size="14.00">d</text>
+<text text-anchor="middle" x="405.71" y="-430.8" font-family="Times,serif" font-size="14.00">int</text>
 </g>
 <!-- n0_place_0&#45;&gt;n2_port_0 -->
 <g id="edge6" class="edge">
 <title>n0_place_0&#45;&gt;n2_port_0</title>
-<path fill="none" stroke="black" d="M260.95,-445C292.34,-445 333.56,-445 363.82,-445"/>
-<polygon fill="black" stroke="black" points="364.03,-448.5 374.03,-445 364.03,-441.5 364.03,-448.5"/>
+<path fill="none" stroke="black" d="M260.95,-442C292.34,-442 333.56,-442 363.82,-442"/>
+<polygon fill="black" stroke="black" points="364.03,-445.5 374.03,-442 364.03,-438.5 364.03,-445.5"/>
 </g>
 <!-- n2_port_1 -->
 <g id="node18" class="node">
 <title>n2_port_1</title>
-<polygon fill="white" stroke="black" points="437.14,-371.33 405.71,-394.43 374.28,-371.33 374.31,-333.96 437.11,-333.96 437.14,-371.33"/>
-<text text-anchor="middle" x="405.71" y="-364.8" font-family="Times,serif" font-size="14.00">n</text>
-<text text-anchor="middle" x="405.71" y="-349.8" font-family="Times,serif" font-size="14.00">int</text>
+<polygon fill="white" stroke="black" points="437.14,-368.33 405.71,-391.43 374.28,-368.33 374.31,-330.96 437.11,-330.96 437.14,-368.33"/>
+<text text-anchor="middle" x="405.71" y="-361.8" font-family="Times,serif" font-size="14.00">n</text>
+<text text-anchor="middle" x="405.71" y="-346.8" font-family="Times,serif" font-size="14.00">int</text>
 </g>
 <!-- n0_place_1&#45;&gt;n2_port_1 -->
 <g id="edge7" class="edge">
 <title>n0_place_1&#45;&gt;n2_port_1</title>
-<path fill="none" stroke="black" d="M241.41,-361C273.1,-361 326.61,-361 363.7,-361"/>
-<polygon fill="black" stroke="black" points="364.17,-364.5 374.17,-361 364.17,-357.5 364.17,-364.5"/>
+<path fill="none" stroke="black" d="M241.41,-358C273.1,-358 326.61,-358 363.7,-358"/>
+<polygon fill="black" stroke="black" points="364.17,-361.5 374.17,-358 364.17,-354.5 364.17,-361.5"/>
 </g>
 <!-- n0_place_2 -->
 <g id="node7" class="node">
@@ -120,13 +120,6 @@
 <ellipse fill="white" stroke="black" cx="1002.6" cy="-277" rx="69.09" ry="26.74"/>
 <text text-anchor="middle" x="1002.6" y="-280.8" font-family="Times,serif" font-size="14.00">branchtype</text>
 <text text-anchor="middle" x="1002.6" y="-265.8" font-family="Times,serif" font-size="14.00">list</text>
-</g>
-<!-- n0_place_3 -->
-<g id="node8" class="node">
-<title>n0_place_3</title>
-<ellipse fill="white" stroke="black" cx="620.01" cy="-361" rx="60.21" ry="26.74"/>
-<text text-anchor="middle" x="620.01" y="-364.8" font-family="Times,serif" font-size="14.00">d_vectors</text>
-<text text-anchor="middle" x="620.01" y="-349.8" font-family="Times,serif" font-size="14.00">list</text>
 </g>
 <!-- n1_port_0 -->
 <g id="node11" class="node">
@@ -138,21 +131,28 @@
 <!-- n0_place_3&#45;&gt;n1_port_0 -->
 <g id="edge4" class="edge">
 <title>n0_place_3&#45;&gt;n1_port_0</title>
-<path fill="none" stroke="black" d="M663.49,-379.85C694.61,-393.66 736.66,-412.32 767.79,-426.13"/>
-<polygon fill="black" stroke="black" points="766.51,-429.4 777.07,-430.25 769.35,-423 766.51,-429.4"/>
+<path fill="none" stroke="black" d="M635.08,-300.1C651.56,-328.6 681.25,-374.03 717.3,-403 732.08,-414.87 750.75,-424.16 767.48,-430.95"/>
+<polygon fill="black" stroke="black" points="766.47,-434.31 777.06,-434.65 769,-427.78 766.47,-434.31"/>
+</g>
+<!-- n0_place_4 -->
+<g id="node9" class="node">
+<title>n0_place_4</title>
+<ellipse fill="white" stroke="black" cx="620.01" cy="-196" rx="69.09" ry="26.74"/>
+<text text-anchor="middle" x="620.01" y="-199.8" font-family="Times,serif" font-size="14.00">my_vectors</text>
+<text text-anchor="middle" x="620.01" y="-184.8" font-family="Times,serif" font-size="14.00">string</text>
 </g>
 <!-- n1_port_1 -->
 <g id="node12" class="node">
 <title>n1_port_1</title>
 <polygon fill="white" stroke="black" points="867.93,-371.33 811.3,-394.43 754.68,-371.33 754.73,-333.96 867.88,-333.96 867.93,-371.33"/>
 <text text-anchor="middle" x="811.3" y="-364.8" font-family="Times,serif" font-size="14.00">v_copy</text>
-<text text-anchor="middle" x="811.3" y="-349.8" font-family="Times,serif" font-size="14.00">list</text>
+<text text-anchor="middle" x="811.3" y="-349.8" font-family="Times,serif" font-size="14.00">string</text>
 </g>
 <!-- n0_place_4&#45;&gt;n1_port_1 -->
 <g id="edge3" class="edge">
 <title>n0_place_4&#45;&gt;n1_port_1</title>
-<path fill="none" stroke="black" d="M635.68,-219.24C652.37,-247.11 681.95,-290.92 717.3,-319 725.8,-325.75 735.56,-331.67 745.48,-336.78"/>
-<polygon fill="black" stroke="black" points="744.09,-340 754.61,-341.24 747.16,-333.71 744.09,-340"/>
+<path fill="none" stroke="black" d="M664.65,-216.62C673.74,-222.51 682.6,-229.64 689.3,-238 713.14,-267.71 691.63,-290.86 717.3,-319 725.06,-327.5 734.87,-334.39 745.19,-339.94"/>
+<polygon fill="black" stroke="black" points="743.84,-343.18 754.36,-344.48 746.95,-336.91 743.84,-343.18"/>
 </g>
 <!-- n1_condition -->
 <g id="node10" class="node">
@@ -180,13 +180,13 @@
 <title>n1_port_3</title>
 <polygon fill="white" stroke="black" points="741.46,-182.67 811.3,-159.57 881.15,-182.67 881.08,-220.04 741.52,-220.04 741.46,-182.67"/>
 <text text-anchor="middle" x="811.3" y="-196.8" font-family="Times,serif" font-size="14.00">vec_copy</text>
-<text text-anchor="middle" x="811.3" y="-181.8" font-family="Times,serif" font-size="14.00">list</text>
+<text text-anchor="middle" x="811.3" y="-181.8" font-family="Times,serif" font-size="14.00">string</text>
 </g>
 <!-- n1_port_3&#45;&gt;n0_place_4 -->
 <g id="edge1" class="edge">
 <title>n1_port_3&#45;&gt;n0_place_4</title>
-<path fill="none" stroke="black" d="M741.43,-193C727.77,-193 713.34,-193 699.4,-193"/>
-<polygon fill="black" stroke="black" points="699.35,-189.5 689.35,-193 699.35,-196.5 699.35,-189.5"/>
+<path fill="none" stroke="black" d="M741.43,-194.09C727.77,-194.31 713.34,-194.54 699.4,-194.76"/>
+<polygon fill="black" stroke="black" points="699.29,-191.26 689.35,-194.92 699.4,-198.26 699.29,-191.26"/>
 </g>
 <!-- n1_modcall -->
 <g id="node15" class="node">
@@ -197,27 +197,29 @@
 <!-- n2_condition -->
 <g id="node16" class="node">
 <title>n2_condition</title>
-<polygon fill="white" stroke="black" points="366.21,-497 366.21,-533 445.21,-533 445.21,-497 366.21,-497"/>
-<text text-anchor="middle" x="405.71" y="-511.3" font-family="Times,serif" font-size="14.00">partition</text>
+<polygon fill="white" stroke="black" points="366.21,-494 366.21,-530 445.21,-530 445.21,-494 366.21,-494"/>
+<text text-anchor="middle" x="405.71" y="-508.3" font-family="Times,serif" font-size="14.00">partition</text>
 </g>
 <!-- n2_port_2 -->
 <g id="node19" class="node">
 <title>n2_port_2</title>
-<polygon fill="white" stroke="black" points="371.54,-266.67 405.71,-243.57 439.89,-266.67 439.85,-304.04 371.57,-304.04 371.54,-266.67"/>
-<text text-anchor="middle" x="405.71" y="-280.8" font-family="Times,serif" font-size="14.00">v</text>
-<text text-anchor="middle" x="405.71" y="-265.8" font-family="Times,serif" font-size="14.00">list</text>
+<polygon fill="white" stroke="black" points="371.54,-263.67 405.71,-240.57 439.89,-263.67 439.85,-301.04 371.57,-301.04 371.54,-263.67"/>
+<text text-anchor="middle" x="405.71" y="-277.8" font-family="Times,serif" font-size="14.00">v</text>
+<text text-anchor="middle" x="405.71" y="-262.8" font-family="Times,serif" font-size="14.00">list</text>
 </g>
 <!-- n2_port_2&#45;&gt;n0_place_3 -->
 <g id="edge5" class="edge">
 <title>n2_port_2&#45;&gt;n0_place_3</title>
-<path fill="none" stroke="black" d="M439.92,-288.39C463.23,-296.54 495.06,-307.98 522.71,-319 537.44,-324.87 553.28,-331.6 567.76,-337.93"/>
-<polygon fill="black" stroke="black" points="566.5,-341.2 577.06,-342.01 569.32,-334.79 566.5,-341.2"/>
+<path fill="none" stroke="black" d="M439.88,-272C469.09,-272 512.58,-272 549.4,-272"/>
+<path fill="none" stroke="transparent" d="M439.88,-274C469.09,-274 512.58,-274 549.4,-274"/>
+<path fill="none" stroke="black" d="M439.88,-276C469.09,-276 512.58,-276 549.4,-276"/>
+<polygon fill="black" stroke="black" points="549.59,-277.5 559.59,-274 549.59,-270.5 549.59,-277.5"/>
 </g>
 <!-- n2_modcall -->
 <g id="node20" class="node">
 <title>n2_modcall</title>
-<polygon fill="white" stroke="black" points="514.71,-226 296.71,-226 296.71,-190 514.71,-190 514.71,-226"/>
-<text text-anchor="middle" x="405.71" y="-204.3" font-family="Times,serif" font-size="14.00">feynman_module.init_vector</text>
+<polygon fill="white" stroke="black" points="514.71,-223 296.71,-223 296.71,-187 514.71,-187 514.71,-223"/>
+<text text-anchor="middle" x="405.71" y="-201.3" font-family="Times,serif" font-size="14.00">feynman_module.init_vector</text>
 </g>
 </g>
 </svg>
