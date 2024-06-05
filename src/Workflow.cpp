@@ -31,18 +31,17 @@ namespace feynman
         ValuesOnPorts::Map values_on_ports;
         values_on_ports.emplace("N", _N);
         values_on_ports.emplace("degree", _degree);
-
         return values_on_ports;
     }
 
     int Workflow::process(WorkflowResult const& results) const
     {
-        auto const& vectors = results.get_all<std::string>("branchtype", _degree); // Assuming _N is the expected count
 
-        for (const auto& vec : vectors)
-        {
-            std::cout << "branchtype: " << vec << std::endl;
-        }
+        auto const& resul = results.get<std::string>("vectors");
+
+        std::cout << "vectors " << resul << std::endl;
+        std::cout << std::endl;
+
 
         return EXIT_SUCCESS;
     }

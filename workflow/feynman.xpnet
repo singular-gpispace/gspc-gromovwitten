@@ -2,24 +2,25 @@
 
   <in name="degree" type="int" place="degree"/>
   <in name="N" type="int" place="N"/>
-  <out name="branchtype" type="list" place="branchtype"/>
+  <out name="vectors" type="string" place="vectors"/>
+  <out name="state" type="string" place="state"/>
 
   <net>
     <place name="degree" type="int"/>
     <place name="N" type="int"/>
 
-    <transition name="partition">
+    <transition name="initial">
       <defun>
         <in name="d" type="int"/>
         <in name="n" type="int"/>
         <out name="v" type="list"/>
 
-        <module name="feynman_module" function=" init_vector(n,d,v)">
+        <module name="feynman_module" function=" gen_block (n,d,v)">
           <cinclude href="iostream"/>
           <cinclude href="vector"/>
           <cinclude href="sstream"/>
-          <cinclude href="feynman.hpp"/>
           <code><![CDATA[
+
             using pnet_value = pnet::type::value::value_type;
             using pnet_list = std::list<pnet_value>;
             std::vector<int> x(n, 0);
@@ -31,59 +32,109 @@
               }
               v.push_back(tmp);
 
-              ]]>
+         ]]>
           </code>
         </module>
       </defun>
       <connect-in port="n" place="N"/>
       <connect-in port="d" place="degree"/>
-      <connect-out-many port="v" place="d_vectors"/>
+      <connect-out-many port="v" place="init_vector"/>
     </transition>
 
-    <place name="d_vectors" type="list"/>
-    <place name="my_vectors" type="string"/>
+    <place name="init_vector" type="list"/>
+    <place name="vectors" type="string"/>
+    <place name="state" type="string"/>
 
-    <transition name="Combination">
+    <transition name="first_next_partition">
       <defun>
         <in name="v" type="list"/>
-        <in name="v_copy" type="string"/>
         <out name="vec" type="list"/>
         <out name="vec_copy" type="string"/>
 
-        <module name="feynman_module" function=" part(v, v_copy,vec,vec_copy)">
+        <module name="feynman_module" function=" iterat(v, vec,vec_copy)">
           <cinclude href="iostream"/>
           <cinclude href="vector"/>
           <cinclude href="numeric"/>
           <cinclude href="sstream"/>
-          <cinclude href="../include/feynman/feynman.hpp"/>
+          <cinclude href="feynman.hpp"/>
 
           <code><![CDATA[
-            using pnet_value = pnet::type::value::value_type;
-            using pnet_list = std::list<pnet_value>;
-            int m=4;
-            std::vector<int> x;
-            std::cout << " x is " << " ";
-            for (const auto& elem : v) {
-              auto ptr = boost::get<int>(&elem);
+          std::vector<int> x;
+          for (const auto& elem : v) {
+            auto ptr = boost::get<int>(&elem) ;
               x.push_back(*ptr);
-              std::cout << *ptr << " ";
-            }
-            std::stringstream ss;
-            for (int val : x) {
-                ss << val << ' ';
-            }
-            vec_copy = ss.str();
-            vec.push_back(ss.str());
-            ]]>
+            
+          }
+          int m=4;
+          vector2d ru;
+      for (int ii=0; ii<m; ii++){
+        x=next_partition(x);
+          ru.push_back(x);
+      }
+   // vector2d gen = iterate(x);
+    std::string    ve = vector2dToString(ru);
+    int nn=x.size();
+    int d = std::accumulate(x.begin(), x.end(), 0);
+
+    if(x[nn]!= d){
+     vec_copy=vectorToStringInt(x) ;
+    }
+    using pnet_value = pnet::type::value::value_type;
+    using pnet_list = std::list<pnet_value>;
+
+    vec.push_back(ve);
+
+
+          ]]>
           </code>
         </module>
       </defun>
-      <connect-in port="v" place="d_vectors"/>
-      <connect-in port="v_copy" place="my_vectors"/>
-      <connect-out-many port="vec" place="branchtype"/>
-      <connect-out port="vec_copy" place="my_vectors"/>
+      <connect-in port="v" place="init_vector"/>
+      <connect-out-many port="vec" place="vectors"/>
+      <connect-out port="vec_copy" place="state"/>
+
     </transition>
-    <place name="branchtype" type="list"/>
+
+    <transition name="next_partitions">
+      <defun>
+        <in name="v" type="string"/>
+        <out name="vec" type="list"/>
+        <out name="vec_copy" type="string"/>
+
+        <module name="feynman_module" function=" iterator(v, vec,vec_copy)">
+          <cinclude href="iostream"/>
+          <cinclude href="vector"/>
+          <cinclude href="numeric"/>
+          <cinclude href="sstream"/>
+          <cinclude href="feynman.hpp"/>
+
+          <code><![CDATA[
+          std::vector<int> x=stringToVectorInt(v);
+          int m=4;
+          vector2d ru;
+      for (int ii=0; ii<m; ii++){
+        x=next_partition(x);
+          ru.push_back(x);
+      }
+    std::string    ve = vector2dToString(ru);
+    vec.push_back(ve);
+
+    int nn=x.size();
+    int d = std::accumulate(x.begin(), x.end(), 0);
+
+    if(x[nn]!= d){
+     vec_copy=vectorToStringInt(x) ;
+    }
+
+          ]]>
+          </code>
+        </module>
+      </defun>
+      <connect-in port="v" place="state"/>
+      <connect-out-many port="vec" place="vectors"/>
+      <connect-out port="vec_copy" place="state"/>
+
+    </transition>
 
   </net>
 

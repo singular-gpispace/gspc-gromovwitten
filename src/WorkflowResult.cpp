@@ -86,4 +86,8 @@ namespace feynman
   {
     return get_all_impl<std::string>(key, "string", expected_count);
   }
+  template<> std::string const& WorkflowResult::get(Key key) const
+  {
+    return get_impl<std::string>(key, "string");
+  }
 }
