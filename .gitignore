@@ -1,11 +1,8 @@
 bin/
 build/
 feynman/
-<<<<<<< HEAD
 /feynman/
 !include/feynman/
-=======
->>>>>>> 7f8b9891554682872c34a8d33db13dde6c5175ff
 flint_try/
 .vscode/
 install_feyn.sh
