@@ -83,8 +83,83 @@
     </transition>
 
 
+<<<<<<< HEAD
     <place name="branchtype" type="list"/>
     <place name="graph" type="list"/>
+=======
+
+    <transition name="signature">
+      <defun>
+        <in name="a" type="list"/>
+        <in name="G" type="list"/>
+        <out name="s" type="list"/>
+        <module name="feynman_module" function=" signature_and_multiplicities(G, a,s)">
+          <cinclude href="iostream"/>
+          <cinclude href="vector"/>
+          <cinclude href="numeric"/>
+          <cinclude href="sstream"/>
+          <cinclude href="algorithm"/>
+          <cinclude href="tuple"/>
+          <cinclude href="feynman.hpp"/>
+
+
+          <code><![CDATA[
+       std::vector<int> xxx; // Define xxx outside the inner loop
+              for (const auto &vii : G)
+              {
+                  if (auto ptr = boost::get<int>(&vii))
+                  {                             // Check if the element is an integer
+                      xxx.push_back( *ptr ); // Push the integer to the vector xx
+                  }
+              }
+           std::vector<std::pair<int, int>> Gv;
+          
+              // Iterate over the vector of integers, creating pairs from consecutive elements
+              for (size_t i = 0; i < xxx.size(); i += 2)
+              {
+                  Gv.push_back(std::make_pair(xxx[i], xxx[i + 1]));
+              }
+
+              std::vector<int> av;
+           for (const auto &xi : a){
+                  if (auto ptr = boost::get<int>(&xi))
+                  {
+                      av.push_back( *ptr);
+                  }
+            }
+    
+
+    std::vector<std::tuple<int, std::vector<int>>> f= signature_and_multiplicitie( Gv,   av);
+    using pnet_value = pnet::type::value::value_type;
+    using pnet_list = std::list<pnet_value>;
+      for (const auto& tuple : f)
+    {
+        int first = std::get<0>(tuple);
+        const auto& second = std::get<1>(tuple);
+        pnet_list sublist;
+        sublist.push_front(pnet_value(first)); // Insert factor at the beginning
+        for (const auto& value : second)
+        {
+            sublist.push_back(pnet_value(value));
+        }
+        s.push_back(sublist);
+    }
+  
+    ]]>
+          </code>
+        </module>
+      </defun>
+      <connect-read port="G" place="graph"/>
+      <connect-in port="a" place="branchtype"/>
+      <connect-out-many port="s" place="sign"/>
+    </transition>
+    <place name="sign" type="list" />
+
+    <place name="branchtype" type="list"/>
+    <place name="graph" type="list"/>
+
+
+>>>>>>> 7f8b9891554682872c34a8d33db13dde6c5175ff
 
     <transition name="feynman_degree">
       <defun>
@@ -106,6 +181,7 @@
           <cinclude href="unordered_set"/>
           <cinclude href="feynman.hpp"/>
           <code><![CDATA[
+<<<<<<< HEAD
           std::vector<int> xxx; // Define xxx outside the inner loop
             for (const auto &vii : G)
             {
@@ -131,6 +207,39 @@
           }
 
 unsigned long fe=feynman_integral_branch_type(Gv, av);
+=======
+
+    using pnet_value = pnet::type::value::value_type;
+    using pnet_list = std::list<pnet_value>;
+    using pnet_list2d = std::list<std::list<pnet_value>>;
+            std::vector<int> xxx; // Define xxx outside the inner loop
+              for (const auto &vii : G)
+              {
+                  if (auto ptr = boost::get<int>(&vii))
+                  {                             // Check if the element is an integer
+                      xxx.push_back( *ptr ); // Push the integer to the vector xx
+                  }
+              }
+           std::vector<std::pair<int, int>> Gv;
+          
+              // Iterate over the vector of integers, creating pairs from consecutive elements
+              for (size_t i = 0; i < xxx.size(); i += 2)
+              {
+                  Gv.push_back(std::make_pair(xxx[i], xxx[i + 1]));
+              }
+             
+              int factor = boost::get<int>(*a.begin()); // Get the factor
+                std::vector<int> av;
+                  for (auto it = std::next(a.begin()); it != a.end(); ++it)
+                  {
+                      auto intValue = boost::get<int>(*it);
+                      av.push_back(intValue);
+                  }
+                  std::cout << std::endl;
+              
+
+unsigned long fe= feynman_integral_type( Gv,  factor,  av);
+>>>>>>> 7f8b9891554682872c34a8d33db13dde6c5175ff
 return fe;
 
       ]]>          </code>

@@ -43,6 +43,7 @@ vector2d gen_block1(int n, int d)
     }
     return v;
 }
+<<<<<<< HEAD
 vector2d gen_block2(int n, int d)
 {
     vector2d v;
@@ -86,6 +87,11 @@ vector2d gen_block(int n, int d) {
 
 unsigned long  binomial(const int n, const int k) {
     std::vector<unsigned long > vec(k);
+=======
+
+unsigned long  binomial(const int n, const int k) {
+    std::vector<unsigned long> vec(k);
+>>>>>>> 7f8b9891554682872c34a8d33db13dde6c5175ff
     vec[0] = n - k + 1;
 
     for (int i = 1; i < k; ++i) {
