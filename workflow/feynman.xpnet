@@ -83,7 +83,6 @@
     </transition>
 
 
-<<<<<<< HEAD
 
     <transition name="signature">
       <defun>
@@ -156,10 +155,6 @@
     <place name="graph" type="list"/>
 
 
-=======
-    <place name="branchtype" type="list"/>
-    <place name="graph" type="list"/>
->>>>>>> b3a0b27b06782dd7eb705dfd9e4ebd192fff658e
 
     <transition name="feynman_degree">
       <defun>
@@ -181,7 +176,6 @@
           <cinclude href="unordered_set"/>
           <cinclude href="feynman.hpp"/>
           <code><![CDATA[
-<<<<<<< HEAD
 
     using pnet_value = pnet::type::value::value_type;
     using pnet_list = std::list<pnet_value>;
@@ -213,33 +207,6 @@
               
 
 unsigned long fe= feynman_integral_type( Gv,  factor,  av);
-=======
-          std::vector<int> xxx; // Define xxx outside the inner loop
-            for (const auto &vii : G)
-            {
-                if (auto ptr = boost::get<int>(&vii))
-                {                             // Check if the element is an integer
-                    xxx.push_back( *ptr ); // Push the integer to the vector xx
-                }
-            }
-         std::vector<std::pair<int, int>> Gv;
-        
-            // Iterate over the vector of integers, creating pairs from consecutive elements
-            for (size_t i = 0; i < xxx.size(); i += 2)
-            {
-                Gv.push_back(std::make_pair(xxx[i], xxx[i + 1]));
-            }
-          std::vector<int> av;
-          for (const auto &xi : a)
-          {
-              if (auto ptr = boost::get<int>(&xi))
-              {
-                  av.push_back( *ptr);
-              }
-          }
-
-unsigned long fe=feynman_integral_branch_type(Gv, av);
->>>>>>> b3a0b27b06782dd7eb705dfd9e4ebd192fff658e
 return fe;
 
       ]]>          </code>
