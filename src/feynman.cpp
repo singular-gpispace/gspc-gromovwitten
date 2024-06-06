@@ -43,11 +43,7 @@ vector2d gen_block1(int n, int d)
     }
     return v;
 }
-<<<<<<< HEAD
 
-unsigned long  binomial(const int n, const int k) {
-    std::vector<unsigned long> vec(k);
-=======
 vector2d gen_block2(int n, int d)
 {
     vector2d v;
@@ -91,7 +87,6 @@ vector2d gen_block(int n, int d) {
 
 unsigned long  binomial(const int n, const int k) {
     std::vector<unsigned long > vec(k);
->>>>>>> b3a0b27b06782dd7eb705dfd9e4ebd192fff658e
     vec[0] = n - k + 1;
 
     for (int i = 1; i < k; ++i) {
@@ -165,7 +160,7 @@ vector2d iterate1(std::vector<int> xa)
 vector2d iterate(std::vector<int> x) {
     int k = x.size();
     int d = accumulate(x.begin(), x.end(), 0);
-    int n = binomial(d + k - 1, d);
+    unsigned long  n = binomial(d + k - 1, d);
 
     if (k == 0) {
         throw std::invalid_argument("k should be nonzero");
@@ -181,7 +176,7 @@ vector2d iterate(std::vector<int> x) {
     }
     else if (result.front() + result[1] == d) {
         ru.push_back(result);
-        for (int i = 1; i < n; ++i) {
+        for (unsigned long i = 1; i < n; ++i) {
             if (result[1] != m - 1 && result.back() != 2) {
                 result = next_partition(result);
                 ru.push_back(result);
