@@ -68,8 +68,10 @@
         for (std::vector<int> &a : gen)
     {
         pnet_list temp_a;
+
         for (int xi : a)
         {
+
             temp_a.push_back(pnet::type::value::value_type(xi));
         }
         vec.push_back(temp_a);
@@ -124,6 +126,8 @@
                   }
             }
     
+            //**************************************************************************************           
+            //**************************************************************************************           
 
     std::vector<std::tuple<int, std::vector<int>>> f= signature_and_multiplicitie( Gv,   av);
     using pnet_value = pnet::type::value::value_type;
@@ -133,9 +137,12 @@
         int first = std::get<0>(tuple);
         const auto& second = std::get<1>(tuple);
         pnet_list sublist;
+       
+
         sublist.push_front(pnet_value(first)); // Insert factor at the beginning
         for (const auto& value : second)
         {
+
             sublist.push_back(pnet_value(value));
         }
         s.push_back(sublist);
@@ -196,24 +203,30 @@
                   Gv.push_back(std::make_pair(xxx[i], xxx[i + 1]));
               }
              
-              int factor = boost::get<int>(*a.begin()); // Get the factor
+  //************************************************************************************** 
+
+
+   //**************************************************************************************           
+              auto factor = boost::get<int>(*a.begin()); // Get the factor
                 std::vector<int> av;
+
                   for (auto it = std::next(a.begin()); it != a.end(); ++it)
                   {
                       auto intValue = boost::get<int>(*it);
                       av.push_back(intValue);
-                  }
-                  std::cout << std::endl;
-              
 
-unsigned long fe= feynman_integral_type( Gv,  factor,  av);
-return fe;
+                  }
+              
+        //**************************************************************************************           
+
+      unsigned long fe= feynman_integral_type( Gv,  factor,  av);
+      return fe;
 
       ]]>          </code>
         </module>
       </defun>
       <connect-read port="G" place="graph"/>
-      <connect-in port="a" place="branchtype"/>
+      <connect-in port="a" place="sign"/>
       <connect-out port="s" place="fey_out"/>
     </transition>
 
