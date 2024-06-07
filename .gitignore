@@ -9,4 +9,4 @@ install_feyn.sh
 *.txt
 !CMakeLists.txt
 git_file
-xpnet_problem/
+xpnet_problems/
