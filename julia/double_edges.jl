@@ -1,6 +1,5 @@
 using Nemo
-
-
+import Combinatorics: permutations
 function nv(ve)
     nvb = Set{Int}()
     for (u, v) in ve
@@ -59,7 +58,6 @@ end
 
 ve = [(1, 3), (1, 2), (1, 2), (2, 4), (3, 4), (3, 4)]
 a = [1, 0, 0, 2, 1, 0]
-println(find_equal_pairs(ve))
-println("Number of vertices: ", nv(ve))
-println(length(ve))
-println(vector_to_monomial(ve, a))
+indice = find_equal_pairs(ve)
+
+@time println(generate_permutation(a, indice))
