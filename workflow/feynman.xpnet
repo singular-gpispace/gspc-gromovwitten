@@ -45,9 +45,10 @@
     <transition name="Combination">
       <defun>
         <in name="v" type="list"/>
+        <in name="G" type="list"/>
         <out name="vec" type="list"/>
 
-        <module name="feynman_module" function=" partition(v, vec)">
+        <module name="feynman_module" function=" partition(G, v, vec)">
           <cinclude href="iostream"/>
           <cinclude href="vector"/>
           <cinclude href="numeric"/>
@@ -55,14 +56,33 @@
           <cinclude href="../include/feynman/feynman.hpp"/>
 
           <code><![CDATA[
-          std::vector<int> x;
+             std::vector<int> xxx; // Define xxx outside the inner loop
+            for (const auto &vii : G)
+            {
+                if (auto ptr = boost::get<int>(&vii))
+                {                             // Check if the element is an integer
+                    xxx.push_back( *ptr ); // Push the integer to the vector xx
+                }
+            }
+         std::vector<std::pair<int, int>> Gv;
+        
+            // Iterate over the vector of integers, creating pairs from consecutive elements
+            for (size_t i = 0; i < xxx.size(); i += 2)
+            {
+                Gv.push_back(std::make_pair(xxx[i], xxx[i + 1]));
+            }
+
+            /**************************************************************************
+            ***************************************************************************
+            **************************************************************************/
+                              
+            std::vector<int> x;
           for (const auto& elem : v) {
             auto ptr = boost::get<int>(&elem) ;
               x.push_back(*ptr);
-            
           }
       
-    vector2d gen=iterate( x);
+    vector2d gen=iterate_permutation(Gv, x);
       using pnet_value = pnet::type::value::value_type;
     using pnet_list = std::list<pnet_value>;
         for (std::vector<int> &a : gen)
@@ -74,14 +94,14 @@
         }
         vec.push_back(temp_a);
     }
-
-          ]]>          </code>
+          ]]>
+          </code>
         </module>
       </defun>
       <connect-in port="v" place="d_vectors"/>
+      <connect-read port="G" place="graph"/>
       <connect-out-many port="vec" place="branchtype"/>
     </transition>
-
 
     <place name="branchtype" type="list"/>
     <place name="graph" type="list"/>
@@ -121,16 +141,22 @@
             {
                 Gv.push_back(std::make_pair(xxx[i], xxx[i + 1]));
             }
-          std::vector<int> av;
-          for (const auto &xi : a)
-          {
-              if (auto ptr = boost::get<int>(&xi))
-              {
-                  av.push_back( *ptr);
-              }
-          }
+/**************************************************************************
+***************************************************************************
+**************************************************************************/
 
-unsigned long fe=feynman_integral_branch_type(Gv, av);
+          auto factor = boost::get<int>(*a.begin()); // Get the factor
+                std::vector<int> av;
+
+                  for (auto it = std::next(a.begin()); it != a.end(); ++it)
+                  {
+                      auto intValue = boost::get<int>(*it);
+                      av.push_back(intValue);
+
+                  }
+
+/**************************************************************************/
+unsigned long fe=factor*feynman_integral_branch_type(Gv, av);
 return fe;
 
       ]]>          </code>

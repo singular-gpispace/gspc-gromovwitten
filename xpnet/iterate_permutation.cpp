@@ -2,39 +2,75 @@
 #include <list>
 #include <tuple>
 #include <sstream> // for std::istringstream
-/* #include "../../code/boost/include/boost/variant.hpp"
+#include "../../code/boost/include/boost/variant.hpp"
 #include "../../code/util-generic/split.hpp"
-#include "../../code/we/type/value.hpp" */
-#include <stdio.h>
-#include <flint/fmpz_mpoly.h>
-#include <stdlib.h> // for malloc and free
+#include "../../code/we/type/value.hpp"
 #include <flint/fmpz.h>
+#include <flint/fmpz_mpoly.h>
+#include <stdio.h>
+#include <stdlib.h> // for malloc and free
+
 #include <fstream>
 #include <sys/resource.h>
 #include <iostream>
+
 #include <chrono>
 #include <functional> // Include for std::function
 #include <vector>     // Include for std::vector
 #include <numeric>
 #include <unordered_set> // for std::unordered_set
-#include <algorithm>
-#include <set>
-#include <map>
-
-// #include "../flint_try/time_memory.hpp"
 
 using Element = std::pair<std::pair<int, int>, std::pair<int, int>>;
 using Sequence = std::vector<Element>;
 using signature = std::vector<std::pair<int, std::vector<int>>>;
 using graph = std::vector<std::pair<int, int>>;
 
-/*
 using pnet_value = pnet::type::value::value_type;
 using pnet_list = std::list<pnet_value>;
-using pnet_list2d = std::list<std::list<pnet_value>>; */
+using pnet_list2d = std::list<std::list<pnet_value>>;
 using vector2d = std::vector<std::vector<int>>;
 using list_type = std::list<std::string>; // Define list_type as std::list<std::string>
 
+std::size_t get_memory_usage()
+{
+    struct rusage r_usage;
+    getrusage(RUSAGE_SELF, &r_usage);
+    return r_usage.ru_maxrss; // ru_maxrss is in kilobytes
+}
+
+template <typename Func>
+struct ResourceUsage
+{
+    std::size_t memory_usage; // in kilobytes
+    long long elapsed_time;   // in microseconds
+};
+
+template <typename Func>
+ResourceUsage<Func> measure_resource_usage(Func func)
+{
+    // Measure start time
+    auto start_time = std::chrono::steady_clock::now();
+
+    // Measure start memory usage
+    std::size_t start_memory = get_memory_usage();
+
+    // Execute the provided function
+    func();
+
+    // Measure end time
+    auto end_time = std::chrono::steady_clock::now();
+
+    // Measure end memory usage
+    std::size_t end_memory = get_memory_usage();
+
+    // Calculate elapsed time
+    auto elapsed_time = std::chrono::duration_cast<std::chrono::microseconds>(end_time - start_time).count();
+
+    // Calculate memory usage difference
+    std::size_t memory_usage = end_memory - start_memory;
+
+    return { memory_usage, elapsed_time };
+}
 vector2d gen_block(int n, int d)
 {
     vector2d v;
@@ -48,6 +84,7 @@ vector2d gen_block(int n, int d)
     }
     return v;
 }
+
 
 std::vector<int> next_partition(std::vector<int> a)
 {
@@ -113,7 +150,7 @@ vector2d iterate(const std::vector<int>& xa)
 
     return gen;
 }
-std::vector<std::tuple<int, std::vector<int>>> signature_and_multiplicitie(graph G, std::vector<int> a)
+std::vector<std::tuple<int, std::vector<int>>> signature_and_multiplicitie(std::vector<std::pair<int, int>> G, std::vector<int> a)
 {
     std::vector<int> p;
     std::vector<std::tuple<int, std::vector<int>>> b;
@@ -384,7 +421,7 @@ void proterm(const int k, const int j, int a, mp_limb_signed_t N, const int nv, 
     }
 }
 
-unsigned long feynman_integral_type(graph Gv, int factor, std::vector<int> av)
+unsigned long feynman_integral_type(std::vector<std::pair<int, int>> Gv, int factor, std::vector<int> av)
 {
     if (av.size() != Gv.size())
     {
@@ -484,7 +521,7 @@ unsigned long feynman_integral_type(graph Gv, int factor, std::vector<int> av)
         return coeff;
     }
 }
-unsigned long feynman_integral_branch_type(graph Gv, std::vector<int> a)
+unsigned long feynman_integral_branch_type(std::vector<std::pair<int, int>> Gv, std::vector<int> a)
 {
     std::vector<std::tuple<int, std::vector<int>>> f = signature_and_multiplicitie(Gv, a);
     unsigned long sum = 0;
@@ -498,7 +535,7 @@ unsigned long feynman_integral_branch_type(graph Gv, std::vector<int> a)
     }
     return sum;
 }
-unsigned long feynman_integral_degree(graph Gv, int d)
+unsigned long feynman_integral_degree(std::vector<std::pair<int, int>> Gv, int d)
 {
     unsigned long sum = 0;
     int ne = Gv.size();
@@ -508,10 +545,25 @@ unsigned long feynman_integral_degree(graph Gv, int d)
         vector2d it = iterate(xa);
         for (std::vector<int> xi : it)
         {
-            sum += feynman_integral_branch_type(Gv, xi);
+            unsigned long fee = feynman_integral_branch_type(Gv, xi);
+            sum += fee;
         }
     }
     return sum;
+}
+vector2d compos_iterate(int n, int d)
+{
+    vector2d gen;
+    std::vector<int> xv(n, 0);
+    xv[0] = d;
+
+    while (xv[n - 1] != d) {
+        gen.push_back(xv);
+        xv = next_partition(xv);
+    }
+    gen.push_back(xv);
+
+    return gen;
 }
 // Function to find the number of vertices in a list of edges
 int nv(const std::vector<std::pair<int, int>>& ve) {
@@ -522,33 +574,24 @@ int nv(const std::vector<std::pair<int, int>>& ve) {
     }
     return vertices.size();
 }
+
 // Function to find pairs of indices for equal edges
 std::vector<std::vector<int>> find_equal_pairs(const std::vector<std::pair<int, int>>& ve) {
     std::map<std::pair<int, int>, std::vector<int>> equal_pairs;
-
-    // Iterate over the input vector of pairs
-    for (std::size_t i = 0; i < ve.size(); ++i) {
-        // Append the index 'i' to the vector corresponding to the pair 've[i]' in the map
+    for (size_t i = 0; i < ve.size(); ++i) {
         equal_pairs[ve[i]].push_back(i);
     }
-
-    // Declare a vector of vectors to store the indices of equal pairs
     std::vector<std::vector<int>> indices;
-
-    // Iterate over the map
-    for (auto it = equal_pairs.begin(); it != equal_pairs.end(); ++it) {
-        // If the size of the vector (value) is greater than 1, it means there are duplicate pairs
-        if (it->second.size() > 1) {
-            // Add the vector of indices to the 'indices' vector
-            indices.push_back(it->second);
+    for (const auto& [key, value] : equal_pairs) {
+        if (value.size() > 1) {
+            indices.push_back(value);
         }
     }
-
-    // Return the vector of indices
     return indices;
 }
+
 // Function to convert a vector to a monomial given the graph (edges)
-std::string vector_to_monomial(const graph& G, const std::vector<int>& v) {
+std::string vector_to_monomial(const std::vector<std::pair<int, int>>& G, const std::vector<int>& v) {
     std::vector<int> scaled_v = v;
     for (auto& val : scaled_v) {
         val *= 2;
@@ -633,4 +676,73 @@ vector2d iterate_permutation(const graph& ve, const std::vector<int>& a) {
     }
     return  res;
 
+}
+
+unsigned long fey_deg(const std::vector<std::pair<int, int>>& ve, int d) {
+    std::vector<unsigned long> fey;
+    vector2d gen = gen_block(ve.size(), d);
+    /*  std::cout << "Returned vector2d: \n";
+     for (const auto& vec : gen) {
+         for (int num : vec) {
+             std::cout << num << " ";
+         }
+         std::cout << "\n";
+     } */
+    for (const auto& a : gen) {
+
+        vector2d itr = iterate_permutation(ve, a);
+        /*         for (const auto& paire : itr) {
+                    std::cout << "Size: " << paire.first << " Vector: ";
+                    for (int num : paire.second) {
+                        std::cout << num << " ";
+                    }
+                    std::cout << "\n";
+                } */
+        for (const auto& pair : itr) {
+            int coef = pair[0];  // The first element is the size
+            std::vector<int> ai(pair.begin() + 1, pair.end());  // The rest are the elements of ai
+            fey.push_back(coef * feynman_integral_branch_type(ve, ai));
+        }
+    }
+    unsigned long fey_sum = std::accumulate(fey.begin(), fey.end(), 0UL);
+    return fey_sum;
+}
+
+unsigned long feynman_degree(const std::vector<std::pair<int, int>>& ve, int d) {
+    auto indices = find_equal_pairs(ve);
+    if (indices.empty()) {
+        return feynman_integral_degree(ve, d);
+    }
+    else {
+        return fey_deg(ve, d);
+    }
+}
+
+int main() {
+    std::vector<std::pair<int, int>> ve = { {1, 3}, {1, 2}, {1, 2}, {2, 4}, {3, 4}, {3, 4} };
+    std::vector<std::pair<int, int>> F = { {1, 2}, {1, 3}, {1, 4}, {2, 3}, {2, 4}, {3, 4} };
+    //std::vector<std::pair<int, int>> F = { {1,2},{1,2},{1,3},{2,4},{3,4},{3,5},{4,6},{5,6},{5,6} };
+   // std::vector<std::pair<int, int>> ve = { {1,3}, {1,2},{1,2},{2,4},{3,4},{3,5},{4,6},{5,6},{5,7},{6,8},{7,8},{7,8} };
+    std::vector<int> a = { 3,0,0,0,0,1 };
+    int d = 4;
+
+    vector2d itr = iterate_permutation(ve, a);
+
+    for (const auto& pair : itr) {
+        int coef = pair[0];  // The first element is the size
+        std::cout << " coef " << coef << "  ";
+        std::vector<int> ai(pair.begin() + 1, pair.end());  // The rest are the elements of ai
+        for (int num : ai) {
+            std::cout << num << " ";
+        }
+        std::cout << "\n";
+    }
+    std::cout << "\n";
+    std::cout << "\n";
+
+
+    unsigned long resu = feynman_degree(ve, d);
+    std::cout << "Feynman degree: " << resu << std::endl;
+
+    return 0;
 }
