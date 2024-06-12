@@ -122,14 +122,22 @@
     int nn=x.size();
     int d = std::accumulate(x.begin(), x.end(), 0);
 
-    if(x[nn]!= d){
+    if(x[nn-1]!= d){
      vec_copy=vectorToStringInt(x) ;
     }
+    else {
+    std::cout<<" bonjour"<<std::endl;
+      vec_copy=std::string {"stop"};
+    }
+
 
           ]]>
           </code>
         </module>
       </defun>
+      <condition>
+      ${v}:ne:"stop"
+      </condition>
       <connect-in port="v" place="state"/>
       <connect-out-many port="vec" place="vectors"/>
       <connect-out port="vec_copy" place="state"/>
