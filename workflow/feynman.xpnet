@@ -103,7 +103,7 @@
       <connect-out-many port="vec" place="branchtype"/>
     </transition>
 
-    <place name="branchtype" type="list"/>
+    <place name="branchtype" type="list"/>  
     <place name="graph" type="list"/>
 
     <transition name="feynman_degree">
