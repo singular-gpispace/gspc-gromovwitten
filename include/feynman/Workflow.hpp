@@ -24,6 +24,9 @@ namespace feynman
     int _N;
     int _degree;
     std::string _graph;
+    std::string _genus;
+    std::string _loop;
+    int _aa;
     std::vector<int> G;
     pnet_list graph_int;
   };

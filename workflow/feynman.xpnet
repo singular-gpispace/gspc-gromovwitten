@@ -3,12 +3,17 @@
   <in name="degree" type="int" place="degree"/>
   <in name="N" type="int" place="N"/>
   <in name="graph" type="list" place="graph"/>
-  <out name="sum" type="unsigned long" place="sum"/>
+  <in name="aa" type="int" place="aa"/>
+  <in name="genus" type="string" place="genus"/>
+  <in name="loop" type="string" place="loop"/>
+  <out name="fey_out" type="string" place="fey_out"/>
+  <out name="sum" type="string" place="sum"/>
+
 
   <net>
     <place name="degree" type="int"/>
     <place name="N" type="int"/>
-    <place name="fey_out" type="unsigned long" />
+    <place name="fey_out" type="string" />
 
     <transition name="partition">
       <defun>
@@ -81,7 +86,6 @@
             auto ptr = boost::get<int>(&elem) ;
               x.push_back(*ptr);
           }
-      
     vector2d gen=iterate_permutation(Gv, x);
       using pnet_value = pnet::type::value::value_type;
     using pnet_list = std::list<pnet_value>;
@@ -92,8 +96,10 @@
         {
             temp_a.push_back(pnet::type::value::value_type(xi));
         }
+
         vec.push_back(temp_a);
     }
+
           ]]>
           </code>
         </module>
@@ -105,14 +111,21 @@
 
     <place name="branchtype" type="list"/>  
     <place name="graph" type="list"/>
+    <place name="aa" type="int"/>
+    <place name="genus" type="string"/>
+    <place name="loop" type="string"/>
 
     <transition name="feynman_degree">
       <defun>
         <in name="a" type="list"/>
         <in name="G" type="list"/>
-        <out name="s" type="unsigned long"/>
+        <in name="gg" type="string"/>
+        <in name="l" type="string"/>
+        <in name="aa" type="int"/>
 
-        <module name="feynman_module" function="s feynman_integral_degree(G,a)">
+        <out name="s" type="string"/>
+
+        <module name="feynman_module" function="feynman_integral_degree(s,G,a,gg,l,aa)">
           <cinclude href="iostream"/>
           <cinclude href="vector"/>
           <cinclude href="numeric"/>
@@ -155,36 +168,81 @@
 
                   }
 
-/**************************************************************************/
-unsigned long fe=factor*feynman_integral_branch_type(Gv, av);
-return fe;
+/*************************************************************************
+**************************************************************************/
+std::vector<int> g=stringToVectorInt(gg);
+std::vector<int> ll= stringToVectorInt(l);
 
-      ]]>          </code>
+std::cout<<std::endl;
+/*************************************************************************
+**************************************************************************/
+fmpq_t result;
+        fmpq_init(result);
+
+        
+
+ fmpq_t fey_branch_av;
+  fmpq_init(fey_branch_av);
+
+    // Compute Feynman integral of degree d
+  feynman_integral_branch_type(fey_branch_av, Gv, av, g,aa, ll);
+   
+   // Multiply fey_branch_av by factor
+        fmpq_mul_ui(result, fey_branch_av, factor);
+
+       std::string fey= fmpqToString(result);
+      fmpq_clear(fey_branch_av);
+
+    s=fey;
+      ]]>          
+      </code>
         </module>
       </defun>
       <connect-read port="G" place="graph"/>
       <connect-in port="a" place="branchtype"/>
+      <connect-read port="aa" place="aa"/>
+      <connect-read port="gg" place="genus"/>
+      <connect-read port="l" place="loop"/>
+
       <connect-out port="s" place="fey_out"/>
     </transition>
-
-    <place name="sum" type="unsigned long">
+ <place name="sum" type="string">
       <token>
-        <value>0UL</value>
+        <value>"0"</value>
       </token>
     </place>
     <transition name="Reduce">
       <defun>
-        <in name="s" type="unsigned long"/>
-        <inout name="sum" type="unsigned long"/>
-        <module name="feynman_module" function="plus (s, sum)">
+        <in name="s" type="string"/>
+        <out name="sum_frac" type="string"/>
+
+        <in name="sum" type="string"/>
+        <module name="feynman_module" function="sum_frac plus (s, sum)">
+          <cinclude href="feynman.hpp"/>
+
           <code><![CDATA[
-            sum += s;
-          ]]>          </code>
+           fmpq_t f1, f2, result;
+              fmpq_init(f1);
+              fmpq_init(f2);
+              fmpq_init(result);
+
+            stringToFmpq(f1, s); 
+            stringToFmpq(f2, sum);
+            fmpq_add(result, f1, f2);
+
+    std::string sum_frac= fmpqToString(result);
+
+return sum_frac;
+          ]]>          
+          </code>
         </module>
       </defun>
       <connect-in port="s" place="fey_out"/>
-      <connect-inout port="sum" place="sum"/>
+      <connect-in port="sum" place="sum"/>
+      <connect-out port="sum_frac" place="sum"/>
+
     </transition>
+  
   </net>
 
 </defun>

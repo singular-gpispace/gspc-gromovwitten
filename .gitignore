@@ -9,3 +9,7 @@ install_feyn.sh
 *.txt
 !CMakeLists.txt
 git_file
+psi/
+xpnet/
+julia/
+*.sh

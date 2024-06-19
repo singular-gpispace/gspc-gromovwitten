@@ -36,6 +36,9 @@ namespace feynman
         workflow_opts.add_options()("N", po::value<int>()->required()); // edges
         workflow_opts.add_options()("degree", po::value<int>()->required());
         workflow_opts.add_options()("graph", po::value<std::string>()->required());
+        workflow_opts.add_options()("genus", po::value<std::string>()->required());
+        workflow_opts.add_options()("loop", po::value<std::string>()->required());
+        workflow_opts.add_options()("aa", po::value<int>()->required());
 
         return workflow_opts;
     }
@@ -44,6 +47,10 @@ namespace feynman
         : _N(args.at("N").as<int>()) // number of edges.
         , _degree(args.at("degree").as<int>()) // given degree
         , _graph(args.at("graph").as<std::string>()) // graph.
+        , _genus(args.at("genus").as<std::string>()) // graph.
+        , _loop(args.at("loop").as<std::string>()) // graph.
+        , _aa(args.at("aa").as<int>()) // graph.
+
     {
         G = extractIntegers(_graph);
         for (int xi : G)
@@ -58,6 +65,9 @@ namespace feynman
         values_on_ports.emplace("N", _N);
         values_on_ports.emplace("degree", _degree);
         values_on_ports.emplace("graph", graph_int);
+        values_on_ports.emplace("genus", _genus);
+        values_on_ports.emplace("loop", _loop);
+        values_on_ports.emplace("aa", _aa);
 
         return values_on_ports;
     }
@@ -69,11 +79,18 @@ namespace feynman
         //  std::cout << " signature is : " << signature << std::endl;
 
         // auto const &feynm = results.get<int>("L");
-        auto const& feynm = results.get<unsigned long>("sum");
+        auto const& feyn_sum = results.get<std::string>("sum");
 
-        std::cout << "feynman_degree: " << feynm << std::endl;
+        std::cout << "feynman_degree: " << feyn_sum << std::endl;
 
         std::cout << std::endl;
+        /*  auto const& vectors = results.get_all<std::string>("fey_out", 40); // Assuming _N is the expected count
+
+         for (const auto& vec : vectors)
+         {
+             std::cout << "vectors: " << vec << std::endl;
+         }
+  */
         return EXIT_SUCCESS;
     }
 }

@@ -65,9 +65,9 @@ add_custom_command(
   COMMAND
   GPISpace::pnetc
   --gen-cxxflags="-O3"
+  --gen-cxxflags="-std=c++17" # Add the C++17
   --gen-cxxflags="-I${PROJECT_SOURCE_DIR}/include"
   --gen-cxxflags="-I${PROJECT_SOURCE_DIR}/include/feynman"
-
   --gen-ldflags="-L${PROJECT_BINARY_DIR}"
   --gen-ldflags="-lfeynman_implementation"
   --gen-ldflags="-Wl,-rpath=${CMAKE_INSTALL_PREFIX}/lib"
