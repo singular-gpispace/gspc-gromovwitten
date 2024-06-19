@@ -52,8 +52,8 @@ void constterm(const int k, const int j, const int i1, const int i2, mp_limb_sig
 void proterm(const int k, const int j, const int i1, const int i2, const int a, const int aa, mp_limb_signed_t N, fmpq_mpoly_t result, const fmpq_mpoly_ctx_t ctx);
 void get_coefficient(fmpq_mpoly_t coeff, const fmpq_mpoly_t poly, const mp_limb_signed_t* var_indices, const mp_limb_t* exps, mp_limb_signed_t length, const fmpq_mpoly_ctx_t ctx);
 void filter_term(fmpq_mpoly_t result, const fmpq_mpoly_t poly, const std::vector<slong>& variables, const std::vector<int>& power, const fmpq_mpoly_ctx_t ctx);
-void feynman_integral_branch_type(fmpq_t myfey, graph& Gv, const std::vector<int>& av, const std::vector<int>& g = std::vector<int>(), const int aa = 0, const std::vector<int>& l = std::vector<int>());
-void feynman_integral_degree(fmpq_t result, graph Gv, const int& d, const std::vector<int>& g = std::vector<int>(), const int aa = 0, const std::vector<int>& l = std::vector<int>());
+void feynman_integral_branch_type(fmpq_t myfey, graph& Gv, const std::vector<int>& av, const std::vector<int>& g = std::vector<int>(), const std::vector<int>& l = std::vector<int>());
+void feynman_integral_degree(fmpq_t result, graph Gv, const int& d, const std::vector<int>& g = std::vector<int>(), const std::vector<int>& l = std::vector<int>());
 std::string fmpqToString(const fmpq_t f);
 void stringToFmpq(fmpq_t f, const std::string& str);
 #endif // FEYNMAN_HPP

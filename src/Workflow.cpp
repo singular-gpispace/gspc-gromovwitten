@@ -38,7 +38,6 @@ namespace feynman
         workflow_opts.add_options()("graph", po::value<std::string>()->required());
         workflow_opts.add_options()("genus", po::value<std::string>()->required());
         workflow_opts.add_options()("loop", po::value<std::string>()->required());
-        workflow_opts.add_options()("aa", po::value<int>()->required());
 
         return workflow_opts;
     }
@@ -49,7 +48,6 @@ namespace feynman
         , _graph(args.at("graph").as<std::string>()) // graph.
         , _genus(args.at("genus").as<std::string>()) // graph.
         , _loop(args.at("loop").as<std::string>()) // graph.
-        , _aa(args.at("aa").as<int>()) // graph.
 
     {
         G = extractIntegers(_graph);
@@ -67,7 +65,6 @@ namespace feynman
         values_on_ports.emplace("graph", graph_int);
         values_on_ports.emplace("genus", _genus);
         values_on_ports.emplace("loop", _loop);
-        values_on_ports.emplace("aa", _aa);
 
         return values_on_ports;
     }

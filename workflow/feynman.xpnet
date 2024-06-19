@@ -3,7 +3,6 @@
   <in name="degree" type="int" place="degree"/>
   <in name="N" type="int" place="N"/>
   <in name="graph" type="list" place="graph"/>
-  <in name="aa" type="int" place="aa"/>
   <in name="genus" type="string" place="genus"/>
   <in name="loop" type="string" place="loop"/>
   <out name="fey_out" type="string" place="fey_out"/>
@@ -111,7 +110,6 @@
 
     <place name="branchtype" type="list"/>  
     <place name="graph" type="list"/>
-    <place name="aa" type="int"/>
     <place name="genus" type="string"/>
     <place name="loop" type="string"/>
 
@@ -121,11 +119,10 @@
         <in name="G" type="list"/>
         <in name="gg" type="string"/>
         <in name="l" type="string"/>
-        <in name="aa" type="int"/>
 
         <out name="s" type="string"/>
 
-        <module name="feynman_module" function="feynman_integral_degree(s,G,a,gg,l,aa)">
+        <module name="feynman_module" function="feynman_integral_degree(s,G,a,gg,l)">
           <cinclude href="iostream"/>
           <cinclude href="vector"/>
           <cinclude href="numeric"/>
@@ -185,7 +182,7 @@ fmpq_t result;
   fmpq_init(fey_branch_av);
 
     // Compute Feynman integral of degree d
-  feynman_integral_branch_type(fey_branch_av, Gv, av, g,aa, ll);
+  feynman_integral_branch_type(fey_branch_av, Gv, av, g, ll);
    
    // Multiply fey_branch_av by factor
         fmpq_mul_ui(result, fey_branch_av, factor);
@@ -200,7 +197,6 @@ fmpq_t result;
       </defun>
       <connect-read port="G" place="graph"/>
       <connect-in port="a" place="branchtype"/>
-      <connect-read port="aa" place="aa"/>
       <connect-read port="gg" place="genus"/>
       <connect-read port="l" place="loop"/>
 

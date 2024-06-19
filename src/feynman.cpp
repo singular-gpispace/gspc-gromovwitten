@@ -1062,7 +1062,7 @@ void filter_term(fmpq_mpoly_t result, const fmpq_mpoly_t poly, const std::vector
     delete[] exps;
 }
 
-void feynman_integral_branch_type(fmpq_t myfey, graph& Gv, const std::vector<int>& av, const std::vector<int>& g = std::vector<int>(), const int aa = 0, const std::vector<int>& l = std::vector<int>()) {
+void feynman_integral_branch_type(fmpq_t myfey, graph& Gv, const std::vector<int>& av, const std::vector<int>& g = std::vector<int>(), const std::vector<int>& l = std::vector<int>()) {
     if (av.size() != Gv.size()) {
         throw std::runtime_error("av should be of length " + std::to_string(Gv.size()) + ", but it is of size " + std::to_string(av.size()));
     }
@@ -1109,6 +1109,7 @@ void feynman_integral_branch_type(fmpq_t myfey, graph& Gv, const std::vector<int
         filter_power.push_back(2 * local_g[i]);
         filter_vars.push_back(nv + i);
     }
+    int aa = *std::max_element(filter_power.begin(), filter_power.end());
 
     fmpq_t sum;
     fmpq_init(sum);
@@ -1152,6 +1153,7 @@ void feynman_integral_branch_type(fmpq_t myfey, graph& Gv, const std::vector<int
     // Use invsfunct in the loop after filtering
     fmpq_mpoly_set(invsfunct, final_result, ctx);
     fmpq_mpoly_clear(final_result, ctx);
+
     signature f = signature_and_multiplicitie(Gv, av);
 
     for (size_t i = 0; i < f.size(); ++i) {
@@ -1288,7 +1290,7 @@ void feynman_integral_degree(fmpq_t result, graph Gv, const int& d, const std::v
         // Call feynman_integral_branch_type for each vector xa from gen
         fmpq_t branch_result;
         fmpq_init(branch_result);
-        feynman_integral_branch_type(branch_result, Gv, xa, g, aa, l); // Assuming feynman_integral_branch_type returns fmpq_t
+        feynman_integral_branch_type(branch_result, Gv, xa, g, l); // Assuming feynman_integral_branch_type returns fmpq_t
 
         // Accumulate the results
         fmpq_add(sum, sum, branch_result);
