@@ -99,6 +99,21 @@ std::string vector2dToString(const std::vector<std::vector<int>>& vec)
     }
     return ss.str();
 }
+vector2d stringToVector2d(const std::string& str) {
+    std::vector<std::vector<int>> result;
+    std::stringstream ss(str);
+    std::string line;
+    while (std::getline(ss, line)) {
+        std::vector<int> innerVec;
+        std::stringstream lineStream(line);
+        int num;
+        while (lineStream >> num) {
+            innerVec.push_back(num);
+        }
+        result.push_back(innerVec);
+    }
+    return result;
+}
 vector2d gen_block(int d, int n)
 {
     vector2d v;

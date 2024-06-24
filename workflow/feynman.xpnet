@@ -4,6 +4,7 @@
   <in name="N" type="int" place="N"/>
   <out name="vectors" type="string" place="vectors"/>
   <out name="state" type="string" place="state"/>
+  <out name="sum" type="unsigned long" place="sum"/> 
 
   <net>
     <place name="degree" type="int"/>
@@ -59,6 +60,7 @@
           <cinclude href="feynman.hpp"/>
 
           <code><![CDATA[
+
           std::vector<int> x;
           for (const auto& elem : v) {
             auto ptr = boost::get<int>(&elem) ;
@@ -67,16 +69,19 @@
           }
           int m=4;
           vector2d ru;
+           ru.push_back(x);
       for (int ii=0; ii<m; ii++){
         x=next_partition(x);
           ru.push_back(x);
       }
    // vector2d gen = iterate(x);
     std::string    ve = vector2dToString(ru);
+    std::cout<<"first ve "<<ve<<" " <<std::endl;
+
     int nn=x.size();
     int d = std::accumulate(x.begin(), x.end(), 0);
 
-    if(x[nn]!= d){
+    if(x[nn-1]!= d){
      vec_copy=vectorToStringInt(x) ;
     }
     using pnet_value = pnet::type::value::value_type;
@@ -109,19 +114,23 @@
           <cinclude href="feynman.hpp"/>
 
           <code><![CDATA[
-          std::vector<int> x=stringToVectorInt(v);
-          int m=4;
-          vector2d ru;
-      for (int ii=0; ii<m; ii++){
-        x=next_partition(x);
-          ru.push_back(x);
-      }
-    std::string    ve = vector2dToString(ru);
-    vec.push_back(ve);
-
+    std::vector<int> x=stringToVectorInt(v);
+    int m=4;
     int nn=x.size();
     int d = std::accumulate(x.begin(), x.end(), 0);
 
+    vector2d ru;
+    for (int ii=0; ii<m; ii++){
+      x=next_partition(x);
+      ru.push_back(x);
+      if(x[nn-1]== d){
+     break ;
+      }
+    }
+    std::string    ve = vector2dToString(ru);
+    vec.push_back(ve);
+std::cout<<" ve "<<ve<<" " <<std::endl;
+  
     if(x[nn-1]!= d){
      vec_copy=vectorToStringInt(x) ;
     }
@@ -129,8 +138,6 @@
     std::cout<<" bonjour"<<std::endl;
       vec_copy=std::string {"stop"};
     }
-
-
           ]]>
           </code>
         </module>
@@ -144,6 +151,100 @@
 
     </transition>
 
+
+    <place name="graph" type="list"/>
+
+    <transition name="feynman_degree">
+      <defun>
+        <in name="a" type="string"/>
+        <in name="G" type="list"/>
+        <out name="s" type="string"/>
+
+        <module name="feynman_module" function="s feynman_integral_degree(G,a)">
+        <cinclude href="iostream"/>
+        <cinclude href="vector"/>
+        <cinclude href="numeric"/>
+        <cinclude href="tuple"/>
+        <cinclude href="algorithm"/>
+        <cinclude href="unordered_map"/>
+        <cinclude href="functional"/>
+        <cinclude href="cmath"/>
+        <cinclude href="sstream"/>
+        <cinclude href="stack"/>
+        <cinclude href="unordered_set"/>
+         <cinclude href="feynman.hpp"/>
+        <code><![CDATA[
+
+          std::vector<int> xxx; // Define xxx outside the inner loop
+    for (const auto &vii : G)
+    {
+        if (auto ptr = boost::get<int>(&vii))
+        {                             // Check if the element is an integer
+            xxx.push_back( *ptr ); // Push the integer to the vector xx
+        }
+    }
+ std::vector<std::pair<int, int>> Gv;
+
+    // Iterate over the vector of integers, creating pairs from consecutive elements
+    for (size_t i = 0; i < xxx.size(); i += 2)
+    {
+        Gv.push_back(std::make_pair(xxx[i], xxx[i + 1]));
+    }
+
+
+// Read the vector of integers from the string
+/* std::vector<int> av;
+ for (const auto &xi : a)
+        {
+            if (auto ptr = boost::get<int>(&xi))
+            {
+                av.push_back( *ptr);
+            }
+        }
+       */
+ std::vector<int> fey;
+vector2d a_list= stringToVector2d(a) ;
+ for (const auto &av : a_list){
+  unsigned long fe=feynman_integral_branch_type(Gv, av);
+ fey.push_back(fe);
+ }
+std::string feyn= vectorToStringInt(fey);
+return feyn;
+      ]]></code>
+      </module>
+      </defun>
+      <connect-read port="G" place="graph"/>
+      <connect-in port="a" place="vectors"/>
+      <connect-out port="s" place="fey_out"/>
+    </transition>
+      <place name="fey_out" type="string" />
+
+    <place name="sum" type="unsigned long">
+      <token>
+        <value>0UL</value>
+      </token>
+    </place>
+    <transition name="Reduce">
+      <defun>
+        <in name="s" type="string"/>
+       <inout name="sum" type="unsigned long"/>
+       <module name="feynman_module" function="plus (s, sum)">
+        <cinclude href="iostream"/>
+        <cinclude href="vector"/>
+        <cinclude href="numeric"/>
+         <cinclude href="feynman.hpp"/>
+
+          <code><![CDATA[
+            std::vector<int> se=stringToVectorInt(s);
+              int d = std::accumulate(se.begin(), se.end(), 0);
+
+            sum += d;
+          ]]></code>
+        </module>
+      </defun>
+      <connect-in port="s" place="fey_out"/>
+      <connect-inout port="sum" place="sum"/>
+    </transition>
   </net>
 
 </defun>

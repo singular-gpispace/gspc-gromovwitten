@@ -32,6 +32,7 @@ std::vector<int> next_partition(std::vector<int> a);
 vector2d iterate(std::vector<int> xa);
 std::vector<std::tuple<int, std::vector<int>>> signature_and_multiplicitie(std::vector<std::pair<int, int>> G, const std::vector<int> a);
 std::string vector2dToString(const std::vector<std::vector<int>>& vec);
+vector2d stringToVector2d(const std::string& str);
 std::string vectorToStringInt(const std::vector<int>& vec);
 std::vector<int> stringToVectorInt(const std::string& str);
 void constterm(const int k, const int j, mp_limb_signed_t N, const int nv, fmpz_mpoly_t result, const fmpz_mpoly_ctx_t ctx);
