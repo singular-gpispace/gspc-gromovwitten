@@ -66,24 +66,22 @@ namespace feynman
     int Workflow::process(WorkflowResult const& results) const
     {
 
-        auto const& resul = results.get<std::string>("state");
+        auto const& fey = results.get<int>("count");
 
-        std::cout << "state " << resul << std::endl;
-        std::cout << std::endl;
+        std::cout << "count: " << fey << std::endl;
 
-        // auto const &signature = results.get<int>("s");
+        auto const& feynm = results.get<unsigned long>("sum");
 
-        //  std::cout << " signature is : " << signature << std::endl;
-
+        std::cout << "feynman_degree: " << feynm << std::endl;
         // auto const &feynm = results.get<int>("L");
 
-        auto const& vectors = results.get_all<std::string>("vectors", 15); // Assuming _N is the expected count
+       /*  auto const& vectors = results.get_all<std::string>("vectors", 1); // Assuming _N is the expected count
 
         for (const auto& vec : vectors)
         {
             std::cout << "vectors: " << vec << "   ";
         }
-        std::cout << std::endl;
+        std::cout << std::endl; */
 
         return EXIT_SUCCESS;
     }

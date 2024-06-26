@@ -90,4 +90,13 @@ namespace feynman
   {
     return get_impl<std::string>(key, "string");
   }
+  template <>
+  unsigned long const& WorkflowResult::get(Key key) const
+  {
+    return get_impl<unsigned long>(key, "unsigned long");
+  }
+  template<> int const& WorkflowResult::get(Key key) const
+  {
+    return get_impl<int>(key, "int");
+  }
 }
