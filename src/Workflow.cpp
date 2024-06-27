@@ -67,12 +67,13 @@ namespace feynman
     {
 
         auto const& fey = results.get<int>("count");
-
         std::cout << "count: " << fey << std::endl;
 
         auto const& feynm = results.get<unsigned long>("sum");
-
         std::cout << "feynman_degree: " << feynm << std::endl;
+
+        auto const& feysum = results.get<unsigned long>("fey_sum");
+        std::cout << "feynman_degree_sum: " << feysum << std::endl;
         // auto const &feynm = results.get<int>("L");
 
        /*  auto const& vectors = results.get_all<std::string>("vectors", 1); // Assuming _N is the expected count

@@ -8,7 +8,7 @@
   <out name="count" type="int" place="count"/>
   <out name="fey_sum" type="unsigned long" place="fey_sum"/>
 
-  <out name="sum" type="unsigned long" place="sum"/>
+  <out name="control" type="int" place="control"/>
 
   <net>
     <place name="degree" type="int"/>
@@ -109,7 +109,6 @@
         <in name="v" type="string"/>
         <out name="vec" type="list"/>
         <out name="vec_copy" type="string"/>
-        <in name="size" type="int"/>
 
         <module name="feynman_module" function=" iterator(v, vec,vec_copy)">
           <cinclude href="iostream"/>
@@ -150,11 +149,7 @@
       <condition>
       ${v}:ne:"stop"
       </condition>
-      <condition>
-        ${size} :gt: 0
-      </condition>
       <connect-in port="v" place="state"/>
-      <connect-in port="size" place="size"/>
       <connect-out-many port="vec" place="vectors"/>
       <connect-out port="vec_copy" place="state"/>
 
@@ -171,12 +166,13 @@
       <defun>
         <in name="a" type="string"/>
         <in name="G" type="list"/>
-        <out name="size" type="int"/>
+        <inout name="control" type="int"/>
         <inout name="fey_sum" type="unsigned long"/>
+        <inout name="count" type="int"/>
 
         <out name="s" type="string"/>
 
-        <module name="feynman_module" function="s feynman_integral_degree(fey_sum,G,a,size)">
+        <module name="feynman_module" function="s feynman_integral_degree(count,fey_sum,G,a,control)">
           <cinclude href="iostream"/>
           <cinclude href="vector"/>
           <cinclude href="numeric"/>
@@ -190,7 +186,7 @@
           <cinclude href="unordered_set"/>
           <cinclude href="feynman.hpp"/>
           <code><![CDATA[
-  std::cout<<"size "<< size<<std::endl;
+
           std::vector<int> xxx; // Define xxx outside the inner loop
     for (const auto &vii : G)
     {
@@ -218,8 +214,10 @@
             }
         }
        */
+
     std::vector<int> fey;
     vector2d a_list= stringToVector2d(a) ;
+
     for (const auto &av : a_list){
       unsigned long fe=feynman_integral_branch_type(Gv, av);
     fey.push_back(fe);
@@ -227,23 +225,30 @@
     unsigned long feysum = std::accumulate(fey.begin(), fey.end(), 0UL);
      fey_sum+=feysum;
     std::string feyn= vectorToStringInt(fey);
+
+    int size_of_vector=a_list.size();
+    control=size_of_vector;
+    count+=size_of_vector;
+    std::cout<<"size of a " <<size_of_vector <<std::endl;
+    std::cout<<"control " <<control <<std::endl;
+
     std::cout<<" a "<<a<<std::endl;
     std::cout<<"feyn " <<feyn <<std::endl;
     return feyn;
       ]]>          </code>
         </module>
       </defun>
-
+      <condition>
+        ${control} :gt: 0
+      </condition>
       <connect-read port="G" place="graph"/>
       <connect-in port="a" place="vectors"/>
-      <connect-out port="size" place="size"/>
+      <connect-inout port="control" place="control"/>
       <connect-inout port="fey_sum" place="fey_sum"/>
-
-      <connect-out port="s" place="fey_out"/>
+      <connect-inout port="count" place="count"/>
     </transition>
 
-    <place name="fey_out" type="string" />
-    <place name="size" type="int">
+    <place name="control" type="int">
       <token>
         <value>3</value>
       </token>
@@ -254,45 +259,7 @@
       </token>
     </place>
 
-    <place name="sum" type="unsigned long">
-      <token>
-        <value>0UL</value>
-      </token>
-    </place>
-    <transition name="Reduce">
-      <defun>
-        <in name="s" type="string"/>
-        <out name="size" type="int"/>
-        <inout name="sum" type="unsigned long"/>
-        <inout name="count" type="int"/>
 
-        <module name="feynman_module" function="plus (count,size,s, sum)">
-          <cinclude href="iostream"/>
-          <cinclude href="vector"/>
-          <cinclude href="numeric"/>
-          <cinclude href="feynman.hpp"/>
-
-          <code><![CDATA[
-            std::vector<int> se=stringToVectorInt(s);
-         
-            int d = std::accumulate(se.begin(), se.end(), 0);
-             size=se.size();
-             std::cout<<" se " <<s <<" " <<"size "<<se.size()<<std::endl;;
-            std::cout<<" sum " <<sum <<"+ d " << d<<std::endl;
-            count+=se.size();
-            sum += d;
-            std::cout<<"= sum " <<sum <<" "<<std::endl;
-
-          ]]>          </code>
-        </module>
-      </defun>
-
-      <connect-in port="s" place="fey_out"/>
-      <connect-out port="size" place="size"/>
-      <connect-inout port="sum" place="sum"/>
-      <connect-inout port="count" place="count"/>
-
-    </transition>
   </net>
 
 </defun>
