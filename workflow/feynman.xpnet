@@ -108,7 +108,7 @@
       <connect-out-many port="vec" place="branchtype"/>
     </transition>
 
-    <place name="branchtype" type="list"/>  
+    <place name="branchtype" type="list"/>
     <place name="graph" type="list"/>
     <place name="genus" type="string"/>
     <place name="loop" type="string"/>
@@ -191,8 +191,8 @@ fmpq_t result;
       fmpq_clear(fey_branch_av);
 
     s=fey;
-      ]]>          
-      </code>
+      ]]>
+          </code>
         </module>
       </defun>
       <connect-read port="G" place="graph"/>
@@ -202,7 +202,7 @@ fmpq_t result;
 
       <connect-out port="s" place="fey_out"/>
     </transition>
- <place name="sum" type="string">
+    <place name="sum" type="string">
       <token>
         <value>"0"</value>
       </token>
@@ -229,7 +229,7 @@ fmpq_t result;
     std::string sum_frac= fmpqToString(result);
 
 return sum_frac;
-          ]]>          
+          ]]>
           </code>
         </module>
       </defun>
@@ -238,7 +238,7 @@ return sum_frac;
       <connect-out port="sum_frac" place="sum"/>
 
     </transition>
-  
+
   </net>
 
 </defun>
