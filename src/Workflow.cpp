@@ -35,6 +35,7 @@ namespace feynman
         workflow_opts.add_options()("N", po::value<int>()->required()); // edges
         workflow_opts.add_options()("degree", po::value<int>()->required());
         workflow_opts.add_options()("graph", po::value<std::string>()->required());
+        workflow_opts.add_options()("m", po::value<int>()->required());
 
         return workflow_opts;
     }
@@ -43,6 +44,8 @@ namespace feynman
         : _N(args.at("N").as<int>()) // number of edges.
         ,
         _degree(args.at("degree").as<int>()) // given degree
+        ,
+        _m(args.at("m").as<int>()) // given m limit 
         ,
         _graph(args.at("graph").as<std::string>()) // graph.
     {
@@ -59,6 +62,7 @@ namespace feynman
         values_on_ports.emplace("N", _N);
         values_on_ports.emplace("degree", _degree);
         values_on_ports.emplace("graph", graph_int);
+        values_on_ports.emplace("m", _m);
 
         return values_on_ports;
     }
@@ -66,24 +70,24 @@ namespace feynman
     int Workflow::process(WorkflowResult const& results) const
     {
 
-        auto const& fey = results.get<int>("count");
-        std::cout << "count: " << fey << std::endl;
+        /*   auto const& fey = results.get<std::string>("state");
+          std::cout << "count: " << fey << std::endl; */
 
         auto const& feynm = results.get<unsigned long>("sum");
         std::cout << "feynman_degree: " << feynm << std::endl;
+        /*
+               auto const& feysum = results.get<unsigned long>("fey_sum");
+               std::cout << "feynman_degree_sum: " << feysum << std::endl;
+               // auto const &feynm = results.get<int>("L");
 
-        auto const& feysum = results.get<unsigned long>("fey_sum");
-        std::cout << "feynman_degree_sum: " << feysum << std::endl;
-        // auto const &feynm = results.get<int>("L");
+               auto const& vectors = results.get_all<std::string>("state", 1); // Assuming _N is the expected count
 
-       /*  auto const& vectors = results.get_all<std::string>("vectors", 1); // Assuming _N is the expected count
-
-        for (const auto& vec : vectors)
-        {
-            std::cout << "vectors: " << vec << "   ";
-        }
-        std::cout << std::endl; */
-
+               for (const auto& vec : vectors)
+               {
+                   std::cout << "state: " << vec << "   ";
+               }
+               std::cout << std::endl;
+        */
         return EXIT_SUCCESS;
     }
 }

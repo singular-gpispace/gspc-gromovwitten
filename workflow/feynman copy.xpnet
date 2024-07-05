@@ -2,9 +2,9 @@
 
   <in name="degree" type="int" place="degree"/>
   <in name="N" type="int" place="N"/>
+  <in name="m" type="int" place="m"/>
   <in name="graph" type="list" place="graph"/>
 
-  <out name="vectors" type="string" place="vectors"/>
   <out name="count" type="int" place="count"/>
   <out name="fey_sum" type="unsigned long" place="fey_sum"/>
 
@@ -13,6 +13,7 @@
   <net>
     <place name="degree" type="int"/>
     <place name="N" type="int"/>
+    <place name="m" type="int"/>
 
     <transition name="initial">
       <defun>
@@ -71,15 +72,8 @@
               x.push_back(*ptr);
             
           }
-          int m=4;
-          vector2d ru;
-           ru.push_back(x);
-      for (int ii=0; ii<m; ii++){
-        x=next_partition(x);
-          ru.push_back(x);
-      }
    // vector2d gen = iterate(x);
-    std::string    ve = vector2dToString(ru);
+    std::string    ve = vectorToStringInt(x);
     //std::cout<<"first ve "<<ve<<" " <<std::endl;
 
     int nn=x.size();
@@ -106,40 +100,41 @@
 
     <transition name="next_partitions">
       <defun>
+        <in name="m" type="int"/>
         <in name="v" type="string"/>
         <out name="vec" type="list"/>
         <out name="vec_copy" type="string"/>
+        <in name="counter" type="int"/>
 
-        <module name="feynman_module" function=" iterator(v, vec,vec_copy)">
+        <module name="feynman_module" function=" iterator(m,counter,v, vec,vec_copy)">
           <cinclude href="iostream"/>
           <cinclude href="vector"/>
           <cinclude href="numeric"/>
           <cinclude href="sstream"/>
           <cinclude href="feynman.hpp"/>
-
           <code><![CDATA[
+    std::cout<<"counter first "<< counter<<std::endl;
     std::vector<int> x=stringToVectorInt(v);
-    int m=4;
     int nn=x.size();
     int d = std::accumulate(x.begin(), x.end(), 0);
-
     vector2d ru;
     for (int ii=0; ii<m; ii++){
-      x=next_partition(x);
-      ru.push_back(x);
-      if(x[nn-1]== d){
-     break ;
+       if(x[nn-1]== d){
+          break ;
+      }
+      else{ 
+        x=next_partition(x);
+        std::string xx =vectorToStringInt(x) ;
+        vec.push_back(xx);
       }
     }
-    std::string    ve = vector2dToString(ru);
-    vec.push_back(ve);
-//std::cout<<" ve "<<ve<<" " <<std::endl;
-  
+  /**************************************************************************
+  ***************************************************************************/
+
     if(x[nn-1]!= d){
      vec_copy=vectorToStringInt(x) ;
     }
     else {
-    std::cout<<" bonjour"<<std::endl;
       vec_copy=std::string {"stop"};
     }
           ]]>
@@ -149,9 +144,14 @@
       <condition>
       ${v}:ne:"stop"
       </condition>
-      <connect-in port="v" place="state"/>
+      <condition>
+        ${counter} :gt: 0
+      </condition>
+      <connect-read port="m" place="m"/>
+      <connect-in port="counter" place="counter"/>
       <connect-out-many port="vec" place="vectors"/>
       <connect-out port="vec_copy" place="state"/>
+      <connect-in port="v" place="state"/>
 
     </transition>
 
@@ -164,14 +164,13 @@
     </place>
     <transition name="feynman_degree">
       <defun>
-        <in name="a" type="string"/>
+        <in name="branchs" type="string"/>
         <in name="G" type="list"/>
-        <in name="size" type="unsigned long"/>
         <inout name="fey_sum" type="unsigned long"/>
 
         <out name="s" type="string"/>
 
-        <module name="feynman_module" function="s feynman_integral_degree(fey_sum,G,a,size)">
+        <module name="feynman_module" function="s feynman_integral_degree(fey_sum,G,branchs)">
           <cinclude href="iostream"/>
           <cinclude href="vector"/>
           <cinclude href="numeric"/>
@@ -185,7 +184,6 @@
           <cinclude href="unordered_set"/>
           <cinclude href="feynman.hpp"/>
           <code><![CDATA[
-  std::cout<<"size "<< size<<std::endl;
           std::vector<int> xxx; // Define xxx outside the inner loop
     for (const auto &vii : G)
     {
@@ -205,7 +203,7 @@
 
 // Read the vector of integers from the string
 /* std::vector<int> av;
- for (const auto &xi : a)
+ for (const auto &xi : branchs)
         {
             if (auto ptr = boost::get<int>(&xi))
             {
@@ -214,7 +212,7 @@
         }
        */
     std::vector<int> fey;
-    vector2d a_list= stringToVector2d(a) ;
+    vector2d a_list= stringToVector2d(branchs) ;
     for (const auto &av : a_list){
       unsigned long fe=feynman_integral_branch_type(Gv, av);
     fey.push_back(fe);
@@ -222,27 +220,24 @@
     unsigned long feysum = std::accumulate(fey.begin(), fey.end(), 0UL);
      fey_sum+=feysum;
     std::string feyn= vectorToStringInt(fey);
-    std::cout<<" a "<<a<<std::endl;
+    std::cout<<" branchs "<<branchs<<std::endl;
     std::cout<<"feyn " <<feyn <<std::endl;
     return feyn;
       ]]>          </code>
         </module>
       </defun>
-      <condition>
-        ${size} :gt: 0UL
-      </condition>
+
       <connect-read port="G" place="graph"/>
-      <connect-in port="a" place="vectors"/>
-      <connect-in port="size" place="size"/>
+      <connect-in port="branchs" place="vectors"/>
       <connect-inout port="fey_sum" place="fey_sum"/>
 
       <connect-out port="s" place="fey_out"/>
     </transition>
 
     <place name="fey_out" type="string" />
-    <place name="size" type="unsigned long">
+    <place name="counter" type="int">
       <token>
-        <value>3UL</value>
+        <value>3</value>
       </token>
     </place>
     <place name="count" type="int">
@@ -250,7 +245,11 @@
         <value>0</value>
       </token>
     </place>
-
+ <place name="limit" type="int">
+      <token>
+        <value>0</value>
+      </token>
+    </place>
     <place name="sum" type="unsigned long">
       <token>
         <value>0UL</value>
@@ -259,35 +258,51 @@
     <transition name="Reduce">
       <defun>
         <in name="s" type="string"/>
-        <out name="size" type="unsigned long"/>
+        <out name="counter" type="int"/>
         <inout name="sum" type="unsigned long"/>
         <inout name="count" type="int"/>
+        <inout name="limit" type="int"/>
+        <in name="m" type="int"/>
 
-        <module name="feynman_module" function="plus (count,size,s, sum)">
+        <module name="feynman_module" function="plus (m,limit,count,counter,s, sum)">
           <cinclude href="iostream"/>
           <cinclude href="vector"/>
           <cinclude href="numeric"/>
           <cinclude href="feynman.hpp"/>
 
           <code><![CDATA[
+            limit+=1;
+            if(limit==m){
+              limit=0;
+               counter=m;
+            }
+            else{
+              counter=0;
+
+            }
+            std::cout<<" limit  " <<limit<<std::endl;
+            std::cout<<"counter here  also "<< counter<<std::endl;
+
             std::vector<int> se=stringToVectorInt(s);
          
             int d = std::accumulate(se.begin(), se.end(), 0);
-             size=se.size();
-             std::cout<<" se " <<s <<" " <<"size "<<se.size()<<std::endl;;
-            std::cout<<" sum " <<sum <<"+ d " << d<<std::endl;
+            
+            std::cout<<" string s " <<s<<std::endl;
+
             count+=se.size();
             sum += d;
-            std::cout<<"= sum " <<sum <<" "<<std::endl;
+            std::cout<<"= count " <<count <<" "<<std::endl;
 
-          ]]>          </code>
+          ]]>          
+          </code>
         </module>
       </defun>
-
+      <connect-read port="m" place="m"/>
       <connect-in port="s" place="fey_out"/>
-      <connect-out port="size" place="size"/>
+      <connect-out port="counter" place="counter"/>
       <connect-inout port="sum" place="sum"/>
       <connect-inout port="count" place="count"/>
+      <connect-inout port="limit" place="limit"/>
 
     </transition>
   </net>

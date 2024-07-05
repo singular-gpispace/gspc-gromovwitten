@@ -23,6 +23,7 @@ namespace feynman
   private:
     int _N;
     int _degree;
+    int _m;
     std::string _graph;
     std::vector<int> G; // Declare Gv as a member variable
     pnet_list graph_int;

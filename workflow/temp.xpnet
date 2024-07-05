@@ -5,15 +5,16 @@
   <in name="m" type="int" place="m"/>
   <in name="graph" type="list" place="graph"/>
 
+  <out name="fey_sum" type="unsigned long" place="fey_sum"/>
+
   <out name="sum" type="unsigned long" place="sum"/>
-  <out name="state" type="list" place="state"/>
 
   <net>
     <place name="degree" type="int"/>
     <place name="N" type="int"/>
     <place name="m" type="int"/>
 
-    <transition name="transition1">
+    <transition name="initial">
       <defun>
         <in name="d" type="int"/>
         <in name="n" type="int"/>
@@ -49,7 +50,7 @@
     <place name="vectors" type="list"/>
     <place name="state" type="list"/>
 
-    <transition name="transition2">
+    <transition name="first_next_partition">
       <defun>
         <in name="v" type="list"/>
         <out name="vec" type="list"/>
@@ -65,29 +66,36 @@
           <code><![CDATA[
   using pnet_value = pnet::type::value::value_type;
    using pnet_list = std::list<pnet_value>;
-   //std::cout<<" trans2"<<" "<<std::endl;
+   std::cout<<" x21"<<" ";
           std::vector<int> x;
           for (const auto& elem : v) {
             auto ptr = boost::get<int>(&elem) ;
               x.push_back(*ptr);
+              std::cout<<*ptr<<" ";
           }
+              std::cout<<std::endl;
   /***********************************************************
   ************************************************************/
     int nn=x.size();
     int d = std::accumulate(x.begin(), x.end(), 0);
       pnet_list tmp;
     if(x[nn-1]!= d){
+       std::cout<<" x22 "<<" ";
               for (int xi : x)
               {
                 tmp.push_back(pnet_value(xi));
+                std::cout<<xi<<" ";
               }
          vec_copy.push_back(tmp) ;
     }
+      std::cout<<std::endl;
   /***********************************************************
   ************************************************************/
    //std::string    ve = vectorToStringInt(x);
+     std::cout<<" x23 "<<" ";
 
     vec.push_back(tmp) ;
+    std::cout<<std::endl;
 
    // vec.push_back(ve);
 
@@ -101,16 +109,17 @@
 
     </transition>
 
-    <transition name="transition3">
+    <transition name="next_partitions">
       <defun>
         <in name="m" type="int"/>
         <in name="v" type="list"/>
+        <inout name="last_vector" type="string"/>
 
         <out name="vec" type="list"/>
         <out name="vec_copy" type="list"/>
         <in name="counter" type="int"/>
 
-        <module name="feynman_module" function=" iterator(m,counter,v, vec,vec_copy)">
+        <module name="feynman_module" function=" iterator(last_vector,m,counter,v, vec,vec_copy)">
           <cinclude href="iostream"/>
           <cinclude href="vector"/>
           <cinclude href="numeric"/>
@@ -119,15 +128,16 @@
           <code><![CDATA[
     using pnet_value = pnet::type::value::value_type;
     using pnet_list = std::list<pnet_value>;
-    //std::cout<<" trans3"<<" "<<std::endl;
-    //std::cout<<"counter in trans3:  "<<counter<<std::endl;
 
     //std::vector<int> x=stringToVectorInt(v);
      std::vector<int> x;
+     std::cout<<"x31 ";
           for (const auto& elem : v) {
             auto ptr = boost::get<int>(&elem) ;
               x.push_back(*ptr);
+              std::cout<<*ptr<<" ";
           }
+          std::cout<<std::endl;
 
     int nn=x.size();
     int d = std::accumulate(x.begin(), x.end(), 0);
@@ -185,15 +195,20 @@
 
 
     <place name="graph" type="list"/>
-
-    <transition name="transition4">
+    <place name="fey_sum" type="unsigned long">
+      <token>
+        <value>0UL</value>
+      </token>
+    </place>
+    <transition name="feynman_degree">
       <defun>
         <in name="branchs" type="list"/>
         <in name="G" type="list"/>
+        <inout name="fey_sum" type="unsigned long"/>
 
         <out name="s" type="unsigned long"/>
 
-        <module name="feynman_module" function="s feynman_integral_degree(G,branchs)">
+        <module name="feynman_module" function="s feynman_integral_degree(fey_sum,G,branchs)">
           <cinclude href="iostream"/>
           <cinclude href="vector"/>
           <cinclude href="numeric"/>
@@ -207,8 +222,6 @@
           <cinclude href="unordered_set"/>
           <cinclude href="feynman.hpp"/>
           <code><![CDATA[
-               //std::cout<<" trans4"<<" "<<std::endl;
-
           std::vector<int> xxx; // Define xxx outside the inner loop
     for (const auto &vii : G)
     {
@@ -228,26 +241,30 @@
 
 // Read the vector of integers from the string
  std::vector<int> av;
+ std::cout<<" av 41:  ";
  for (const auto &xi : branchs)
         {
             if (auto ptr = boost::get<int>(&xi))
             {
                 av.push_back( *ptr);
+                std::cout<<*ptr<<" ";
             }
         }
+      std::cout<<std::endl;
 
      //std::vector<int> av= stringToVectorInt(branchs) ;
       unsigned long fe=feynman_integral_branch_type(Gv, av);
 
+     fey_sum+=fe;
    
     return fe;
-      ]]>
-          </code>
+      ]]>          </code>
         </module>
       </defun>
 
       <connect-read port="G" place="graph"/>
       <connect-in port="branchs" place="vectors"/>
+      <connect-inout port="fey_sum" place="fey_sum"/>
       <connect-out port="s" place="fey_out"/>
     </transition>
 
@@ -268,7 +285,7 @@
         <value>0UL</value>
       </token>
     </place>
-    <transition name="transition5">
+    <transition name="Reduce">
       <defun>
         <in name="s" type="unsigned long"/>
         <out name="counter" type="int"/>
@@ -283,20 +300,24 @@
           <cinclude href="feynman.hpp"/>
 
           <code><![CDATA[
-            //   std::cout<<" trans5"<<" "<<std::endl;
-
             limit+=1;
             if(limit==m){
               limit=0;
                counter=m;
-            //std::cout<<"counter in trans5:  "<<counter<<std::endl;
             }
-
+            if(limit==1){
+               counter=m;
+            }
             else{
               counter=0;
-            }   
+            }
+            std::cout<<" limit  " <<limit<<std::endl;
+            std::cout<<"counter here  also "<< counter<<std::endl;
+         
             
+
             sum += s;
+
           ]]>
           </code>
         </module>
