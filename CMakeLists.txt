@@ -1,22 +1,34 @@
 cmake_minimum_required(VERSION 3.16)
 project(feynman LANGUAGES CXX)
 
+# Set the C++ standard and requirements
 set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
+# Find required packages
 find_package(GPISpace REQUIRED)
 find_package(util-generic REQUIRED)
 find_package(util-cmake REQUIRED)
 find_package(Boost 1.63 REQUIRED COMPONENTS filesystem program_options)
 
+# Include custom CMake macros
 include(util-cmake/add_macros)
 
+# Define a variable to hold the path to gspc-rifd
+set(GSPC_RIFD_PATH "/home/atraore/spack/opt/spack/linux-ubuntu22.04-skylake/gcc-11.3.0/gpi-space-23.06-gxye6b7ngsnbxnzjkfsfqtvanynyghdk/bin/gspc-rifd" CACHE PATH "Path to gspc-rifd binary")
+
+# Debug message to verify the path
+message(STATUS "GSPC_RIFD_PATH: ${GSPC_RIFD_PATH}")
+
+# Add your project configuration and targets here...
 set(BUNDLE_ROOT "libexec/bundle")
 bundle_GPISpace(DESTINATION "${BUNDLE_ROOT}/gpispace" COMPONENTS runtime)
 
 # Locate FLINT include and library directories
-find_path(FLINT_INCLUDE_DIR NAMES flint/flint.h)
-find_library(FLINT_LIB NAMES flint)
+set(FLINT_PREFIX "$ENV{HOME}/local") # Adjust this path as per your installation
+
+find_path(FLINT_INCLUDE_DIR NAMES flint/flint.h HINTS "${FLINT_PREFIX}/include")
+find_library(FLINT_LIB NAMES flint HINTS "${FLINT_PREFIX}/lib")
 
 if(NOT FLINT_INCLUDE_DIR OR NOT FLINT_LIB)
   message(FATAL_ERROR "FLINT library not found. Please install FLINT or set FLINT_INCLUDE_DIR and FLINT_LIB.")
@@ -27,7 +39,10 @@ add_library(feynman_implementation SHARED "src/feynman.cpp")
 target_include_directories(feynman_implementation PUBLIC "${CMAKE_SOURCE_DIR}" "${FLINT_INCLUDE_DIR}")
 target_link_libraries(feynman_implementation PRIVATE ${FLINT_LIB})
 
-set_target_properties(feynman_implementation PROPERTIES INSTALL_RPATH_USE_LINK_PATH TRUE)
+set_target_properties(feynman_implementation PROPERTIES
+  INSTALL_RPATH_USE_LINK_PATH TRUE
+  INSTALL_RPATH "$ORIGIN/../lib:$ORIGIN/../../lib:$ENV{HOME}/local/lib"
+)
 
 set(PETRI_NET "${PROJECT_SOURCE_DIR}/workflow/${PROJECT_NAME}.xpnet")
 set(COMPILED_PETRI_NET "${PROJECT_BINARY_DIR}/${PROJECT_NAME}.pnet")
