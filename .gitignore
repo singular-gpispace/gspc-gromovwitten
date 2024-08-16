@@ -5,9 +5,7 @@ feynman/
 !include/feynman/
 flint_try/
 .vscode/
-install_feyn.sh
 *.txt
-*.sh
 *.svg
 !CMakeLists.txt
 git_file
