@@ -1,0 +1,87 @@
+<defun name="feynman_deg">
+
+  <in name="degree" type="int" place="degree"/>
+  <in name="N" type="int" place="N"/>
+  <out name="ved_vectorsctors" type="list" place="d_vectors"/>
+
+  <net>
+    <place name="degree" type="int"/>
+    <place name="N" type="int"/>
+
+    <transition name="gen_block">
+      <defun>
+        <in name="d" type="int"/>
+        <in name="n" type="int"/>
+        <out name="v" type="list"/>
+
+        <module name="feynman_module" function=" gen_block (n,d,v)">
+          <cinclude href="iostream"/>
+          <cinclude href="vector"/>
+          <cinclude href="sstream"/>
+          <code><![CDATA[
+
+
+   for (int e = 0; e < d; e++) {
+        std::list<int> x(n, 0);
+        x.front() = d - e;
+        x.back() = e;
+        std::list<pnet::type::value::value_type> temp;
+        for (int xi : x) {
+            temp.push_back(pnet::type::value::value_type(xi));
+        }
+        v.push_back(temp);
+    }
+         ]]>
+          </code>
+        </module>
+      </defun>
+      <connect-in port="n" place="N"/>
+      <connect-in port="d" place="degree"/>
+      <connect-out-many port="v" place="d_vectors"/>
+    </transition>
+
+    <place name="d_vectors" type="list"/>
+    <place name="vectors" type="string"/>
+
+    <transition name="iterate">
+      <defun>
+        <in name="v" type="list"/>
+        <out name="vec" type="list"/>
+
+        <module name="feynman_module" function=" iterat(v, vec)">
+          <cinclude href="iostream"/>
+          <cinclude href="vector"/>
+          <cinclude href="numeric"/>
+          <cinclude href="sstream"/>
+          <cinclude href="feynman.hpp"/>
+
+          <code><![CDATA[
+          std::vector<int> x;
+          for (const auto& elem : v) {
+            auto ptr = boost::get<int>(&elem) ;
+              x.push_back(*ptr);
+            
+          }
+      
+      
+    vector2d gen = iterate(x);
+    std::string    ve = vector2dToString(gen);
+
+    using pnet_value = pnet::type::value::value_type;
+    using pnet_list = std::list<pnet_value>;
+
+    vec.push_back(ve);
+
+
+          ]]>
+          </code>
+        </module>
+      </defun>
+      <connect-in port="v" place="d_vectors"/>
+      <connect-out-many port="vec" place="vectors"/>
+    </transition>
+
+
+  </net>
+
+</defun>

@@ -1,9 +1,6 @@
 bin/
 build/
-feynman/
-/feynman/
 !include/feynman/
-flint_try/
 .vscode/
 *.txt
 *.svg

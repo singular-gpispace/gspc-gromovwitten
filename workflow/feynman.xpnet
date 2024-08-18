@@ -6,7 +6,6 @@
   <in name="graph" type="list" place="graph"/>
 
   <out name="sum" type="unsigned long" place="sum"/>
-  <out name="state" type="list" place="state"/>
 
   <net>
     <place name="degree" type="int"/>
@@ -65,7 +64,6 @@
           <code><![CDATA[
   using pnet_value = pnet::type::value::value_type;
    using pnet_list = std::list<pnet_value>;
-   //std::cout<<" trans2"<<" "<<std::endl;
           std::vector<int> x;
           for (const auto& elem : v) {
             auto ptr = boost::get<int>(&elem) ;
@@ -119,8 +117,6 @@
           <code><![CDATA[
     using pnet_value = pnet::type::value::value_type;
     using pnet_list = std::list<pnet_value>;
-    //std::cout<<" trans3"<<" "<<std::endl;
-    //std::cout<<"counter in trans3:  "<<counter<<std::endl;
 
     //std::vector<int> x=stringToVectorInt(v);
      std::vector<int> x;
@@ -207,14 +203,13 @@
           <cinclude href="unordered_set"/>
           <cinclude href="feynman.hpp"/>
           <code><![CDATA[
-               //std::cout<<" trans4"<<" "<<std::endl;
 
-          std::vector<int> xxx; // Define xxx outside the inner loop
+          std::vector<int> xxx; // Define xxx 
     for (const auto &vii : G)
     {
         if (auto ptr = boost::get<int>(&vii))
         {                             // Check if the element is an integer
-            xxx.push_back( *ptr ); // Push the integer to the vector xx
+            xxx.push_back( *ptr ); // Push the integer to the vector xxx
         }
     }
   std::vector<std::pair<int, int>> Gv;
@@ -283,13 +278,11 @@
           <cinclude href="feynman.hpp"/>
 
           <code><![CDATA[
-            //   std::cout<<" trans5"<<" "<<std::endl;
 
             limit+=1;
             if(limit==m){
               limit=0;
                counter=m;
-            //std::cout<<"counter in trans5:  "<<counter<<std::endl;
             }
 
             else{
