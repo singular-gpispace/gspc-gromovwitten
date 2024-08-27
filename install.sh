@@ -51,7 +51,7 @@ time ~/gpi/try_gpi/gpispace/bin/bin/feynman \
   --topology "worker:7" \
   --m 1 \
   --N 9 \
-  --degree 4 \
+  --degree 7 \
   --graph "{ {1, 2}, {1, 2}, {1, 3}, {2, 4}, {3, 4}, {3, 5}, {4, 6}, {5, 6}, {5, 6} }" \
   --log-host localhost \
   --log-port 9876
