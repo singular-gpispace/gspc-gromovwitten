@@ -3,6 +3,5 @@ build/
 !include/feynman/
 .vscode/
 *.txt
-*.svg
 !CMakeLists.txt
 git_file
