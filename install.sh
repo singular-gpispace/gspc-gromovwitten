@@ -49,7 +49,7 @@ time ~/gpi/try_gpi/gpispace/bin/bin/feynman \
   --nodefile ~/gpispace/nodefile \
   --rif-strategy ssh \
   --topology "worker:7" \
-  --m 1 \
+  --m 80 \
   --N 9 \
   --degree 7 \
   --graph "{ {1, 2}, {1, 2}, {1, 3}, {2, 4}, {3, 4}, {3, 5}, {4, 6}, {5, 6}, {5, 6} }" \
