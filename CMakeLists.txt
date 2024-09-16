@@ -122,3 +122,9 @@ install(FILES
   "${WRAPPER_LIBRARY}"
   DESTINATION lib
 )
+
+# Copy all .so files from build/gen/pnetc/op into the bin/lib folder
+install(DIRECTORY "${PROJECT_BINARY_DIR}/gen/pnetc/op/"
+  DESTINATION "${CMAKE_INSTALL_PREFIX}/lib"
+  FILES_MATCHING PATTERN "*.so"
+)

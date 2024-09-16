@@ -22,6 +22,16 @@ namespace feynman
         }
         return G;
     }
+    unsigned long  binomial(const int n, const int k) {
+        std::vector<unsigned long > vec(k);
+        vec[0] = n - k + 1;
+
+        for (int i = 1; i < k; ++i) {
+            vec[i] = vec[i - 1] * (n - k + 1 + i) / (i + 1);
+        }
+
+        return vec[k - 1];
+    }
 
     using pnet_value = pnet::type::value::value_type;
     using pnet_list = std::list<pnet_value>;
@@ -41,14 +51,13 @@ namespace feynman
     }
 
     Workflow::Workflow(Parameters const& args)
-        : _N(args.at("N").as<int>()) // number of edges.
-        ,
-        _degree(args.at("degree").as<int>()) // given degree
-        ,
-        _m(args.at("m").as<int>()) // given m limit 
-        ,
-        _graph(args.at("graph").as<std::string>()) // graph.
+        : _N(args.at("N").as<int>()),         // number of edges
+        _degree(args.at("degree").as<int>()), // given degree
+        _m(args.at("m").as<int>()),          // given m limit 
+        _graph(args.at("graph").as<std::string>())   // graph
     {
+        total_int = binomial(_N + _degree - 1, _degree);
+
         G = extractIntegers(_graph);
         for (int xi : G)
         {
@@ -63,6 +72,7 @@ namespace feynman
         values_on_ports.emplace("degree", _degree);
         values_on_ports.emplace("graph", graph_int);
         values_on_ports.emplace("m", _m);
+        values_on_ports.emplace("total", total_int);
 
         return values_on_ports;
     }
@@ -75,6 +85,9 @@ namespace feynman
 
         auto const& feynm = results.get<unsigned long>("sum");
         std::cout << "feynman_degree: " << feynm << std::endl;
+
+        auto const& feynm1 = results.get<unsigned long>("sum2");
+        std::cout << "feynman_degree L: " << feynm1 << std::endl;
         /*
                auto const& feysum = results.get<unsigned long>("fey_sum");
                std::cout << "feynman_degree_sum: " << feysum << std::endl;

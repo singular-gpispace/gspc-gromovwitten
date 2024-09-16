@@ -1,3 +1,5 @@
+spack load gpi-space@23.06
+pnetc ~/gpi/try_gpi/gpispace/workflow/feynman.xpnet | pnet2dot | dot -T svg > ~/gpi/try_gpi/gpispace/workflow/feynman.svg
 rm -r ~/gpi/try_gpi/gpispace/build/*
 cmake \
   -D GPISpace_ROOT=~/spack/ \
@@ -28,7 +30,6 @@ time ~/gpi/try_gpi/gpispace/bin/bin/feynman \
   --log-host localhost \
   --log-port 9876
 
-spack load gpi-space@23.06
 
 
 time ~/gpi/try_gpi/gpispace/bin/bin/feynman \

@@ -24,6 +24,11 @@ namespace feynman
     int _N;
     int _degree;
     int _m;
+    unsigned long total;
+    unsigned long _total;
+
+    unsigned long total_int;
+
     std::string _graph;
     std::vector<int> G; // Declare Gv as a member variable
     pnet_list graph_int;

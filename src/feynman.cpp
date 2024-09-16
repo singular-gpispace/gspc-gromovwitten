@@ -29,6 +29,20 @@ using pnet_list2d = std::list<std::list<pnet_value>>; */
 using vector2d = std::vector<std::vector<int>>;
 using list_type = std::list<std::string>; // Define list_type as std::list<std::string>
 
+std::string convertTwoIntsToString(int n1, int n2) {
+    std::stringstream ss;
+    ss << n1 << ' ' << n2;  // Use a space as a delimiter between the two numbers
+    return ss.str();
+}
+
+// Convert a string back to two integers
+std::pair<int, int> convertStringToTwoInts(const std::string& str) {
+    std::stringstream ss(str);
+    int n1, n2;
+    ss >> n1 >> n2;  // Extract the two integers from the string
+    return std::make_pair(n1, n2);
+}
+
 std::size_t get_memory_usage()
 {
     struct rusage r_usage;
