@@ -5,15 +5,15 @@
   <in name="m" type="int" place="m"/>
   <in name="graph" type="list" place="graph"/>
   <in name="total" type="unsigned long" place="total"/>
-
-  <out name="answer" type="unsigned long" place="answer"/>
+  <out name="sum2" type="unsigned long" place="sum2"/>
 
   <net>
     <place name="degree" type="int"/>
     <place name="N" type="int"/>
     <place name="m" type="int"/>
       <place name="total" type="unsigned long"/>
-  <place name="vectors" type="list"/>
+
+    <place name="vectors" type="list"/>
     <place name="state" type="list"/>
   <transition name="transition2">
       <defun>
@@ -222,21 +222,27 @@
         <value>0</value>
       </token>
     </place>
-    <place name="sum" type="unsigned long">
+    <place name="sum" type="string">
       <token>
-        <value>0UL</value>
+        <value>"0 0"</value>
       </token>
     </place>
+
+
+    <struct name="mysum">
+    <field name="fey" type="unsigned long"/>
+    <field name="count" type="unsigned long"/>
+</struct>
     <transition name="transition5">
       <defun>
         <in name="s" type="unsigned long"/>
         <out name="counter" type="int"/>
-        <out name="controls" type="control"/>
-        <inout name="sum" type="unsigned long"/>
+        <inout name="sum" type="string"/>
         <inout name="limit" type="int"/>
         <in name="m" type="int"/>
+        <out name="sum1" type="mysum"/>
 
-        <module name="feynman_module" function="plus (controls,m,limit,counter,s, sum)">
+        <module name="feynman_module" function="plus (sum1,m,limit,counter,s, sum)">
           <cinclude href="iostream"/>
           <cinclude href="vector"/>
           <cinclude href="numeric"/>
@@ -253,8 +259,19 @@
             else{
               counter=0;
             }   
-            
-            sum += s;
+   
+
+   std::vector<unsigned long> su = stringToVectorUlong(sum);
+
+    su[0] += s;
+    su[1] += 1;
+  
+   sum1.fey= su[0];
+   sum1.count = su[1];
+
+    std::string se = vectorToStringULong(su);
+   // std::cout << "trans1: (sum,total) " << se << std::endl;
+         sum=se;
           ]]>
           </code>
         </module>
@@ -264,64 +281,44 @@
       <connect-out port="counter" place="counter"/>
       <connect-inout port="sum" place="sum"/>
       <connect-inout port="limit" place="limit"/>
-      <connect-out port="controls" place="ns"/>
+       <connect-out port="sum1" place="sum1"/>
 
     </transition>
-    <place name="ns" type="control" />
-<place name="counter_total" type="unsigned long">
-      <token>
-        <value>0UL</value>
-      </token>
-    </place>
- <transition name="transition6">
-      <defun>
-        <in name="d" type="control"/>
-        <inout name="counter_total" type="unsigned long"/>
-        <module name="feynman_module" function=" control1 (d,counter_total)">
-          <cinclude href="iostream"/>
-          <cinclude href="vector"/>
-          <cinclude href="sstream"/>
-          <code><![CDATA[
-
-          counter_total +=1;
-
-         ]]>
-          </code>
-        </module>
-      </defun>
-      <connect-in port="d" place="ns"/>
-      <connect-inout port="counter_total" place="counter_total"/>
-    </transition>
+    <place name="sum1" type="mysum" />
 
 
- <transition name="transition7">
+
+
+       <transition name="transition6">
       <defun>
         <in name="total" type="unsigned long"/>
-        <in name="counter_total" type="unsigned long"/>
-        <inout name="answer" type="unsigned long"/>
+        <in name="sum_out" type="mysum"/>
+        <out name="sum3" type="unsigned long"/>
 
-        <module name="feynman_module" function=" final (answer,total,counter_total)">
+        <module name="feynman_module" function="finish (sum3,total,sum_out)">
           <cinclude href="iostream"/>
           <cinclude href="vector"/>
-          <cinclude href="sstream"/>
+          <cinclude href="numeric"/>
+          <cinclude href="feynman.hpp"/>
           <code><![CDATA[
+          sum3=sum_out.fey;
+     //  std::cout<<" trans2: (sum,total)  "<<sum_out<<", "<<sum_out.count<<std::endl;
 
-
-         ]]>
+          ]]>
           </code>
         </module>
       </defun>
-        <condition>
-      ${counter_total}:eq: ${total}
+      <condition>
+        ${sum_out.count} :eq: ${total}
       </condition>
-       <connect-read port="total" place="total"/>
-
-      <connect-out port="answer" place="answer"/>
-      <connect-in port="counter_total" place="counter_total"/>
-      <connect-in port="answer" place="sum"/>
+      
+      <connect-read port="total" place="total"/>
+      <connect-out port="sum3" place="sum2"/>
+      <connect-in port="sum_out" place="sum1"/>
 
     </transition>
-    <place name="answer" type="unsigned long" />
+
+    <place name="sum2" type="unsigned long" />
 
   </net>
 

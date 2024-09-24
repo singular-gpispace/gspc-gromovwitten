@@ -29,6 +29,25 @@ using pnet_list2d = std::list<std::list<pnet_value>>; */
 using vector2d = std::vector<std::vector<int>>;
 using list_type = std::list<std::string>; // Define list_type as std::list<std::string>
 
+
+std::vector<unsigned long> stringToVectorUlong(const std::string& str) {
+    std::vector<unsigned long> result;
+    std::stringstream ss(str);
+    unsigned long num;  // Corrected to use unsigned long
+    while (ss >> num) {
+        result.push_back(num);
+    }
+    return result;
+}
+
+// Convert a vector of unsigned long to a string
+std::string vectorToStringULong(const std::vector<unsigned long>& vec) {
+    std::stringstream ss;
+    for (unsigned long val : vec) {
+        ss << val << ' ';
+    }
+    return ss.str();
+}
 std::string convertTwoIntsToString(int n1, int n2) {
     std::stringstream ss;
     ss << n1 << ' ' << n2;  // Use a space as a delimiter between the two numbers

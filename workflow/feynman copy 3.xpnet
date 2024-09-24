@@ -5,15 +5,13 @@
   <in name="m" type="int" place="m"/>
   <in name="graph" type="list" place="graph"/>
   <in name="total" type="unsigned long" place="total"/>
-  <out name="sum" type="unsigned long" place="sum"/>
   <out name="sum2" type="unsigned long" place="sum2"/>
 
   <net>
-      <place name="total" type="unsigned long"/>
-
     <place name="degree" type="int"/>
     <place name="N" type="int"/>
     <place name="m" type="int"/>
+      <place name="total" type="unsigned long"/>
 
     <transition name="transition1">
       <defun>
@@ -261,27 +259,31 @@
         <value>0</value>
       </token>
     </place>
-    <place name="sum" type="unsigned long">
+    <place name="sum" type="string">
       <token>
-        <value>0UL</value>
+        <value>"0 0"</value>
       </token>
     </place>
     <transition name="transition5">
       <defun>
         <in name="s" type="unsigned long"/>
         <out name="counter" type="int"/>
-        <inout name="sum" type="unsigned long"/>
+        <inout name="sum" type="string"/>
         <inout name="limit" type="int"/>
         <in name="m" type="int"/>
-        <out name="sum_copy" type="unsigned long"/>
+        <out name="sum1" type="string"/>
+        <in name="total" type="unsigned long"/>
+        <out name="stop2" type="unsigned long"/>
+        <out name="fey" type="unsigned long"/>
 
-        <module name="feynman_module" function="plus (sum_copy,m,limit,counter,s, sum)">
+        <module name="feynman_module" function="plus (stop2,fey,total,sum1,m,limit,counter,s, sum)">
           <cinclude href="iostream"/>
           <cinclude href="vector"/>
           <cinclude href="numeric"/>
           <cinclude href="feynman.hpp"/>
 
           <code><![CDATA[
+
             limit+=1;
             if(limit==m){
               limit=0;
@@ -291,11 +293,27 @@
             else{
               counter=0;
             }   
-            
-            sum += s;
-            sum_copy=sum;
-            std::cout<<"sum_copy "<<sum_copy<<std::endl;
+   
 
+   std::vector<unsigned long> su = stringToVectorUlong(sum);
+
+    su[0] += s;
+    su[1] += 1;
+     unsigned long  stop1=su[1];    
+     if (stop1==total){
+           fey=su[0];
+           stop2 = su[1]; 
+     }
+     else{
+      stop2=0UL;
+      fey=0UL;
+     }
+    std::cout << "trans1: (fey,stop2) " << fey<<", "<<stop2 << std::endl;
+
+    std::string se = vectorToStringULong(su);
+    //std::cout << "trans1: (sum,total) " << se << std::endl;
+         sum=se;
+        sum1=se;
           ]]>
           </code>
         </module>
@@ -305,85 +323,50 @@
       <connect-out port="counter" place="counter"/>
       <connect-inout port="sum" place="sum"/>
       <connect-inout port="limit" place="limit"/>
-      <connect-out port="sum_copy" place="sum1_copy"/>
+       <connect-out port="sum1" place="sum1"/>
+      <connect-read port="total" place="total"/>
+      <connect-out port="stop2" place="stop"/>
+      <connect-out port="fey" place="fey"/>
+
     </transition>
+    <place name="sum1" type="string" />
+    <place name="fey" type="unsigned long" />
+    <place name="stop" type="unsigned long" />
 
- <place name="stop1" type="unsigned long">
-      <token>
-        <value>0UL</value>
-      </token>
-  </place>
-        <place name="stop" type="unsigned long" />
-        <place name="sum1_copy" type="unsigned long" />
-        <place name="sum1" type="unsigned long" />
-
- <transition name="transition6">
+       <transition name="transition6">
       <defun>
-        <in name="sum2_copy" type="unsigned long"/>
-        <inout name="stop1" type="unsigned long"/>
-        <in name="total" type="unsigned long"/>
-        <out name="sum_out" type="unsigned long"/>
+        <in name="sum_in" type="string"/>
+        <inout name="fey" type="unsigned long"/>
+        <in name="stop" type="unsigned long"/>
 
-        <module name="feynman_module" function="finish (total,sum_out,stop1,sum2_copy)">
+        <module name="feynman_module" function="finish (fey,stop,sum_in)">
           <cinclude href="iostream"/>
           <cinclude href="vector"/>
           <cinclude href="numeric"/>
           <cinclude href="feynman.hpp"/>
-
           <code><![CDATA[
-            stop1+=1;
-            if(stop1==total){
-              sum_out=sum2_copy;
-            }
-            else{
-              sum_out=0;
-            }             
-          std::cout<<"sum2_copy "<<sum2_copy<<std::endl;
-          std::cout<<"stop1 "<<stop1<<std::endl;
 
-     /*  <condition>
-        ${stop} :lt: ${total}
-      </condition>
-      */
+    std::cout << "trans2: (fey,stop2) =>" << fey<<", "<<stop << std::endl;
+    std::cout<<"sum1 "<<sum_in<<std::endl;
+
+
           ]]>
           </code>
         </module>
       </defun>
-      <connect-read port="total" place="total"/>
-      <connect-out port="sum_out" place="sum1"/>
-      <connect-in port="sum2_copy" place="sum1_copy"/>
-      <connect-inout port="stop1" place="stop1"/>
+     <condition>
+  ${stop} :gt: 0UL
+</condition>
+
+      <connect-out port="fey" place="sum2"/>
+      <connect-in port="sum_in" place="sum1"/>
+      <connect-in port="fey" place="fey"/>
+      <connect-in port="stop" place="stop"/>
 
     </transition>
+
     <place name="sum2" type="unsigned long" />
 
-    <transition name="transition7">
-      <defun>
-        <inout name="sum_out" type="unsigned long"/>
-
-        <module name="feynman_module" function="output (sum_out)">
-          <cinclude href="iostream"/>
-          <cinclude href="vector"/>
-          <cinclude href="numeric"/>
-          <cinclude href="feynman.hpp"/>
-
-          <code><![CDATA[
-             
-          std::cout<<"sum_out==  "<<sum_out <<std::endl;
-
- 
-          ]]>
-          </code>
-        </module>
-      </defun>
-      <condition>
-        ${sum_out} :ne: 0UL
-      </condition>
-      
-      <connect-out port="sum_out" place="sum2"/>
-      <connect-in port="sum_out" place="sum1"/>
-
-    </transition>
   </net>
 
 </defun>

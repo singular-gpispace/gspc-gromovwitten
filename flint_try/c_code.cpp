@@ -1,32 +1,49 @@
 #include <iostream>
-#include <sstream>
 #include <vector>
+#include <sstream>
+#include <string>
 
-// Convert two integers to a single string
-std::string convertTwoIntsToString(unsigned long n1, unsigned long n2) {
+// Convert a string to a vector of unsigned long
+std::vector<unsigned long> stringToVectorUlong(const std::string& str) {
+    std::vector<unsigned long> result;
+    std::stringstream ss(str);
+    unsigned long num;  // Corrected to use unsigned long
+    while (ss >> num) {
+        result.push_back(num);
+    }
+    return result;
+}
+
+// Convert a vector of unsigned long to a string
+std::string vectorToStringULong(const std::vector<unsigned long>& vec) {
     std::stringstream ss;
-    ss << n1 << ' ' << n2;  // Use a space as a delimiter between the two numbers
+    for (unsigned long val : vec) {
+        ss << val << ' ';
+    }
     return ss.str();
 }
 
-// Convert a string back to two integers
-std::pair<int, int> convertStringToTwoInts(const std::string& str) {
-    std::stringstream ss(str);
-    unsigned long n1, n2;
-    ss >> n1 >> n2;  // Extract the two integers from the string
-    return std::make_pair(n1, n2);
-}
-
 int main() {
-    // Step 1: Convert two integers to a string
-    unsigned long n1 = 123;
-    unsigned long n2 = 456;
-    std::string str = convertTwoIntsToString(n1, n2);
-    std::cout << "Converted string: " << str << std::endl;
+    std::string sum = "1 0";  // Initialize string properly
+    int sss = sum[0];
+    std::cout << "sss " << sss << std::endl;
+    unsigned long s = 5;      // Example value for 's'
 
-    // Step 2: Convert the string back to two integers
-    std::pair<int, int> recoveredNumbers = convertStringToTwoInts(str);
-    std::cout << "Recovered numbers: " << recoveredNumbers.first << ", " << recoveredNumbers.second << std::endl;
+    std::vector<unsigned long> su = stringToVectorUlong(sum);
+
+    su[0] += s;
+    su[1] += 1;
+
+    // Print the vector after modification
+    std::cout << "su after modification: ";
+    for (unsigned long i : su) {
+        std::cout << i << ' ';  // Print each element followed by a space
+    }
+    std::cout << std::endl;
+
+    // Convert the vector back to string
+    std::string se = vectorToStringULong(su);
+    std::cout << "se: " << se << std::endl;
 
     return 0;
 }

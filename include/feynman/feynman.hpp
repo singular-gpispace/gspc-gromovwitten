@@ -26,6 +26,8 @@ using pnet_list2d = std::list<std::list<pnet_value>>; */
 using vector2d = std::vector<std::vector<int>>;
 using list_type = std::list<std::string>; // Define list_type as std::list<std::string>
 
+std::vector<unsigned long> stringToVectorUlong(const std::string& str);
+std::string vectorToStringULong(const std::vector<unsigned long>& vec);
 vector2d gen_block(int d, int n);
 int binomial(int n, int k);
 std::vector<int> next_partition(std::vector<int> a);

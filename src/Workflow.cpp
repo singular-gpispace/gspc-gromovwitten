@@ -83,11 +83,10 @@ namespace feynman
         /*   auto const& fey = results.get<std::string>("state");
           std::cout << "count: " << fey << std::endl; */
 
-        auto const& feynm = results.get<unsigned long>("sum");
+        auto const& feynm = results.get<unsigned long>("answer");
         std::cout << "feynman_degree: " << feynm << std::endl;
 
-        auto const& feynm1 = results.get<unsigned long>("sum2");
-        std::cout << "feynman_degree L: " << feynm1 << std::endl;
+
         /*
                auto const& feysum = results.get<unsigned long>("fey_sum");
                std::cout << "feynman_degree_sum: " << feysum << std::endl;
