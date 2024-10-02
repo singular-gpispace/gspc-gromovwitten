@@ -143,7 +143,6 @@
 
     </transition>
 
-
     <place name="graph" type="list"/>
 
     <transition name="transition4">
@@ -151,9 +150,9 @@
         <in name="branchs" type="list"/>
         <in name="G" type="list"/>
 
-        <out name="s" type="unsigned long"/>
+        <out name="fey" type="unsigned long"/>
 
-        <module name="feynman_module" function="s feynman_integral_degree(G,branchs)">
+        <module name="feynman_module" function="fey feynman_integral_degree(G,branchs)">
           <cinclude href="iostream"/>
           <cinclude href="vector"/>
           <cinclude href="numeric"/>
@@ -207,10 +206,10 @@
 
       <connect-read port="G" place="graph"/>
       <connect-in port="branchs" place="vectors"/>
-      <connect-out port="s" place="fey_out"/>
+      <connect-out port="fey" place="fey"/>
     </transition>
 
-    <place name="fey_out" type="unsigned long" />
+    <place name="fey" type="unsigned long" />
     <place name="counter" type="int">
       <token>
         <value>3</value>
@@ -227,24 +226,47 @@
         <value>0UL</value>
       </token>
     </place>
+
     <transition name="transition5">
       <defun>
-        <in name="s" type="unsigned long"/>
-        <out name="counter" type="int"/>
-        <out name="controls" type="control"/>
+        <in name="fey" type="unsigned long"/>
+        <out name="ns" type="control"/>
+        <out name="ms" type="control"/>
         <inout name="sum" type="unsigned long"/>
-        <inout name="limit" type="int"/>
-        <in name="m" type="int"/>
 
-        <module name="feynman_module" function="plus (controls,m,limit,counter,s, sum)">
+        <module name="feynman_module" function="plus (ms,ns,fey, sum)">
           <cinclude href="iostream"/>
           <cinclude href="vector"/>
           <cinclude href="numeric"/>
           <cinclude href="feynman.hpp"/>
+          <code><![CDATA[
+            sum += fey;
+          ]]>
+          </code>
+        </module>
+      </defun>
+      <connect-in port="fey" place="fey"/>
+      <connect-inout port="sum" place="sum"/>
+      <connect-out port="ns" place="ns"/>
+      <connect-out port="ms" place="ms"/>
+    </transition>
 
+
+  <place name="ms" type="control" />
+
+  <transition name="transition61">
+      <defun>
+        <in name="ms" type="control"/>
+        <in name="m" type="int"/>
+        <out name="counter" type="int"/>
+        <inout name="limit" type="int"/>
+        <module name="feynman_module" function=" control2 (m,counter,ms,limit)">
+          <cinclude href="iostream"/>
+          <cinclude href="vector"/>
+          <cinclude href="sstream"/>
           <code><![CDATA[
 
-            limit+=1;
+              limit+=1;
             if(limit==m){
               limit=0;
                counter=m;
@@ -253,31 +275,31 @@
             else{
               counter=0;
             }   
-            
-            sum += s;
-          ]]>
+
+         ]]>
           </code>
         </module>
       </defun>
       <connect-read port="m" place="m"/>
-      <connect-in port="s" place="fey_out"/>
-      <connect-out port="counter" place="counter"/>
-      <connect-inout port="sum" place="sum"/>
+      <connect-in port="ms" place="ms"/>
       <connect-inout port="limit" place="limit"/>
-      <connect-out port="controls" place="ns"/>
-
+      <connect-out port="counter" place="counter"/>
     </transition>
-    <place name="ns" type="control" />
-<place name="counter_total" type="unsigned long">
+
+
+    <place name="ns" type="control"/>
+
+    <place name="counter_total" type="unsigned long">
       <token>
         <value>0UL</value>
       </token>
     </place>
+
  <transition name="transition6">
       <defun>
-        <in name="d" type="control"/>
+        <in name="ns" type="control"/>
         <inout name="counter_total" type="unsigned long"/>
-        <module name="feynman_module" function=" control1 (d,counter_total)">
+        <module name="feynman_module" function=" control1 (ns,counter_total)">
           <cinclude href="iostream"/>
           <cinclude href="vector"/>
           <cinclude href="sstream"/>
@@ -289,7 +311,7 @@
           </code>
         </module>
       </defun>
-      <connect-in port="d" place="ns"/>
+      <connect-in port="ns" place="ns"/>
       <connect-inout port="counter_total" place="counter_total"/>
     </transition>
 
@@ -314,8 +336,7 @@
         <condition>
       ${counter_total}:eq: ${total}
       </condition>
-       <connect-read port="total" place="total"/>
-
+      <connect-read port="total" place="total"/>
       <connect-out port="answer" place="answer"/>
       <connect-in port="counter_total" place="counter_total"/>
       <connect-in port="answer" place="sum"/>

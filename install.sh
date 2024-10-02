@@ -58,6 +58,19 @@ time ~/gpi/try_gpi/gpispace/bin/bin/feynman \
   --log-port 9876
 
 
+time ~/gpi/try_gpi/gpispace/bin/bin/feynman \
+  --gspc-home ~/spack/opt/spack/linux-ubuntu22.04-skylake/gcc-11.3.0/gpi-space-23.06-gxye6b7ngsnbxnzjkfsfqtvanynyghdk/ \
+  --nodefile ~/gpispace/nodefile \
+  --rif-strategy ssh \
+  --topology "worker:7" \
+  --m 1 \
+  --N 3 \
+  --degree 4 \
+  --graph "{{1, 2}, {1, 2}, {1, 2}" \
+  --log-host localhost \
+  --log-port 9876
+
+
 cd ~/spack/opt/spack/linux-ubuntu22.04-skylake/gcc-11.3.0/gpi-space-23.06-gxye6b7ngsnbxnzjkfsfqtvanynyghdk/bin && ./gspc-logging-to-stdout.exe --port 9876 > ~/gpi/try_gpi/gpispace/monitor.txt 2>&1
 
 : > monitor.txt # erase the content of the file monitor.txt
