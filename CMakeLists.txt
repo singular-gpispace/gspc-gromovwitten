@@ -1,7 +1,5 @@
 cmake_minimum_required(VERSION 3.16)
-project(feynman
-  LANGUAGES CXX
-)
+project(feynman LANGUAGES CXX)
 
 set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -9,17 +7,11 @@ find_package(GPISpace REQUIRED)
 
 find_package(util-generic REQUIRED)
 find_package(util-cmake REQUIRED)
-find_package(Boost 1.63 REQUIRED
-  COMPONENTS
-  filesystem
-  program_options
-)
+find_package(Boost 1.63 REQUIRED COMPONENTS filesystem program_options)
 include(util-cmake/add_macros)
 
 set(BUNDLE_ROOT "libexec/bundle")
-bundle_GPISpace(DESTINATION "${BUNDLE_ROOT}/gpispace"
-  COMPONENTS runtime
-)
+bundle_GPISpace(DESTINATION "${BUNDLE_ROOT}/gpispace" COMPONENTS runtime)
 
 # FLINT include and library directories
 set(FLINT_INCLUDE_DIR "/usr/local/include/flint/")
@@ -31,12 +23,19 @@ include_directories(${FLINT_INCLUDE_DIR})
 # FLINT library directory
 link_directories(${FLINT_LIB_DIR})
 
-# Configure and add  library target
+# Add Quasi_implementation library target
+add_library(Quasi_implementation SHARED "src/Quasi.cpp")
+target_include_directories(Quasi_implementation PUBLIC "${CMAKE_SOURCE_DIR}")
+
+# Configure and add feynman_implementation library target
 add_library(feynman_implementation SHARED "src/feynman.cpp")
 target_include_directories(feynman_implementation PUBLIC "${CMAKE_SOURCE_DIR}")
 
-# Link against FLINT library
-target_link_libraries(feynman_implementation PRIVATE flint)
+# Ensure feynman_implementation is built after Quasi_implementation
+add_dependencies(feynman_implementation Quasi_implementation)
+
+# Link against FLINT and Quasi_implementation libraries
+target_link_libraries(feynman_implementation PRIVATE flint Quasi_implementation)
 
 set_target_properties(feynman_implementation
   PROPERTIES

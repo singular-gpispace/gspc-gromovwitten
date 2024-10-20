@@ -1,7 +1,6 @@
 <defun name="feynman_deg">
 
   <in name="degree" type="int" place="degree"/>
-  <in name="genus" type="int" place="genus"/>
   <in name="N" type="int" place="N"/>
   <in name="graph" type="list" place="graph"/>
   <in name="total" type="unsigned long" place="total"/>
@@ -9,7 +8,6 @@
 
   <net>
     <place name="degree" type="int"/>
-    <place name="genus" type="int"/>
     <place name="N" type="int"/>
     <place name="fey_out" type="string" />
       <place name="total" type="unsigned long"/>
@@ -212,6 +210,10 @@ std::stringstream ss;
             std::cout<<std::endl;
             updateVectorFromString(v, s);
 
+            std::cout<<" v2:  ";
+            for (int i:v){
+              std::cout<<i<<" ";
+            }
             sum = vectorToStringULong(v);
             std::cout<<" sum  "<<sum<<std::endl;
 
@@ -288,9 +290,8 @@ std::stringstream ss;
 <transition name="Quasimodular">
   <defun>
     <inout name="answer" type="string"/>
-    <in name="weightmax" type="int"/>
 
-    <module name="feynman_module" function=" Quasi (answer,weightmax)">
+    <module name="feynman_module" function=" Quasi (answer)">
       <cinclude href="iostream"/>
       <cinclude href="vector"/>
       <cinclude href="sstream"/>
@@ -302,6 +303,7 @@ std::stringstream ss;
 
 
     // Maximum weight
+    int weightmax = 12;
 
     // Initialize FLINT polynomial context with 3 variables
     slong nv = 3;  // Number of variables
@@ -334,10 +336,9 @@ std::stringstream ss;
       </code>
     </module>
   </defun>
-  <connect-in port="answer" place="fey_sum"/>
-  <connect-in port="weightmax" place="genus"/>
 
   <connect-out port="answer" place="answer"/>
+  <connect-in port="answer" place="fey_sum"/>
     </transition>
     <place name="answer" type="string" />
 
