@@ -81,10 +81,11 @@
             auto ptr = boost::get<int>(&elem) ;
               x.push_back(*ptr);
           }
-      
+/************************************************************************************/
     vector2d gen=iterate_permutation(Gv, x);
       using pnet_value = pnet::type::value::value_type;
     using pnet_list = std::list<pnet_value>;
+    
         for (std::vector<int> &a : gen)
     {
         pnet_list temp_a;
