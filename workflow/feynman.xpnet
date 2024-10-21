@@ -12,31 +12,42 @@
     <place name="genus" type="int"/>
     <place name="N" type="int"/>
     <place name="fey_out" type="string" />
-      <place name="total" type="unsigned long"/>
+    <place name="total" type="unsigned long"/>
 
 
-   <transition name="degrees_fey">
+    <transition name="degrees_fey">
       <defun>
+        <in name="weightmax" type="int"/>
+
         <in name="d" type="int"/>
         <out name="v" type="list"/>
 
-        <module name="feynman_module" function=" init(d,v)">
+        <module name="feynman_module" function=" init(weightmax,d,v)">
           <cinclude href="iostream"/>
           <cinclude href="vector"/>
           <cinclude href="sstream"/>
           <cinclude href="feynman.hpp"/>
 
           <code><![CDATA[
+          int nb = number_monomial(weightmax); // Call to your number_monomial function
+        if (d < nb) {
+            // Throw an exception with a proper message
+            throw std::runtime_error(
+                "d = " + std::to_string(d) + " should be equal to or greater than the number of monomials, which is " + std::to_string(nb));
+        } else {
+            // Populate the vector v with integers from 2 to d
+            for (int i = 2; i <= d; ++i) {
+                v.emplace_back(i);
+            }
+        }
 
-              for (int i=2; i<=d; i++ ) {
-                            v.emplace_back (i);
 
-              }
-
-         ]]>  
-         </code>
+         ]]>
+          </code>
         </module>
       </defun>
+      <connect-read port="weightmax" place="genus"/>
+
       <connect-in port="d" place="degree"/>
       <connect-out-many port="v" place="degrees"/>
     </transition>
@@ -174,8 +185,8 @@ std::stringstream ss;
      s = ss.str(); 
      
       // std::cout<<" s=c fe "<< s <<std::endl;
-      ]]>         
-       </code>
+      ]]>
+          </code>
         </module>
       </defun>
       <connect-read port="G" place="graph"/>
@@ -195,7 +206,7 @@ std::stringstream ss;
         <in name="s" type="string"/>
         <inout name="sum" type="string"/>
         <module name="feynman_module" function="plus (ns,s, sum)">
-         <cinclude href="iostream"/>
+          <cinclude href="iostream"/>
           <cinclude href="vector"/>
           <cinclude href="tuple"/>
           <cinclude href="algorithm"/>
@@ -209,14 +220,14 @@ std::stringstream ss;
           <code><![CDATA[
 
             std::vector<unsigned long> v=stringToVectorUlong(sum);
-            std::cout<<std::endl;
+           // std::cout<<std::endl;
             updateVectorFromString(v, s);
 
             sum = vectorToStringULong(v);
-            std::cout<<" sum  "<<sum<<std::endl;
+            //std::cout<<" sum  "<<sum<<std::endl;
 
-          ]]>         
-           </code>
+          ]]>
+          </code>
 
         </module>
       </defun>
@@ -234,7 +245,7 @@ std::stringstream ss;
       </token>
     </place>
 
- <transition name="transition6">
+    <transition name="transition6">
       <defun>
         <in name="ns" type="control"/>
         <inout name="counter_total" type="unsigned long"/>
@@ -255,7 +266,7 @@ std::stringstream ss;
     </transition>
 
 
- <transition name="transition7">
+    <transition name="transition7">
       <defun>
         <in name="total" type="unsigned long"/>
         <in name="counter_total" type="unsigned long"/>
@@ -272,7 +283,7 @@ std::stringstream ss;
           </code>
         </module>
       </defun>
-        <condition>
+      <condition>
       ${counter_total}:eq: ${total}
       </condition>
       <connect-read port="total" place="total"/>
@@ -281,23 +292,23 @@ std::stringstream ss;
       <connect-in port="answer" place="sum"/>
 
     </transition>
-    
+
     <place name="fey_sum" type="string" />
 
 
-<transition name="Quasimodular">
-  <defun>
-    <inout name="answer" type="string"/>
-    <in name="weightmax" type="int"/>
+    <transition name="Quasimodular">
+      <defun>
+        <inout name="answer" type="string"/>
+        <in name="weightmax" type="int"/>
 
-    <module name="feynman_module" function=" Quasi (answer,weightmax)">
-      <cinclude href="iostream"/>
-      <cinclude href="vector"/>
-      <cinclude href="sstream"/>
-      <cinclude href="Quasi.hpp"/>
-      <cinclude href="feynman.hpp"/>
+        <module name="feynman_module" function=" Quasi (answer,weightmax)">
+          <cinclude href="iostream"/>
+          <cinclude href="vector"/>
+          <cinclude href="sstream"/>
+          <cinclude href="Quasi.hpp"/>
+          <cinclude href="feynman.hpp"/>
 
-      <code><![CDATA[
+          <code><![CDATA[
            std::vector<unsigned long> Iq=stringToVectorUlong(answer);
 
 
@@ -315,14 +326,14 @@ std::stringstream ss;
     // Call the quasimodular_form function with Iq and weightmax
     quasimodular_form(result, Iq, weightmax, ctx);
 
-    // Print the result in a pretty format
+  /*  // Print the result in a pretty format
     std::cout << "Quasimodular form result: ";
     fmpq_mpoly_print_pretty(result, NULL, ctx);
     std::cout << std::endl;
-
+*/
     // Convert polynomial result to string
     std::string fey = fmpq_mpolyToString(result, ctx);
-    std::cout << "Polynomial as string: " << fey << std::endl;
+   // std::cout << "Polynomial as string: " << fey << std::endl;
 
     answer=fey;
 
@@ -331,13 +342,13 @@ std::stringstream ss;
     fmpq_mpoly_ctx_clear(ctx);
 
          ]]>
-      </code>
-    </module>
-  </defun>
-  <connect-in port="answer" place="fey_sum"/>
-  <connect-in port="weightmax" place="genus"/>
+          </code>
+        </module>
+      </defun>
+      <connect-in port="answer" place="fey_sum"/>
+      <connect-in port="weightmax" place="genus"/>
 
-  <connect-out port="answer" place="answer"/>
+      <connect-out port="answer" place="answer"/>
     </transition>
     <place name="answer" type="string" />
 

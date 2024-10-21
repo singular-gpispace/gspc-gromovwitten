@@ -21,6 +21,21 @@ time ~/gpi/try_gpi/gpispace/bin/bin/feynman \
   --nodefile ~/gpispace/nodefile \
   --rif-strategy ssh \
   --topology "worker:7" \
+  --N 3 \
+  --degree 6 \
+  --genus 2 \
+  --graph "{{1, 2}, {1, 2}, {1, 2}}" \
+  --log-host localhost \
+  --log-port 9876
+
+
+
+
+time ~/gpi/try_gpi/gpispace/bin/bin/feynman \
+  --gspc-home ~/spack/opt/spack/linux-ubuntu22.04-skylake/gcc-11.3.0/gpi-space-23.06-gxye6b7ngsnbxnzjkfsfqtvanynyghdk/ \
+  --nodefile ~/gpispace/nodefile \
+  --rif-strategy ssh \
+  --topology "worker:7" \
   --N 6 \
   --degree 4 \
   --genus 3 \
