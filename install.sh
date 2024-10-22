@@ -23,7 +23,6 @@ time ~/gpi/try_gpi/gpispace/bin/bin/feynman \
   --topology "worker:7" \
   --N 3 \
   --degree 6 \
-  --genus 2 \
   --graph "{{1, 2}, {1, 2}, {1, 2}}" \
   --log-host localhost \
   --log-port 9876
@@ -38,7 +37,6 @@ time ~/gpi/try_gpi/gpispace/bin/bin/feynman \
   --topology "worker:7" \
   --N 6 \
   --degree 4 \
-  --genus 3 \
   --graph "{{1, 3}, {1, 2}, {1, 2}, {2, 4}, {3, 4}, {3, 4}}" \
   --log-host localhost \
   --log-port 9876
@@ -53,7 +51,6 @@ time ~/gpi/try_gpi/gpispace/bin/bin/feynman \
   --topology "worker:7" \
   --N 6 \
   --degree 22 \
-  --genus 3 \
   --graph "{{1, 2}, {1, 3}, {1, 4}, {2, 3}, {2, 4}, {3, 4}}" \
   --log-host localhost \
   --log-port 9876

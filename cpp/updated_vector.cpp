@@ -22,13 +22,16 @@ void updateVectorFromString(std::vector<unsigned long>& v, const std::string& s)
 
 int main() {
     // Sample string inputs and vector
-    std::string s = "3 5";  // First input
-    std::string ss = "4 2"; // Second input
+    std::string s = "3 105";  // First input
+    std::string ss = " "; // Second input
+    std::string sss = "4 98"; // Second input
+
     std::vector<unsigned long> v;
 
     // Update the vector based on the input strings
     updateVectorFromString(v, s);
     updateVectorFromString(v, ss);
+    updateVectorFromString(v, sss);
 
     // Output the updated vector for verification
     for (size_t i = 0; i < v.size(); ++i) {

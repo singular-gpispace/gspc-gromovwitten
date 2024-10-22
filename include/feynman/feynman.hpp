@@ -38,6 +38,8 @@ using list_type = std::list<std::string>; // Define list_type as std::list<std::
 #include <flint/fmpz.h>
 #include <flint/flint.h>
 
+std::vector<unsigned long> sumOfVectors(const std::vector<unsigned long>& v1, const std::vector<unsigned long>& v2);
+std::string updateAndConvertVector(std::vector<unsigned long>& v, const std::string& s);
 // Function declarations
 std::string fmpq_mpolyToString(const fmpq_mpoly_t A, const fmpq_mpoly_ctx_t ctx);
 int number_monomial(int weightmax);

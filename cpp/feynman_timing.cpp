@@ -1204,7 +1204,7 @@ int main()
 
     std::vector<int> fey_degree;
     int n = 6;
-    int d = 8;
+    int d = 22;
 
     std::vector<unsigned long>  result = feynman_integral_degree_sum(Gv, d);
     for (unsigned long res : result) {

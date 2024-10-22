@@ -183,18 +183,57 @@
       <connect-out port="s" place="fey_out"/>
     </transition>
 
-    <place name="sum" type="string">
+    <transition name="RHS">
+      <defun>
+        <inout name="a" type="string"/>
+        <inout name="s" type="control"/>
+        <module name="feynman_module" function="rhs()">
+          <code><![CDATA[
+        ]]>          </code>
+        </module>
+      </defun>
+      <connect-in port="a" place="fey_out"/>
+      <connect-in port="s" place="right_init"/>
+      <connect-out port="s" place="left_init"/>
+      <connect-out port="a" place="R"/>
+
+    </transition>
+    <place name="left_init" type="control">
       <token>
-        <value>" "</value>
+        <value>[]</value>
       </token>
     </place>
+    <place name="right_init" type="control"/>
+
+    <transition name="LHS">
+      <defun>
+        <inout name="a" type="string"/>
+        <inout name="s" type="control"/>
+
+        <module name="feynman_module" function="count()">
+          <code><![CDATA[
+          
+        ]]>          </code>
+        </module>
+      </defun>
+      <connect-in port="s" place="left_init"/>
+      <connect-out port="s" place="right_init"/>
+      <connect-in port="a" place="fey_out"/>
+      <connect-out port="a" place="L"/>
+    </transition>
+
+
+    <place name="L" type="string"/>
+    <place name="R" type="string"/>
+
 
     <transition name="Reduce">
       <defun>
+        <out name="s" type="string"/>
+        <in name="l" type="string"/>
+        <in name="r" type="string"/>
         <out name="ns" type="control"/>
-        <in name="s" type="string"/>
-        <inout name="sum" type="string"/>
-        <module name="feynman_module" function="plus (ns,s, sum)">
+        <module name="feynman_module" function="plus (ns,s, l,r)">
           <cinclude href="iostream"/>
           <cinclude href="vector"/>
           <cinclude href="tuple"/>
@@ -207,24 +246,24 @@
           <cinclude href="unordered_set"/>
           <cinclude href="feynman.hpp"/>
           <code><![CDATA[
-            std::vector<unsigned long> v = stringToVectorUlong(sum);
-                std::vector<unsigned long> w = stringToVectorUlong(s);
 
-                // Perform the sum of the vectors
-                std::vector<unsigned long> sum_vector = sumOfVectors(v, w);
-
-                // Convert the result back to a string
-                sum = vectorToStringULong(sum_vector);
+            std::vector<unsigned long> v=stringToVectorUlong(l);
+            std::vector<unsigned long> w=stringToVectorUlong(r);
+            std::vector<unsigned long> sum_vector = sumOfVectors(v, w);
+            s = vectorToStringULong(sum_vector);
+           // std::cout<<" sum  "<<sum<<std::endl;
 
           ]]>
           </code>
 
         </module>
       </defun>
-      <connect-in port="s" place="fey_out"/>
-      <connect-inout port="sum" place="sum"/>
+      <connect-in port="l" place="L"/>
+      <connect-in port="r" place="R"/>
+      <connect-out port="s" place="fey_out"/>
       <connect-out port="ns" place="ns"/>
     </transition>
+
 
 
     <place name="ns" type="control"/>
@@ -274,12 +313,12 @@
         </module>
       </defun>
       <condition>
-      ${counter_total}:eq: ${total}
+      ${counter_total}:eq: ${total} -1UL
       </condition>
       <connect-read port="total" place="total"/>
       <connect-out port="answer" place="fey_sum"/>
       <connect-in port="counter_total" place="counter_total"/>
-      <connect-in port="answer" place="sum"/>
+      <connect-in port="answer" place="L"/>
 
     </transition>
 
