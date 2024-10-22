@@ -699,7 +699,7 @@ vector2d iterate_permutation(const graph& ve, const std::vector<int>& a) {
     return  res;
 
 }
-void invsfunction(const int j, const int aa, fmpq_mpoly_t result, const fmpq_mpoly_ctx_t ctx) {
+void invsfunction(const int j, const int m, fmpq_mpoly_t result, const fmpq_mpoly_ctx_t ctx) {
     fmpq_mpoly_t term, sum;
     fmpz_t num, den, fact;
     fmpq_t one, coeff;
@@ -723,7 +723,7 @@ void invsfunction(const int j, const int aa, fmpq_mpoly_t result, const fmpq_mpo
         exp[idx] = 0; // Initialize all exponents to 0
     }
 
-    for (mp_limb_signed_t n = 0; n <= aa + 1; ++n) {
+    for (mp_limb_signed_t n = 0; n <= m + 1; ++n) {
         // Compute x^(n)
         ulong exp_j = n; // Exponent for x_j
 
@@ -764,7 +764,7 @@ void invsfunction(const int j, const int aa, fmpq_mpoly_t result, const fmpq_mpo
     fmpq_clear(coeff);
 }
 
-void sfunction(const int w, const int j, const int aa, fmpq_mpoly_t result, const fmpq_mpoly_ctx_t ctx) {
+void sfunction(const int w, const int j, const int m, fmpq_mpoly_t result, const fmpq_mpoly_ctx_t ctx) {
     fmpq_mpoly_zero(result, ctx); // Initialize result as the zero polynomial
     fmpq_t coeff;
     fmpz_t fact, binom_coeff, num;
@@ -778,7 +778,7 @@ void sfunction(const int w, const int j, const int aa, fmpq_mpoly_t result, cons
     // Initialize the exponent vector for all variables
     ulong exp[nv];
 
-    for (mp_limb_signed_t n = 0; n <= aa; ++n) {
+    for (mp_limb_signed_t n = 0; n <= m; ++n) {
         // Reset exponents to 0
         for (int idx = 0; idx < nv; ++idx) {
             exp[idx] = 0;
@@ -822,7 +822,7 @@ void sfunction(const int w, const int j, const int aa, fmpq_mpoly_t result, cons
 }
 
 // Function to compute loopterm
-void loopterm(const int  z, const int a, const int aa, fmpq_mpoly_t p, const fmpq_mpoly_ctx_t ctx) {
+void loopterm(const int  z, const int a, const int m, fmpq_mpoly_t p, const fmpq_mpoly_ctx_t ctx) {
     fmpq_mpoly_zero(p, ctx); // Initialize p as the zero polynomial
 
     if (a == 0) {
@@ -843,8 +843,8 @@ void loopterm(const int  z, const int a, const int aa, fmpq_mpoly_t p, const fmp
             fmpq_mpoly_init(q_powered, ctx);
             fmpq_mpoly_init(S1_squared, ctx);
 
-            // Compute S1 = sfunction(w * z, aa)
-            sfunction(w, z, aa, S1, ctx); // Assuming 0 for the variable index
+            // Compute S1 = sfunction(w * z, m)
+            sfunction(w, z, m, S1, ctx); // Assuming 0 for the variable index
 
             // Compute S1 * S1
             fmpq_mpoly_mul(S1_squared, S1, S1, ctx);
@@ -871,7 +871,7 @@ void loopterm(const int  z, const int a, const int aa, fmpq_mpoly_t p, const fmp
         }
     }
 }
-void constterm(const int k, const int j, const int i1, const int i2, mp_limb_signed_t N, const int aa, fmpq_mpoly_t result, const fmpq_mpoly_ctx_t ctx) {
+void constterm(const int k, const int j, const int i1, const int i2, mp_limb_signed_t N, const int m, fmpq_mpoly_t result, const fmpq_mpoly_ctx_t ctx) {
     // Initialize the result polynomial
     fmpq_mpoly_zero(result, ctx);
     slong nv = fmpq_mpoly_ctx_nvars(ctx);
@@ -904,8 +904,8 @@ void constterm(const int k, const int j, const int i1, const int i2, mp_limb_sig
         fmpq_mpoly_init(sum2, ctx);
         fmpq_mpoly_init(prod, ctx);
 
-        sfunction(i, i1, aa, sum1, ctx);
-        sfunction(i, i2, aa, sum2, ctx);
+        sfunction(i, i1, m, sum1, ctx);
+        sfunction(i, i2, m, sum2, ctx);
         fmpq_mpoly_mul(prod, sum1, sum2, ctx);
 
         // Set coefficient i for the term
@@ -924,7 +924,7 @@ void constterm(const int k, const int j, const int i1, const int i2, mp_limb_sig
     }
 }
 
-void proterm(const int k, const int j, const int i1, const int i2, const int a, const int aa, mp_limb_signed_t N, fmpq_mpoly_t result, const fmpq_mpoly_ctx_t ctx) {
+void proterm(const int k, const int j, const int i1, const int i2, const int a, const int m, mp_limb_signed_t N, fmpq_mpoly_t result, const fmpq_mpoly_ctx_t ctx) {
     // Initialize the result polynomial
     fmpq_mpoly_zero(result, ctx);
     slong nv = fmpq_mpoly_ctx_nvars(ctx);
@@ -966,8 +966,8 @@ void proterm(const int k, const int j, const int i1, const int i2, const int a, 
             fmpq_mpoly_init(sum2, ctx);
             fmpq_mpoly_init(prod, ctx);
 
-            sfunction(w, i1, aa, sum1, ctx);
-            sfunction(w, i2, aa, sum2, ctx);
+            sfunction(w, i1, m, sum1, ctx);
+            sfunction(w, i2, m, sum2, ctx);
             fmpq_mpoly_mul(prod, sum1, sum2, ctx);
 
             // Set the coefficient w (as a rational number with denominator 1) for the terms
@@ -1109,7 +1109,7 @@ void feynman_integral_branch_type(fmpq_t myfey, graph& Gv, const std::vector<int
         filter_power.push_back(2 * local_g[i]);
         filter_vars.push_back(nv + i);
     }
-    int aa = *std::max_element(filter_power.begin(), filter_power.end());
+    int m = *std::max_element(filter_power.begin(), filter_power.end());
 
     fmpq_t sum;
     fmpq_init(sum);
@@ -1125,7 +1125,7 @@ void feynman_integral_branch_type(fmpq_t myfey, graph& Gv, const std::vector<int
         fmpq_mpoly_init(filtered_temp, ctx);
 
         // Compute the temporary polynomial
-        invsfunction(jj, aa, temp, ctx);
+        invsfunction(jj, m, temp, ctx);
 
         // Filter the term
         filter_term(filtered_temp, temp, filter_vars, filter_power, ctx);
@@ -1170,7 +1170,7 @@ void feynman_integral_branch_type(fmpq_t myfey, graph& Gv, const std::vector<int
                 fmpq_mpoly_init(constterm1_j, ctx);
                 fmpq_mpoly_init(filter_term1, ctx);
 
-                constterm(Gv[j].first, Gv[j].second, Gv[j].first, Gv[j].second, N, aa, constterm1_j, ctx);
+                constterm(Gv[j].first, Gv[j].second, Gv[j].first, Gv[j].second, N, m, constterm1_j, ctx);
                 filter_term(filter_term1, constterm1_j, filter_vars, filter_power, ctx);
 
                 fmpq_mpoly_mul(tmp, tmp, filter_term1, ctx);
@@ -1182,7 +1182,7 @@ void feynman_integral_branch_type(fmpq_t myfey, graph& Gv, const std::vector<int
                 fmpq_mpoly_t constterm0_j, filter_term0;
                 fmpq_mpoly_init(constterm0_j, ctx);
                 fmpq_mpoly_init(filter_term0, ctx);
-                constterm(Gv[j].second, Gv[j].first, Gv[j].second, Gv[j].first, N, aa, constterm0_j, ctx);
+                constterm(Gv[j].second, Gv[j].first, Gv[j].second, Gv[j].first, N, m, constterm0_j, ctx);
                 filter_term(filter_term0, constterm0_j, filter_vars, filter_power, ctx);
                 fmpq_mpoly_mul(tmp, tmp, filter_term0, ctx);
                 fmpq_mpoly_clear(constterm0_j, ctx);
@@ -1192,7 +1192,7 @@ void feynman_integral_branch_type(fmpq_t myfey, graph& Gv, const std::vector<int
                 fmpq_mpoly_t looptermj, filter_term_loop;
                 fmpq_mpoly_init(looptermj, ctx);
                 fmpq_mpoly_init(filter_term_loop, ctx);
-                loopterm(Gv[j].first, av[j], aa, looptermj, ctx);
+                loopterm(Gv[j].first, av[j], m, looptermj, ctx);
                 filter_term(filter_term_loop, looptermj, filter_vars, filter_power, ctx);
                 fmpq_mpoly_mul(tmp, tmp, filter_term_loop, ctx);
 
@@ -1203,7 +1203,7 @@ void feynman_integral_branch_type(fmpq_t myfey, graph& Gv, const std::vector<int
                 fmpq_mpoly_t proterm_j, filter_term_prot;
                 fmpq_mpoly_init(proterm_j, ctx);
                 fmpq_mpoly_init(filter_term_prot, ctx);
-                proterm(Gv[j].first, Gv[j].second, Gv[j].first, Gv[j].second, fi2[j], aa, N, proterm_j, ctx);
+                proterm(Gv[j].first, Gv[j].second, Gv[j].first, Gv[j].second, fi2[j], m, N, proterm_j, ctx);
                 filter_term(filter_term_prot, proterm_j, filter_vars, filter_power, ctx);
                 fmpq_mpoly_mul(tmp, tmp, filter_term_prot, ctx);
 
@@ -1237,7 +1237,7 @@ void feynman_integral_branch_type(fmpq_t myfey, graph& Gv, const std::vector<int
     fmpq_mpoly_ctx_clear(ctx);
 }
 /*
-void feynman_integral_branch_type(fmpq_t result, const std::vector<std::pair<int, int>>& Gv, const std::vector<int>& a, const int aa, const std::vector<int>& l, const std::vector<int>& g) {
+void feynman_integral_branch_type(fmpq_t result, const std::vector<std::pair<int, int>>& Gv, const std::vector<int>& a, const int m, const std::vector<int>& l, const std::vector<int>& g) {
     std::vector<std::tuple<int, std::vector<int>>> f = signature_and_multiplicitie(Gv, a); // Assuming signature_and_multiplicitie is defined elsewhere
     fmpq_t sum;
     fmpq_init(sum);
@@ -1249,7 +1249,7 @@ void feynman_integral_branch_type(fmpq_t result, const std::vector<std::pair<int
 
         fmpq_t term_result;
         fmpq_init(term_result);
-        feynman_integral_type(term_result, Gv, factor, av, aa, l, g);
+        feynman_integral_type(term_result, Gv, factor, av, m, l, g);
         fmpq_add(sum, sum, term_result);
         fmpq_clear(term_result);
     }
@@ -1273,7 +1273,7 @@ vector2d compos_iterate(int n, int d)
     return gen;
 }
 
-void feynman_integral_degree(fmpq_t result, graph Gv, const int& d, const std::vector<int>& g = std::vector<int>(), const int aa = 0, const std::vector<int>& l = std::vector<int>()) {
+void feynman_integral_degree(fmpq_t result, graph Gv, const int& d, const std::vector<int>& g = std::vector<int>(), const std::vector<int>& l = std::vector<int>()) {
 
     fmpq_t sum;
     fmpq_init(sum);
@@ -1336,23 +1336,32 @@ void stringToFmpq(fmpq_t f, const std::string& str) {
     fmpq_canonicalise(f);
 }
 
+
 int main() {
     // Define your graph vertices, multiplicities, and other parameters here
     std::vector<std::pair<int, int>> Gv = { {1, 2}, {2, 3}, {1, 3} }; // Example graph
-    int factor = 2;
+    int d = 4;
     std::vector<int> av = { 0, 0, 3 }; // Example multiplicities
-    int aa = 1;
     std::vector<int> l = { 0, 0, 0 }; // Ensure this matches the number of nodes
     std::vector<int> g = { 1, 0, 0 }; // Ensure this matches the number of nodes
-    fmpq_t fey_branch;
+    fmpq_t fey_branch, result;
     fmpq_init(fey_branch);
+    fmpq_init(result);
 
     // Compute Feynman integral of degree d
-    feynman_integral_type(fey_branch, Gv, factor, av, l);
+    feynman_integral_branch_type(fey_branch, Gv, av, g);
 
     // Print the result
     std::cout << "fey_branch: ";
     fmpq_print(fey_branch);
     std::cout << std::endl;
+
+    feynman_integral_degree(result, Gv, d, g);
+
+    // Print the result
+    std::cout << "result: ";
+    fmpq_print(result);
+    std::cout << std::endl;
+
     return 0;
 }
