@@ -5,7 +5,6 @@
   <in name="N" type="int" place="N"/>
   <in name="graph" type="list" place="graph"/>
   <in name="total" type="unsigned long" place="total"/>
-  <in name="genus" type="int" place="genus"/>
   <out name="answer" type="string" place="answer"/>
 
   <net>
@@ -14,42 +13,30 @@
     <place name="N" type="int"/>
     <place name="fey_out" type="string" />
     <place name="total" type="unsigned long"/>
-    <place name="genus" type="int"/>
 
 
     <transition name="degrees_fey">
       <defun>
-        <in name="weightmax" type="int"/>
-
         <in name="d" type="int"/>
         <out name="v" type="list"/>
 
-        <module name="feynman_module" function=" init(weightmax,d,v)">
+        <module name="feynman_module" function=" init(d,v)">
           <cinclude href="iostream"/>
           <cinclude href="vector"/>
           <cinclude href="sstream"/>
           <cinclude href="feynman.hpp"/>
 
           <code><![CDATA[
-          int nb = number_monomial(weightmax); // Call to your number_monomial function
-        if (d < nb) {
-            // Throw an exception with a proper message
-            throw std::runtime_error(
-                "d = " + std::to_string(d) + " should be equal to or greater than the number of monomials, which is " + std::to_string(nb));
-        } else {
-            // Populate the vector v with integers from 2 to d
-            for (int i = 2; i <= d; ++i) {
-                v.emplace_back(i);
-            }
-        }
 
+              for (int i=2; i<=d; i++ ) {
+                            v.emplace_back (i);
+
+              }
 
          ]]>
           </code>
         </module>
       </defun>
-      <connect-read port="weightmax" place="genus"/>
-
       <connect-in port="d" place="degree"/>
       <connect-out-many port="v" place="degrees"/>
     </transition>
@@ -120,6 +107,7 @@
         }
         vec.push_back(temp_a);
     }
+
 
           ]]>          </code>
         </module>
@@ -301,9 +289,8 @@
     <transition name="Quasimodular">
       <defun>
         <inout name="answer" type="string"/>
-        <in name="weightmax" type="int"/>
 
-        <module name="feynman_module" function=" Quasi (answer,weightmax)">
+        <module name="feynman_module" function=" Quasi (answer)">
           <cinclude href="iostream"/>
           <cinclude href="vector"/>
           <cinclude href="sstream"/>
@@ -311,46 +298,15 @@
           <cinclude href="feynman.hpp"/>
 
           <code><![CDATA[
-           std::vector<unsigned long> Iq=stringToVectorUlong(answer);
-
-
-    // Maximum weight
-
-    // Initialize FLINT polynomial context with 3 variables
-    slong nv = 3;  // Number of variables
-    fmpq_mpoly_ctx_t ctx;
-    fmpq_mpoly_ctx_init(ctx, nv, ORD_DEGLEX);
-
-    // Variable to hold the result
-    fmpq_mpoly_t result;
-    fmpq_mpoly_init(result, ctx);
-
-    // Call the quasimodular_form function with Iq and weightmax
-    quasimodular_form(result, Iq, weightmax, ctx);
-
-    // Print the result in a pretty format
-    std::cout << "Quasimodular form result: ";
-    fmpq_mpoly_print_pretty(result, NULL, ctx);
-    std::cout << std::endl;
-
-    // Convert polynomial result to string
-    std::string fey = fmpq_mpolyToString(result, ctx);
-    std::cout << "Polynomial as string: " << fey << std::endl;
-
-    answer=fey;
-
-    // Clear polynomials and context
-    fmpq_mpoly_clear(result, ctx);
-    fmpq_mpoly_ctx_clear(ctx);
+         
 
          ]]>
           </code>
         </module>
       </defun>
-      <connect-in port="answer" place="fey_sum"/>
-      <connect-in port="weightmax" place="genus"/>
 
       <connect-out port="answer" place="answer"/>
+      <connect-in port="answer" place="fey_sum"/>
     </transition>
     <place name="answer" type="string" />
 

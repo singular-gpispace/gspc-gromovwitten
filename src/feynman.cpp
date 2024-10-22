@@ -647,6 +647,31 @@ int main() {
 }  */
 
 
+std::string updateAndConvertVector(std::vector<unsigned long>& v, const std::string& s) {
+    std::stringstream ss(s);
+    unsigned long i, fey;
+    unsigned long z = 0;
+
+    // Parse the string "i fey" (space-separated)
+    ss >> i >> fey;
+
+    // Ensure the vector has enough space
+    if (i >= v.size()) {
+        v.resize(i, z); // Resize and initialize new elements to z (0 in this case)
+    }
+
+    // Update v[i-1] by adding fey to it
+    v[i - 1] += fey;
+
+    // Convert the vector back to a string
+    std::stringstream result;
+    for (unsigned long val : v) {
+        result << val << ' ';
+    }
+
+    return result.str(); // Return the updated vector as a string
+}
+
 
 // Function to parse "i fey" (space-separated) and update the vector
 void updateVectorFromString(std::vector<unsigned long>& v, const std::string& s) {
@@ -666,6 +691,21 @@ void updateVectorFromString(std::vector<unsigned long>& v, const std::string& s)
     v[i - 1] += fey;
 }
 
+// Add two vectors
+std::vector<unsigned long> sumOfVectors(const std::vector<unsigned long>& v1, const std::vector<unsigned long>& v2) {
+    std::vector<unsigned long> result(std::max(v1.size(), v2.size()), 0);
+
+    for (size_t i = 0; i < result.size(); ++i) {
+        if (i < v1.size()) {
+            result[i] += v1[i];
+        }
+        if (i < v2.size()) {
+            result[i] += v2[i];
+        }
+    }
+
+    return result;
+}
 std::vector<unsigned long> stringToVectorUlong(const std::string& str) {
     std::vector<unsigned long> result;
     std::stringstream ss(str);

@@ -23,15 +23,16 @@ namespace feynman
   private:
     int _N;
     int _degree;
-    int _genus;
+    int _deg;
+    int deg_int;
     unsigned long total;
     unsigned long _total;
-
+    int _genus;
+    int genus_int;
     unsigned long total_int;
 
     std::string _graph;
     std::vector<int> G; // Declare Gv as a member variable
     pnet_list graph_int;
-    int genus_int;
   };
 }

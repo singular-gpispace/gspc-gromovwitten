@@ -55,6 +55,7 @@ namespace feynman
         workflow_opts.add_options()("degree", po::value<int>()->required());
         workflow_opts.add_options()("graph", po::value<std::string>()->required());
         workflow_opts.add_options()("genus", po::value<int>()->required());
+        workflow_opts.add_options()("deg", po::value<int>()->default_value(0));
 
         return workflow_opts;
     }
@@ -62,8 +63,9 @@ namespace feynman
     Workflow::Workflow(Parameters const& args)
         : _N(args.at("N").as<int>()),         // number of edges
         _degree(args.at("degree").as<int>()), // given degree
+        _deg(args.at("deg").as<int>()), // given degree
+        _genus(args.at("genus").as<int>()), // given degree
         _graph(args.at("graph").as<std::string>())   // graph
-        , _genus(args.at("genus").as<int>()) // given degree
 
     {
         total_int = partialBinomialSum(_N, _degree);
@@ -72,6 +74,7 @@ namespace feynman
         {
             graph_int.emplace_back(pnet_value(xi));
         }
+        deg_int = _degree;
         genus_int = 6 * _genus - 6;
 
     }
@@ -81,6 +84,7 @@ namespace feynman
         ValuesOnPorts::Map values_on_ports;
         values_on_ports.emplace("N", _N);
         values_on_ports.emplace("degree", _degree);
+        values_on_ports.emplace("deg", deg_int);
         values_on_ports.emplace("graph", graph_int);
         values_on_ports.emplace("total", total_int);
         values_on_ports.emplace("genus", genus_int);
