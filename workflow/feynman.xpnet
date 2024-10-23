@@ -155,7 +155,7 @@
 ***************************************************************************
 **************************************************************************/
 
-          auto factor = boost::get<int>(*a.begin()); // Get the factor
+                auto factor = boost::get<int>(*a.begin()); // Get the factor
                 std::vector<int> av;
 
                   for (auto it = std::next(a.begin()); it != a.end(); ++it)
@@ -169,8 +169,6 @@
 **************************************************************************/
 std::vector<int> g=stringToVectorInt(gg);
 std::vector<int> ll= stringToVectorInt(l);
-
-std::cout<<std::endl;
 /*************************************************************************
 **************************************************************************/
 fmpq_t result;
@@ -191,6 +189,7 @@ fmpq_t result;
       fmpq_clear(fey_branch_av);
 
     s=fey;
+    
       ]]>
           </code>
         </module>
@@ -225,10 +224,11 @@ fmpq_t result;
             stringToFmpq(f1, s); 
             stringToFmpq(f2, sum);
             fmpq_add(result, f1, f2);
-
-    std::string sum_frac= fmpqToString(result);
-
-return sum_frac;
+            std::string sum_frac= fmpqToString(result);
+            fmpq_clear(f1);
+            fmpq_clear(f2);
+            fmpq_clear(result);
+            return sum_frac;
           ]]>
           </code>
         </module>

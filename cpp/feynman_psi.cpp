@@ -1364,6 +1364,13 @@ int main() {
     fmpq_t fey_branch, result;
     fmpq_init(fey_branch);
     fmpq_init(result);
+    std::string gs = { 1, 0, 0 };
+    std::vector<int> gi = stringToVectorInt(gs);
+    std::cout << "g for= ";
+    for (int gg : gi) {
+        std::cout << gg << " ";
+    }
+    std::cout << std::endl;
 
     // Compute Feynman integral of degree d
     feynman_integral_branch_type(fey_branch, Gv, av, g);
