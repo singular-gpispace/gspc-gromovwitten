@@ -24,6 +24,7 @@
 #include <vector>     // Include for std::vector
 #include <numeric>
 #include <unordered_set> // for std::unordered_set
+#include <algorithm>
 
 using Element = std::pair<std::pair<int, int>, std::pair<int, int>>;
 using Sequence = std::vector<Element>;
@@ -76,6 +77,37 @@ ResourceUsage<Func> measure_resource_usage(Func func)
 
     return { memory_usage, elapsed_time };
 }
+
+std::string vectorToStringInt(const std::vector<int>& vec) {
+    std::stringstream ss;
+    for (int val : vec) {
+        ss << val << ' ';
+    }
+    return ss.str();
+}
+
+std::vector<int> stringToVectorInt(const std::string& str) {
+    std::vector<int> result;
+    std::stringstream ss(str);
+    int num;
+    while (ss >> num) {
+        result.push_back(num);
+    }
+    return result;
+}
+std::string fmpqToString(const fmpq_t f) {
+    char* str = fmpq_get_str(NULL, 10, f);
+    std::string result(str);
+    flint_free(str);
+    return result;
+}
+
+// Function to convert string to fmpq_t
+void stringToFmpq(fmpq_t f, const std::string& str) {
+    fmpq_set_str(f, str.c_str(), 10);
+    fmpq_canonicalise(f);
+}
+
 
 vector2d gen_block(int n, int d)
 {
@@ -1273,7 +1305,7 @@ vector2d compos_iterate(int n, int d)
     return gen;
 }
 
-void feynman_integral_degree(fmpq_t result, graph Gv, const int& d, const std::vector<int>& g = std::vector<int>(), const std::vector<int>& l = std::vector<int>()) {
+void feynman_integral_degrees(fmpq_t result, graph Gv, const int& d, const std::vector<int>& g = std::vector<int>(), const std::vector<int>& l = std::vector<int>()) {
 
     fmpq_t sum;
     fmpq_init(sum);
@@ -1306,40 +1338,25 @@ void feynman_integral_degree(fmpq_t result, graph Gv, const int& d, const std::v
     fmpq_clear(sum);
 }
 
-std::string vectorToStringInt(const std::vector<int>& vec) {
-    std::stringstream ss;
-    for (int val : vec) {
-        ss << val << ' ';
+std::vector<fmpq_t*> feynman_integral_degree_sum(std::vector<std::pair<int, int>>& Gv, const int& d, const std::vector<int>& g, const std::vector<int>& l) {
+    std::vector<fmpq_t*> sum_vec;
+
+    for (int i = 0; i <= d; i++) {
+        fmpq_t* result = (fmpq_t*)malloc(sizeof(fmpq_t)); // Allocate memory for fmpq_t
+        fmpq_init(*result); // Initialize fmpq_t
+
+        // Call the function with the correct type (dereference result)
+        feynman_integral_degrees(*result, Gv, i, g, l);
+
+        sum_vec.push_back(result); // Store the fmpq_t pointer in the vector
     }
-    return ss.str();
-}
 
-std::vector<int> stringToVectorInt(const std::string& str) {
-    std::vector<int> result;
-    std::stringstream ss(str);
-    int num;
-    while (ss >> num) {
-        result.push_back(num);
-    }
-    return result;
+    return sum_vec;
 }
-std::string fmpqToString(const fmpq_t f) {
-    char* str = fmpq_get_str(NULL, 10, f);
-    std::string result(str);
-    flint_free(str);
-    return result;
-}
-
-// Function to convert string to fmpq_t
-void stringToFmpq(fmpq_t f, const std::string& str) {
-    fmpq_set_str(f, str.c_str(), 10);
-    fmpq_canonicalise(f);
-}
-
 
 int main() {
     // Define your graph vertices, multiplicities, and other parameters here
-    std::vector<std::pair<int, int>> Gv = { {1, 2}, {2, 3}, {1, 3} }; // Example graph
+    std::vector<std::pair<int, int>> Gv = { {1, 2}, {2, 3}, {3, 1} }; // Example graph
     int d = 4;
     std::vector<int> av = { 0, 0, 3 }; // Example multiplicities
     std::vector<int> l = { 0, 0, 0 }; // Ensure this matches the number of nodes
@@ -1356,12 +1373,27 @@ int main() {
     fmpq_print(fey_branch);
     std::cout << std::endl;
 
-    feynman_integral_degree(result, Gv, d, g);
+    feynman_integral_degrees(result, Gv, d, g);
 
     // Print the result
     std::cout << "result: ";
     fmpq_print(result);
     std::cout << std::endl;
 
+    std::vector<fmpq_t*> results = feynman_integral_degree_sum(Gv, d, g, l);
+
+    // Output results
+    std::cout << "Feynman integrals (up to degree " << d << "):\n";
+    for (int i = 0; i <= d; i++) {
+        std::cout << "Degree " << i << ": ";
+        fmpq_print(*results[i]); // Dereference fmpq_t* to get the actual fmpq_t value
+        std::cout << std::endl;
+    }
+
+    // Clear allocated memory
+    for (int i = 0; i <= d; i++) {
+        fmpq_clear(*results[i]); // Clear the fmpq_t value
+        free(results[i]); // Free the allocated memory
+    }
     return 0;
 }
