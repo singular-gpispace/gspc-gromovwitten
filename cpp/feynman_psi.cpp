@@ -95,6 +95,7 @@ std::vector<int> stringToVectorInt(const std::string& str) {
     }
     return result;
 }
+
 std::string fmpqToString(const fmpq_t f) {
     char* str = fmpq_get_str(NULL, 10, f);
     std::string result(str);

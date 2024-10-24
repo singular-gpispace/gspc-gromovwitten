@@ -24,9 +24,24 @@ time ~/gpi/try_gpi/gpispace/bin/bin/feynman \
   --N 3 \
   --degree 4 \
   --graph "{{1, 2}, {2, 3}, {3, 1}" \
-   --genus "1 0 0" \
+  --g 1 \
+  --genus "1 0 0" \
   --loop "0 0 0" \
   --log-host localhost \
   --log-port 9876
 
 spack load gpi-space@23.06
+
+time ~/gpi/try_gpi/gpispace/bin/bin/feynman \
+  --gspc-home ~/spack/opt/spack/linux-ubuntu22.04-skylake/gcc-11.3.0/gpi-space-23.06-gxye6b7ngsnbxnzjkfsfqtvanynyghdk/ \
+  --nodefile ~/gpispace/nodefile \
+  --rif-strategy ssh \
+  --topology "worker:7" \
+  --N 4 \
+  --degree 10 \
+  --graph "{{1,1],{1, 2}, {2, 3}, {3, 1}" \
+  --g 1 \
+  --genus "0 0 0" \
+  --loop "0 0 0" \
+  --log-host localhost \
+  --log-port 9876
