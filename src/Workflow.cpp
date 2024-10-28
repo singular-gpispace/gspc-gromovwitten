@@ -73,7 +73,6 @@ namespace feynman
         workflow_opts.add_options()("N", po::value<int>()->required()); // edges
         workflow_opts.add_options()("degree", po::value<int>()->required());
         workflow_opts.add_options()("graph", po::value<std::string>()->required());
-        workflow_opts.add_options()("g", po::value<int>()->required());
         workflow_opts.add_options()("loop", po::value<std::string>()->required());
         workflow_opts.add_options()("genus", po::value<std::string>()->required());
         workflow_opts.add_options()("deg", po::value<int>()->default_value(0));
@@ -85,23 +84,18 @@ namespace feynman
         : _N(args.at("N").as<int>()) // number of edges.
         , _degree(args.at("degree").as<int>()) // given degree
         , _graph(args.at("graph").as<std::string>()) // graph.
-        , _g(args.at("g").as<int>()) // graph.
         , _deg(args.at("deg").as<int>()) // given degree
         , _genus(args.at("genus").as<std::string>()) // given degree
         , _loop(args.at("loop").as<std::string>()) // graph.
 
     {
-        std::vector<int> genusVector = stringToVectorInt(_genus);
 
-        // Sum the integers in the vector
-        int gs = sumVector(genusVector);
         G = extractIntegers(_graph);
         for (int xi : G)
         {
             graph_int.emplace_back(pnet_value(xi));
         }
         deg_int = _degree;
-        genus_int = 2 * (_N + gs);
         total_int = partialBinomialSum(_N, _degree);
 
     }
@@ -112,7 +106,6 @@ namespace feynman
         values_on_ports.emplace("N", _N);
         values_on_ports.emplace("degree", _degree);
         values_on_ports.emplace("graph", graph_int);
-        values_on_ports.emplace("g", genus_int);
         values_on_ports.emplace("loop", _loop);
         values_on_ports.emplace("deg", deg_int);
         values_on_ports.emplace("genus", _genus);
