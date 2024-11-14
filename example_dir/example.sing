@@ -35,8 +35,8 @@ gc.options.logport = 9876;
 
  //Example 1:
 
-ring R = 0, (w, x, y), (dp, c);
-ideal J = w2 - x, w* x - y, x2 - w * y, x* y, y2 - w;
+ring R = 0, x, dp;
+ideal J = 1;
 
 
 //module m;

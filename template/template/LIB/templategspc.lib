@@ -57,29 +57,30 @@ configuration for the template pattern.
     return(ct);
 }
 
+
 static proc gspc_template(list l, configToken gc, configToken pc)
 {
-    //Parse driver options
+    // Parse driver options
     string driver_opts;
     if ((typeof(gc.options) != "gspcConfigToken") || (typeof(pc.options) != "templateConfigToken"))
     {
         ERROR("wrong config token types");
     }
 
-    //Parse rifstrategy and rifstrategy-parameters
+    // Parse rifstrategy and rifstrategy-parameters
     driver_opts = driver_opts + "--rif-strategy " + gc.options.rifstrategy;
     if (gc.options.rifstrategyparameters != "")
     {
         driver_opts = driver_opts + " --rif-strategy-parameters " + gc.options.rifstrategyparameters;
     }
 
-    //Parse worker topology
+    // Parse worker topology
     driver_opts = driver_opts + " --topology " + "worker:" + string(gc.options.procspernode);
 
-    //Parse nodefile
+    // Parse nodefile
     driver_opts = driver_opts + " --nodefile " + gc.options.nodefile;
 
-    //Parser loghost and logport
+    // Parse loghost and logport
     if (gc.options.logport != 0) // logging requested
     {
         if (gc.options.loghost == "") // no hostname given, so read from file
@@ -99,7 +100,7 @@ static proc gspc_template(list l, configToken gc, configToken pc)
             }
             gc.options.loghost = loghost;
         }
-        driver_opts = driver_opts + " --log-host " + gc.options.loghost, " --log-port ", string(gc.options.logport);
+        driver_opts = driver_opts + " --log-host " + gc.options.loghost + " --log-port " + string(gc.options.logport);
     }
 
     if (system("getenv", "LD_LIBRARY_PATH") != "")
@@ -107,13 +108,13 @@ static proc gspc_template(list l, configToken gc, configToken pc)
         driver_opts = driver_opts + " --worker-env-copy-variable " + "LD_LIBRARY_PATH";
     }
 
-    //Starting to parse workflow options
+    // Starting to parse workflow options
     string workflow_opts;
 
-    //Parse N
-    //workflow_opts = "--N " + string(N);
+    // Parse N
+    // workflow_opts = "--N " + string(N);
 
-    //Parse basefilename
+    // Parse basefilename
     string tmpdir;
     if (gc.options.tmpdir[1] == "/")
     {
@@ -126,18 +127,19 @@ static proc gspc_template(list l, configToken gc, configToken pc)
     string basefilename = tmpdir + "/";
     workflow_opts = workflow_opts + " --basefilename " + basefilename;
 
-    //Parse input
+    // Parse input and write to a standard text file instead of ssi:w
     link lin;
     int N = 1;
     for (int i = 1; i <= N; i++)
     {
-        lin = "ssi:w " + basefilename + "input";
-        write(lin, l[i]);
+        string filepath = basefilename + "input.txt"; // Define the text file path
+        lin = filepath; // Use the file path instead of "ssi:w"
+        write(lin, l[i]); // Write list element to the text file
         close(lin);
     }
-    workflow_opts = workflow_opts + " --input " + "input";
+    workflow_opts = workflow_opts + " --input " + "input.txt"; // Update to reflect the file name
 
-    //Parse libraryname
+    // Parse libraryname
     string loadlib;
     if (pc.options.neededLibrary[1] == "/")
     {
@@ -149,8 +151,6 @@ static proc gspc_template(list l, configToken gc, configToken pc)
     }
     workflow_opts = workflow_opts + " --libraryname " + loadlib;
 
-
-
     string all_opts = driver_opts + " " + workflow_opts;
 
     def sm_result = sggspc_template(all_opts);
@@ -158,6 +158,7 @@ static proc gspc_template(list l, configToken gc, configToken pc)
     print("Ali in Singular");
     return(sm_result);
 }
+
 
 proc gspc_template_SchRes(ideal J, configToken gc)
 {

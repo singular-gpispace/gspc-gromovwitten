@@ -38,7 +38,7 @@ std::string singular_template_compute_StdBasis(std::string const& input_filename
   input = deserialize(input_filename, ids);
 
   ScopedLeftv args(input.first, lCopy(input.second));
-  std::string function_name2 = "stdBasis";
+  //std::string function_name2 = "stdBasis";
 
   lists Token = (lists)(args.leftV()->data);
 
@@ -53,18 +53,18 @@ std::string singular_template_compute_StdBasis(std::string const& input_filename
       std::cout << "INPUT1: " << listElement.String() << std::endl;
     out_filename1 = listElement.String();
   }
-  // Example output filename for debug purposes
-  std::cout << "Base filename: " << base_filename << std::endl;
-  std::cout << "Output filename: " << out_filename1 << std::endl;
-  std::cout << "Type of out_filename1: " << typeid(out_filename1).name() << std::endl;
-
-  out = call_user_proc(function_name2, needed_library, args);
+  /*  // Example output filename for debug purposes
+   std::cout << "Base filename: " << base_filename << std::endl;
+   std::cout << "Output filename: " << out_filename1 << std::endl;
+   std::cout << "Type of out_filename1: " << typeid(out_filename1).name() << std::endl;
+  */
+  //out = call_user_proc(function_name2, needed_library, args);
   //std::cout << "myout " << out.second << std::endl;
-  out_filename = serialize(out.second, base_filename);
-  std::cout << base_filename << std::endl;;
+  //out_filename = serialize(out.second, base_filename);
+  //std::cout << base_filename << std::endl;;
 
 
-  return out_filename;
+  return out_filename1;
 }
 
 
