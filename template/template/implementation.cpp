@@ -24,7 +24,7 @@ NO_NAME_MANGLING
 
 std::string singular_template_compute_StdBasis(std::string const& input_filename
   , std::string const& needed_library
-  , std::string const& base_filename)
+)
 {
   init_singular(config::singularLibrary().string());
   load_singular_library(needed_library);
@@ -43,15 +43,13 @@ std::string singular_template_compute_StdBasis(std::string const& input_filename
   lists Token = (lists)(args.leftV()->data);
 
   int L_size = lSize(Token) + 1;
-  std::cout << "Size of J in the transition: " << L_size << std::endl;
   for (int i = 0; i < L_size; i++) {
     sleftv& listElement = Token->m[i];  // Access each element as `leftv`
     if (listElement.data == NULL) {
       std::cout << "Input: NULL" << std::endl;
     }
     else if (i == 3)
-      std::cout << "INPUT1: " << listElement.String() << std::endl;
-    out_filename1 = listElement.String();
+      out_filename1 = listElement.String();
   }
   /*  // Example output filename for debug purposes
    std::cout << "Base filename: " << base_filename << std::endl;

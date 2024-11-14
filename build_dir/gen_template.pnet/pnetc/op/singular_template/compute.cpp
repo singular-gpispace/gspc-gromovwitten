@@ -12,14 +12,13 @@ namespace pnetc
     {
       void compute
         ( const std::string& input
-        , const std::string& base_filename
         , const std::string& library_name
         , std::string& output
         )
       {
-#line 25 "/home/atraore/gpi/try_gpi/Reduce/template/workflow/template.xpnet"
+#line 24 "/home/atraore/gpi/try_gpi/Reduce/template/workflow/template.xpnet"
 
-    output=  RESOLVE_INTERFACE_FUNCTION( singular_template_compute_StdBasis) (input,library_name, base_filename);
+    output=  RESOLVE_INTERFACE_FUNCTION( singular_template_compute_StdBasis) (input,library_name);
           std::cout<<"****output1****"<<output<<std::endl;
             		
       }

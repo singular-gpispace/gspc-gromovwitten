@@ -20,8 +20,7 @@ namespace pnetc
 #line 25 "/home/atraore/gpi/try_gpi/Reduce/template/workflow/template.xpnet"
 
     output=  RESOLVE_INTERFACE_FUNCTION( singular_template_compute_StdBasis) (input,library_name, base_filename);
-					std::string output1="123";
-          std::cout<<"****output1****"<<output1<<std::endl;
+          std::cout<<"****output1****"<<output<<std::endl;
             		
       }
     }

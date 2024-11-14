@@ -11,7 +11,6 @@ namespace pnetc
     {
       void compute
         ( const std::string& input
-        , const std::string& base_filename
         , const std::string& library_name
         , std::string& output
         );
