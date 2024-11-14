@@ -1,0 +1,55 @@
+
+LIB "IterativeRes.lib";
+
+
+//ring S= 0, (w,x,y,z), (dp,c);
+//ideal I_Gr= w2-x*z, w*x- y*z, x2-w*y, x*y- z2, y2- w*z;
+
+ring R= 0, (x(1..10)), (lp,c);
+
+
+
+matrix mS[2][4]= x(4)+ x(6), x(6)+ x(3), x(8)+ x(3), x(1)-x(3), x(2)-x(4), x(5)-x(7), x(8)-x(7), x(2)+ x(3), x(5)- x(7), x(10)+ x(8), x(1) -x(2);
+ideal I_minor= minor(mS,2);
+ideal I_Gr = std(I_minor);
+list J= allLeadSyz(I_Gr);
+//J;
+
+
+
+//smatrix s_t= all_Syz_sparse(I_Gr);
+//s_t;
+//smatrix ss_t= all_Syz_sparse2(s_t, J, 2);
+//list List=lead_Sparse_Syz2(s_t, J, 2);
+//List;
+//sparse_sublift TT= List[2];
+//vector s=x(5)*gen(3);
+//vector t= x(1)*x(7)*gen(1);
+
+//list ss_r= liftTree2(s_t, TT, J, 2);
+//ss_r;
+print("All terms");
+//list L=iterativeSubLiftTree2(s_t, TT, J, 2);
+//L;
+//int ab=coM2(J[2], s, t, J, 3);
+//ab;
+print("Schreyer");
+list L_scyreyer=freeResSch(I_Gr, J);
+L_scyreyer;
+
+
+//print(L_scyreyer[3]);
+//matrix m3= L_scyreyer[3];
+
+//matrix m4=L_scyreyer[4];
+
+
+//print(m3*m4);
+print("fres");
+
+//syz(m4);
+def L= fres(I_Gr, 0);
+L;
+matrix m1= L[5];
+m1;
+

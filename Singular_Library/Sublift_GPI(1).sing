@@ -1,0 +1,72 @@
+//LIB "Sublift_GPI.lib";
+  //LIB "Lead_GPI_Space.lib";
+LIB "GPI_TRIAL.lib";
+ //LIB "nleadLift.lib";
+
+
+ring S= 0, (w,x,y,z), (dp,c);
+ideal I_Gr= w2-x*z, w*x- y*z, x2-w*y, x*y- z2, y2- w*z;
+
+
+
+
+//list LLTL=syzGpI(I_Gr);
+vector str= w*gen(3);
+//def TTK =MainLiftTree(I_Gr, str);
+
+//Tokn sshat= subLiftTree(I_Gr, str);
+//sshat;
+vector sk= x*gen(2);
+//list TTK =liftTree(I_Gr, str);
+//TTK;
+vector s_try= -x * gen(2);
+list M_sub= SubLiftTree(I_Gr, s_try, 1);
+
+//list TOKT=subLiftTree(I_Gr, sk);
+//TOKT;
+
+
+ring R= 0, (x(1..10)), (lp,c);
+
+matrix mS[2][4]= x(4)+ x(6), x(6)+ x(3), x(8)+ x(3), x(1)-x(3), x(2)-x(4), x(5)-x(7), x(8)-x(7), x(2)+ x(3), x(5)- x(7), x(10)+ x(8), x(1) -x(2);
+ideal I_minor= minor(mS,2);
+ideal Gb = std(I_minor);
+
+
+
+
+//Gb[1]=x(3)*x(5)-x(3)*x(8)+x(5)*x(8)+x(6)*x(7)-x(6)*x(8)-x(7)*x(8)
+//Gb[2]=x(2)*x(6)-x(2)*x(8)-x(4)*x(5)-x(4)*x(6)+2*x(4)*x(8)-x(5)*x(6)+x(6)*x(8)
+//Gb[3]=x(2)*x(3)+x(2)*x(6)-x(3)*x(4)-x(4)*x(5)-x(4)*x(6)+x(4)*x(7)-x(5)*x(6)+x(6)*x(7)
+//Gb[4]=x(1)*x(7)-x(1)*x(8)+x(2)*x(3)+x(2)*x(8)+x(3)^2-x(3)*x(7)+2*x(3)*x(8)
+//Gb[5]=x(1)*x(5)-x(1)*x(7)-x(2)*x(3)-x(2)*x(6)-x(3)^2-x(3)*x(5)-x(3)*x(6)+x(3)*x(7)
+//Gb[6]=x(1)*x(2)-x(1)*x(4)-x(2)*x(3)-x(2)*x(4)-x(2)*x(6)-x(3)*x(6)
+//module lead_syz= leadSyz(Gb);
+
+//list LLGP= leadsyzGPI(Gb);
+//lead_syz[1]=x(3)*x(5)*gen(2)
+//lead_syz[2]=x(5)*gen(3)
+//lead_syz[3]=x(6)*gen(3)
+//lead_syz[4]=x(3)*x(5)*gen(4)
+//lead_syz[5]=x(2)*x(6)*gen(4)
+//lead_syz[6]=x(2)*x(3)*gen(4)
+//lead_syz[7]=x(3)*gen(5)
+//lead_syz[8]=x(2)*x(6)*gen(5)
+//lead_syz[9]=x(7)*gen(5)
+//lead_syz[10]=x(6)*gen(6)
+//lead_syz[11]=x(3)*gen(6)
+//lead_syz[12]=x(7)*gen(6)
+//lead_syz[13]=x(5)*gen(6)
+
+//vector sx= x(6)*gen(3);
+
+//list sK=liftTree(Gb, sx);
+
+//list TTK =MainLiftTree(Gb, sx);
+
+//vector SSZ= x(3)*gen(2);
+//list SSk= subLiftTree(Gb, SSZ);
+
+
+//list l_ss=liftTree(Gb, sx);
+

@@ -1,0 +1,34 @@
+230286.230292@waas 2024-11-13 22:42:20 gantt-job-events 22 serialization::archive 14 0 0 1 0 25 agent-waas 42231 230265-0 17 waas.job.230286.0 8 template 0
+230300.230305@waas 2024-11-13 22:42:20 gantt-job-events 22 serialization::archive 14 0 0 1 0 26 worker-waas 42231 230265-2 17 waas.job.230286.1 7 compute 0
+230300.230305@waas 2024-11-13 22:42:20 legacy-level-trace task finished: waas.job.230286.1
+230300.230305@waas 2024-11-13 22:42:20 gantt-job-events 22 serialization::archive 14 0 0 1 0 26 worker-waas 42231 230265-2 17 waas.job.230286.1 0  1
+230286.230292@waas 2024-11-13 22:42:20 gantt-job-events 22 serialization::archive 14 0 0 1 0 25 agent-waas 42231 230265-0 17 waas.job.230286.0 8 template 1
+230324.230327@waas 2024-11-13 22:42:20 legacy-level-trace worker-waas 42231 230265-6 is shutting down
+230318.230321@waas 2024-11-13 22:42:20 legacy-level-trace worker-waas 42231 230265-5 is shutting down
+230312.230315@waas 2024-11-13 22:42:20 legacy-level-trace worker-waas 42231 230265-4 is shutting down
+230306.230309@waas 2024-11-13 22:42:20 legacy-level-trace worker-waas 42231 230265-3 is shutting down
+230300.230303@waas 2024-11-13 22:42:20 legacy-level-trace worker-waas 42231 230265-2 is shutting down
+230294.230297@waas 2024-11-13 22:42:20 legacy-level-trace worker-waas 42231 230265-1 is shutting down
+230663.230671@waas 2024-11-13 22:44:14 gantt-job-events 22 serialization::archive 14 0 0 1 0 25 agent-waas 38937 230650-0 17 waas.job.230663.0 8 template 0
+230697.230702@waas 2024-11-13 22:44:14 gantt-job-events 22 serialization::archive 14 0 0 1 0 26 worker-waas 38937 230650-4 17 waas.job.230663.1 7 compute 0
+230697.230702@waas 2024-11-13 22:44:14 legacy-level-trace task finished: waas.job.230663.1
+230697.230702@waas 2024-11-13 22:44:14 gantt-job-events 22 serialization::archive 14 0 0 1 0 26 worker-waas 38937 230650-4 17 waas.job.230663.1 0  1
+230663.230671@waas 2024-11-13 22:44:14 gantt-job-events 22 serialization::archive 14 0 0 1 0 25 agent-waas 38937 230650-0 17 waas.job.230663.0 8 template 1
+230709.230712@waas 2024-11-13 22:44:14 legacy-level-trace worker-waas 38937 230650-6 is shutting down
+230703.230706@waas 2024-11-13 22:44:14 legacy-level-trace worker-waas 38937 230650-5 is shutting down
+230691.230694@waas 2024-11-13 22:44:14 legacy-level-trace worker-waas 38937 230650-3 is shutting down
+230697.230700@waas 2024-11-13 22:44:14 legacy-level-trace worker-waas 38937 230650-4 is shutting down
+230685.230688@waas 2024-11-13 22:44:14 legacy-level-trace worker-waas 38937 230650-2 is shutting down
+230677.230682@waas 2024-11-13 22:44:14 legacy-level-trace worker-waas 38937 230650-1 is shutting down
+231074.231083@waas 2024-11-13 22:46:03 gantt-job-events 22 serialization::archive 14 0 0 1 0 25 agent-waas 46527 231060-0 17 waas.job.231074.0 8 template 0
+231089.231094@waas 2024-11-13 22:46:03 gantt-job-events 22 serialization::archive 14 0 0 1 0 26 worker-waas 46527 231060-1 17 waas.job.231074.1 7 compute 0
+231089.231094@waas 2024-11-13 22:46:03 legacy-level-info ****output****123
+231089.231094@waas 2024-11-13 22:46:03 legacy-level-trace task finished: waas.job.231074.1
+231089.231094@waas 2024-11-13 22:46:03 gantt-job-events 22 serialization::archive 14 0 0 1 0 26 worker-waas 46527 231060-1 17 waas.job.231074.1 0  1
+231074.231083@waas 2024-11-13 22:46:03 gantt-job-events 22 serialization::archive 14 0 0 1 0 25 agent-waas 46527 231060-0 17 waas.job.231074.0 8 template 1
+231119.231122@waas 2024-11-13 22:46:03 legacy-level-trace worker-waas 46527 231060-6 is shutting down
+231113.231116@waas 2024-11-13 22:46:03 legacy-level-trace worker-waas 46527 231060-5 is shutting down
+231107.231110@waas 2024-11-13 22:46:03 legacy-level-trace worker-waas 46527 231060-4 is shutting down
+231101.231104@waas 2024-11-13 22:46:03 legacy-level-trace worker-waas 46527 231060-3 is shutting down
+231095.231098@waas 2024-11-13 22:46:03 legacy-level-trace worker-waas 46527 231060-2 is shutting down
+231089.231092@waas 2024-11-13 22:46:03 legacy-level-trace worker-waas 46527 231060-1 is shutting down

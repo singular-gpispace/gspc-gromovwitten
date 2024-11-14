@@ -1,0 +1,370 @@
+////////////////////////////////////////////////////////////////////////////////
+version="version absfact.lib 4.1.2.0 Feb_2019 "; // $Id$
+category="";
+info="";
+
+
+static proc mod_init()
+{
+  LIB "general.lib";
+  LIB "monomialideal.lib";
+  LIB "homolog.lib";
+  LIB "matrix.lib";
+  LIB "polylib.lib";
+  LIB "zeroset.lib";
+  LIB "modules.lib";
+  
+}
+
+
+
+
+
+proc leadmonomial(def s) {
+  int e;
+  poly m;
+  if(typeof(s) == "vector"){
+    e=leadexp(s)[nvars(basering)+1];
+    m=leadmonom(s)[e,1];
+  }
+  if(typeof(s) == "poly"){
+    m=leadmonom(s);
+   }
+   
+  return(m);
+}
+
+
+
+proc leadSyz(ideal f) {
+//timer=0;
+//system("--ticks-per-sec",1000); // set timer resolution to ms
+ //int t1=timer;
+    int a, b, i, j, k;
+    vector s, t;
+    int r = size(f);
+    module L;   // Initialize an empty set
+    matrix m[r][r];
+
+    for (a = 1; a <= r; a++) {
+        for (b = 1; b <= r; b++) {
+            m[a, b] = lcm(leadmonom(f[b]), leadmonom(f[a])) / lead(f[b]);
+        }
+    }
+
+    int cc = 1;
+    
+
+    for (i = 2; i <= r; i++) {
+       
+        
+        for (j = 1; j < i; j++) {
+            t = m[j, i] * gen(i);
+         
+            // Check divisibility conditions and remove a generator if necessary
+            for (k = 1; k <= size(L); k++) {
+              
+               //print("i = "+string(i) + "j = "+string(j)  + "t = "+string(t) + "s = "+ //string(s)+" L ="+string(L));
+                 
+                 //print(s);
+                    s = L[k];
+               
+               
+                // Check if s divides t
+                 if (NF(t, s) == 0) {
+                  
+                    t = 0;
+                    break;
+                 } else {
+                    // Check if t divides s
+                    if (NF(s, t) == 0) {                  
+                        
+                         L = delete(L, k); 
+                         k=k-1;
+                           cc=cc-1;
+                                         
+                        
+                      
+                    }
+                }
+            }
+            
+            // If t survived the checks and no generator was deleted, add it to the module L
+            if (t != 0) {
+           
+              
+                L[cc]=t;
+                
+               
+                   cc++;
+
+               
+            }
+             
+        } 
+    }// timer-t1;
+      // print(" timer of leadsyz");
+return(L); 
+    
+
+}
+
+
+
+
+
+
+proc pOLY_List(poly f0){
+    int r= size(f0);
+    
+    int k;
+    list S;
+    for(k=1; k<=r; k++){
+     S[k]=f0[k];   
+    } 
+    return(S);
+}
+
+
+
+
+
+
+
+proc LOT(poly g0, ideal S1) {
+    int r = size(S1);
+    int i, k, isDivisible;
+    poly LOT;
+    poly t;
+
+    for (k = 1; k <= size(g0); k++) {
+        isDivisible = 0;
+
+        for (i = 1; i <= r; i++) {
+            if (S1[i] != poly(0) && NF(lead(g0[k]), lead(S1[i])) == poly(0)) { //replacing leadmonom by lead
+                // g[k] is divisible by the generator S[i]
+                isDivisible = 1;
+                break;  //No need to check further generators for this g0[k]
+            }
+        }
+       
+        if (!isDivisible) {
+            t = g0[k];
+            LOT = LOT + t;
+            // Add the term t to the LOT list
+        }
+    }
+
+    return(LOT); // Return the list of Lower Order Terms
+}
+
+
+
+
+proc coM(ideal f, vector s, vector t) {
+    int k, l;
+    int i,j;
+    int isTrue=0;
+
+    i=leadexp(s)[nvars(basering)+1];
+    j=leadexp(t)[nvars(basering)+1];
+    poly s10 = leadmonomial(s);
+    poly t10 = leadmonomial(t);
+  
+    
+
+    poly sfi=leadmonom(s10 * f[i]);
+    poly tfj=leadmonom(t10 * f[j]);
+  
+
+    if (sfi > tfj){
+        isTrue = 1;
+      
+    } else {
+        if ((sfi == tfj) && (i > j)) {
+        
+        isTrue = 1;
+      }
+
+    }
+
+    return (isTrue);
+}
+
+
+proc subLiftTree(ideal f, vector s) {
+ 
+    int r = size(f);
+    int i, k, lambda;
+
+    poly g, h;
+    list T;
+
+    for (i = 1; i <= r; i++) {
+        if (s == leadcoef(s)*leadmonomial(s) * gen(i)) { // replacing leadmonomial by lead
+            h = leadcoef(s)*leadmonomial(s)* f[i]; // psi: R^r --> R^s; g := psi(s);
+        }
+    }
+    g = h - lead(h);
+    
+    //list S= f;
+    poly T0 = g - LOT(g, f);
+    T = pOLY_List(T0);
+    
+    vector s_hat = s;  //Initialize s_hat to s
+   
+    poly t, m1;
+    
+    poly m;
+    int lambda1;
+    vector s_v;
+    
+    //Continue as long as T is not equal to empty
+    
+   //int counter=1;
+    for (k = 1; k <= size(T); k++) {
+        t = T[k];
+        for (lambda = 1; lambda <= r; lambda++) {
+            if ((NF(t, lead(f[lambda])) == poly(0))) { //replace lead by leadmonomial
+
+            //print(f[lambda]);
+            //print("corresponding lambda");
+                m1 = t / lead(f[lambda]);
+                
+                s_v = m1 * gen(lambda);
+                lambda1 = lambda;
+               // print("Step five in algorithm");
+                //print(s_v);
+                m = m1;
+
+                //counter=counter+1;
+               //print("Counter");
+            
+                break; //break was uncommented because of I_Gr example(to be thought)
+            }
+            // if (lambda1 > r) {
+            //     ERROR("Didn't find a lambda");
+            // }
+        }
+
+        
+       
+        s_hat = s_hat - subLiftTree(f, m * gen(lambda1)); 
+         
+
+    
+    
+    }
+   
+   return(s_hat);
+
+    
+
+}  // Missing parenthesis added here
+
+
+
+
+
+
+
+
+
+proc liftTree(ideal f, vector s) {
+
+    int r = size(f);
+    print(r);
+    int i, k, q;
+
+    poly h, t;
+    poly g;
+    list T;
+    int c;
+    for (i = 1; i <= r; i++) {
+        if (s == leadcoef(s)*leadmonomial(s) * gen(i)) {
+            h = leadcoef(s)*leadmonomial(s) * f[i]; //psi: R^r --> R^s; g := psi(s);
+        }
+    }
+
+    g = h;
+    //list S = f;
+    poly T0 = g - LOT(g, f);
+    T = pOLY_List(T0);
+
+    vector s_bar=s;
+
+    poly m1, m;
+    int lambda1;
+    vector s_v;
+    int C;
+   
+    for(k=1; k<=size(T); k++){
+             t= T[k];
+   
+        for (q = 1; q <= r; q++) {
+           
+             C=(NF(t, lead(f[q])) ==(poly(0)));
+            
+               if (C==1) {
+                  
+                m1 = t / lead(f[q]);
+                s_v = m1 * gen(q);
+
+                
+                 c= coM(f, s, s_v);
+            
+                
+                if (c==1) {
+                    
+                   
+              lambda1 = q;
+                    m = m1;
+             
+                    break;
+                }
+                
+              
+            }  
+        
+        }     
+             
+              // print(s_bar);
+                //print("sublift");
+                //print(subLiftTree(f, m * gen(lambda1)));
+              s_bar = s_bar - subLiftTree(f, m * gen(lambda1));
+
+          
+            
+            
+    }   
+   return(s_bar);
+
+}
+
+proc sYZLIFT(ideal f){
+    int k;
+    module S;
+    vector s, s_bar;
+    module l= leadSyz(f);
+    //print(l); //lead syz
+    int c=1;
+// rtimer=0;
+//system("--ticks-per-sec",1000); // set timer resolution to ms
+//int t1=rtimer;
+    for(k=1; k<=size(l); k++){
+        s= l[k];
+    
+     
+        s_bar=  liftTree(f, s);
+        
+         S[c]= s_bar;
+        
+         c++;
+        
+    } //rtimer-t1; print("timer of lift_tree");
+return(S);
+}
+
+
+
+

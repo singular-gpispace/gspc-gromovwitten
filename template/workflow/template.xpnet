@@ -1,0 +1,66 @@
+<defun name="template">
+  <in name="base_filename" type="string" place="place_base_filename"/>
+  <in name="library_name" type="string" place="place_library_name"/>
+  <in name="input" type="string" place="place_input"/>
+  <out name="output" type="string" place="place_output"/>
+  <out name="graph" type="string" place="graph"/>
+
+  <net>
+    <place name="place_input" type="string"/>
+    <place name="place_output" type="string"/>
+    <place name="place_base_filename" type="string"/>
+    <place name="place_library_name" type="string"/>
+
+    <transition name="compute">
+      <defun>
+        <require key="worker" mandatory="true"/>
+        <in name="input" type="string"/>
+        <out name="output" type="string"/>
+        <module name="singular_template" require_function_unloads_without_rest="false" function="compute(input,output)">
+          <cinclude href="interface/template_interface.hpp" />
+          <cinclude href="util-generic/dynamic_linking.hpp"/>
+          <cinclude href="iostream" />
+          <code><![CDATA[
+					output="123";
+          std::cout<<"****output****"<<output<<std::endl;
+            		]]>          </code>
+        </module>
+      </defun>
+      <connect-in port="input" place="place_input"/>
+      <connect-out port="output" place="graph"/>
+    </transition>
+
+    <place name="graph" type="string"/>
+
+
+    <transition name="compute1">
+      <defun>
+        <require key="worker" mandatory="true"/>
+        <in name="library_name" type="string"/>
+        <in name="base_filename" type="string"/>
+        <in name="input" type="string"/>
+        <out name="output" type="string"/>
+        <module name="singular_template" require_function_unloads_without_rest="false" function="compute1(input,library_name,base_filename,output)">
+          <cinclude href="interface/template_interface.hpp" />
+          <cinclude href="util-generic/dynamic_linking.hpp"/>
+          <cinclude href="interface/feynman.hpp" />
+
+          <cinclude href="iostream" />
+          <code><![CDATA[
+          
+         std::cout<<" 123myinput***** "<<input<<std::endl;
+         std::cout<<"********bonjour****"<<std::endl;
+            std::string out_filename1 = "1,5,{{1, 3}, {1, 2}, {1, 2}, {2, 4}, {3, 4}, {3, 4}}";
+             std::cout<<" out_filename1***** "<<out_filename1<<std::endl;
+
+            		]]>
+          </code>
+        </module>
+      </defun>
+
+      <connect-in port="input" place="graph"/>
+      <connect-out port="output" place="place_output"/>
+    </transition>
+
+  </net>
+</defun>

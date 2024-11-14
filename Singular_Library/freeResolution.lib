@@ -1,0 +1,688 @@
+
+////////////////////////////////////////////////////////////////////////////////
+version="version absfact.lib 4.1.2.0 Feb_2019 "; // $Id$
+category="";
+info="";
+
+
+static proc mod_init()
+{
+  LIB "general.lib";
+  LIB "monomialideal.lib";
+  LIB "homolog.lib";
+  LIB "matrix.lib";
+  LIB "polylib.lib";
+  LIB "zeroset.lib";
+  LIB "modules.lib";
+  //LIB "nleadLift.lib";
+  LIB "GPI_TRIAL.lib";
+  newstruct("sparse_sublift", " vector vec, smatrix A, bigint p, bigint q, int sign");
+  
+
+  
+}
+
+
+
+
+proc leadmonomial(def s) {
+  int e;
+  poly m;
+  
+  if(typeof(s) == "vector"){
+    e=leadexp(s)[nvars(basering)+1];
+    m=leadmonom(s)[e,1];
+  }
+  if(typeof(s) == "poly"){
+    m=leadmonom(s);
+   }
+  return(m);
+}
+
+
+
+proc lcm_mod(module G) {
+
+    int a, b, i,j;
+    int r = size(G);
+    matrix l[r][r];
+     poly s10;
+     poly t10;
+    for (a = 1; a <= r; a++) {
+        for (b = 1; b <= r; b++) {
+            i = leadexp(G[a])[nvars(basering) + 1];
+            j = leadexp(G[b])[nvars(basering) + 1];
+            s10 = leadmonomial(G[a]);
+            t10 = leadmonomial(G[b]);
+
+            if (i == j) {
+                l[a, b] = lcm(leadmonomial(G[a]), leadmonomial(G[b])) / lead(t10);
+            } else {
+                // If i is not equal to j, set l[a, b] to 0
+                l[a, b] = 0;
+            }
+        }
+    }
+    
+
+    return(l);
+}
+
+
+
+proc Sec_leadSyz(module f) {
+    int i, j, k;
+    vector s, t;
+    int r = size(f);
+    module L;   // Initialize
+
+    module f0 = f; // Use the input module directly as input is already previous leadsyz
+
+    matrix m = lcm_mod(f0);
+
+    int cc = 1;
+
+    for (i = 2; i <= r; i++) {
+        for (j = 1; j < i; j++) {
+            if (m[j, i] != 0) {
+                t = m[j, i] * gen(i);
+            }
+
+            for (k = 1; k <= size(L); k++) {
+                s = L[k];
+
+                if (NF(t, s) == 0) {
+                    t = 0;
+                    break;
+                } else {
+                    if (NF(s, t) == 0) {
+                        L = delete(L, k);
+                        k = k - 1;
+                        cc = cc - 1;
+                    }
+                }
+            }
+
+             if (t != 0) {
+                L[cc] = t;
+                cc++;
+            }
+        }
+    }
+    return (L);
+}
+
+
+
+proc lead_Sparse_Syz2(module f, alias list J, int level) {
+ 
+  sparse_sublift Ld;
+  list l_list;
+  int k;
+ //Ensure that J[level] is a module
+     module LT = J[level];
+
+    print("LT in lead_Sparse_Syz2:");
+    print(LT);
+   
+
+  for (k = 1; k <= size(LT); k++) {
+  smatrix sM[size(f)][size(LT)];
+    vector s_lift = LT[k];
+    
+    int l_k = leadexp(s_lift)[nvars(basering) + 1];
+
+    sM[l_k, k] = leadcoef(s_lift) * leadmonomial(s_lift);
+    
+    //print(sM);
+    Ld.vec= s_lift;
+    //print(s_lift);
+    Ld.A = sM;
+     //print("Smatrix");
+    //print(Ld.A);
+
+    //print("row");
+
+    Ld.p = l_k;
+    //print(Ld.p);
+    //print("q:column");
+    Ld.q = k;
+    print(Ld.q);
+    Ld.sign = 1;
+   
+    l_list[k] = Ld;
+
+  }
+  return (l_list);
+}
+               
+               
+
+
+
+
+
+proc vector_List(vector f0){
+    int r= nrows(f0);
+    
+    int k,j;
+    list S;
+    int cc=1;
+    vector term;
+    for(k=1; k<=r; k++){
+       for(j=1; j<=size(f0[k]); j++){
+        term =f0[k][j]*gen(k); 
+      if(term!=0){
+         S[cc]=term;
+        cc++;
+
+     }
+
+       }
+    
+        
+    }
+    
+    return(S);
+}
+
+// all leadsyz
+proc allLeadSyz(ideal f) {
+   
+    module F = leadSyz(f);
+    
+    int level = 1;
+    def temp;
+    int t;
+    list J;
+    J[1]=F;
+   
+    int n= nvars(basering);
+    for(t=1; t<=n; t++) {
+       
+        
+        temp = Sec_leadSyz(F);
+        
+      
+        
+        if ((nrows(temp) !=0) && (ncols(temp) != 0)) {
+           
+             F = temp;
+        }
+        if(F==vector(0)){
+         break;
+        }
+        
+       
+       
+        
+        
+        J[level+1] = F;
+        level++;
+    }  
+    
+    return (J);
+}
+
+
+
+
+
+
+proc LOT_2(vector g0, module S1, alias list J, int level) {
+    int r = size(S1);
+    int i, k, j,isDivisible;
+    vector LOT;
+    vector  t;
+    vector term;
+    
+ 
+    if(level==2){
+     module f0=J[1];//previous leadsyz
+    
+     } else {
+      module f0= J[level-1];//previous leadsyz
+    }
+
+    for (k = 1; k <= nrows(g0); k++) {
+     for(j=1; j<=size(g0[k]); j++){
+
+          term=g0[k][j]*gen(k);
+          //print("term");
+          //print(term);
+          isDivisible=0;
+
+        for (i = 1; i <= r; i++) {
+        
+            if ((term != 0)&& (NF(term, module(f0[i])) == 0)) { //replacing leadmonom by lead
+                // g[k] is divisible by the generator S[i]
+                isDivisible = 1;
+                break;  //No need to check further generators for this 
+            }
+        }
+       
+        if (!isDivisible) {
+            t = term;
+            LOT = LOT + t;
+           
+            // Add the term t to the LOT list
+        }
+     }
+       
+            
+           
+    }
+
+    return(LOT); // Return the list of Lower Order Terms
+}
+proc coM2(module f, vector s, vector t, alias list J, int currentLevel) {
+    int I, j;
+    int isTrue = 0;
+
+    // Print the given vectors (debugging statements)
+    print("Vector s: ");
+    print(s);
+    print("Vector t: ");
+    print(t);
+
+    // Get the syzygy indices for the vectors s and t
+    I = leadexp(s)[nvars(basering) + 1];
+    j = leadexp(t)[nvars(basering) + 1];
+
+    // Print the indices (debugging statements)
+    print("I: ");
+    print(I);
+    print("j: ");
+    print(j);
+
+    // Initialize local variables
+    vector f1, g1, F1, G1; // Declare vector variables
+    int l, i1, i2; // Declare loop and index variables
+
+    // Calculate initial f1 and g1 vectors
+    f1 = leadmonomial(s) * J[currentLevel - 1][I];
+    g1 = leadmonomial(t) * J[currentLevel - 1][j];
+
+    // Print f1 and g1 (debugging statements)
+    print("f1: ");
+    print(f1);
+    print("g1: ");
+    print(g1);
+
+    // Loop through levels from currentLevel-1 down to 2
+    for (l = currentLevel - 1; l >= 2; l--) {
+        print("Level: ");
+        print(l);
+
+        // Get indices for f1 and g1
+        i1 = leadexp(f1)[nvars(basering) + 1];
+        i2 = leadexp(g1)[nvars(basering) + 1];
+
+        // Print indices (debugging statements)
+        print("i1: ");
+        print(i1);
+        print("i2: ");
+        print(i2);
+
+        // Update F1 and G1 based on previous values
+        if (l == currentLevel - 1) {
+          print("previous l:");
+           print(l);
+            F1 = leadmonomial(f1) * J[l - 1][i1];
+            G1 = leadmonomial(g1) * J[l - 1][i2];
+        } else {
+            // Calculate new indices for F1 and G1
+            i1 = leadexp(F1)[nvars(basering) + 1];
+            i2 = leadexp(G1)[nvars(basering) + 1];
+            print("updated l:");
+            print(l);
+            F1 = leadmonomial(F1) * J[l - 1][i1];
+            G1 = leadmonomial(G1) * J[l - 1][i2];
+        }
+
+        
+    }
+
+    // Perform final comparison using coM to determine if syzygy condition is met
+    if (currentLevel == 2) {
+        if (coM(I_Gr, f1, g1) == 1) {
+            isTrue = 1;
+        } else {
+            if ((f1 == g1) && (I > j)) {  
+                isTrue = 1;
+            }
+        }
+    } else {
+        if (coM(I_Gr, F1, G1) == 1) {
+            isTrue = 1;
+        } else {
+            if ((F1 == G1) && (I > j)) {  
+                isTrue = 1;
+            }
+        }
+    }
+
+    // Return the result
+    return (isTrue);
+}
+
+
+
+
+proc liftTree2(module f, sparse_sublift TT, alias list J, int level) {
+    vector s = TT.vec;
+      print("LeadSyz");
+      print(s);
+     int colmn = TT.q;
+    smatrix B = TT.A;
+    int c_n = TT.sign; 
+    list TT_list;
+    int r = size(f);
+    int i, k, lambda;
+    module l =J[level];//Sec_leadSyz(f);
+    int l_size = size(l);
+    vector h, t;
+    vector g;
+    list T;
+    int c;
+      
+    // Determine the correct module for the current level
+    module f0;
+    //if (level == 2) {
+        //f0 = J[1];
+    //} else {
+      //  f0 = J[level-1];
+    //}
+    f0=J[level-1];
+    //print("is it FirstSyzMatrix");
+    // print(f);
+    // Compute g and initial lift vector
+    for (i = 1; i <= r; i++) {
+        if (s == leadcoef(s) * leadmonomial(s) * gen(i)) {
+            h = leadcoef(s) * leadmonomial(s) * f[i];
+        }
+    }
+
+    g = h;
+    print(g);
+    //print("g in LIFT");
+    vector T0 = g - LOT_2(g, f0, J, level);
+    T = vector_List(T0);
+    print("T in LIFT");
+    print(T);
+    vector s_bar = s;
+      poly m1, m;
+    int lambda1;
+    vector s_v;
+    int C;
+    int a, b;
+    int counter = 1;
+
+
+    // Iterate through terms in T
+    for (k = 1; k <= size(T); k++) {
+        t = T[k];
+
+        for (lambda = 1; lambda <= r; lambda++) {
+            a = leadexp(t)[nvars(basering) + 1];
+            if (lambda <= size(f0)) {
+                b = leadexp(f0[lambda])[nvars(basering) + 1];
+
+                if (a == b) {
+                    C = (NF(leadmonomial(t), leadmonomial(f0[lambda])) == (poly(0)));
+                    if (C == 1) {
+                        m1 = (leadcoef(t) * leadmonomial(t)) / (leadcoef(f0[lambda]) * leadmonomial(f0[lambda]));
+                        s_v = m1 * gen(lambda);
+                        print("vectors, level");
+                        print(s);
+                        print("t");
+                        print(t);
+                        print("term");
+                        print(s_v);
+                        print(level);
+                        //print(f0);
+                        c = coM2(f0, s, s_v, J, level);
+                             
+                        if (c == 1) {
+                        print("which term");
+                        print(s);
+                        print(s_v);
+                            lambda1 = lambda;
+                            m = m1;
+                            TT_list[counter] = m * gen(lambda1);
+                           
+                            counter++;
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    // Create and return the sparse sublift list
+    list sL;
+    sparse_sublift Token;
+    for (int kk = 1; kk <= size(TT_list); kk++) {
+        smatrix sM[size(f)][l_size];
+        vector s_lift = TT_list[kk];
+        int l_k = leadexp(s_lift)[nvars(basering) + 1];
+        sM[l_k, colmn] = (-1) * leadcoef(s_lift) * leadmonomial(s_lift);
+        Token.A = sM;
+        Token.vec = (-1) * s_lift;
+        Token.p = l_k;
+        Token.q = colmn;
+        Token.sign = -c_n;
+        sL[kk] = Token;
+    }
+
+    return (sL);
+}
+
+
+
+
+
+
+proc subLiftTree2(module f, sparse_sublift TT_list, alias list J,  int level) {
+    vector s = TT_list.vec;
+    int colmn = TT_list.q;
+    smatrix B=TT_list.A;
+   int c_n =TT_list.sign ; 
+
+   module l = J[level];//Sec_leadSyz(f);
+   int l_size = size(l);
+    int r = size(f);
+    int i, k, lambda;
+
+    vector g, h, H;
+    list T;
+       print("alias");
+    if(level==2){
+     module f0=J[1];//previous leadsyz
+
+     }else{
+      module f0= J[level-1];//previous leadsyz
+    }
+
+
+
+    for (i = 1; i <= r; i++) {
+        if (s == leadcoef(s)*leadmonomial(s) * gen(i)) { // replacing leadmonomial by lead
+            h = leadcoef(s)*leadmonomial(s)* f[i]; // psi: R^r --> R^s; g := psi(s);
+            H=leadcoef(s)*leadmonomial(s)* f0[i]; // psi: R^r --> R^s; g := psi(s);
+        }
+    }
+    g = h - lead(H);
+    
+    //list S= f;
+    vector T0 = g - LOT_2(g, f0, J, level);
+    T = vector_List(T0);
+  
+    vector s_hat = s;  //Initialize s_hat to s
+   
+    vector t;
+    
+    poly m, m1;
+    int lambda1;
+    vector s_v;
+    int a, b; //for component
+   list TT; // Sublift as list
+   int counter =1; //counter
+    //Continue as long as T is not equal to empty
+    int C;
+    for (k = 1; k <= size(T); k++) {
+    t = T[k];
+    
+
+    for (lambda = 1; lambda <= r; lambda++) {
+        a = leadexp(t)[nvars(basering) + 1];
+        b = leadexp(f0[lambda])[nvars(basering) + 1];
+
+        
+        //print("printing a and b");
+
+        if (a == b) {
+            C = (NF(t, lead(f0[lambda])) == 0);
+            if (C == 1) {
+                m1 = (leadcoef(t) * leadmonomial(t)) / (leadcoef(f0[lambda]) * leadmonomial(f0[lambda]));
+                s_v = m1 * gen(lambda);
+                lambda1 = lambda;
+                //print("lambda is found");
+               m = m1;
+               //print(m);
+                TT[counter]=m*gen(lambda1);
+                break;
+            }
+        }
+        
+    }
+    
+    
+} 
+
+
+
+  list sL;
+  sparse_sublift Token; 
+  
+  for (int k = 1; k <= size(TT); k++) {
+    smatrix sM[size(f)][l_size];
+    vector s_lift =c_n*TT[k];
+    int l_k = leadexp(s_lift)[nvars(basering) + 1];
+    sM[l_k, colmn] =leadcoef(s_lift) * leadmonomial(s_lift);
+    Token.A = sM;
+    Token.vec =c_n*s_lift;
+    //print(Signed_vector);
+    //print(Token.vec);
+    Token.p = l_k;
+    Token.q = colmn;
+    Token.sign =(-1)*c_n;
+    
+    //print("Sign");
+    //print(Token.sign);
+    
+    sL[k] = Token;
+   
+    
+  }
+  return (sL);
+}
+
+
+
+proc iterativeSubLiftTree2(module f, sparse_sublift TT, alias list J, int level) {
+    vector sS = TT.vec;
+    int colmn = TT.q;
+    smatrix B=TT.A;
+    //print(B);
+    //print("Given Smatrix");
+  list L;
+  int t = 0;
+  sparse_sublift Token; 
+  module l =J[level];//Sec_leadSyz(f);
+  int l_size = size(l);
+  
+  int l_k = leadexp(sS)[nvars(basering) + 1];
+  smatrix sM[size(f)][l_size];
+  sM[l_k, colmn] = leadcoef(sS) * leadmonomial(sS);
+ 
+  Token.vec=sS;
+   Token.A = sM;
+  Token.p = l_k;
+  Token.q = colmn;
+  Token.sign = 1;
+  L[1] = Token;
+  
+  list L0 = liftTree2(f, TT, J, level);
+  L[2] = L0;
+  while (t == 0) {
+    list LL;
+   
+    for (int i = 1; i <= size(L[size(L)]); i++) {
+      //vector sS = L[size(L)][i].vec;
+      list v = subLiftTree2(f, L[size(L)][i], J, level);
+      LL = LL + v;
+     
+    }
+    if (size(LL) == 0) {
+      t = 1;
+    } else {
+      L[size(L) + 1] = LL;
+    }
+  }
+  return (L);
+}
+
+proc all_Syz_sparse2(module f, alias list J,  int level) {
+
+  list l = lead_Sparse_Syz2(f, J, level);
+  int i, j, k;
+  list sl;
+  smatrix s[size(f)][size(l)];
+   
+  for (i = 1; i <= size(l); i++) {
+    sl = iterativeSubLiftTree2(f, l[i], J, level);
+    s=s+ sl[1].A;
+    for (j = 2; j <=size(sl); j++) {
+     
+      for (k = 1; k <= size(sl[j]); k++) {
+        s = s + (sl[j][k]).A;
+        print(s);
+      }
+    }
+   
+   
+  }
+  return(s);
+ 
+}
+
+
+
+
+proc freeResSch(ideal f, alias list J) {
+    smatrix F = all_Syz_sparse(f);
+   print("First Matrix");
+   print(F);
+    int i;
+    def temp;
+    //int n = nvars(basering);
+    
+    list T;
+    T[1] = F;
+    
+    for (i = 1; i <= size(J)-1; i++) {
+        temp = all_Syz_sparse2(F, J, i + 1);
+        
+        //if ((nrows(temp) == 0) || (ncols(temp) == 0)) {
+            //break;
+        //}    
+        F=temp;
+
+       
+        T[i + 1] = F;
+    }
+
+    return (T);
+}
