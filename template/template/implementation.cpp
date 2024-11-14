@@ -29,7 +29,7 @@ std::string singular_template_compute_StdBasis(std::string const& input_filename
   init_singular(config::singularLibrary().string());
   load_singular_library(needed_library);
   std::pair<int, lists> input;
-  //std::pair<int, lists> out;
+  std::pair<int, lists> out;
   std::string ids;
   std::string out_filename;
   std::string out_filename1;
@@ -58,13 +58,13 @@ std::string singular_template_compute_StdBasis(std::string const& input_filename
   std::cout << "Output filename: " << out_filename1 << std::endl;
   std::cout << "Type of out_filename1: " << typeid(out_filename1).name() << std::endl;
 
-  //out = call_user_proc(function_name2, needed_library, args);
+  out = call_user_proc(function_name2, needed_library, args);
   //std::cout << "myout " << out.second << std::endl;
-  // out_filename = serialize(out.second, base_filename);
+  out_filename = serialize(out.second, base_filename);
   std::cout << base_filename << std::endl;;
 
 
-  return out_filename1;
+  return out_filename;
 }
 
 

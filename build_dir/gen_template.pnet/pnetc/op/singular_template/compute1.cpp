@@ -13,18 +13,15 @@ namespace pnetc
     {
       void compute1
         ( const std::string& input
-        , const std::string& library_name
         , const std::string& base_filename
+        , const std::string& library_name
         , std::string& output
         )
       {
-#line 48 "/home/atraore/gpi/try_gpi/Reduce/template/workflow/template.xpnet"
+#line 53 "/home/atraore/gpi/try_gpi/Reduce/template/workflow/template.xpnet"
 
           
-         std::cout<<" 123myinput***** "<<input<<std::endl;
-         std::cout<<"********bonjour****"<<std::endl;
-            std::string out_filename1 = "1,5,{{1, 3}, {1, 2}, {1, 2}, {2, 4}, {3, 4}, {3, 4}}";
-             std::cout<<" out_filename1***** "<<out_filename1<<std::endl;
+         std::cout<<" ***** myinput***** "<<input<<std::endl;
 
             		
       }

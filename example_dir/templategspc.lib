@@ -166,7 +166,6 @@ proc gspc_template_SchRes(ideal I, configToken gc)
     ct.options.neededLibrary = "templategp.lib";
     ct.options.functionName = "stdBasis";
 
-    print("Ali in Sres");
 
     int r = size(I);
     //intvec primeiv = primeList(I, nb_prime);
