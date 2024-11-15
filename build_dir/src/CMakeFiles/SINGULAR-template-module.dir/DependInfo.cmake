@@ -8,6 +8,7 @@ set(CMAKE_DEPENDS_LANGUAGES
 
 # The set of dependency files which are needed:
 set(CMAKE_DEPENDS_DEPENDENCY_FILES
+  "/home/atraore/gpi/try_gpi/Reduce/template/template/feynman.cpp" "src/CMakeFiles/SINGULAR-template-module.dir/__/template/feynman.cpp.o" "gcc" "src/CMakeFiles/SINGULAR-template-module.dir/__/template/feynman.cpp.o.d"
   "/home/atraore/gpi/try_gpi/Reduce/template/template/singular_functions.cpp" "src/CMakeFiles/SINGULAR-template-module.dir/__/template/singular_functions.cpp.o" "gcc" "src/CMakeFiles/SINGULAR-template-module.dir/__/template/singular_functions.cpp.o.d"
   "/home/atraore/gpi/try_gpi/Reduce/template/src/bin/SINGULAR-template-module.cpp" "src/CMakeFiles/SINGULAR-template-module.dir/bin/SINGULAR-template-module.cpp.o" "gcc" "src/CMakeFiles/SINGULAR-template-module.dir/bin/SINGULAR-template-module.cpp.o.d"
   "/home/atraore/gpi/try_gpi/Reduce/template/src/bin/ValuesOnPorts.cpp" "src/CMakeFiles/SINGULAR-template-module.dir/bin/ValuesOnPorts.cpp.o" "gcc" "src/CMakeFiles/SINGULAR-template-module.dir/bin/ValuesOnPorts.cpp.o.d"

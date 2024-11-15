@@ -42,10 +42,9 @@ namespace pnetc
         )
       {
         const std::string & input (::boost::get< std::string > (_pnetc_input.value (std::list<std::string> (1, "input"))));
-        const std::string & base_filename (::boost::get< std::string > (_pnetc_input.value (std::list<std::string> (1, "base_filename"))));
         const std::string & library_name (::boost::get< std::string > (_pnetc_input.value (std::list<std::string> (1, "library_name"))));
         std::string output;
-        ::pnetc::op::singular_template::compute1 (input, base_filename, library_name, output);
+        ::pnetc::op::singular_template::compute1 (input, library_name, output);
         _pnetc_output.bind_and_discard_ref (std::list<std::string> (1, "output"), output);
       }
     }

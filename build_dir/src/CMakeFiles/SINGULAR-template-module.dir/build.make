@@ -167,6 +167,20 @@ src/CMakeFiles/SINGULAR-template-module.dir/__/template/singular_functions.cpp.s
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/SINGULAR-template-module.dir/__/template/singular_functions.cpp.s"
 	cd /home/atraore/gpi/try_gpi/Reduce/build_dir/src && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/atraore/gpi/try_gpi/Reduce/template/template/singular_functions.cpp -o CMakeFiles/SINGULAR-template-module.dir/__/template/singular_functions.cpp.s
 
+src/CMakeFiles/SINGULAR-template-module.dir/__/template/feynman.cpp.o: src/CMakeFiles/SINGULAR-template-module.dir/flags.make
+src/CMakeFiles/SINGULAR-template-module.dir/__/template/feynman.cpp.o: /home/atraore/gpi/try_gpi/Reduce/template/template/feynman.cpp
+src/CMakeFiles/SINGULAR-template-module.dir/__/template/feynman.cpp.o: src/CMakeFiles/SINGULAR-template-module.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/atraore/gpi/try_gpi/Reduce/build_dir/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Building CXX object src/CMakeFiles/SINGULAR-template-module.dir/__/template/feynman.cpp.o"
+	cd /home/atraore/gpi/try_gpi/Reduce/build_dir/src && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT src/CMakeFiles/SINGULAR-template-module.dir/__/template/feynman.cpp.o -MF CMakeFiles/SINGULAR-template-module.dir/__/template/feynman.cpp.o.d -o CMakeFiles/SINGULAR-template-module.dir/__/template/feynman.cpp.o -c /home/atraore/gpi/try_gpi/Reduce/template/template/feynman.cpp
+
+src/CMakeFiles/SINGULAR-template-module.dir/__/template/feynman.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/SINGULAR-template-module.dir/__/template/feynman.cpp.i"
+	cd /home/atraore/gpi/try_gpi/Reduce/build_dir/src && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/atraore/gpi/try_gpi/Reduce/template/template/feynman.cpp > CMakeFiles/SINGULAR-template-module.dir/__/template/feynman.cpp.i
+
+src/CMakeFiles/SINGULAR-template-module.dir/__/template/feynman.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/SINGULAR-template-module.dir/__/template/feynman.cpp.s"
+	cd /home/atraore/gpi/try_gpi/Reduce/build_dir/src && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/atraore/gpi/try_gpi/Reduce/template/template/feynman.cpp -o CMakeFiles/SINGULAR-template-module.dir/__/template/feynman.cpp.s
+
 # Object files for target SINGULAR-template-module
 SINGULAR__template__module_OBJECTS = \
 "CMakeFiles/SINGULAR-template-module.dir/bin/SINGULAR-template-module.cpp.o" \
@@ -175,7 +189,8 @@ SINGULAR__template__module_OBJECTS = \
 "CMakeFiles/SINGULAR-template-module.dir/bin/ValuesOnPorts.cpp.o" \
 "CMakeFiles/SINGULAR-template-module.dir/bin/Workflow.cpp.o" \
 "CMakeFiles/SINGULAR-template-module.dir/bin/WorkflowResult.cpp.o" \
-"CMakeFiles/SINGULAR-template-module.dir/__/template/singular_functions.cpp.o"
+"CMakeFiles/SINGULAR-template-module.dir/__/template/singular_functions.cpp.o" \
+"CMakeFiles/SINGULAR-template-module.dir/__/template/feynman.cpp.o"
 
 # External object files for target SINGULAR-template-module
 SINGULAR__template__module_EXTERNAL_OBJECTS =
@@ -187,6 +202,7 @@ src/libSINGULAR-template-module.so: src/CMakeFiles/SINGULAR-template-module.dir/
 src/libSINGULAR-template-module.so: src/CMakeFiles/SINGULAR-template-module.dir/bin/Workflow.cpp.o
 src/libSINGULAR-template-module.so: src/CMakeFiles/SINGULAR-template-module.dir/bin/WorkflowResult.cpp.o
 src/libSINGULAR-template-module.so: src/CMakeFiles/SINGULAR-template-module.dir/__/template/singular_functions.cpp.o
+src/libSINGULAR-template-module.so: src/CMakeFiles/SINGULAR-template-module.dir/__/template/feynman.cpp.o
 src/libSINGULAR-template-module.so: src/CMakeFiles/SINGULAR-template-module.dir/build.make
 src/libSINGULAR-template-module.so: src/libSINGULAR-template-installation.so
 src/libSINGULAR-template-module.so: /home/atraore/spack/opt/spack/linux-ubuntu22.04-skylake/gcc-11.3.0/gpi-space-23.06-gxye6b7ngsnbxnzjkfsfqtvanynyghdk/lib/libUtil-Generic.a
@@ -214,7 +230,7 @@ src/libSINGULAR-template-module.so: /home/atraore/singular-gpispace/spack/opt/sp
 src/libSINGULAR-template-module.so: /home/atraore/singular-gpispace/spack/opt/spack/linux-ubuntu22.04-skylake/gcc-11.3.0/singular-snapshot_22_03-5jvwtprazqirywu2triw6rprjazzi3so/lib/libsingular_resources.so
 src/libSINGULAR-template-module.so: /home/atraore/spack/opt/spack/linux-ubuntu22.04-skylake/gcc-11.3.0/gmp-6.2.1-u7pgmurjsjr7b4bbxlt3ra4tdux3hdrc/lib/libgmp.so
 src/libSINGULAR-template-module.so: src/CMakeFiles/SINGULAR-template-module.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/atraore/gpi/try_gpi/Reduce/build_dir/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Linking CXX shared library libSINGULAR-template-module.so"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/atraore/gpi/try_gpi/Reduce/build_dir/CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Linking CXX shared library libSINGULAR-template-module.so"
 	cd /home/atraore/gpi/try_gpi/Reduce/build_dir/src && $(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/SINGULAR-template-module.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.

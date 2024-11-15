@@ -1,4 +1,6 @@
 file(REMOVE_RECURSE
+  "CMakeFiles/SINGULAR-template-module.dir/__/template/feynman.cpp.o"
+  "CMakeFiles/SINGULAR-template-module.dir/__/template/feynman.cpp.o.d"
   "CMakeFiles/SINGULAR-template-module.dir/__/template/singular_functions.cpp.o"
   "CMakeFiles/SINGULAR-template-module.dir/__/template/singular_functions.cpp.o.d"
   "CMakeFiles/SINGULAR-template-module.dir/bin/SINGULAR-template-module.cpp.o"

@@ -66,7 +66,8 @@ std::string singular_template_compute_StdBasis(std::string const& input_filename
 }
 
 
-std::string singular_template_compute_parseInput(const std::string& input) {
+std::string singular_template_compute_parseInput(const std::string& input, std::string const& needed_library) {
+  load_singular_library(needed_library);
 
   return input;
 }

@@ -23,6 +23,7 @@ extended_add_library (NAME module
           "bin/Workflow.cpp" 
           "bin/WorkflowResult.cpp"  
           "${CMAKE_SOURCE_DIR}/template/singular_functions.cpp" 
+          "${CMAKE_SOURCE_DIR}/template/feynman.cpp" 
   INCLUDE_DIRECTORIES PRIVATE "${CMAKE_SOURCE_DIR}"
   COMPILE_DEFINITIONS SING_NDEBUG OM_NDEBUG
   LIBRARIES SINGULAR-template::installation Util::Generic GPISpace::execution Singular

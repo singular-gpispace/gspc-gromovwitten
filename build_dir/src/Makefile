@@ -189,6 +189,30 @@ SINGULAR-template-module/fast:
 	cd /home/atraore/gpi/try_gpi/Reduce/build_dir && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/SINGULAR-template-module.dir/build.make src/CMakeFiles/SINGULAR-template-module.dir/build
 .PHONY : SINGULAR-template-module/fast
 
+__/template/feynman.o: __/template/feynman.cpp.o
+.PHONY : __/template/feynman.o
+
+# target to build an object file
+__/template/feynman.cpp.o:
+	cd /home/atraore/gpi/try_gpi/Reduce/build_dir && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/SINGULAR-template-module.dir/build.make src/CMakeFiles/SINGULAR-template-module.dir/__/template/feynman.cpp.o
+.PHONY : __/template/feynman.cpp.o
+
+__/template/feynman.i: __/template/feynman.cpp.i
+.PHONY : __/template/feynman.i
+
+# target to preprocess a source file
+__/template/feynman.cpp.i:
+	cd /home/atraore/gpi/try_gpi/Reduce/build_dir && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/SINGULAR-template-module.dir/build.make src/CMakeFiles/SINGULAR-template-module.dir/__/template/feynman.cpp.i
+.PHONY : __/template/feynman.cpp.i
+
+__/template/feynman.s: __/template/feynman.cpp.s
+.PHONY : __/template/feynman.s
+
+# target to generate assembly for a file
+__/template/feynman.cpp.s:
+	cd /home/atraore/gpi/try_gpi/Reduce/build_dir && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/SINGULAR-template-module.dir/build.make src/CMakeFiles/SINGULAR-template-module.dir/__/template/feynman.cpp.s
+.PHONY : __/template/feynman.cpp.s
+
 __/template/singular_functions.o: __/template/singular_functions.cpp.o
 .PHONY : __/template/singular_functions.o
 
@@ -395,6 +419,9 @@ help:
 	@echo "... rebuild_cache"
 	@echo "... SINGULAR-template-installation"
 	@echo "... SINGULAR-template-module"
+	@echo "... __/template/feynman.o"
+	@echo "... __/template/feynman.i"
+	@echo "... __/template/feynman.s"
 	@echo "... __/template/singular_functions.o"
 	@echo "... __/template/singular_functions.i"
 	@echo "... __/template/singular_functions.s"

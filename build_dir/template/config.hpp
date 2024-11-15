@@ -9,7 +9,7 @@ namespace config
     inline boost::filesystem::path const& singularLibrary()
     {
         static boost::filesystem::path const library
-         ( sing_path / "lib" / "libSingular.so"
+        (sing_path / "lib" / "libSingular.so"
         );
 
         return library;
@@ -17,8 +17,10 @@ namespace config
     inline boost::filesystem::path const& implementation()
     {
         static boost::filesystem::path const library(
-         installation / "libexec" / "workflow" / "libtemplate_implementation.so"
-         );
+            installation / "libexec" / "workflow" / "libtemplate_implementation.so"
+
+        );
         return library;
-  }
+    }
+
 }

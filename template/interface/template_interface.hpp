@@ -18,4 +18,4 @@ NO_NAME_MANGLING
 std::string singular_template_compute_StdBasis(std::string const&
       , std::string const&
 );
-std::string singular_template_compute_parseInput(const std::string& input);
+std::string singular_template_compute_parseInput(const std::string&, std::string const&);
