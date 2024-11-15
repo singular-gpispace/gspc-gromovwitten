@@ -1,7 +1,0 @@
-/home/atraore/gpi/try_gpi/Reduce/install_dir/lib/libSINGULAR-template-installation.so
-/home/atraore/gpi/try_gpi/Reduce/install_dir/libSINGULAR-template-module.so
-/home/atraore/gpi/try_gpi/Reduce/install_dir/libexec/workflow/libtemplate_implementation.so
-/home/atraore/gpi/try_gpi/Reduce/install_dir/templategspc.lib
-/home/atraore/gpi/try_gpi/Reduce/install_dir/libexec/workflow/template.pnet
-/home/atraore/gpi/try_gpi/Reduce/install_dir/libexec/workflow/libsingular_template.so
-/home/atraore/gpi/try_gpi/Reduce/install_dir/share/examples/templategp.lib

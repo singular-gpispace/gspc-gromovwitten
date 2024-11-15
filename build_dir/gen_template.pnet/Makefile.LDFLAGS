@@ -1,5 +1,0 @@
-LDFLAGS += -L/home/atraore/gpi/try_gpi/Reduce/build_dir
-LDFLAGS += -L/home/atraore/gpi/try_gpi/Reduce/build_dir/src/util-generic
-LDFLAGS += -Wl,-rpath='$$ORIGIN'
-LDFLAGS += -Wl,-rpath='/home/atraore/spack/opt/spack/linux-ubuntu22.04-skylake/gcc-11.3.0/gpi-space-23.06-gxye6b7ngsnbxnzjkfsfqtvanynyghdk/lib'
-LDFLAGS += -Wl,-rpath='/home/atraore/spack/opt/spack/linux-ubuntu22.04-skylake/gcc-11.3.0/gpi-space-23.06-gxye6b7ngsnbxnzjkfsfqtvanynyghdk/external/boost/lib'

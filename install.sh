@@ -1,5 +1,5 @@
 #!/bin/bash
-mkdir -p build_dir install_dir
+mkdir -p  ~/gpi/try_gpi/Reduce/build_dir  ~/gpi/try_gpi/Reduce/install_dir
 # Activate the Spack environm
 spack load gpi-space@23.06
 pnetc ~/gpi/try_gpi/Reduce/template/workflow/template.xpnet | pnet2dot | dot -T svg > ~/gpi/try_gpi/Reduce/template/workflow/fey.svg
