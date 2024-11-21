@@ -85,17 +85,34 @@ void ssi_write_newstruct(si_link l, int type, lists lst) {
     newstruct_serialize(b, lst, l);
 }
 
+#include <fstream>
+
 // implementation
 std::string serialize(lists lst, std::string const& base_filename) {
-
     std::string out_filename = filename_generator();
+    out_filename = base_filename + out_filename + ".txt";
 
-    out_filename = base_filename + out_filename;
-    si_link l = ssi_open_for_write(out_filename);
-    ssi_write_newstruct(l, STRUCT_NAME, lst);
-    ssi_close_and_remove(l);
+    // Open a text file for writing
+    std::ofstream outfile(out_filename);
+    if (!outfile.is_open()) {
+        throw std::runtime_error("Could not open file for writing: " + out_filename);
+    }
+
+    // Write data to the text file
+    outfile << "Serialized data for struct: " << STRUCT_NAME << "\n";
+    outfile << "Fieldnames and data:\n";
+
+    // Assuming `lists lst` is iterable (pseudo-code, adapt to your actual structure):
+    for (const auto& item : lst) {
+        outfile << item << "\n"; // Replace this with the actual serialization logic for `lists`
+    }
+
+    // Close the file
+    outfile.close();
+
     return out_filename;
 }
+
 
 // implementation
 bool register_struct(std::string const& name, std::string const& desc) {
@@ -295,8 +312,6 @@ std::pair<int, R> proc(idhdl h, ScopedLeftv const& arg) {
             " failed");
     }
 
-
-
     R const r = static_cast<R>(iiRETURNEXPR.Data());
     int const i = iiRETURNEXPR.Typ();
 
@@ -338,3 +353,4 @@ std::string worker() {
 
 //     return wrapped_list;
 // }
+

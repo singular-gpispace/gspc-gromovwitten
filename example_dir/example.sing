@@ -37,112 +37,21 @@ gc.options.logport = 9876;
 
 ring R = 0, x, dp;
 ideal J = 1;
+int d = 12;
+int e = 3;
+int g = 2;
+string s = "{{1, 2}, {1, 2}, {1, 2}}";
 
-
-//module m;
-// vector s1=[-x,w,-z,0,0];
-// vector s2=[y,-x,w,0,0];
-// vector s3=[0,-y,0,w,-z];
-// vector s4=[-z,0,-y,x,-w];
-// vector s5=[-y^2+w*z, z^2,0,-yz,w^2];
-// vector s6=[0,z,0,-y,x];
-// module m=s1,s2,s3,s4,s5,s6;
-
-// //  //Example2:
-// ring R= 0, (x(1..10)), (lp,c);
-
-// matrix mS[2][4]= x(4)+ x(6), x(6)+ x(3), x(8)+ x(3), x(1)-x(3), x(2)-x(4), x(5)-x(7), x(8)-x(7), 
-// x(2)+ x(3), x(5)- x(7), x(10)+ x(8), x(1) -x(2);
-// ideal I_minor= minor(mS,2);
-// I_minor;
-// ideal J = std(I_minor);
+list L = d, e, g, s;
 
 
 
-
-
-
-// Example3:
-
-//Define the ring with five variables over the rational numbers
-
-// ring R = 0, (x0, x1, x2, x3, x4), (dp,c);
-
-// // Define the generators of the ideal for the canonical genus 5 curve
-// poly Q1 = x0*x1 - x2^2;
-// poly Q2 = x0*x2 - x1*x3;
-// poly Q3 = x0*x3 - x1*x4;
-// poly Q4 = x0*x4 - x2*x3;
-// poly Q5 = x1*x2 - x3^2;
-// poly Q6 = x1*x3 - x2*x4;
-// poly Q7 = x1*x4 - x3*x4;
-// poly Q8 = x2*x3 - x4^2;
-// poly Q9 = x2*x4 - x3*x0;
-// poly Q10 = x3*x4 - x0*x1;
-
-// // Define the ideal
-// ideal J1= Q1, Q2, Q3, Q4, Q5, Q6, Q7, Q8, Q9, Q10;
-// J1;
-// print("GB");
-// ideal J=std(J1);
-
- //Example4
-//  ring R = 0, (x0, x1, x2, x3, x4), (dp,c); // Example for n+1 = 5 variables
-// // Step 2: Generate a regular sequence
-// poly f1 = x0^2 + x1^2 + x2^2 + x3^2 + x4^2;
-// poly f2 = x0*x1 + x2*x3 + x4^2;
-// poly f3 = x0*x2 + x1*x3 + x4*x0;
-// poly f4 = x0*x3 + x1*x4 + x2*x0;
-// poly f5 = x0*x4 + x1*x2 + x3*x1;
-// ideal J1= f1,f2,f3,f4,f5;
-// J1;
-// print("GB");
-// ideal J= std(J1);
-
-
-
-//Example 5
-
-/* ring R = 0, (x0, x1, x2, x3, x4, x5), (dp,c);
-
-// Step 2: Generate a regular sequence with 5 polynomials
-poly f1 = x0 + x1 + x2 + x3;
-poly f2 = x0*x1 + x2*x3 + x4*x5;
-poly f3 = x0*x2 + x1*x3;
-poly f4 = x0*x3 + x1*x4 + x2*x5;
-poly f5 = x0*x4 + x1*x5;
-
-
-ideal J1 = f1, f2, f3, f4, f5;
-ideal J=std(J1);
-
- */
-
- //Example 6:
-
-
- // ring R = 0, (x0, x1, x2, x3, x4, x5, x6), (dp,c);
- // poly f1 = x0^2 + x1^2 + x2^2 + x3^2;
- // poly f2 = x0*x1 + x2*x3 + x4*x5;
- // poly f3 = x0*x2 + x1*x3 + x4*x6;
- // poly f4 = x0*x3 + x1*x4 + x2*x5;
- // poly f5 = x0*x4 + x1*x5;
-
-
-
- // ideal J1 = f1, f2, f3, f4, f5;
- // J1;
- // print("GB");
- // ideal J=std(J1);
-
-
-
- // Call gspc_template_mod with proper arguments
+// Call gspc_template_mod with proper arguments
 int nb_prime; // Specify the number of primes
 rtimer = 0;
 system("--ticks-per-sec", 1000); // set timer resolution to ms
 int t = rtimer;
-def re = gspc_template_SchRes(J, gc);
+def re = gspc_template_SchRes(L, gc);
 re;
 
 rtimer - t;

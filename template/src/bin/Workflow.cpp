@@ -2,6 +2,7 @@
 
 #include <iostream>
 
+
 namespace template_module
 {
     ParametersDescription Workflow::options()
@@ -14,7 +15,6 @@ namespace template_module
         workflow_opts.add_options()("input", po::value<std::string>()->required());
         workflow_opts.add_options()("libraryname", po::value<std::string>()->required());
 
-
         return workflow_opts;
     }
 
@@ -24,6 +24,7 @@ namespace template_module
         , _libraryname(args.at("libraryname").as<std::string>())
 
     {
+
     }
 
     ValuesOnPorts Workflow::inputs() const
