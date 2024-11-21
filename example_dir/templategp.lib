@@ -31,10 +31,10 @@ intended to be called as a transition procedure inside the
 worker process(that is, the "inner" instances of SINGULAR).
 "
 {
-  int p = input.data[2];
-  def I = input.data[1];
-  list L = input.data[3];
-  string ss = input.data[4];
+  int edges = input.data[1];
+  int degree = input.data[2];
+  int genus = input.data[3];
+  string s = input.data[4];
 
   int J = 0;
 
@@ -50,10 +50,10 @@ worker process(that is, the "inner" instances of SINGULAR).
 
   token output;
   output.fieldnames = list("generators", "GroebnerBasis");
-  output.data[1] = I;
-  output.data[2] = p;
-  output.data[3] = L;
-  output.data[4] = ss;
+  output.data[1] = degree;
+  output.data[2] = edges;
+  output.data[3] = genus;
+  output.data[4] = s;
   return(output);
 
 

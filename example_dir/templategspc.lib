@@ -160,31 +160,31 @@ static proc gspc_template(list l, configToken gc, configToken pc)
     return(sm_result);
 }
 
-proc gspc_template_SchRes(ideal I, configToken gc)
+proc gspc_template_SchRes(list L, configToken gc)
 {
     configToken ct = configure_template();
     ct.options.neededLibrary = "templategp.lib";
     ct.options.functionName = "stdBasis";
 
 
-    int r = size(I);
-    //intvec primeiv = primeList(I, nb_prime);
-    string s = "{{1, 3}, {1, 2}, {1, 2}, {2, 4}, {3, 4}, {3, 4}}";
-    // string s = l[2];
-    print(s);
-    string ss = "{1,2,3,4}";
-
-    //intvec primeiv = primeList(I, nb_prime);
-    list L = s;
+    /*  int r = size(I);
+     //intvec primeiv = primeList(I, nb_prime);
+     string s = "{{1, 3}, {1, 2}, {1, 2}, {2, 4}, {3, 4}, {3, 4}}";
+     // string s = l[2];
+     print(s);
+     string ss = "{1,2,3,4}";
+  */
+  //intvec primeiv = primeList(I, nb_prime);
+    //list L = s;
     list inputlists;
     token t;
     for (int i = 1; i <= 1; i++)
     {
         t.fieldnames = list("generators", "Input101");
-        t.data[1] = 1000;
-        t.data[2] = 1234;
-        t.data[3] = L;
-        t.data[4] = ss;
+        t.data[1] = L[1];
+        t.data[2] = L[2];
+        t.data[3] = L[3];
+        t.data[4] = L[4];
 
         inputlists[i] = t;
     }
@@ -194,9 +194,9 @@ proc gspc_template_SchRes(ideal I, configToken gc)
     def resultToken = re[1];
 
     // Print the structure and type of `resultToken`
-    //print("Structure of resultToken: "); print(resultToken);
-    //print("Type of resultToken: "); print(typeof(resultToken));
-
+    print("Structure of resultToken: "); print(resultToken);
+    print("Type of resultToken: "); print(typeof(resultToken));
+    print(re);
 
 
     // Print current ring context
@@ -205,17 +205,18 @@ proc gspc_template_SchRes(ideal I, configToken gc)
     setring resultRing;
     // Extract the data from resultToken
     list Result = resultToken.data;
-    // print("beforeReturn");
-   //print(Result);
-     // Print the extracted data for verification
+    print("beforeReturn");
+    print(Result);
+    // Print the extracted data for verification
 
-     // Restore the original ring context
+    // Restore the original ring context
     setring inputRing;
 
     // Print restored ring context
-    //print("Ring context restored to: "); print(basering);
-
+    print("Ring context restored to: "); print(basering);
+    list output = imap(resultRing, output);
+    return(output);
     // Return the result
-    return(fetch(resultRing, Result));
+    //return(resultRing);
     //return(0);
 }
