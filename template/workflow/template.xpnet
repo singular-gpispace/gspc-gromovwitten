@@ -29,24 +29,25 @@
       <connect-read port="base_filename" place="place_base_filename"/>
       <connect-read port="library_name" place="place_library_name"/>
       <connect-in port="input" place="place_input"/>
-      <connect-out port="output" place="g"/>
+      <connect-out port="output" place="output"/>
     </transition>
 
-    <place name="g" type="string"/>
+    <place name="output" type="string"/>
 
     <transition name="compute1">
       <defun>
         <require key="worker" mandatory="true"/>
         <in name="input" type="string"/>
-        <out name="output" type="string"/>
         <out name="degree" type="int"/>
         <out name="edges" type="int"/>
-        <out name="genus" type="int"/>
+        <out name="g" type="int"/>
         <out name="graph" type="string"/>
         <out name="deg" type="int"/>
         <out name="total" type="unsigned long"/>
+        <out name="genus" type="string"/>
+        <out name="loop" type="string"/>
 
-        <module name="singular_template" require_function_unloads_without_rest="false" function="compute1(graph,degree,edges,genus,deg,total,input,output)">
+        <module name="singular_template" require_function_unloads_without_rest="false" function="compute1(graph,degree,edges,g,deg,total,genus,loop,input)">
           <cinclude href="interface/template_interface.hpp" />
           <cinclude href="util-generic/dynamic_linking.hpp"/>
           <cinclude href="interface/feynman.hpp" />
@@ -57,22 +58,29 @@
 
         degree = std::stoi(result[0]);
         edges = std::stoi(result[1]);
-        int _genus = std::stoi(result[2]);
+        int _g = std::stoi(result[2]);
         graph = result[3];
-        genus = 6 * _genus - 6;
+     
+
         deg=degree;
+        genus=result[4];
+        std::vector<int> gg=RESOLVE_INTERFACE_FUNCTION(stringToVectorInt) (genus);
+        int gs=RESOLVE_INTERFACE_FUNCTION(sumVector) (gg);
+          g = 2 * (edges + gs);
+        loop=result[5];
         total =RESOLVE_INTERFACE_FUNCTION( partialBinomialSum) (edges,degree);
 
             		]]>
           </code>
         </module>
       </defun>
-      <connect-in port="input" place="g"/>
-      <connect-out port="output" place="place_output"/>
+      <connect-in port="input" place="output"/>
+      <connect-out port="genus" place="genus"/>
+      <connect-out port="loop" place="loop"/>
       <connect-out port="degree" place="degree"/>
       <connect-out port="deg" place="deg"/>
       <connect-out port="edges" place="N"/>
-      <connect-out port="genus" place="genus"/>
+      <connect-out port="g" place="g"/>
       <connect-out port="graph" place="graph"/>
       <connect-out port="total" place="total"/>
     </transition>
@@ -82,7 +90,9 @@
     <place name="N" type="int"/>
     <place name="fey_out" type="string" />
     <place name="total" type="unsigned long"/>
-    <place name="genus" type="int"/>
+    <place name="g" type="int"/>
+    <place name="genus" type="string" />
+    <place name="loop" type="string" />
 
 
     <transition name="degrees_fey">
@@ -117,7 +127,7 @@
           </code>
         </module>
       </defun>
-      <connect-read port="weightmax" place="genus"/>
+      <connect-read port="weightmax" place="g"/>
 
       <connect-in port="d" place="degree"/>
       <connect-out-many port="v" place="degrees"/>
@@ -209,9 +219,11 @@
         <in name="deg" type="int"/>
         <in name="a" type="list"/>
         <in name="graph" type="string"/>
+        <in name="genus" type="string"/>
+        <in name="loop" type="string"/>
         <out name="s" type="string"/>
 
-        <module name="singular_template" require_function_unloads_without_rest="false" function=" feynman_integral_degree(deg,s,graph,a)">
+        <module name="singular_template" require_function_unloads_without_rest="false" function=" feynman_integral_degree(genus,loop,deg,s,graph,a)">
           <cinclude href="iostream"/>
           <cinclude href="vector"/>
           <cinclude href="numeric"/>
@@ -240,12 +252,49 @@
                   c+=*ptr;
               }
           }
-/****************************************************************************/
-       unsigned long fe=  RESOLVE_INTERFACE_FUNCTION(feynman_integral_branch_type) (Gv, av);
-/****************************************************************************/
-      std::vector<unsigned long> v(deg, 0); 
-      v[c-1] = fe;
-      s=  RESOLVE_INTERFACE_FUNCTION( vectorToStringULong) (v);
+/*
+************************************************************************
+*************************************************************************
+*/
+std::vector<int> g=RESOLVE_INTERFACE_FUNCTION(stringToVectorInt) (genus);
+std::vector<int> l=RESOLVE_INTERFACE_FUNCTION(stringToVectorInt) (loop);
+/*
+************************************************************************
+*************************************************************************
+*/
+
+          fmpq_t result;
+        RESOLVE_INTERFACE_FUNCTION(my_init_fmpq) (result);
+
+        
+
+ fmpq_t fey_branch_av;
+        RESOLVE_INTERFACE_FUNCTION(my_init_fmpq) (fey_branch_av);
+
+    // Compute Feynman integral of degree d
+     RESOLVE_INTERFACE_FUNCTION(feynman_integral_branch_type) (fey_branch_av, Gv, av, g, l);
+
+        std::vector<fmpq_t*> v(deg+1, nullptr);
+     v[c] = (fmpq_t*)malloc(sizeof(fmpq_t));
+    RESOLVE_INTERFACE_FUNCTION(my_init_fmpq) (*v[c]);
+
+    // Copy the value of fey_branch_av to v[c]
+    RESOLVE_INTERFACE_FUNCTION(my_fmpq_set) (*v[c], fey_branch_av);
+
+    // Convert the vector to a string
+    s=  RESOLVE_INTERFACE_FUNCTION( vectorToStringFmpq) (v);
+
+    //std::cout << "c= " << c << "deg "<<deg<<std::endl;
+    //std::cout << "V==: " << s << std::endl;
+
+    // Clear the fmpq value after usage
+        RESOLVE_INTERFACE_FUNCTION(my_clear) (fey_branch_av);
+    RESOLVE_INTERFACE_FUNCTION(my_clear) (*v[c]);
+    free(v[c]);
+
+/* ************************************************************************** */
+/* ************************************************************************** */
+  
       
       ]]>
           </code>
@@ -254,6 +303,8 @@
       <connect-read port="deg" place="deg"/>
       <connect-read port="graph" place="graph"/>
       <connect-in port="a" place="branchtype"/>
+      <connect-read port="loop" place="loop"/>
+      <connect-read port="genus" place="genus"/>
       <connect-out port="s" place="fey_out"/>
     </transition>
 
@@ -283,14 +334,16 @@
           <cinclude href="util-generic/dynamic_linking.hpp"/>
           <cinclude href="interface/feynman.hpp" />
           <code><![CDATA[
-                std::vector<unsigned long> v = RESOLVE_INTERFACE_FUNCTION( stringToVectorUlong) (sum);
-                std::vector<unsigned long> w = RESOLVE_INTERFACE_FUNCTION( stringToVectorUlong) (s);
+         
+          std::cout << "sum2=: " << sum << std::endl;
+        std::vector<fmpq_t*> v = RESOLVE_INTERFACE_FUNCTION( stringToVectorFmpq) (sum);
+          std::vector<fmpq_t*> w = RESOLVE_INTERFACE_FUNCTION( stringToVectorFmpq) (s);
 
-                //  sum of the vectors
-                std::vector<unsigned long> sum_vector = RESOLVE_INTERFACE_FUNCTION( sumOfVectors) (v,w);
+        //  sum of the vectors
+        std::vector<fmpq_t*>  sum_vector = RESOLVE_INTERFACE_FUNCTION( sumOfVectorsFmpq) (v,w);
 
-                // Convert the result back to a string
-      sum=  RESOLVE_INTERFACE_FUNCTION( vectorToStringULong) (sum_vector);
+        // Convert the result back to a string
+      sum=  RESOLVE_INTERFACE_FUNCTION( vectorToStringFmpq) (sum_vector);
 
           ]]>
           </code>
@@ -374,7 +427,8 @@
           <cinclude href="interface/feynman.hpp" />
 
           <code><![CDATA[
-          std::vector<unsigned long> Iq = RESOLVE_INTERFACE_FUNCTION( stringToVectorUlong) (answer);
+
+  std::vector<fmpq_t*> Iq = RESOLVE_INTERFACE_FUNCTION( stringToVectorFmpq) (answer);
 
     // Maximum weight
 
@@ -407,7 +461,7 @@
         </module>
       </defun>
       <connect-in port="answer" place="fey_sum"/>
-      <connect-in port="weightmax" place="genus"/>
+      <connect-in port="weightmax" place="g"/>
 
       <connect-out port="answer" place="answer"/>
     </transition>

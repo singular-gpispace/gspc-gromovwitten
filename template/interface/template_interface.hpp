@@ -41,7 +41,7 @@ using list_type = std::list<std::string>; // Define list_type as std::list<std::
 #include <string>
 #include <config.hpp>
 using vector2d = std::vector<std::vector<int>>;
-
+NO_NAME_MANGLING
 #define RESOLVE_INTERFACE_FUNCTION(function) \
       (fhg::util::scoped_dlhandle \
       (config::implementation(), \
@@ -50,6 +50,16 @@ using vector2d = std::vector<std::vector<int>>;
       (BOOST_PP_STRINGIZE(function)))
 
 
+
+
+NO_NAME_MANGLING
+void my_fmpq_set(fmpq_t dest, const fmpq_t src);
+NO_NAME_MANGLING
+void my_init_fmpq_p(fmpq_t* res);
+NO_NAME_MANGLING
+void my_init_fmpq(fmpq_t res);
+NO_NAME_MANGLING
+void my_clear(fmpq_t src);
 NO_NAME_MANGLING
 void myctx_init(fmpq_mpoly_ctx_t ctx, slong nv);
 NO_NAME_MANGLING
@@ -61,6 +71,20 @@ void my_ctx_clear(fmpq_mpoly_ctx_t ctx);
 NO_NAME_MANGLING
 void my_mpoly_clear(fmpq_mpoly_t result, fmpq_mpoly_ctx_t ctx);
 NO_NAME_MANGLING
+int sumVector(const std::vector<int>& vec);
+NO_NAME_MANGLING
+std::vector<fmpq_t*> stringToVectorFmpq(const std::string& str);
+NO_NAME_MANGLING
+std::vector<fmpq_t*> sumOfVectorsFmpq(const std::vector<fmpq_t*>& v, const std::vector<fmpq_t*>& w);
+NO_NAME_MANGLING
+std::string vectorToStringFmpq(const std::vector<fmpq_t*>& vec);
+NO_NAME_MANGLING
+std::vector<unsigned long> stringToVectorUlong(const std::string& str);
+NO_NAME_MANGLING
+std::string vectorToStringULong(const std::vector<unsigned long>& vec);
+using vector2d = std::vector<std::vector<int>>;
+using graph = std::vector<std::pair<int, int>>;
+NO_NAME_MANGLING
 std::string singular_template_compute_StdBasis(std::string const&
       , std::string const&
 );
@@ -69,20 +93,13 @@ std::vector<std::string> singular_template_compute_parseInput(const std::string&
 NO_NAME_MANGLING
 std::vector<std::pair<int, int>> extractIntegerPairs(const std::string&);
 NO_NAME_MANGLING
-int number_monomial(int weightmax);
+// Function declarations
+std::string fmpq_mpolyToString(const fmpq_mpoly_t A, const fmpq_mpoly_ctx_t ctx);
 NO_NAME_MANGLING
 unsigned long  binomial(const int n, const int k);
 NO_NAME_MANGLING
 unsigned long partialBinomialSum(int n, int d);
 NO_NAME_MANGLING
-vector2d gen_block(int n, int d);
-
-
-NO_NAME_MANGLING
-std::vector<unsigned long> sumOfVectors(const std::vector<unsigned long>& v1, const std::vector<unsigned long>& v2);
-std::string updateAndConvertVector(std::vector<unsigned long>& v, const std::string& s);
-NO_NAME_MANGLING
-std::string fmpq_mpolyToString(const fmpq_mpoly_t A, const fmpq_mpoly_ctx_t ctx);
 int number_monomial(int weightmax);
 
 // Function to compute sum of divisor powers
@@ -113,13 +130,13 @@ void print_poly(const fmpq_mpoly_t poly, const fmpq_mpoly_ctx_t ctx);
 std::vector<fmpq_t> coefficients_of_univariate(const fmpq_poly_t& poly);
 
 // Function to convert coefficients to a matrix representation
-void matrix_of_integral(const fmpq_poly_t& Iq, fmpq_mat_t& Q_matrix);
+void matrix_of_integral(const std::vector<fmpq_t*>& Iq, fmpq_mat_t& Q_matrix);
 
 // Function to solve a polynomial system
 bool solve_polynomial_system(const fmpq_mat_t A, const fmpq_mat_t B, fmpq_mat_t X);
 
 // Function to compute the quasi-modular matrix
-void quasi_matrix(std::vector<fmpq_t*>& result, const std::vector<unsigned long>& Iq, int weightmax);
+void quasi_matrix(std::vector<fmpq_t*>& result, const std::vector<fmpq_t*>& Iq, int weightmax);
 
 // Function to express polynomials as powers of Eisenstein series in multivariate form
 void express_as_eisenstein_series(std::vector<fmpq_mpoly_t*>& result, slong weightmax, fmpq_mpoly_ctx_t ctx);
@@ -128,24 +145,38 @@ void express_as_eisenstein_series(std::vector<fmpq_mpoly_t*>& result, slong weig
 void gcd(const std::vector<fmpq_t*>& coeffs, fmpq_t& common_factor);
 
 NO_NAME_MANGLING
-void quasimodular_form(fmpq_mpoly_t temp, const std::vector<unsigned long>& Iq, int weightmax, fmpq_mpoly_ctx_t ctx);
+void quasimodular_form(fmpq_mpoly_t result, const std::vector<fmpq_t*>& Iq, int weightmax, fmpq_mpoly_ctx_t ctx);
 
-void updateVectorFromString(std::vector<unsigned long>& v, const std::string& s);
+std::string fmpqToString(const fmpq_t f);
+void stringToFmpq(fmpq_t f, const std::string& str);
+std::string vectorToStringInt(const std::vector<int>& vec);
 NO_NAME_MANGLING
-std::vector<unsigned long> stringToVectorUlong(const std::string& str);
+std::vector<int> stringToVectorInt(const std::string& str);
 NO_NAME_MANGLING
-std::string vectorToStringULong(const std::vector<unsigned long>& vec);
 vector2d gen_block(int d, int n);
 std::vector<int> next_partition(std::vector<int> a);
 NO_NAME_MANGLING
 vector2d iterate(std::vector<int> xa);
-NO_NAME_MANGLING
+std::vector<std::vector<int>> find_equal_pairs(const std::vector<std::pair<int, int>>& ve);
+std::vector<std::vector<int>> generate_permutation(const std::vector<int>& l, const std::vector<std::vector<int>>& indices);
+vector2d iterate_permutation(const graph& ve, const std::vector<int>& a);
 std::vector<std::tuple<int, std::vector<int>>> signature_and_multiplicitie(std::vector<std::pair<int, int>> G, const std::vector<int> a);
 
 void constterm(const int k, const int j, mp_limb_signed_t N, const int nv, fmpz_mpoly_t result, const fmpz_mpoly_ctx_t ctx);
 void proterm(const int k, const int j, int a, mp_limb_signed_t N, const int nv, fmpz_mpoly_t result, const fmpz_mpoly_ctx_t ctx);
+
+void invsfunction(const int j, const int aa, fmpq_mpoly_t result, const fmpq_mpoly_ctx_t ctx);
+void sfunction(const int w, const int j, const int aa, fmpq_mpoly_t result, const fmpq_mpoly_ctx_t ctx);
+void loopterm(const int  z, const int a, const int aa, fmpq_mpoly_t p, const fmpq_mpoly_ctx_t ctx);
+void constterm(const int k, const int j, const int i1, const int i2, mp_limb_signed_t N, const int aa, fmpq_mpoly_t result, const fmpq_mpoly_ctx_t ctx);
+void proterm(const int k, const int j, const int i1, const int i2, const int a, const int aa, mp_limb_signed_t N, fmpq_mpoly_t result, const fmpq_mpoly_ctx_t ctx);
+void get_coefficient(fmpq_mpoly_t coeff, const fmpq_mpoly_t poly, const mp_limb_signed_t* var_indices, const mp_limb_t* exps, mp_limb_signed_t length, const fmpq_mpoly_ctx_t ctx);
+void filter_terms(fmpq_mpoly_t result, const fmpq_mpoly_t poly, const std::vector<slong>& variables, const std::vector<int>& power, const fmpq_mpoly_ctx_t ctx);
+
 unsigned long feynman_integral_type(std::vector<std::pair<int, int>> Gv, int factor, std::vector<int> av);
+//unsigned long feynman_integral_branch_type(std::vector<std::pair<int, int>> Gv, std::vector<int> a);
+//unsigned long feynman_integral_degree(std::vector<std::pair<int, int>> Gv, int d);
 NO_NAME_MANGLING
-unsigned long feynman_integral_branch_type(std::vector<std::pair<int, int>> Gv, std::vector<int> a);
-NO_NAME_MANGLING
-unsigned long feynman_integral_degree(std::vector<std::pair<int, int>> Gv, int d);
+void feynman_integral_branch_type(fmpq_t myfey, graph& Gv, const std::vector<int>& av, const std::vector<int>& g, const std::vector<int>& l);
+void feynman_integral_degrees(fmpq_t result, graph& Gv, const int& d, const std::vector<int>& g, const std::vector<int>& l);
+std::vector<fmpq_t*> feynman_integral_degree_sum(std::vector<std::pair<int, int>>& Gv, const int& d, const std::vector<int>& g, const std::vector<int>& l);
