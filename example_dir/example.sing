@@ -20,12 +20,13 @@ gc.options.logport = 9876;
 
 ring R = 0, x, dp;
 ideal J = 1;
-int d = 12; // degree
+int d = 10; // degree
 int e = 3; // edges
-int g = 2; // genus (number of holes)
-string s = "{{1, 2}, {1, 2}, {1, 2}}"; // graph.
-
-list L = d, e, g, s;
+int g = 1; // genus (number of holes)
+string s = "{{1, 2}, {2, 3}, {3, 1}}"; // graph.
+string genus = "1 0 0";
+string loop = "0 0 0";
+list L = d, e, g, s, genus, loop;
 
 
 

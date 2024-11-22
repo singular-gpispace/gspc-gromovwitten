@@ -33,27 +33,21 @@ worker process(that is, the "inner" instances of SINGULAR).
 {
   int edges = input.data[1];
   int degree = input.data[2];
-  int genus = input.data[3];
+  int g = input.data[3];
   string s = input.data[4];
+  string genus = input.data[5];
+  string loop = input.data[6];
 
-  int J = 0;
-
-
-
-  // list LT = list(I);
-  string path = "/home/atraore/gpi/try_gpi/Reduce/example_dir/temp";  // Ensure the path ends with a "/"
-  string filename = "bonsoir.ssi";
-  link l = "ssi:w " + path + filename;
-
-  write(l, I, "bonjour");
-  close(l);
 
   token output;
   output.fieldnames = list("generators", "GroebnerBasis");
   output.data[1] = degree;
   output.data[2] = edges;
-  output.data[3] = genus;
+  output.data[3] = g;
   output.data[4] = s;
+  output.data[5] = genus;
+  output.data[6] = loop;
+
   return(output);
 
 
