@@ -25,16 +25,18 @@ extended_add_library(NAME module
   "bin/WorkflowResult.cpp"
   "${CMAKE_SOURCE_DIR}/template/singular_functions.cpp"
   "${CMAKE_SOURCE_DIR}/template/feynman.cpp"
-  INCLUDE_DIRECTORIES PRIVATE "${CMAKE_SOURCE_DIR}" "${FLINT_INCLUDE_DIR}"
+
+  # INCLUDE_DIRECTORIES PRIVATE "${CMAKE_SOURCE_DIR}" "${FLINT_INCLUDE_DIR}"
   COMPILE_DEFINITIONS SING_NDEBUG OM_NDEBUG
-  LIBRARIES SINGULAR-template::installation Util::Generic GPISpace::execution Singular ${FLINT_LIB}
+  LIBRARIES SINGULAR-template::installation Util::Generic GPISpace::execution Singular # ${FLINT_LIB}
   POSITION_INDEPENDENT
   INSTALL
   INSTALL_DESTINATION "${CMAKE_INSTALL_PREFIX}"
 )
-
+#[[
 set_target_properties(SINGULAR-template-module
   PROPERTIES
   INSTALL_RPATH "$ORIGIN/lib:${FLINT_LIB_DIR}"
   INSTALL_RPATH_USE_LINK_PATH TRUE
 )
+]]

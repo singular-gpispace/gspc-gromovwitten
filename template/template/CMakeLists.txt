@@ -6,12 +6,15 @@ extended_add_library(NAME template_implementation
   "${CMAKE_BINARY_DIR}"
   "${CMAKE_BINARY_DIR}/gen"
   "${CMAKE_BINARY_DIR}/template"
-  "${FLINT_INCLUDE_DIR}" # Add FLINT include directory
+
+  # "${FLINT_INCLUDE_DIR}" # Add FLINT include directory
   COMPILE_DEFINITIONS SING_NDEBUG OM_NDEBUG
-  LIBRARIES GPISpace::workflow_development Singular ${FLINT_LIB} # Link FLINT
+  LIBRARIES GPISpace::workflow_development Singular # ${FLINT_LIB} # Link FLINT
   DEPENDS template.pnet_and_wrapper-library Config
   INSTALL INSTALL_DESTINATION "libexec/workflow"
 )
+
+#[[
 include_directories("${FLINT_HOME}/include/flint")
 
 set(FLINT_LIB "/usr/local/lib/libflint.so")
@@ -22,7 +25,7 @@ target_link_libraries(template_implementation
   ${FLINT_LIB} # FLINT library
   ${SINGULAR_LIB} # Singular library, if necessary
 )
-
+]]
 # Set the properties for the installed library
 set_target_properties(template_implementation
   PROPERTIES
@@ -30,6 +33,6 @@ set_target_properties(template_implementation
 )
 
 # Install the templategspc.lib file
-install(FILES LIB/templategspc.lib
-  DESTINATION "${CMAKE_INSTALL_PREFIX}"
-)
+# install(FILES LIB/templategspc.lib
+# DESTINATION "${CMAKE_INSTALL_PREFIX}"
+# )

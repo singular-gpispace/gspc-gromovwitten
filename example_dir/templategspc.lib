@@ -178,44 +178,43 @@ proc gspc_template_SchRes(list L, configToken gc)
     //list L = s;
     list inputlists;
     token t;
-    for (int i = 1; i <= 1; i++)
-    {
-        t.fieldnames = list("generators", "Input101");
-        t.data[1] = L[1];
-        t.data[2] = L[2];
-        t.data[3] = L[3];
-        t.data[4] = L[4];
+    
+    t.fieldnames = list("generators", "Input101");
+    //  L is a list containing the input data
+    for (int i = 1; i <= size(L); i++) {
 
-        inputlists[i] = t;
+        t.data[i] = L[i];
     }
+    inputlists[1] = t;
+
     def re = gspc_template(inputlists, gc, ct);
     def inputRing = basering;
     // Access the first element in the list
     def resultToken = re[1];
 
     // Print the structure and type of `resultToken`
-    print("Structure of resultToken: "); print(resultToken);
-    print("Type of resultToken: "); print(typeof(resultToken));
-    print(re);
+   /*  print("Structure of resultToken: "); print(resultToken);
+    print("Type of resultToken: "); print(typeof(resultToken)); */
+    // print(re);
 
 
-    // Print current ring context
-    //print("Current ring context before accessing data: "); print(basering);
-    def resultRing = resultToken.r_data;
-    setring resultRing;
-    // Extract the data from resultToken
-    list Result = resultToken.data;
-    print("beforeReturn");
-    print(Result);
-    // Print the extracted data for verification
+     // Print current ring context
+     //print("Current ring context before accessing data: "); print(basering);
+   /*   def resultRing = resultToken.r_data;
+     setring resultRing;
+     // Extract the data from resultToken
+     list Result = resultToken.data;
+     print("beforeReturn");
+     print(Result);
+     // Print the extracted data for verification
 
-    // Restore the original ring context
-    setring inputRing;
+     // Restore the original ring context
+     setring inputRing;
 
-    // Print restored ring context
-    print("Ring context restored to: "); print(basering);
-    list output = imap(resultRing, output);
-    return(output);
+     // Print restored ring context
+     print("Ring context restored to: "); print(basering);
+     list output = imap(resultRing, output); */
+    return(re[1]);
     // Return the result
     //return(resultRing);
     //return(0);

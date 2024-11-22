@@ -12,14 +12,16 @@ function(add_petrinet in out module_name)
     --gen-cxxflags=-I"${CMAKE_SOURCE_DIR}/src"
     --gen-cxxflags=-I"${GSPC_HOME}/include"
     --gen-cxxflags=-I"${GSPC_HOME}/external/boost/include"
-    --gen-cxxflags=-I"${FLINT_HOME}/include" # Add FLINT include directory
+
+    # --gen-cxxflags=-I"${FLINT_HOME}/include" # Add FLINT include directory
     --gen-ldflags="-L${CMAKE_BINARY_DIR}"
     --gen-ldflags="-L${CMAKE_BINARY_DIR}/src/util-generic"
     --gen-ldflags="-Wl,-rpath='\\$\$\\$\$ORIGIN'"
     --gen-ldflags="-Wl,-rpath='${GSPC_HOME}/lib'"
     --gen-ldflags="-Wl,-rpath='${GSPC_HOME}/external/boost/lib'"
-    --gen-ldflags="-Wl,-rpath='${FLINT_HOME}/lib'" # Add FLINT lib directory
-    --gen-ldflags="-L${FLINT_HOME}/lib" # Link FLINT library
+
+    # --gen-ldflags="-Wl,-rpath='${FLINT_HOME}/lib'" # Add FLINT lib directory
+    # --gen-ldflags="-L${FLINT_HOME}/lib" # Link FLINT library
     --force-overwrite-file=true
     --input="${CMAKE_SOURCE_DIR}/workflow/${in}"
     --output="${CMAKE_BINARY_DIR}/${out}"
@@ -48,4 +50,3 @@ install(FILES
   "${CMAKE_BINARY_DIR}/gen_template.pnet/pnetc/op/libsingular_template.so"
   DESTINATION libexec/workflow
 )
-

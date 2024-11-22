@@ -39,23 +39,23 @@ list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake/modules")
 find_package(Singular REQUIRED)
 
 # FLINT include and library directories
-set(FLINT_INCLUDE_DIR "/usr/local/include/flint")
-set(FLINT_LIB_DIR "/usr/local/lib")
+# set(FLINT_INCLUDE_DIR "/usr/local/include/flint")
+# set(FLINT_LIB_DIR "/usr/local/lib")
 
 # Add FLINT include directory
-include_directories(${FLINT_INCLUDE_DIR})
+# include_directories(${FLINT_INCLUDE_DIR})
 
 # FLINT library search
-find_library(FLINT_LIB flint HINTS "${FLINT_LIB_DIR}")
+# find_library(FLINT_LIB flint HINTS "${FLINT_LIB_DIR}")
 
 # Check if FLINT library was found
-if(NOT FLINT_LIB)
+#[[ if(NOT FLINT_LIB)
   message(FATAL_ERROR "FLINT library not found!")
 endif()
 
 # Link FLINT library directory
 link_directories(${FLINT_LIB_DIR})
-
+]]
 # Include directories for project
 include_directories("src")
 include_directories("${CMAKE_CURRENT_SOURCE_DIR}")
@@ -79,9 +79,9 @@ add_custom_target(Config
 )
 
 # Install the examples directory
-install(DIRECTORY examples
-  DESTINATION "${CMAKE_INSTALL_PREFIX}/share"
-)
+# install(DIRECTORY examples
+# DESTINATION "${CMAKE_INSTALL_PREFIX}/share"
+# )
 
-# Link the FLINT library to your target (e.g., template_implementation)
-target_link_libraries(template_implementation PRIVATE ${FLINT_LIB})
+# Link the FLINT library to the  target  template_implementation
+# target_link_libraries(template_implementation PRIVATE ${FLINT_LIB})
