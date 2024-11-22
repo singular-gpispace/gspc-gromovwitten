@@ -1,5 +1,5 @@
 #!/bin/bash
-rm -rf ~/gpi/try_gpi/Reduce/build_dir/* ~/gpi/try_gpi/Reduce/install_dir/*
+#rm -rf ~/gpi/try_gpi/Reduce/build_dir/* ~/gpi/try_gpi/Reduce/install_dir/*
 
 # Create necessary directories
 mkdir -p ~/gpi/try_gpi/Reduce/build_dir ~/gpi/try_gpi/Reduce/install_dir
