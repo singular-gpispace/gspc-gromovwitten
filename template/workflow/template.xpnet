@@ -393,11 +393,9 @@
     RESOLVE_INTERFACE_FUNCTION(my_mpoly_pretty) (result,ctx);
 
     // Convert polynomial result to string
-         std::string fey =RESOLVE_INTERFACE_FUNCTION(fmpq_mpolyToString) (result,ctx);
+   answer =RESOLVE_INTERFACE_FUNCTION(fmpq_mpolyToString) (result,ctx);
 
-    std::cout << "Polynomial as string: " << fey << std::endl;
-
-    answer=fey;
+    std::cout << "Polynomial as string: " << answer << std::endl;
 
     // Clear polynomials and context
         RESOLVE_INTERFACE_FUNCTION(my_mpoly_clear) (result,ctx);

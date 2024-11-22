@@ -50,7 +50,7 @@ namespace template_module
         // Determine the number of "OUTPUT" entries
         int output_count = 0;
         for (auto it = valuesOnPortsMap.begin(); it != valuesOnPortsMap.end(); ++it) {
-            if (boost::get<std::string>(it->first) == "OUTPUT") {
+            if (boost::get<std::string>(it->first) == "answer") {
                 output_count++;
             }
         }
@@ -63,34 +63,25 @@ namespace template_module
 
         int i = 0;
 
-        // Process each "OUTPUT" entry
         for (auto it = valuesOnPortsMap.begin(); it != valuesOnPortsMap.end(); ++it) {
-            if (boost::get<std::string>(it->first) == "OUTPUT") {
+            if (boost::get<std::string>(it->first) == "answer") {
                 try {
-                    // Print the raw input for debugging
+                    // Extract and print the raw input
                     std::string raw_data = boost::get<std::string>(it->second);
-                    //std::cout << "Deserializing data: " << raw_data << std::endl;
+                    //std::cout << "Raw data: " << raw_data << std::endl;
 
-                    // Deserialize the entry
-                    auto deserialized_entry = deserialize(raw_data, "Result extraction");
-
-                    // Ensure we're not exceeding the allocated size of out_list
-                    if (i >= output_count) {
-                        std::cerr << "Error: More OUTPUT entries than allocated space in out_list." << std::endl;
-                        break; // Prevent out-of-bounds access
-                    }
-
-                    // Store the deserialized entry in the list
-                    out_list->m[i].rtyp = deserialized_entry.first;
-                    out_list->m[i].data = deserialized_entry.second;
-                    //std::cout << "Stored entry " << i + 1 << ": type=" << deserialized_entry.first << std::endl;
+                    // Skip deserialization and use raw data directly
+                    // std::cout << "Skipping deserialization for debug purposes.\n";
+                    out_list->m[i].rtyp = STRING_CMD;  // Assuming it's a string type
+                    out_list->m[i].data = strdup(raw_data.c_str());  // Copy raw string
                     i++;
                 }
                 catch (const std::exception& e) {
-                    std::cerr << "Deserialization error: " << e.what() << std::endl;
+                    std::cerr << "Error accessing data: " << e.what() << std::endl;
                 }
             }
         }
+
 
         // Verify that the number of entries processed matches the expected count
         if (i != output_count) {
