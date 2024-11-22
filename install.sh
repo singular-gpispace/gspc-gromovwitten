@@ -22,8 +22,8 @@ time ~/gpi/try_gpi/gpispace/bin/bin/feynman \
   --rif-strategy ssh \
   --topology "worker:7" \
   --N 3 \
-  --degree 4 \
-  --graph "{{1, 2}, {2, 3}, {3, 1}" \
+  --degree 10 \
+  --graph "{{1, 2}, {2, 3}, {3, 1}}" \
   --g 1 \
   --genus "1 0 0" \
   --loop "0 0 0" \
