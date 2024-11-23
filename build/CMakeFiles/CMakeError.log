@@ -1,0 +1,30 @@
+Performing C++ SOURCE FILE Test CXX_COMPILER_SUPPORTS__Wundefined_reinterpret_cast failed with the following output:
+Change Dir: /home/atraore/gpi/try_gpi/gpispace/build/CMakeFiles/CMakeTmp
+
+Run Build Command(s):/usr/bin/gmake -f Makefile cmTC_225d0/fast && /usr/bin/gmake  -f CMakeFiles/cmTC_225d0.dir/build.make CMakeFiles/cmTC_225d0.dir/build
+gmake[1]: Entering directory '/home/atraore/gpi/try_gpi/gpispace/build/CMakeFiles/CMakeTmp'
+Building CXX object CMakeFiles/cmTC_225d0.dir/src.cxx.o
+/usr/bin/c++ -DCXX_COMPILER_SUPPORTS__Wundefined_reinterpret_cast  -Wundefined-reinterpret-cast -std=gnu++14 -o CMakeFiles/cmTC_225d0.dir/src.cxx.o -c /home/atraore/gpi/try_gpi/gpispace/build/CMakeFiles/CMakeTmp/src.cxx
+c++: error: unrecognized command-line option '-Wundefined-reinterpret-cast'
+gmake[1]: *** [CMakeFiles/cmTC_225d0.dir/build.make:78: CMakeFiles/cmTC_225d0.dir/src.cxx.o] Error 1
+gmake[1]: Leaving directory '/home/atraore/gpi/try_gpi/gpispace/build/CMakeFiles/CMakeTmp'
+gmake: *** [Makefile:127: cmTC_225d0/fast] Error 2
+
+
+Source file was:
+int main() { return 0; }
+Performing C++ SOURCE FILE Test CXX_COMPILER_SUPPORTS__Wextra_semi_stmt failed with the following output:
+Change Dir: /home/atraore/gpi/try_gpi/gpispace/build/CMakeFiles/CMakeTmp
+
+Run Build Command(s):/usr/bin/gmake -f Makefile cmTC_b091b/fast && /usr/bin/gmake  -f CMakeFiles/cmTC_b091b.dir/build.make CMakeFiles/cmTC_b091b.dir/build
+gmake[1]: Entering directory '/home/atraore/gpi/try_gpi/gpispace/build/CMakeFiles/CMakeTmp'
+Building CXX object CMakeFiles/cmTC_b091b.dir/src.cxx.o
+/usr/bin/c++ -DCXX_COMPILER_SUPPORTS__Wextra_semi_stmt  -Wextra-semi-stmt -std=gnu++14 -o CMakeFiles/cmTC_b091b.dir/src.cxx.o -c /home/atraore/gpi/try_gpi/gpispace/build/CMakeFiles/CMakeTmp/src.cxx
+c++: error: unrecognized command-line option '-Wextra-semi-stmt'; did you mean '-Wextra-semi'?
+gmake[1]: *** [CMakeFiles/cmTC_b091b.dir/build.make:78: CMakeFiles/cmTC_b091b.dir/src.cxx.o] Error 1
+gmake[1]: Leaving directory '/home/atraore/gpi/try_gpi/gpispace/build/CMakeFiles/CMakeTmp'
+gmake: *** [Makefile:127: cmTC_b091b/fast] Error 2
+
+
+Source file was:
+int main() { return 0; }
