@@ -358,6 +358,9 @@ fmpq_t result;
           <cinclude href="feynman.hpp"/>
 
           <code><![CDATA[
+
+                std::cout << "weightmax: " << weightmax << std::endl;
+
              std::vector<fmpq_t*>Iq = stringToVectorFmpq(answer);
     // Maximum weight
 

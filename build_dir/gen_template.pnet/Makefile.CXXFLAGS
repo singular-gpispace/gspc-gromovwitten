@@ -1,0 +1,8 @@
+CXXFLAGS += -O3
+CXXFLAGS += -std=c++17
+CXXFLAGS += -I/home/atraore/gpi/try_gpi/gpispace/build_dir
+CXXFLAGS += -I/home/atraore/gpi/try_gpi/gpispace/build_dir/template
+CXXFLAGS += -I/home/atraore/gpi/try_gpi/gpispace/template
+CXXFLAGS += -I/home/atraore/gpi/try_gpi/gpispace/template/src
+CXXFLAGS += -I/home/atraore/spack/opt/spack/linux-ubuntu22.04-skylake/gcc-11.3.0/gpi-space-23.06-gxye6b7ngsnbxnzjkfsfqtvanynyghdk/include
+CXXFLAGS += -I/home/atraore/spack/opt/spack/linux-ubuntu22.04-skylake/gcc-11.3.0/gpi-space-23.06-gxye6b7ngsnbxnzjkfsfqtvanynyghdk/external/boost/include

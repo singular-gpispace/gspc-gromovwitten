@@ -1,0 +1,28 @@
+#include <pnetc/op/singular_template/control1.hpp>
+#include <we/type/literal/control.hpp>
+#include <iostream>
+#include <vector>
+#include <sstream>
+
+namespace pnetc
+{
+  namespace op
+  {
+    namespace singular_template
+    {
+      void control1
+        ( const we::type::literal::control& ns
+        , unsigned long& counter_total
+        )
+      {
+#line 381 "/home/atraore/gpi/try_gpi/gpispace/template/workflow/template.xpnet"
+
+
+          counter_total +=1;
+std::cout<<"counter_total= "<<counter_total<<std::endl;
+
+         
+      }
+    }
+  }
+}
