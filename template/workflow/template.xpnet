@@ -67,9 +67,12 @@
         std::vector<int> gg=RESOLVE_INTERFACE_FUNCTION(stringToVectorInt) (genus);
         int gs=RESOLVE_INTERFACE_FUNCTION(sumVector) (gg);
           g = 2 * (edges + gs);
+          std::cout<<"g= "<<g<<std::endl;
+          std::cout<<"genus= "<<genus<<std::endl;
+
         loop=result[5];
         total =RESOLVE_INTERFACE_FUNCTION( partialBinomialSum) (edges,degree);
-
+std::cout<<"total= "<<total<<std::endl;
             		]]>
           </code>
         </module>
@@ -252,6 +255,9 @@
                   c+=*ptr;
               }
           }
+    std::cout<<"genus= "<<genus<<std::endl;
+    std::cout<<"= "<<genus<<std::endl;
+
 /*
 ************************************************************************
 *************************************************************************
@@ -334,10 +340,10 @@ std::vector<int> l=RESOLVE_INTERFACE_FUNCTION(stringToVectorInt) (loop);
           <cinclude href="util-generic/dynamic_linking.hpp"/>
           <cinclude href="interface/feynman.hpp" />
           <code><![CDATA[
-         
-          std::cout << "sum2=: " << sum << std::endl;
+
+          std::cout << "sum2= and: " << sum << std::endl;
         std::vector<fmpq_t*> v = RESOLVE_INTERFACE_FUNCTION( stringToVectorFmpq) (sum);
-          std::vector<fmpq_t*> w = RESOLVE_INTERFACE_FUNCTION( stringToVectorFmpq) (s);
+        std::vector<fmpq_t*> w = RESOLVE_INTERFACE_FUNCTION( stringToVectorFmpq) (s);
 
         //  sum of the vectors
         std::vector<fmpq_t*>  sum_vector = RESOLVE_INTERFACE_FUNCTION( sumOfVectorsFmpq) (v,w);
@@ -375,6 +381,7 @@ std::vector<int> l=RESOLVE_INTERFACE_FUNCTION(stringToVectorInt) (loop);
           <code><![CDATA[
 
           counter_total +=1;
+std::cout<<"counter_total= "<<counter_total<<std::endl;
 
          ]]>
           </code>
@@ -396,6 +403,8 @@ std::vector<int> l=RESOLVE_INTERFACE_FUNCTION(stringToVectorInt) (loop);
           <cinclude href="vector"/>
           <cinclude href="sstream"/>
           <code><![CDATA[
+std::cout<<"total= "<<total<<std::endl;
+          std::cout << "Bonjour "  << std::endl;
 
          ]]>
           </code>
@@ -429,6 +438,7 @@ std::vector<int> l=RESOLVE_INTERFACE_FUNCTION(stringToVectorInt) (loop);
           <code><![CDATA[
 
   std::vector<fmpq_t*> Iq = RESOLVE_INTERFACE_FUNCTION( stringToVectorFmpq) (answer);
+          std::cout << "answer= "  << answer<<std::endl;
 
     // Maximum weight
 
@@ -440,6 +450,7 @@ std::vector<int> l=RESOLVE_INTERFACE_FUNCTION(stringToVectorInt) (loop);
     fmpq_mpoly_t result;
         RESOLVE_INTERFACE_FUNCTION( my_init) (result,ctx);
 
+    std::cout << "quasimodular_form as string: " ;
 
         RESOLVE_INTERFACE_FUNCTION( quasimodular_form) (result,Iq,weightmax,ctx);
 
