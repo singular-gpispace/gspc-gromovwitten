@@ -1028,10 +1028,9 @@ NO_NAME_MANGLING
 unsigned long partialBinomialSum(int n, int d) {
     unsigned long sum = 0;
 
-    for (int i = 2; i <= d; ++i) {
+    for (int i = 1; i <= d; ++i) {
         sum += binomial(i + n - 1, i); // Calculate and add C(i+n-1, i)
     }
-
     return sum;
 }
 /* unsigned long binomial(const int n, const int k)

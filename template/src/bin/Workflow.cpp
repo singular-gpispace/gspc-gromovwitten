@@ -71,7 +71,6 @@ namespace template_module
                     //std::cout << "Raw data: " << raw_data << std::endl;
 
                     // Skip deserialization and use raw data directly
-                    // std::cout << "Skipping deserialization for debug purposes.\n";
                     out_list->m[i].rtyp = STRING_CMD;  // Assuming it's a string type
                     out_list->m[i].data = strdup(raw_data.c_str());  // Copy raw string
                     i++;
