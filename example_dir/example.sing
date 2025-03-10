@@ -1,7 +1,7 @@
 
 
 LIB "templategspc.lib";
-//LIB "/home//atraore/gpi/try_gpi/Reduce/template/template/LIB/templategspc.lib";
+//LIB "/users/cip/users/atraore/Dokumente/gpispace/gspc-gromovwitten/template/template/LIB/templategspc.lib";
 
 //LIB "random.lib";
 LIB "modstd.lib";
@@ -10,10 +10,10 @@ LIB "modstd.lib";
 
 // Configure GPI-Space	
 configToken gc = configure_gspc();
-gc.options.tmpdir = "/home//atraore/gpi/try_gpi/Reduce/example_dir/temp";
+gc.options.tmpdir = "/users/cip/users/atraore/Dokumente/gpispace/gspc-gromovwitten/example_dir/temp";
 gc.options.nodefile = "nodefile";
 gc.options.procspernode = 7;
-gc.options.loghost = "waas";
+gc.options.loghost = "cipserv05";
 gc.options.logport = 9876;
 
 

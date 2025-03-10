@@ -22,7 +22,7 @@ gspc_template(list, configToken, configToken)    interface of the template frame
 proc mod_init()
 {
     //Singular does not support fieldname containing underscore
-    LIB "/home/atraore/gpi/try_gpi/Reduce/build_dir/src/libSINGULAR-template-module.so";
+    LIB "/users/cip/users/atraore/Dokumente/gpispace/gspc-gromovwitten/install_dir/libexec/workflow/libSINGULAR-template-module.so";
 
     newstruct("configToken", "string tokentype, def options");
     newstruct("gspcConfigToken", "string tmpdir, string nodefile, int procspernode, string rifstrategy, string rifstrategyparameters, string loghost, int logport, string loghostfile");

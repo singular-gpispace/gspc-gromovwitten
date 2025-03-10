@@ -33,17 +33,17 @@ try {
         template_module::Workflow::options(),
         command_opts
     );
-    //std::cout << "Parameters loaded successfully." << std::endl;
+    std::cout << " Singular-template-module file::: Parameters loaded successfully." << std::endl;
    // (2) initializing a workflow
     template_module::Workflow const workflow(parameters);
-    //std::cout << "Workflow initialized successfully." << std::endl;
+    std::cout << "Singular-template-module file::: Workflow initialized successfully." << std::endl;
 
     // (3) executing the workflow
     auto const results = template_module::execute(parameters, workflow);
-    //std::cout << "Workflow executed. Results obtained." << std::endl;
+    std::cout << "Singular-template-module file::: Workflow executed. Results obtained." << std::endl;
     // (4) evaluating the workflow result
     workflow.process(results, parameters, res);
-    //std::cout << "workflow.process. process obtained." << std::endl;
+    std::cout << "Singular-template-module file::: workflow.process. process obtained." << std::endl;
     return FALSE;
 }
 catch (...)
