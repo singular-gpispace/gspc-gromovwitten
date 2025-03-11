@@ -1,0 +1,11 @@
+Consolidate compiler generated dependencies of target feynman_generator
+Consolidate compiler generated dependencies of target feynman_implementation
+[ 23%] Built target feynman_implementation
+[ 23%] Built target feynman_generator
+[ 29%] Built target generate_xpnet
+[ 41%] Built target compiled_petri_net
+Consolidate compiler generated dependencies of target feynman
+[ 47%] Generating gen/pnetc/op/libfeynman_module.so
+[ 88%] Built target feynman
+[ 94%] Built target workflow_library
+[100%] Built target feynman-bundled-libraries

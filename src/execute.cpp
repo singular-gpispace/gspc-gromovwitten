@@ -17,10 +17,11 @@ namespace feynman
   {
     ParametersDescription options()
     {
-      namespace po = boost::program_options;
-
-      ParametersDescription driver_opts ("Worker Topology");
-      driver_opts.add_options()("topology", po::value<std::string>()->required());
+      ParametersDescription driver_opts {"Worker Topology"};
+      driver_opts.add_options()
+        ( "topology"
+        , ::boost::program_options::value<std::string>()->required()
+        );
       driver_opts.add (gspc::options::installation());
       driver_opts.add (gspc::options::drts());
       driver_opts.add (gspc::options::logging());
@@ -33,25 +34,31 @@ namespace feynman
   WorkflowResult execute (Parameters parameters, Workflow const& workflow)
   {
     auto const feynman_installation_path
-      (fhg::util::executable_path().parent_path().parent_path());
+      {fhg::util::executable_path().parent_path().parent_path()};
 
-    gspc::installation installation (parameters);
-    gspc::scoped_rifds rifds(gspc::rifd::strategy {parameters},
-                             gspc::rifd::hostnames {parameters},
-                             gspc::rifd::port {parameters},
-                             installation);
+    gspc::installation installation {parameters};
+    gspc::scoped_rifds rifds
+      { gspc::rifd::strategy {parameters}
+      , gspc::rifd::hostnames {parameters}
+      , gspc::rifd::port {parameters}
+      , installation
+      };
 
-    gspc::set_application_search_path
-      (parameters, feynman_installation_path / "lib");
 
-    gspc::scoped_runtime_system drts (parameters,
-                                      installation,
-                                      parameters.at ("topology").as<std::string>(),
-                                      rifds.entry_points());
+      gspc::set_application_search_path(parameters, std::filesystem::path((feynman_installation_path / "lib").string()));
 
-    gspc::workflow const workflow_obj
-      (feynman_installation_path / "pnet" / "feynman.pnet");
+    gspc::scoped_runtime_system drts
+      { parameters
+      , installation
+      , parameters.at ("topology").as<std::string>()
+      , rifds.entry_points()
+      };
 
-    return gspc::client {drts}.put_and_run (workflow_obj, workflow.inputs().map());
+      return gspc::client {drts}
+      . put_and_run
+        ( std::filesystem::path((feynman_installation_path / "pnet" / "feynman.pnet").string())
+        , workflow.inputs().map()
+        );
+
   }
 }

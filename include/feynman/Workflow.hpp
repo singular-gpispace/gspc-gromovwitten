@@ -23,8 +23,8 @@ namespace feynman
   private:
     int _N;
     int _degree;
-    std::string _graph;
-    std::vector<int> G;
+    std::string _input;
+    std::string _P0;
     pnet_list graph_int;
   };
 }

@@ -1,84 +1,53 @@
 cmake_minimum_required(VERSION 3.16)
 project(feynman LANGUAGES CXX)
 
-# Set the C++ standard and requirements
-set(CMAKE_CXX_STANDARD 14)
+# Set the C++ standard
+set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 # Find required packages
 find_package(GPISpace REQUIRED)
+find_package(Boost 1.63 REQUIRED COMPONENTS filesystem program_options)
 find_package(util-generic REQUIRED)
 find_package(util-cmake REQUIRED)
-find_package(Boost 1.63 REQUIRED COMPONENTS filesystem program_options)
 
-# Include custom CMake macros
+# Include directories
+include_directories(${CMAKE_SOURCE_DIR}/src)
 include(util-cmake/add_macros)
 
-# Define a variable to hold the path to gspc-rifd
-set(GSPC_RIFD_PATH "/home/atraore/spack/opt/spack/linux-ubuntu22.04-skylake/gcc-11.3.0/gpi-space-23.06-gxye6b7ngsnbxnzjkfsfqtvanynyghdk/bin/gspc-rifd" CACHE PATH "Path to gspc-rifd binary")
+# Define paths
+set(GENERATED_XPNET "${CMAKE_BINARY_DIR}/workflow/feynman.xpnet")
+set(GENERATED_XPNET "${CMAKE_SOURCE_DIR}/workflow/feynman.xpnet")
 
-# Debug message to verify the path
-message(STATUS "GSPC_RIFD_PATH: ${GSPC_RIFD_PATH}")
+set(COMPILED_PETRI_NET "${CMAKE_BINARY_DIR}/feynman.pnet")
+set(WRAPPER_DIRECTORY "${CMAKE_BINARY_DIR}/gen")
+#set(WRAPPER_LIBRARY "${WRAPPER_DIRECTORY}/pnetc/op/libfeynman_module.so")
+set(WRAPPER_LIBRARY "${CMAKE_SOURCE_DIR}/bin/lib/libfeynman_module.so")
 
-# Add your project configuration and targets here...
-set(BUNDLE_ROOT "libexec/bundle")
-bundle_GPISpace(DESTINATION "${BUNDLE_ROOT}/gpispace" COMPONENTS runtime)
+# -------------------- Generate Executable --------------------
+add_executable(generate src/generate.cpp)
+target_include_directories(generate PUBLIC "${CMAKE_SOURCE_DIR}/src")
+target_link_libraries(generate PRIVATE ${FLINT_LIB})
 
-# Locate FLINT include and library directories
-set(FLINT_PREFIX "$ENV{HOME}/local") # Adjust this path as per your installation
-
-find_path(FLINT_INCLUDE_DIR NAMES flint/flint.h HINTS "${FLINT_PREFIX}/include")
-find_library(FLINT_LIB NAMES flint HINTS "${FLINT_PREFIX}/lib")
-
-if(NOT FLINT_INCLUDE_DIR OR NOT FLINT_LIB)
-  message(FATAL_ERROR "FLINT library not found. Please install FLINT or set FLINT_INCLUDE_DIR and FLINT_LIB.")
-endif()
-
-# Configure and add library target
-add_library(feynman_implementation SHARED "src/feynman.cpp")
-target_include_directories(feynman_implementation PUBLIC "${CMAKE_SOURCE_DIR}" "${FLINT_INCLUDE_DIR}")
-target_link_libraries(feynman_implementation PRIVATE ${FLINT_LIB})
-
-set_target_properties(feynman_implementation PROPERTIES
-  INSTALL_RPATH_USE_LINK_PATH TRUE
-  INSTALL_RPATH "$ORIGIN/../lib:$ORIGIN/../../lib:$ENV{HOME}/local/lib"
-)
-
-set(PETRI_NET "${PROJECT_SOURCE_DIR}/workflow/${PROJECT_NAME}.xpnet")
-set(COMPILED_PETRI_NET "${PROJECT_BINARY_DIR}/${PROJECT_NAME}.pnet")
-set(WRAPPER_DIRECTORY "${PROJECT_BINARY_DIR}/gen")
-set(WRAPPER_LIBRARY "${WRAPPER_DIRECTORY}/pnetc/op/lib${PROJECT_NAME}_module.so")
-set(DRIVER_BINARY "${PROJECT_NAME}")
-
+#  feynman.xpnet first then  Petri net
 add_custom_command(
-  COMMAND GPISpace::pnetc --input="${PETRI_NET}" --output="${COMPILED_PETRI_NET}"
-  OUTPUT "${COMPILED_PETRI_NET}"
-  DEPENDS "${PETRI_NET}"
+  OUTPUT "${GENERATED_XPNET}"
+  COMMAND generate
+  WORKING_DIRECTORY "${CMAKE_BINARY_DIR}"
+  COMMENT "Generating feynman.xpnet"
 )
-add_custom_target(compiled_petri_net ALL DEPENDS "${COMPILED_PETRI_NET}")
 
-add_custom_command(
-  COMMAND GPISpace::pnetc
-  --gen-cxxflags="-O3"
-  --gen-cxxflags="-I${PROJECT_SOURCE_DIR}/include"
-  --gen-cxxflags="-I${PROJECT_SOURCE_DIR}/include/feynman"
-  --gen-ldflags="-L${PROJECT_BINARY_DIR}"
-  --gen-ldflags="-lfeynman_implementation"
-  --gen-ldflags="-Wl,-rpath=${CMAKE_INSTALL_PREFIX}/lib"
-  --force-overwrite-file=true
-  --input="${PETRI_NET}"
-  --output="/dev/null"
-  --path-to-cpp="${WRAPPER_DIRECTORY}"
-  COMMAND +make -C "${WRAPPER_DIRECTORY}"
-  OUTPUT "${WRAPPER_LIBRARY}"
-  DEPENDS "${PETRI_NET}" feynman_implementation
-)
-add_custom_target(workflow_library ALL DEPENDS "${WRAPPER_LIBRARY}")
+add_custom_target(generate_xpnet ALL DEPENDS "${GENERATED_XPNET}")
 
-# Ensure correct build order
-add_dependencies(workflow_library compiled_petri_net)
+# -------------------- Feynman Implementation Library --------------------
+add_library(feynman_implementation SHARED src/feynman.cpp)
+target_include_directories(feynman_implementation PUBLIC "${CMAKE_SOURCE_DIR}/src")
+target_link_libraries(feynman_implementation PRIVATE flint)
 
-extended_add_executable(NAME "${DRIVER_BINARY}"
+set_target_properties(feynman_implementation PROPERTIES INSTALL_RPATH_USE_LINK_PATH TRUE)
+
+# -------------------- Feynman Executable (Using GPISpace) --------------------
+extended_add_executable(NAME "${PROJECT_NAME}"
   DONT_APPEND_EXE_SUFFIX
   SOURCES
   src/parse_parameters_from_commandline.cpp
@@ -92,9 +61,43 @@ extended_add_executable(NAME "${DRIVER_BINARY}"
   INSTALL
   INSTALL_DESTINATION bin
 )
+set_target_properties(feynman PROPERTIES INSTALL_RPATH 
+  "${CMAKE_INSTALL_PREFIX}/lib;${CMAKE_INSTALL_PREFIX}/libexec/bundle/gpispace/lib")
 
-bundle_GPISpace_add_rpath(TARGET "${DRIVER_BINARY}" INSTALL_DIRECTORY "bin")
+#  feynman.pnet is only built after feynman.xpnet is created
+add_custom_command(
+  OUTPUT "${COMPILED_PETRI_NET}"
+  COMMAND GPISpace::pnetc --input="${GENERATED_XPNET}" --output="${COMPILED_PETRI_NET}"
+  DEPENDS generate_xpnet
+  COMMENT "Compiling Petri Net: feynman.pnet"
+)
 
-install(FILES "${COMPILED_PETRI_NET}" DESTINATION pnet)
+add_custom_target(compiled_petri_net ALL DEPENDS "${COMPILED_PETRI_NET}")
+
+# -------------------- WRAPPER & WORKFLOW CONFIGURATION --------------------
+add_custom_command(
+  OUTPUT "${WRAPPER_LIBRARY}"
+  COMMAND GPISpace::pnetc
+  --gen-cxxflags="-O3"
+  --gen-cxxflags="-I${PROJECT_SOURCE_DIR}/include"
+  --gen-cxxflags="-I${PROJECT_SOURCE_DIR}/include/feynman"
+  --gen-ldflags="-L${PROJECT_BINARY_DIR}"
+  --gen-ldflags="-lfeynman_implementation"
+  --gen-ldflags="-Wl,-rpath=${CMAKE_INSTALL_PREFIX}/lib"
+  --force-overwrite-file=true
+  --input="${GENERATED_XPNET}"
+  --output="/dev/null"
+  --path-to-cpp="${WRAPPER_DIRECTORY}"
+  COMMAND make -C "${WRAPPER_DIRECTORY}"
+  DEPENDS compiled_petri_net feynman_implementation
+ # COMMENT "Building wrapper library: libfeynman_module.so"
+)
+
+add_custom_target(workflow_library ALL DEPENDS "${WRAPPER_LIBRARY}")
+
+# -------------------- Installation --------------------
+install(TARGETS generate DESTINATION bin)
 install(TARGETS feynman_implementation DESTINATION lib)
-install(FILES "${WRAPPER_LIBRARY}" DESTINATION lib)
+install(FILES "${GENERATED_XPNET}" DESTINATION workflow)
+install(FILES "${COMPILED_PETRI_NET}" DESTINATION pnet)
+#install(FILES "${CMAKE_SOURCE_DIR}/bin/lib/libfeynman_module.so" DESTINATION lib)
