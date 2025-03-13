@@ -1,22 +1,24 @@
 #!/bin/bash
-#rm -rf ~/gpi/try_gpi/Reduce/build_dir/* ~/gpi/try_gpi/Reduce/install_dir/*
 
-# Create necessary directories
-mkdir -p ~/gpi/try_gpi/Reduce/build_dir ~/gpi/try_gpi/Reduce/install_dir
+# Remove old build and install directories
+rm -rf ~/gpi/try_gpi/Reduce/build_dir/* ~/gpi/try_gpi/Reduce/install_dir/*
 
 # Activate the Spack environment
-spack load gpi-space@23.06
+spack load gpi-space@24.12
 
 # Generate SVG workflow diagram
 pnetc ~/gpi/try_gpi/Reduce/template/workflow/template.xpnet | pnet2dot | dot -T svg > ~/gpi/try_gpi/Reduce/template/workflow/fey.svg
 
-# Define variables
+# Define installation paths
 INSTALL_PREFIX="/home/atraore/gpi/try_gpi/Reduce/install_dir/"
 BUILD_TYPE="Release"
 BOOST_NO_CMAKE="on"
-GPISPACE_ROOT="$HOME/spack/opt/spack/linux-ubuntu22.04-skylake/gcc-11.3.0/gpi-space-23.06-gxye6b7ngsnbxnzjkfsfqtvanynyghdk/"
+GPISPACE_ROOT="/home/atraore/singular-gpispace/spack/opt/spack/linux-ubuntu22.04-skylake/gcc-11.3.0/gpi-space-24.12-jz6b4m6ql54fmhkpq6gbico2neic3kd5"
 BUILD_DIR="/home/atraore/gpi/try_gpi/Reduce/build_dir/"
 SOURCE_DIR="/home/atraore/gpi/try_gpi/Reduce/template"
+
+# Set GSPC_HOME explicitly to GPI-Space 24.12
+export GSPC_HOME=$GPISPACE_ROOT
 
 # Set FLINT home directory
 FLINT_HOME="/usr/local/"
