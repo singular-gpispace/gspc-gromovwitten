@@ -1,32 +1,5 @@
-spack load gpi-space@24.12 || { echo "Failed to load GPI-Space"; exit 1; }
-
-# Generate SVG workflow diagram
-pnetc ~/gpi/try_gpi/gspc-gromovwitten/template/workflow/template.xpnet | pnet2dot | dot -T svg > ~/gpi/try_gpi/gspc-gromovwitten/template/workflow/fey.svg
-
-# Define variables
-INSTALL_PREFIX="/home/atraore/gpi/try_gpi/gspc-gromovwitten/install_dir/"
-BUILD_TYPE="Release"
-BOOST_NO_CMAKE="on"
-
-# Set GPI-Space root
-GPISPACE_ROOT="/home/atraore/singular-gpispace/spack/opt/spack/linux-ubuntu22.04-skylake/gcc-11.3.0/gpi-space-24.12-jz6b4m6ql54fmhkpq6gbico2neic3kd5"
-export GSPC_HOME=$GPISPACE_ROOT
-
-# Set FLINT home directory
-FLINT_HOME="/usr/local"
-FLINT_INCLUDE_DIR="/usr/local/include/flint"
-FLINT_LIB_DIR="/usr/local/lib"
-
-# Set GMP home directory
-GMP_HOME="/home/atraore/singular-gpispace/spack/opt/spack/linux-ubuntu22.04-skylake/gcc-11.3.0/gmp-6.2.1-gjqp7e3m3fik4wsuqqcxv2brlj2wkyza"
-
-# Set the library path correctly
-export LD_LIBRARY_PATH=$GPISPACE_ROOT/lib:$FLINT_LIB_DIR:$GMP_HOME/lib:$SINGULAR_INSTALL_DIR/lib:$LD_LIBRARY_PATH
-
-
-
-#include <aggregate_sum/execute.hpp>
-#include <aggregate_sum/Workflow.hpp>
+#include <feynman/execute.hpp>
+#include <feynman/Workflow.hpp>
 
 #include <drts/client.hpp>
 #include <drts/drts.hpp>
@@ -38,7 +11,7 @@ export LD_LIBRARY_PATH=$GPISPACE_ROOT/lib:$FLINT_LIB_DIR:$GMP_HOME/lib:$SINGULAR
 
 #include <string>
 
-namespace aggregate_sum
+namespace feynman
 {
   namespace execution
   {
@@ -59,7 +32,7 @@ namespace aggregate_sum
 
   WorkflowResult execute (Parameters parameters, Workflow const& workflow)
   {
-    auto const aggregate_sum_installation_path
+    auto const feynman_installation_path
       (fhg::util::executable_path().parent_path().parent_path());
 
     gspc::installation installation (parameters);
@@ -69,7 +42,7 @@ namespace aggregate_sum
                              installation);
 
     gspc::set_application_search_path
-      (parameters, aggregate_sum_installation_path / "lib");
+      (parameters, feynman_installation_path / "lib");
 
     gspc::scoped_runtime_system drts (parameters,
                                       installation,
@@ -77,7 +50,7 @@ namespace aggregate_sum
                                       rifds.entry_points());
 
     gspc::workflow const workflow_obj
-      (aggregate_sum_installation_path / "pnet" / "aggregate_sum.pnet");
+      (feynman_installation_path / "pnet" / "feynman.pnet");
 
     return gspc::client {drts}.put_and_run (workflow_obj, workflow.inputs().map());
   }

@@ -7,6 +7,7 @@
 
 #include <util-generic/executable_path.hpp>
 
+#include <filesystem>
 #include <boost/filesystem/path.hpp>
 
 #include <string>
@@ -41,16 +42,18 @@ namespace feynman
                              gspc::rifd::port {parameters},
                              installation);
 
-    gspc::set_application_search_path
-      (parameters, feynman_installation_path / "lib");
+    // Convert boost::filesystem::path to std::filesystem::path
+    std::filesystem::path lib_path = std::filesystem::path(feynman_installation_path.string()) / "lib";
+    gspc::set_application_search_path(parameters, lib_path);
 
     gspc::scoped_runtime_system drts (parameters,
                                       installation,
                                       parameters.at ("topology").as<std::string>(),
                                       rifds.entry_points());
 
-    gspc::workflow const workflow_obj
-      (feynman_installation_path / "pnet" / "feynman.pnet");
+    // Convert boost::filesystem::path to std::filesystem::path
+    std::filesystem::path workflow_path = std::filesystem::path(feynman_installation_path.string()) / "pnet" / "feynman.pnet";
+    gspc::workflow const workflow_obj(workflow_path);
 
     return gspc::client {drts}.put_and_run (workflow_obj, workflow.inputs().map());
   }

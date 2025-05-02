@@ -3,8 +3,12 @@ project(feynman LANGUAGES CXX)
 
 set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
-find_package(GPISpace REQUIRED)
 
+# Set GPISpace paths
+set(GPISPACE_ROOT "$ENV{GSPC_HOME}")
+set(CMAKE_PREFIX_PATH "${GPISPACE_ROOT};${CMAKE_PREFIX_PATH}")
+
+find_package(GPISpace REQUIRED)
 find_package(util-generic REQUIRED)
 find_package(util-cmake REQUIRED)
 find_package(Boost 1.63 REQUIRED COMPONENTS filesystem program_options)
