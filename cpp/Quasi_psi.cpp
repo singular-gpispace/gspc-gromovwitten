@@ -1,41 +1,13 @@
-#include <Singular/libsingular.h>
-#include <interface/template_interface.hpp>
-#include <interface/WorkflowResult.hpp>
-#include <interface/ValuesOnPorts.hpp>
-#include <interface/Workflow.hpp>
-#include <stdexcept>
+
 #include <unistd.h>
-#include <flint/fmpq.h>
-#include <flint/fmpq_mat.h>
-#include <flint/fmpq_poly.h>
-#include <flint/fmpq_mpoly.h>
-#include <flint/fmpz.h>
-#include <flint/fmpz_mat.h>
-#include <flint/fmpz_poly.h>
-#include <flint/fmpz_mpoly.h>
-#include <flint/arith.h>
-#include <flint/bernoulli.h>
-
-// Initialize FLINT
-void flint_init_wrapper() {
-    flint_register_cleanup_function(flint_cleanup);
-}
-
-// Cleanup FLINT
-void flint_cleanup_wrapper() {
-    flint_cleanup();
-}
-
-#include "config.hpp"
-#include "singular_functions.hpp"
 #include <chrono>
 #include <tuple>
-//#include "Singular/lists.h"
-#include <typeinfo>
-
+#include <set>
+#include <map>
+#include <sstream>
 #include <stdio.h>
 #include <flint/fmpz_mpoly.h>
-#include <stdlib.h> // for malloc and free
+#include <stdlib.h> // for malloc and free² ²  
 #include <fstream>
 #include <sys/resource.h>
 #include <chrono>
@@ -64,93 +36,7 @@ using signature = std::vector<std::tuple<int, std::vector<int>>>;
 
 
 
-void my_init_fmpq(fmpq_t res)
-{
-    fmpq_init(res);
-}
-void my_init_fmpq_p(fmpq_t* res)
-{
-    fmpq_init(*res);
-}
-void myctx_init(fmpq_mpoly_ctx_t ctx, slong nv)
-{
-    fmpq_mpoly_ctx_init(ctx, nv, ORD_DEGLEX);
-}
 
-void my_init(fmpq_mpoly_t res, fmpq_mpoly_ctx_t ctx)
-{
-    fmpq_mpoly_init(res, ctx);
-}
-void my_mpoly_pretty(fmpq_mpoly_t result, fmpq_mpoly_ctx_t ctx)
-{
-    fmpq_mpoly_print_pretty(result, NULL, ctx);
-}
-void my_ctx_clear(fmpq_mpoly_ctx_t ctx)
-{
-    fmpq_mpoly_ctx_clear(ctx);
-}
-void my_mpoly_clear(fmpq_mpoly_t result, fmpq_mpoly_ctx_t ctx)
-{
-    fmpq_mpoly_clear(result, ctx);
-}
-void my_fmpq_set(fmpq_t dest, const fmpq_t src)
-{
-    fmpq_set(dest, src);
-}
-void my_clear(fmpq_t src)
-{
-    fmpq_clear(src);
-}
-
-NO_NAME_MANGLING
-
-
-std::string singular_template_compute_StdBasis(std::string const& input_filename
-    , std::string const& needed_library
-)
-{
-    init_singular(config::singularLibrary().string());
-    load_singular_library(needed_library);
-    std::pair<int, lists> input;
-    std::pair<int, lists> out;
-    std::string ids;
-    std::string out_filename;
-    std::string out_filename1;
-    ids = worker();
-    //std::cout << ids << " in singular_..._compute" << std::endl;
-    input = deserialize(input_filename, ids);
-
-    ScopedLeftv args(input.first, lCopy(input.second));
-    //std::string function_name2 = "stdBasis";
-
-    lists Token = (lists)(args.leftV()->data);
-
-    int L_size = lSize(Token) + 1;
-    for (int i = 0; i < L_size; i++) {
-        sleftv& listElement = Token->m[i];  // Access each element as `leftv`
-        if (listElement.data == NULL) {
-            std::cout << "Input: NULL" << std::endl;
-        }
-        else if (i == 3) {
-            out_filename1 = listElement.String();
-            std::cout << "out_filename1= " << out_filename1 << std::endl;
-        }
-    }
-    /*  // Example output filename for debug purposes
-     std::cout << "Base filename: " << base_filename << std::endl;
-     std::cout << "Output filename: " << out_filename1 << std::endl;
-     std::cout << "Type of out_filename1: " << typeid(out_filename1).name() << std::endl; */
-
-     //out = call_user_proc(function_name2, needed_library, args);
-     //std::cout << "myout " << out.second << std::endl;
-     //out_filename = serialize(out.second, base_filename);
-     //std::cout << base_filename << std::endl;;
-
-
-    return out_filename1;
-}
-
-NO_NAME_MANGLING
 
 std::vector<std::string> singular_template_compute_parseInput(const std::string& input) {
 
@@ -193,7 +79,7 @@ std::vector<std::string> singular_template_compute_parseInput(const std::string&
 
     return result;
 }
-NO_NAME_MANGLING
+
 std::vector<std::pair<int, int>> extractIntegerPairs(const std::string& graph) {
     std::vector<std::pair<int, int>> Gv;
     std::string num;
@@ -348,49 +234,56 @@ void express_as_powers(std::vector<fmpq_poly_t*>& result, int max_degree, int we
     fmpq_poly_init(temp2);
     fmpq_poly_init(product);
 
-    // Loop through powers of E2, E4, and E6 exactly like Julia implementation
-    for (int e2 = 0; e2 <= weightmax; ++e2) {
-        for (int e4 = 0; e4 <= weightmax; ++e4) {
-            for (int e6 = 0; e6 <= weightmax; ++e6) {
+    // Loop through powers of E2, E4, and E6
+    for (int e2 = 0; 2 * e2 <= weightmax; ++e2) {
+        for (int e4 = 0; 4 * e4 <= weightmax; ++e4) {
+            for (int e6 = 0; 6 * e6 <= weightmax; ++e6) {
                 int degree = 2 * e2 + 4 * e4 + 6 * e6;
+
                 if (degree <= weightmax && degree > 0) {
                     // Calculate E2^e2
-                    fmpq_poly_one(temp1);
                     if (e2 > 0) {
                         fmpq_poly_pow(temp1, E2, e2);
                     }
+                    else {
+                        fmpq_poly_one(temp1);  // E2^0 = 1
+                    }
 
                     // Calculate E4^e4
-                    fmpq_poly_one(temp2);
                     if (e4 > 0) {
                         fmpq_poly_pow(temp2, E4, e4);
+                    }
+                    else {
+                        fmpq_poly_one(temp2);  // E4^0 = 1
                     }
 
                     // Multiply temp1 (E2^e2) with temp2 (E4^e4)
                     fmpq_poly_mul(product, temp1, temp2);
 
                     // Calculate E6^e6
-                    fmpq_poly_one(temp1);
                     if (e6 > 0) {
                         fmpq_poly_pow(temp1, E6, e6);
+                    }
+                    else {
+                        fmpq_poly_one(temp1);  // E6^0 = 1
                     }
 
                     // Multiply product (E2^e2 * E4^e4) with E6^e6
                     fmpq_poly_mul(product, product, temp1);
 
-                    // Create new polynomial for the result
-                    fmpq_poly_t* result_poly = (fmpq_poly_t*)malloc(sizeof(fmpq_poly_t));
+                    // Dynamically allocate a new polynomial for storing the result
+                    fmpq_poly_t* result_poly = (fmpq_poly_t*)malloc(sizeof(fmpq_poly_struct));
                     fmpq_poly_init(*result_poly);
                     fmpq_poly_set(*result_poly, product);
 
-                    // Add to result vector
+                    // Push the pointer to the polynomial into the result vector
                     result.push_back(result_poly);
                 }
             }
         }
     }
 
-    // Clear temporary polynomials
+    // Clean up temporary polynomials
     fmpq_poly_clear(temp1);
     fmpq_poly_clear(temp2);
     fmpq_poly_clear(product);
@@ -404,7 +297,7 @@ void polynomial_to_matrix(fmpq_mat_t A, const std::vector<fmpq_poly_t*>& polynom
     slong num_polynomials = polynomials.size();
     slong max_degree = 0;
 
-    // First pass: find the true maximum degree across all polynomials
+    // Find the maximum degree among all polynomials
     for (slong i = 0; i < num_polynomials; i++) {
         slong deg = fmpq_poly_degree(*polynomials[i]);
         if (deg > max_degree) {
@@ -412,33 +305,13 @@ void polynomial_to_matrix(fmpq_mat_t A, const std::vector<fmpq_poly_t*>& polynom
         }
     }
 
-    // Find the last non-zero coefficient position across all polynomials
-    slong last_nonzero_pos = 0;
-    for (slong i = 0; i < num_polynomials; i++) {
-        for (slong j = max_degree; j >= 0; j--) {
-            fmpq_t coeff;
-            fmpq_init(coeff);
-            fmpq_poly_get_coeff_fmpq(coeff, *polynomials[i], j);
-            if (!fmpq_is_zero(coeff)) {
-                last_nonzero_pos = std::max(last_nonzero_pos, j);
-                fmpq_clear(coeff);
-                break;
-            }
-            fmpq_clear(coeff);
-        }
-    }
-
-    // Initialize the matrix A with num_polynomials rows and actual needed columns
-    fmpq_mat_init(A, num_polynomials, last_nonzero_pos + 1);
+    // Initialize the matrix A with num_polynomials rows and max_degree+1 columns
+    fmpq_mat_init(A, num_polynomials, max_degree + 1);
 
     // Fill the matrix A with coefficients from the polynomials
     for (slong i = 0; i < num_polynomials; i++) {
-        for (slong j = 0; j <= last_nonzero_pos; j++) {
-            if (j <= fmpq_poly_degree(*polynomials[i])) {
-                fmpq_poly_get_coeff_fmpq(fmpq_mat_entry(A, i, j), *polynomials[i], j);
-            } else {
-                fmpq_zero(fmpq_mat_entry(A, i, j));
-            }
+        for (slong j = 0; j <= fmpq_poly_degree(*polynomials[i]); j++) {
+            fmpq_poly_get_coeff_fmpq(fmpq_mat_entry(A, i, j), *polynomials[i], j);
         }
     }
 }
@@ -516,31 +389,17 @@ void print_poly(const fmpq_mpoly_t poly, const fmpq_mpoly_ctx_t ctx) {
 
 
 bool solve_polynomial_system(const fmpq_mat_t A, const fmpq_mat_t B, fmpq_mat_t X) {
-    // Check if matrices are properly initialized
-    if (!A || !B || !X) {
-        std::cerr << "Error: Invalid matrix input" << std::endl;
-        return false;
-    }
-
-    // Check matrix dimensions
-    if (fmpq_mat_nrows(A) != fmpq_mat_nrows(B) || 
-        fmpq_mat_ncols(A) != fmpq_mat_nrows(X) ||
-        fmpq_mat_ncols(B) != fmpq_mat_ncols(X)) {
-        std::cerr << "Error: Matrix dimensions mismatch" << std::endl;
-        return false;
-    }
-
-    // Initialize result matrix
-    fmpq_mat_init(X, fmpq_mat_nrows(A), fmpq_mat_ncols(B));
+    //std::cout << "Checking if the system can be solved using Dixon's method..." << std::endl;
 
     // Attempt to solve the system using Dixon's method
     if (fmpq_mat_can_solve_dixon(X, A, B) != 0) {
         std::cout << "System can be solved. Attempting to solve..." << std::endl;
+
+        // Since Dixon's method sets X with the solution, we can just return true
         return true;
     }
     else {
         std::cerr << "System cannot be solved." << std::endl;
-        fmpq_mat_clear(X);
         return false;
     }
 }
@@ -582,25 +441,23 @@ void quasi_matrix(std::vector<fmpq_t*>& result, const std::vector<fmpq_t*>& Iq, 
 
     std::vector<fmpq_poly_t*> filtered_Evector;
     filter_vector(filtered_Evector, Evector, max_degree);
-   // std::cout << "filtered_Evector size: " << filtered_Evector.size() << std::endl;
 
     fmpq_mat_t A;
     polynomial_to_matrix(A, filtered_Evector);
-    // std::cout << "Matrix A dimensions: " << fmpq_mat_nrows(A) << " x " << fmpq_mat_ncols(A) << std::endl;
-    // std::cout << "Matrix A contents:" << std::endl;
-    // std::cout << "==================" << std::endl;
-    // for (slong i = 0; i < fmpq_mat_nrows(A); i++) {
-    //     std::cout << "[ ";
-    //     for (slong j = 0; j < fmpq_mat_ncols(A); j++) {
-    //         char* str = fmpq_get_str(NULL, 10, fmpq_mat_entry(A, i, j));
-    //         std::cout << str << (j < fmpq_mat_ncols(A) - 1 ? ", " : "");
-    //         flint_free(str);
-    //         std::cout.flush();
-    //     }
-    //     std::cout << " ]" << std::endl;
-    // }
-    // std::cout << "==================" << std::endl;
-
+    std::cout << "Matrix A dimensions: " << fmpq_mat_nrows(A) << " x " << fmpq_mat_ncols(A) << std::endl;
+    std::cout << "Matrix A contents:" << std::endl;
+    std::cout << "==================" << std::endl;
+    for (slong i = 0; i < fmpq_mat_nrows(A); i++) {
+        std::cout << "[ ";
+        for (slong j = 0; j < fmpq_mat_ncols(A); j++) {
+            fmpq_print(fmpq_mat_entry(A, i, j));
+            if (j < fmpq_mat_ncols(A) - 1) {
+                std::cout << ", ";
+            }
+        }
+        std::cout << " ]" << std::endl;
+    }
+    std::cout << "==================" << std::endl;
     fmpq_mat_t Q;
     matrix_of_integral(Iq, Q);
 
@@ -609,6 +466,8 @@ void quasi_matrix(std::vector<fmpq_t*>& result, const std::vector<fmpq_t*>& Iq, 
     fmpq_mat_transpose(A_transposed, A);
     fmpq_mat_init(Q_transposed, fmpq_mat_ncols(Q), fmpq_mat_nrows(Q));
     fmpq_mat_transpose(Q_transposed, Q);
+    // std::cout << "Matrices A and Q transposed." << std::endl;
+
 
     std::cout << "Matrix A_transposed created. Dimensions: "
         << fmpq_mat_nrows(A_transposed) << " x " << fmpq_mat_ncols(A_transposed) << std::endl;
@@ -620,6 +479,7 @@ void quasi_matrix(std::vector<fmpq_t*>& result, const std::vector<fmpq_t*>& Iq, 
 
     fmpq_mat_t X;
     fmpq_mat_init(X, fmpq_mat_nrows(A), fmpq_mat_ncols(Q));
+    // std::cout << "Attempting to solve the system..." << std::endl;
 
     if (solve_polynomial_system(A_transposed, Q, X)) {
         std::cout << "System solved successfully!" << std::endl;
@@ -639,7 +499,9 @@ void quasi_matrix(std::vector<fmpq_t*>& result, const std::vector<fmpq_t*>& Iq, 
             fmpq_t* coeff = (fmpq_t*)malloc(sizeof(fmpq_t));
             fmpq_init(*coeff);
             fmpq_set(*coeff, fmpq_mat_entry(X, i, 0));
+
             new_coeffs.push_back(coeff);
+
         }
 
         fmpq_t common_factor;
@@ -661,9 +523,8 @@ void quasi_matrix(std::vector<fmpq_t*>& result, const std::vector<fmpq_t*>& Iq, 
             result.push_back(new_coeffs[i]);
         }
 
-        fmpq_clear(common_factor);
-    }
 
+    }
     // Cleanup memory
     fmpq_mat_clear(A);
     fmpq_mat_clear(Q);
@@ -679,6 +540,7 @@ void quasi_matrix(std::vector<fmpq_t*>& result, const std::vector<fmpq_t*>& Iq, 
         fmpq_poly_clear(*poly);
         delete poly;
     }
+
 }
 
 // Function to express polynomials as powers of Eisenstein series
@@ -752,124 +614,6 @@ void express_as_eisenstein_series(std::vector<fmpq_mpoly_t*>& result, slong weig
     fmpq_mpoly_clear(E2, ctx);
     fmpq_mpoly_clear(E3, ctx);
 }
-
-// Function to compute the quasimodular form
-void quasimodular_form(fmpq_mpoly_t result, const std::vector<fmpq_t*>& Iq, int weightmax, fmpq_mpoly_ctx_t ctx) {
-    // Step 1: Get the coefficients using quasi_matrix
-    std::vector<fmpq_t*> coef; // Vector to store coefficients
-    quasi_matrix(coef, Iq, weightmax);  // Get coef with coefficients
-
-    // Step 2: Get the Eisenstein series expressions
-    std::vector<fmpq_mpoly_t*> comb_result; // Vector of fmpq_mpoly_t pointers
-    express_as_eisenstein_series(comb_result, weightmax, ctx); // Get comb_result with Eisenstein series
-
-    // Step 3: Initialize the result polynomial
-    fmpq_mpoly_zero(result, ctx); // Initialize the result polynomial to zero
-
-    // Step 4: Compute the sum of the products of coefficients and terms
-    for (size_t i = 0; i < comb_result.size(); ++i) {
-        if (i >= coef.size() || fmpq_is_zero(*coef[i])) {
-            continue; // Skip if coefficient is zero or out of bounds
-        }
-
-        // Temporary polynomial to hold the product
-        fmpq_mpoly_t tmp;
-        fmpq_mpoly_init(tmp, ctx); // Initialize the temporary polynomial
-
-        // Compute tmp = coef[i] * term
-        fmpq_mpoly_scalar_mul_fmpq(tmp, *comb_result[i], *coef[i], ctx);
-
-        // Add tmp to the result polynomial result
-        fmpq_mpoly_add(result, result, tmp, ctx);
-
-        // Clear the temporary polynomial after use
-        fmpq_mpoly_clear(tmp, ctx);
-    }
-
-    // Clear coefficients
-    for (auto& c : coef) {
-        fmpq_clear(*c);
-        free(c);  // Free the memory allocated for fmpq_t pointers
-    }
-
-    // Clear Eisenstein series expressions
-    for (auto& expr : comb_result) {
-        fmpq_mpoly_clear(*expr, ctx);
-        free(expr);  // Free the memory allocated for fmpq_mpoly_t pointers
-    }
-}
-
-
-// Convert fmpq_mpoly to std::string representation
-std::string fmpq_mpolyToString(const fmpq_mpoly_t A, const fmpq_mpoly_ctx_t ctx) {
-    const char* x[] = { "E2", "E4", "E6" };  // Variable names
-    char* result_str = fmpq_mpoly_get_str_pretty(A, x, ctx); // Get string representation
-
-    std::string result(result_str);  // Convert to std::string
-    flint_free(result_str);  // Free the memory allocated by fmpq_mpoly_get_str_pretty
-
-    return result;
-}
-/*
-int main() {
-    // Initialize Iq as a vector of fmpq_t pointers
-    std::vector<fmpq_t*> Iq(9);
-
-    // Initialize and assign values to Iq
-    for (size_t i = 0; i < Iq.size(); ++i) {
-        Iq[i] = (fmpq_t*)malloc(sizeof(fmpq_t));  // Allocate memory for fmpq_t
-        fmpq_init(*Iq[i]);  // Initialize the fmpq_t value
-    }
-
-    // Set values for Iq as specified
-    fmpq_set_ui(*Iq[0], 0, 1);            // 0
-    fmpq_set_ui(*Iq[1], 1, 4);            // 1/4
-    fmpq_set_ui(*Iq[2], 15, 1);           // 15
-    fmpq_set_ui(*Iq[3], 117, 1);          // 117
-    fmpq_set_ui(*Iq[4], 556, 1);          // 556
-    fmpq_set_si(*Iq[5], 3075, 2);         // 3075/2
-    fmpq_set_ui(*Iq[6], 4428, 1);         // 4428
-    fmpq_set_ui(*Iq[7], 8330, 1);         // 8330
-    fmpq_set_ui(*Iq[8], 18480, 1);        // 18480
-
-    // Maximum weight
-    int weightmax = 8;
-
-    slong nv = 3;  // Number of variables
-    fmpq_mpoly_ctx_t ctx;
-    fmpq_mpoly_ctx_init(ctx, nv, ORD_DEGLEX);
-
-    // Variable to hold the result
-    fmpq_mpoly_t result;
-    fmpq_mpoly_init(result, ctx);
-
-    // Call the quasimodular_form function with Iq and weightmax
-    quasimodular_form(result, Iq, weightmax, ctx);
-
-    // Print the result
-    std::cout << "Quasimodular form result (pretty): ";
-    fmpq_mpoly_print_pretty(result, NULL, ctx);
-    std::cout << std::endl;
-
-    // Convert to string representation and print it
-    std::string result_str = fmpq_mpolyToString(result, ctx);
-    std::cout << "Quasimodular form result (string): " << result_str << std::endl;
-
-    // Clear polynomials
-    fmpq_mpoly_clear(result, ctx);
-
-    // Clear context
-    fmpq_mpoly_ctx_clear(ctx);
-
-    // Free allocated memory for Iq
-    for (size_t i = 0; i < Iq.size(); ++i) {
-        fmpq_clear(*Iq[i]);  // Clear the fmpq_t value
-        free(Iq[i]);         // Free the allocated memory
-    }
-
-    return 0;
-}
- */
 
  // Function to convert fmpq_t to a string
 std::string fmpqToString(const fmpq_t f) {
@@ -1015,7 +759,7 @@ std::vector<unsigned long> stringToVectorUlong(const std::string& str) {
     return result;
 }
 
-NO_NAME_MANGLING
+
 std::string vectorToStringULong(const std::vector<unsigned long>& vec) {
     std::stringstream ss;
     for (unsigned long val : vec) {
@@ -1072,7 +816,7 @@ unsigned long  binomial(const int n, const int k) {
 
     return vec[k - 1];
 }
-NO_NAME_MANGLING
+
 unsigned long partialBinomialSum(int n, int d) {
     unsigned long sum = 0;
 
@@ -2277,4 +2021,129 @@ std::vector<fmpq_t*> feynman_integral_degree_sum(std::vector<std::pair<int, int>
     }
 
     return sum_vec;
+}
+// Function to compute the quasimodular form
+void quasimodular_form(fmpq_mpoly_t result, const std::vector<fmpq_t*>& Iq, int weightmax, fmpq_mpoly_ctx_t ctx) {
+    // Step 1: Get the coefficients using quasi_matrix
+    std::vector<fmpq_t*> coef; // Vector to store coefficients
+    quasi_matrix(coef, Iq, weightmax);  //  coef with coefficients
+
+    /*  std::cout << "coef vector:" << std::endl;
+     for (size_t i = 0; i < coef.size(); ++i) {
+         fmpq_print(*coef[i]);
+         std::cout << std::endl;
+     } */
+     // Step 2: Get the Eisenstein series expressions
+    std::vector<fmpq_mpoly_t*> comb_result; // Vector of fmpq_mpoly_t pointers
+    express_as_eisenstein_series(comb_result, weightmax, ctx); //  comb_result with Eisenstein series
+
+    /*   // Print the results
+      for (size_t i = 0; i < comb_result.size(); ++i) {
+          std::cout << "Result[" << i << "]: ";
+          fmpq_mpoly_print_pretty(*comb_result[i], NULL, ctx);
+          std::cout << std::endl;
+      }
+   */
+   // Step 3: Initialize the result polynomial
+    fmpq_mpoly_init(result, ctx); // Initialize the result polynomial
+
+    // Step 4: Compute the sum of the products of coefficients and terms
+    for (size_t i = 0; i < comb_result.size(); ++i) {
+        if (i >= coef.size() || fmpq_is_zero(*coef[i])) {
+            continue; // Skip if coefficient is zero or out of bounds
+        }
+
+        // Temporary polynomial to hold the product
+        fmpq_mpoly_t tmp;
+        fmpq_mpoly_init(tmp, ctx); // Initialize the temporary polynomial
+
+        // Compute tmp = coef[i] * term
+        fmpq_mpoly_scalar_mul_fmpq(tmp, *comb_result[i], *coef[i], ctx);
+
+        // Add tmp to the result polynomial result
+        fmpq_mpoly_add(result, result, tmp, ctx);
+
+        // Clear the temporary polynomial after use
+        fmpq_mpoly_clear(tmp, ctx);
+    }
+
+    // Clear coefficients
+    for (auto& c : coef) {
+        fmpq_clear(*c);
+        // free(c);  // Free the memory allocated for fmpq_t pointers
+    }
+}
+
+
+// Convert fmpq_mpoly to std::string representation
+std::string fmpq_mpolyToString(const fmpq_mpoly_t A, const fmpq_mpoly_ctx_t ctx) {
+    const char* x[] = { "E2", "E4", "E6" };  // Variable names
+    char* result_str = fmpq_mpoly_get_str_pretty(A, x, ctx); // Get string representation
+
+    std::string result(result_str);  // Convert to std::string
+    flint_free(result_str);  // Free the memory allocated by fmpq_mpoly_get_str_pretty
+
+    return result;
+}
+
+int main() {
+    // Initialize Iq as a vector of fmpq_t pointers
+    std::vector<fmpq_t*> Iq(11);
+
+    // Initialize and assign values to Iq
+    for (size_t i = 0; i < Iq.size(); ++i) {
+        Iq[i] = (fmpq_t*)malloc(sizeof(fmpq_t));  // Allocate memory for fmpq_t
+        fmpq_init(*Iq[i]);  // Initialize the fmpq_t value
+    }
+
+    // Set values for Iq as specified
+    fmpq_set_ui(*Iq[0], 0, 1);            // 0
+    fmpq_set_ui(*Iq[1], 1, 4);            // 1/4
+    fmpq_set_ui(*Iq[2], 15, 1);           // 15
+    fmpq_set_ui(*Iq[3], 117, 1);          // 117
+    fmpq_set_ui(*Iq[4], 556, 1);          // 556
+    fmpq_set_si(*Iq[5], 3075, 2);         // 3075/2
+    fmpq_set_ui(*Iq[6], 4428, 1);         // 4428
+    fmpq_set_ui(*Iq[7], 8330, 1);         // 8330
+    fmpq_set_ui(*Iq[8], 18480, 1);        // 18480
+    fmpq_set_ui(*Iq[9], 121581, 4);        // 121581/4
+    fmpq_set_ui(*Iq[10], 56250, 1);        // 56250
+
+
+    // Maximum weight
+    int weightmax = 8;
+
+    slong nv = 3;  // Number of variables
+    fmpq_mpoly_ctx_t ctx;
+    fmpq_mpoly_ctx_init(ctx, nv, ORD_DEGLEX);
+
+    // Variable to hold the result
+    fmpq_mpoly_t result;
+    fmpq_mpoly_init(result, ctx);
+
+    // Call the quasimodular_form function with Iq and weightmax
+    quasimodular_form(result, Iq, weightmax, ctx);
+
+    // Print the result
+    std::cout << "Quasimodular form result (pretty): ";
+    fmpq_mpoly_print_pretty(result, NULL, ctx);
+    std::cout << std::endl;
+
+    // Convert to string representation and print it
+    std::string result_str = fmpq_mpolyToString(result, ctx);
+    std::cout << "Quasimodular form result (string): " << result_str << std::endl;
+
+    // Clear polynomials
+    fmpq_mpoly_clear(result, ctx);
+
+    // Clear context
+    fmpq_mpoly_ctx_clear(ctx);
+
+    // Free allocated memory for Iq
+    for (size_t i = 0; i < Iq.size(); ++i) {
+        fmpq_clear(*Iq[i]);  // Clear the fmpq_t value
+        free(Iq[i]);         // Free the allocated memory
+    }
+
+    return 0;
 }

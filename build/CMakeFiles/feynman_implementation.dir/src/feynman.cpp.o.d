@@ -1,5 +1,5 @@
 CMakeFiles/feynman_implementation.dir/src/feynman.cpp.o: \
- /home/atraore/gpi/try_gpi/gpispace/src/feynman.cpp \
+ /home/atraore/gpi/try_gpi/gspc-gromovwitten/src/feynman.cpp \
  /usr/include/stdc-predef.h /usr/include/c++/11/list \
  /usr/include/c++/11/bits/stl_algobase.h \
  /usr/include/x86_64-linux-gnu/c++/11/bits/c++config.h \
@@ -151,7 +151,7 @@ CMakeFiles/feynman_implementation.dir/src/feynman.cpp.o: \
  /usr/include/c++/11/bits/ostream.tcc \
  /usr/include/c++/11/bits/istream.tcc \
  /usr/include/c++/11/bits/sstream.tcc \
- /home/atraore/gpi/try_gpi/gpispace/src/../../code/boost/include/boost/variant.hpp \
+ /home/atraore/gpi/try_gpi/gspc-gromovwitten/src/../../code/boost/include/boost/variant.hpp \
  /usr/include/boost/variant/variant.hpp /usr/include/c++/11/cstddef \
  /usr/include/boost/type_index.hpp /usr/include/boost/config.hpp \
  /usr/include/boost/config/user.hpp \
@@ -578,12 +578,12 @@ CMakeFiles/feynman_implementation.dir/src/feynman.cpp.o: \
  /usr/include/boost/type_traits/add_pointer.hpp \
  /usr/include/boost/variant/visitor_ptr.hpp \
  /usr/include/boost/variant/bad_visit.hpp \
- /home/atraore/gpi/try_gpi/gpispace/src/../../code/util-generic/split.hpp \
+ /home/atraore/gpi/try_gpi/gspc-gromovwitten/src/../../code/util-generic/split.hpp \
  /usr/include/c++/11/iterator /usr/include/c++/11/bits/stream_iterator.h \
- /home/atraore/gpi/try_gpi/gpispace/src/../../code/we/type/value.hpp \
- /home/atraore/gpi/try_gpi/gpispace/src/../../code/we/type/bitsetofint.hpp \
- /home/atraore/gpi/try_gpi/gpispace/src/../../code/we/type/../../gspc/detail/dllexport.hpp \
- /home/atraore/gpi/try_gpi/gpispace/src/../../code/we/type/../../gspc/detail/dllexport.ipp \
+ /home/atraore/gpi/try_gpi/gspc-gromovwitten/src/../../code/we/type/value.hpp \
+ /home/atraore/gpi/try_gpi/gspc-gromovwitten/src/../../code/we/type/bitsetofint.hpp \
+ /home/atraore/gpi/try_gpi/gspc-gromovwitten/src/../../code/we/type/../../gspc/detail/dllexport.hpp \
+ /home/atraore/gpi/try_gpi/gspc-gromovwitten/src/../../code/we/type/../../gspc/detail/dllexport.ipp \
  /usr/include/boost/optional.hpp /usr/include/boost/optional/optional.hpp \
  /usr/include/boost/core/explicit_operator_bool.hpp \
  /usr/include/boost/core/swap.hpp \
@@ -667,13 +667,13 @@ CMakeFiles/feynman_implementation.dir/src/feynman.cpp.o: \
  /usr/include/c++/11/bits/stl_set.h \
  /usr/include/c++/11/bits/stl_multiset.h \
  /usr/include/c++/11/bits/erase_if.h \
- /home/atraore/gpi/try_gpi/gpispace/src/../../code/we/type/bytearray.hpp \
+ /home/atraore/gpi/try_gpi/gspc-gromovwitten/src/../../code/we/type/bytearray.hpp \
  /usr/include/c++/11/algorithm /usr/include/c++/11/bits/stl_algo.h \
  /usr/include/c++/11/bits/algorithmfwd.h \
  /usr/include/c++/11/bits/stl_heap.h \
  /usr/include/c++/11/bits/stl_tempbuf.h \
  /usr/include/c++/11/bits/uniform_int_dist.h \
- /home/atraore/gpi/try_gpi/gpispace/src/../../code/we/type/literal/control.hpp \
+ /home/atraore/gpi/try_gpi/gspc-gromovwitten/src/../../code/we/type/literal/control.hpp \
  /usr/include/boost/variant.hpp /usr/include/c++/11/map \
  /usr/include/c++/11/bits/stl_map.h \
  /usr/include/c++/11/bits/stl_multimap.h /usr/local/include/flint/fmpz.h \

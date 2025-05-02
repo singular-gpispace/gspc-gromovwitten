@@ -1,0 +1,30 @@
+{
+    "program": {
+        "name": "feynman_integral",
+        "source": "cpp/try.cpp",
+        "output": "cpp/try",
+        "compile_flags": [
+            "-I/usr/local/include",
+            "-L/usr/local/lib",
+            "-lflint",
+            "-lgmp"
+        ]
+    },
+    "parameters": {
+        "graph": {
+            "vertices": [
+                [1, 2],
+                [2, 3],
+                [3, 1]
+            ]
+        },
+        "degree": 4,
+        "multiplicities": [0, 0, 3],
+        "l_values": [0, 0, 0],
+        "g_values": [1, 0, 0]
+    },
+    "output": {
+        "format": "text",
+        "file": "results.txt"
+    }
+} 

@@ -38,28 +38,22 @@ find_boost(1.61 REQUIRED QUIET FROM_GPISPACE_INSTALLATION COMPONENTS
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake/modules")
 find_package(Singular REQUIRED)
 
-# FLINT include and library directories
-# set(FLINT_INCLUDE_DIR "/usr/local/include/flint")
-# set(FLINT_LIB_DIR "/usr/local/lib")
+# Find FLINT
+find_library(FLINT_LIBRARY
+  NAMES flint
+  HINTS ${FLINT_LIB_DIR}
+  PATH_SUFFIXES lib
+)
 
-# Add FLINT include directory
-# include_directories(${FLINT_INCLUDE_DIR})
-
-# FLINT library search
-# find_library(FLINT_LIB flint HINTS "${FLINT_LIB_DIR}")
-
-# Check if FLINT library was found
-#[[ if(NOT FLINT_LIB)
+if(NOT FLINT_LIBRARY)
   message(FATAL_ERROR "FLINT library not found!")
 endif()
 
-# Link FLINT library directory
-link_directories(${FLINT_LIB_DIR})
-]]
 # Include directories for project
 include_directories("src")
 include_directories("${CMAKE_CURRENT_SOURCE_DIR}")
 include_directories("${CMAKE_CURRENT_BINARY_DIR}/src")
+include_directories("${FLINT_INCLUDE_DIR}")
 
 # Add subdirectories
 add_subdirectory(src)

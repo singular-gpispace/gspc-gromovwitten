@@ -18,7 +18,7 @@ namespace pnetc
         , std::list<pnet::type::value::value_type>& vec
         )
       {
-#line 107 "/home/atraore/gpi/try_gpi/gpispace/workflow/feynman.xpnet"
+#line 107 "/home/atraore/gpi/try_gpi/gspc-gromovwitten/workflow/feynman.xpnet"
 
           std::vector<int> x;
           for (const auto& elem : v) {

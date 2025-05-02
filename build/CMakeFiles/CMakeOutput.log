@@ -10,13 +10,13 @@ The output was:
 
 Compilation of the CXX compiler identification source "CMakeCXXCompilerId.cpp" produced "a.out"
 
-The CXX compiler identification is GNU, found in "/home/atraore/gpi/try_gpi/gpispace/build/CMakeFiles/3.22.1/CompilerIdCXX/a.out"
+The CXX compiler identification is GNU, found in "/home/atraore/gpi/try_gpi/gspc-gromovwitten/build/CMakeFiles/3.22.1/CompilerIdCXX/a.out"
 
 Detecting CXX compiler ABI info compiled with the following output:
-Change Dir: /home/atraore/gpi/try_gpi/gpispace/build/CMakeFiles/CMakeTmp
+Change Dir: /home/atraore/gpi/try_gpi/gspc-gromovwitten/build/CMakeFiles/CMakeTmp
 
 Run Build Command(s):/usr/bin/gmake -f Makefile cmTC_4dbb7/fast && /usr/bin/gmake  -f CMakeFiles/cmTC_4dbb7.dir/build.make CMakeFiles/cmTC_4dbb7.dir/build
-gmake[1]: Entering directory '/home/atraore/gpi/try_gpi/gpispace/build/CMakeFiles/CMakeTmp'
+gmake[1]: Entering directory '/home/atraore/gpi/try_gpi/gspc-gromovwitten/build/CMakeFiles/CMakeTmp'
 Building CXX object CMakeFiles/cmTC_4dbb7.dir/CMakeCXXCompilerABI.cpp.o
 /usr/bin/c++   -v -o CMakeFiles/cmTC_4dbb7.dir/CMakeCXXCompilerABI.cpp.o -c /usr/share/cmake-3.22/Modules/CMakeCXXCompilerABI.cpp
 Using built-in specs.
@@ -77,7 +77,7 @@ LIBRARY_PATH=/usr/lib/gcc/x86_64-linux-gnu/11/:/usr/lib/gcc/x86_64-linux-gnu/11/
 COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_4dbb7' '-shared-libgcc' '-mtune=generic' '-march=x86-64' '-dumpdir' 'cmTC_4dbb7.'
  /usr/lib/gcc/x86_64-linux-gnu/11/collect2 -plugin /usr/lib/gcc/x86_64-linux-gnu/11/liblto_plugin.so -plugin-opt=/usr/lib/gcc/x86_64-linux-gnu/11/lto-wrapper -plugin-opt=-fresolution=/tmp/ccbCwIzs.res -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lc -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc --build-id --eh-frame-hdr -m elf_x86_64 --hash-style=gnu --as-needed -dynamic-linker /lib64/ld-linux-x86-64.so.2 -pie -z now -z relro -o cmTC_4dbb7 /usr/lib/gcc/x86_64-linux-gnu/11/../../../x86_64-linux-gnu/Scrt1.o /usr/lib/gcc/x86_64-linux-gnu/11/../../../x86_64-linux-gnu/crti.o /usr/lib/gcc/x86_64-linux-gnu/11/crtbeginS.o -L/usr/lib/gcc/x86_64-linux-gnu/11 -L/usr/lib/gcc/x86_64-linux-gnu/11/../../../x86_64-linux-gnu -L/usr/lib/gcc/x86_64-linux-gnu/11/../../../../lib -L/lib/x86_64-linux-gnu -L/lib/../lib -L/usr/lib/x86_64-linux-gnu -L/usr/lib/../lib -L/usr/lib/gcc/x86_64-linux-gnu/11/../../.. CMakeFiles/cmTC_4dbb7.dir/CMakeCXXCompilerABI.cpp.o -lstdc++ -lm -lgcc_s -lgcc -lc -lgcc_s -lgcc /usr/lib/gcc/x86_64-linux-gnu/11/crtendS.o /usr/lib/gcc/x86_64-linux-gnu/11/../../../x86_64-linux-gnu/crtn.o
 COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_4dbb7' '-shared-libgcc' '-mtune=generic' '-march=x86-64' '-dumpdir' 'cmTC_4dbb7.'
-gmake[1]: Leaving directory '/home/atraore/gpi/try_gpi/gpispace/build/CMakeFiles/CMakeTmp'
+gmake[1]: Leaving directory '/home/atraore/gpi/try_gpi/gspc-gromovwitten/build/CMakeFiles/CMakeTmp'
 
 
 
@@ -104,10 +104,10 @@ Parsed CXX implicit include dir info from above output: rv=done
 
 Parsed CXX implicit link information from above output:
   link line regex: [^( *|.*[/\])(ld|CMAKE_LINK_STARTFILE-NOTFOUND|([^/\]+-)?ld|collect2)[^/\]*( |$)]
-  ignore line: [Change Dir: /home/atraore/gpi/try_gpi/gpispace/build/CMakeFiles/CMakeTmp]
+  ignore line: [Change Dir: /home/atraore/gpi/try_gpi/gspc-gromovwitten/build/CMakeFiles/CMakeTmp]
   ignore line: []
   ignore line: [Run Build Command(s):/usr/bin/gmake -f Makefile cmTC_4dbb7/fast && /usr/bin/gmake  -f CMakeFiles/cmTC_4dbb7.dir/build.make CMakeFiles/cmTC_4dbb7.dir/build]
-  ignore line: [gmake[1]: Entering directory '/home/atraore/gpi/try_gpi/gpispace/build/CMakeFiles/CMakeTmp']
+  ignore line: [gmake[1]: Entering directory '/home/atraore/gpi/try_gpi/gspc-gromovwitten/build/CMakeFiles/CMakeTmp']
   ignore line: [Building CXX object CMakeFiles/cmTC_4dbb7.dir/CMakeCXXCompilerABI.cpp.o]
   ignore line: [/usr/bin/c++   -v -o CMakeFiles/cmTC_4dbb7.dir/CMakeCXXCompilerABI.cpp.o -c /usr/share/cmake-3.22/Modules/CMakeCXXCompilerABI.cpp]
   ignore line: [Using built-in specs.]
@@ -229,30 +229,30 @@ Parsed CXX implicit link information from above output:
 
 
 Determining if the include file pthread.h exists passed with the following output:
-Change Dir: /home/atraore/gpi/try_gpi/gpispace/build/CMakeFiles/CMakeTmp
+Change Dir: /home/atraore/gpi/try_gpi/gspc-gromovwitten/build/CMakeFiles/CMakeTmp
 
 Run Build Command(s):/usr/bin/gmake -f Makefile cmTC_4a2b4/fast && /usr/bin/gmake  -f CMakeFiles/cmTC_4a2b4.dir/build.make CMakeFiles/cmTC_4a2b4.dir/build
-gmake[1]: Verzeichnis „/home/atraore/gpi/try_gpi/gpispace/build/CMakeFiles/CMakeTmp“ wird betreten
+gmake[1]: Verzeichnis „/home/atraore/gpi/try_gpi/gspc-gromovwitten/build/CMakeFiles/CMakeTmp“ wird betreten
 Building CXX object CMakeFiles/cmTC_4a2b4.dir/CheckIncludeFile.cxx.o
-/usr/bin/c++   -std=gnu++14 -o CMakeFiles/cmTC_4a2b4.dir/CheckIncludeFile.cxx.o -c /home/atraore/gpi/try_gpi/gpispace/build/CMakeFiles/CMakeTmp/CheckIncludeFile.cxx
+/usr/bin/c++   -std=gnu++14 -o CMakeFiles/cmTC_4a2b4.dir/CheckIncludeFile.cxx.o -c /home/atraore/gpi/try_gpi/gspc-gromovwitten/build/CMakeFiles/CMakeTmp/CheckIncludeFile.cxx
 Linking CXX executable cmTC_4a2b4
 /usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_4a2b4.dir/link.txt --verbose=1
 /usr/bin/c++ CMakeFiles/cmTC_4a2b4.dir/CheckIncludeFile.cxx.o -o cmTC_4a2b4 
-gmake[1]: Verzeichnis „/home/atraore/gpi/try_gpi/gpispace/build/CMakeFiles/CMakeTmp“ wird verlassen
+gmake[1]: Verzeichnis „/home/atraore/gpi/try_gpi/gspc-gromovwitten/build/CMakeFiles/CMakeTmp“ wird verlassen
 
 
 
 Performing C++ SOURCE FILE Test CMAKE_HAVE_LIBC_PTHREAD succeeded with the following output:
-Change Dir: /home/atraore/gpi/try_gpi/gpispace/build/CMakeFiles/CMakeTmp
+Change Dir: /home/atraore/gpi/try_gpi/gspc-gromovwitten/build/CMakeFiles/CMakeTmp
 
 Run Build Command(s):/usr/bin/gmake -f Makefile cmTC_28d68/fast && /usr/bin/gmake  -f CMakeFiles/cmTC_28d68.dir/build.make CMakeFiles/cmTC_28d68.dir/build
-gmake[1]: Verzeichnis „/home/atraore/gpi/try_gpi/gpispace/build/CMakeFiles/CMakeTmp“ wird betreten
+gmake[1]: Verzeichnis „/home/atraore/gpi/try_gpi/gspc-gromovwitten/build/CMakeFiles/CMakeTmp“ wird betreten
 Building CXX object CMakeFiles/cmTC_28d68.dir/src.cxx.o
-/usr/bin/c++ -DCMAKE_HAVE_LIBC_PTHREAD  -std=gnu++14 -o CMakeFiles/cmTC_28d68.dir/src.cxx.o -c /home/atraore/gpi/try_gpi/gpispace/build/CMakeFiles/CMakeTmp/src.cxx
+/usr/bin/c++ -DCMAKE_HAVE_LIBC_PTHREAD  -std=gnu++14 -o CMakeFiles/cmTC_28d68.dir/src.cxx.o -c /home/atraore/gpi/try_gpi/gspc-gromovwitten/build/CMakeFiles/CMakeTmp/src.cxx
 Linking CXX executable cmTC_28d68
 /usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_28d68.dir/link.txt --verbose=1
 /usr/bin/c++ CMakeFiles/cmTC_28d68.dir/src.cxx.o -o cmTC_28d68 
-gmake[1]: Verzeichnis „/home/atraore/gpi/try_gpi/gpispace/build/CMakeFiles/CMakeTmp“ wird verlassen
+gmake[1]: Verzeichnis „/home/atraore/gpi/try_gpi/gspc-gromovwitten/build/CMakeFiles/CMakeTmp“ wird verlassen
 
 
 Source file was:
@@ -288,7 +288,7 @@ The output was:
 
 Compilation of the C compiler identification source "CMakeCCompilerId.c" produced "a.out"
 
-The C compiler identification is GNU, found in "/home/atraore/gpi/try_gpi/gpispace/build/CMakeFiles/3.22.1/CompilerIdC/a.out"
+The C compiler identification is GNU, found in "/home/atraore/gpi/try_gpi/gspc-gromovwitten/build/CMakeFiles/3.22.1/CompilerIdC/a.out"
 
 Compiling the CXX compiler identification source file "CMakeCXXCompilerId.cpp" succeeded.
 Compiler: /usr/bin/c++ 
@@ -301,13 +301,13 @@ The output was:
 
 Compilation of the CXX compiler identification source "CMakeCXXCompilerId.cpp" produced "a.out"
 
-The CXX compiler identification is GNU, found in "/home/atraore/gpi/try_gpi/gpispace/build/CMakeFiles/3.22.1/CompilerIdCXX/a.out"
+The CXX compiler identification is GNU, found in "/home/atraore/gpi/try_gpi/gspc-gromovwitten/build/CMakeFiles/3.22.1/CompilerIdCXX/a.out"
 
 Detecting C compiler ABI info compiled with the following output:
-Change Dir: /home/atraore/gpi/try_gpi/gpispace/build/CMakeFiles/CMakeTmp
+Change Dir: /home/atraore/gpi/try_gpi/gspc-gromovwitten/build/CMakeFiles/CMakeTmp
 
 Run Build Command(s):/usr/bin/gmake -f Makefile cmTC_ca179/fast && /usr/bin/gmake  -f CMakeFiles/cmTC_ca179.dir/build.make CMakeFiles/cmTC_ca179.dir/build
-gmake[1]: Entering directory '/home/atraore/gpi/try_gpi/gpispace/build/CMakeFiles/CMakeTmp'
+gmake[1]: Entering directory '/home/atraore/gpi/try_gpi/gspc-gromovwitten/build/CMakeFiles/CMakeTmp'
 Building C object CMakeFiles/cmTC_ca179.dir/CMakeCCompilerABI.c.o
 /usr/bin/cc   -v -o CMakeFiles/cmTC_ca179.dir/CMakeCCompilerABI.c.o -c /usr/share/cmake-3.22/Modules/CMakeCCompilerABI.c
 Using built-in specs.
@@ -364,7 +364,7 @@ LIBRARY_PATH=/usr/lib/gcc/x86_64-linux-gnu/11/:/usr/lib/gcc/x86_64-linux-gnu/11/
 COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_ca179' '-mtune=generic' '-march=x86-64' '-dumpdir' 'cmTC_ca179.'
  /usr/lib/gcc/x86_64-linux-gnu/11/collect2 -plugin /usr/lib/gcc/x86_64-linux-gnu/11/liblto_plugin.so -plugin-opt=/usr/lib/gcc/x86_64-linux-gnu/11/lto-wrapper -plugin-opt=-fresolution=/tmp/ccxIDWxh.res -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lc -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lgcc_s --build-id --eh-frame-hdr -m elf_x86_64 --hash-style=gnu --as-needed -dynamic-linker /lib64/ld-linux-x86-64.so.2 -pie -z now -z relro -o cmTC_ca179 /usr/lib/gcc/x86_64-linux-gnu/11/../../../x86_64-linux-gnu/Scrt1.o /usr/lib/gcc/x86_64-linux-gnu/11/../../../x86_64-linux-gnu/crti.o /usr/lib/gcc/x86_64-linux-gnu/11/crtbeginS.o -L/usr/lib/gcc/x86_64-linux-gnu/11 -L/usr/lib/gcc/x86_64-linux-gnu/11/../../../x86_64-linux-gnu -L/usr/lib/gcc/x86_64-linux-gnu/11/../../../../lib -L/lib/x86_64-linux-gnu -L/lib/../lib -L/usr/lib/x86_64-linux-gnu -L/usr/lib/../lib -L/usr/lib/gcc/x86_64-linux-gnu/11/../../.. CMakeFiles/cmTC_ca179.dir/CMakeCCompilerABI.c.o -lgcc --push-state --as-needed -lgcc_s --pop-state -lc -lgcc --push-state --as-needed -lgcc_s --pop-state /usr/lib/gcc/x86_64-linux-gnu/11/crtendS.o /usr/lib/gcc/x86_64-linux-gnu/11/../../../x86_64-linux-gnu/crtn.o
 COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_ca179' '-mtune=generic' '-march=x86-64' '-dumpdir' 'cmTC_ca179.'
-gmake[1]: Leaving directory '/home/atraore/gpi/try_gpi/gpispace/build/CMakeFiles/CMakeTmp'
+gmake[1]: Leaving directory '/home/atraore/gpi/try_gpi/gspc-gromovwitten/build/CMakeFiles/CMakeTmp'
 
 
 
@@ -385,10 +385,10 @@ Parsed C implicit include dir info from above output: rv=done
 
 Parsed C implicit link information from above output:
   link line regex: [^( *|.*[/\])(ld|CMAKE_LINK_STARTFILE-NOTFOUND|([^/\]+-)?ld|collect2)[^/\]*( |$)]
-  ignore line: [Change Dir: /home/atraore/gpi/try_gpi/gpispace/build/CMakeFiles/CMakeTmp]
+  ignore line: [Change Dir: /home/atraore/gpi/try_gpi/gspc-gromovwitten/build/CMakeFiles/CMakeTmp]
   ignore line: []
   ignore line: [Run Build Command(s):/usr/bin/gmake -f Makefile cmTC_ca179/fast && /usr/bin/gmake  -f CMakeFiles/cmTC_ca179.dir/build.make CMakeFiles/cmTC_ca179.dir/build]
-  ignore line: [gmake[1]: Entering directory '/home/atraore/gpi/try_gpi/gpispace/build/CMakeFiles/CMakeTmp']
+  ignore line: [gmake[1]: Entering directory '/home/atraore/gpi/try_gpi/gspc-gromovwitten/build/CMakeFiles/CMakeTmp']
   ignore line: [Building C object CMakeFiles/cmTC_ca179.dir/CMakeCCompilerABI.c.o]
   ignore line: [/usr/bin/cc   -v -o CMakeFiles/cmTC_ca179.dir/CMakeCCompilerABI.c.o -c /usr/share/cmake-3.22/Modules/CMakeCCompilerABI.c]
   ignore line: [Using built-in specs.]
@@ -510,10 +510,10 @@ Parsed C implicit link information from above output:
 
 
 Detecting CXX compiler ABI info compiled with the following output:
-Change Dir: /home/atraore/gpi/try_gpi/gpispace/build/CMakeFiles/CMakeTmp
+Change Dir: /home/atraore/gpi/try_gpi/gspc-gromovwitten/build/CMakeFiles/CMakeTmp
 
 Run Build Command(s):/usr/bin/gmake -f Makefile cmTC_2cae7/fast && /usr/bin/gmake  -f CMakeFiles/cmTC_2cae7.dir/build.make CMakeFiles/cmTC_2cae7.dir/build
-gmake[1]: Entering directory '/home/atraore/gpi/try_gpi/gpispace/build/CMakeFiles/CMakeTmp'
+gmake[1]: Entering directory '/home/atraore/gpi/try_gpi/gspc-gromovwitten/build/CMakeFiles/CMakeTmp'
 Building CXX object CMakeFiles/cmTC_2cae7.dir/CMakeCXXCompilerABI.cpp.o
 /usr/bin/c++   -v -o CMakeFiles/cmTC_2cae7.dir/CMakeCXXCompilerABI.cpp.o -c /usr/share/cmake-3.22/Modules/CMakeCXXCompilerABI.cpp
 Using built-in specs.
@@ -574,7 +574,7 @@ LIBRARY_PATH=/usr/lib/gcc/x86_64-linux-gnu/11/:/usr/lib/gcc/x86_64-linux-gnu/11/
 COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_2cae7' '-shared-libgcc' '-mtune=generic' '-march=x86-64' '-dumpdir' 'cmTC_2cae7.'
  /usr/lib/gcc/x86_64-linux-gnu/11/collect2 -plugin /usr/lib/gcc/x86_64-linux-gnu/11/liblto_plugin.so -plugin-opt=/usr/lib/gcc/x86_64-linux-gnu/11/lto-wrapper -plugin-opt=-fresolution=/tmp/ccsjtEXR.res -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lc -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc --build-id --eh-frame-hdr -m elf_x86_64 --hash-style=gnu --as-needed -dynamic-linker /lib64/ld-linux-x86-64.so.2 -pie -z now -z relro -o cmTC_2cae7 /usr/lib/gcc/x86_64-linux-gnu/11/../../../x86_64-linux-gnu/Scrt1.o /usr/lib/gcc/x86_64-linux-gnu/11/../../../x86_64-linux-gnu/crti.o /usr/lib/gcc/x86_64-linux-gnu/11/crtbeginS.o -L/usr/lib/gcc/x86_64-linux-gnu/11 -L/usr/lib/gcc/x86_64-linux-gnu/11/../../../x86_64-linux-gnu -L/usr/lib/gcc/x86_64-linux-gnu/11/../../../../lib -L/lib/x86_64-linux-gnu -L/lib/../lib -L/usr/lib/x86_64-linux-gnu -L/usr/lib/../lib -L/usr/lib/gcc/x86_64-linux-gnu/11/../../.. CMakeFiles/cmTC_2cae7.dir/CMakeCXXCompilerABI.cpp.o -lstdc++ -lm -lgcc_s -lgcc -lc -lgcc_s -lgcc /usr/lib/gcc/x86_64-linux-gnu/11/crtendS.o /usr/lib/gcc/x86_64-linux-gnu/11/../../../x86_64-linux-gnu/crtn.o
 COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_2cae7' '-shared-libgcc' '-mtune=generic' '-march=x86-64' '-dumpdir' 'cmTC_2cae7.'
-gmake[1]: Leaving directory '/home/atraore/gpi/try_gpi/gpispace/build/CMakeFiles/CMakeTmp'
+gmake[1]: Leaving directory '/home/atraore/gpi/try_gpi/gspc-gromovwitten/build/CMakeFiles/CMakeTmp'
 
 
 
@@ -601,10 +601,10 @@ Parsed CXX implicit include dir info from above output: rv=done
 
 Parsed CXX implicit link information from above output:
   link line regex: [^( *|.*[/\])(ld|CMAKE_LINK_STARTFILE-NOTFOUND|([^/\]+-)?ld|collect2)[^/\]*( |$)]
-  ignore line: [Change Dir: /home/atraore/gpi/try_gpi/gpispace/build/CMakeFiles/CMakeTmp]
+  ignore line: [Change Dir: /home/atraore/gpi/try_gpi/gspc-gromovwitten/build/CMakeFiles/CMakeTmp]
   ignore line: []
   ignore line: [Run Build Command(s):/usr/bin/gmake -f Makefile cmTC_2cae7/fast && /usr/bin/gmake  -f CMakeFiles/cmTC_2cae7.dir/build.make CMakeFiles/cmTC_2cae7.dir/build]
-  ignore line: [gmake[1]: Entering directory '/home/atraore/gpi/try_gpi/gpispace/build/CMakeFiles/CMakeTmp']
+  ignore line: [gmake[1]: Entering directory '/home/atraore/gpi/try_gpi/gspc-gromovwitten/build/CMakeFiles/CMakeTmp']
   ignore line: [Building CXX object CMakeFiles/cmTC_2cae7.dir/CMakeCXXCompilerABI.cpp.o]
   ignore line: [/usr/bin/c++   -v -o CMakeFiles/cmTC_2cae7.dir/CMakeCXXCompilerABI.cpp.o -c /usr/share/cmake-3.22/Modules/CMakeCXXCompilerABI.cpp]
   ignore line: [Using built-in specs.]
@@ -737,7 +737,7 @@ The output was:
 
 Compilation of the C compiler identification source "CMakeCCompilerId.c" produced "a.out"
 
-The C compiler identification is GNU, found in "/home/atraore/gpi/try_gpi/gpispace/build/CMakeFiles/3.22.1/CompilerIdC/a.out"
+The C compiler identification is GNU, found in "/home/atraore/gpi/try_gpi/gspc-gromovwitten/build/CMakeFiles/3.22.1/CompilerIdC/a.out"
 
 Compiling the CXX compiler identification source file "CMakeCXXCompilerId.cpp" succeeded.
 Compiler: /usr/bin/c++ 
@@ -750,13 +750,13 @@ The output was:
 
 Compilation of the CXX compiler identification source "CMakeCXXCompilerId.cpp" produced "a.out"
 
-The CXX compiler identification is GNU, found in "/home/atraore/gpi/try_gpi/gpispace/build/CMakeFiles/3.22.1/CompilerIdCXX/a.out"
+The CXX compiler identification is GNU, found in "/home/atraore/gpi/try_gpi/gspc-gromovwitten/build/CMakeFiles/3.22.1/CompilerIdCXX/a.out"
 
 Detecting C compiler ABI info compiled with the following output:
-Change Dir: /home/atraore/gpi/try_gpi/gpispace/build/CMakeFiles/CMakeTmp
+Change Dir: /home/atraore/gpi/try_gpi/gspc-gromovwitten/build/CMakeFiles/CMakeTmp
 
 Run Build Command(s):/usr/bin/gmake -f Makefile cmTC_7ed1c/fast && /usr/bin/gmake  -f CMakeFiles/cmTC_7ed1c.dir/build.make CMakeFiles/cmTC_7ed1c.dir/build
-gmake[1]: Entering directory '/home/atraore/gpi/try_gpi/gpispace/build/CMakeFiles/CMakeTmp'
+gmake[1]: Entering directory '/home/atraore/gpi/try_gpi/gspc-gromovwitten/build/CMakeFiles/CMakeTmp'
 Building C object CMakeFiles/cmTC_7ed1c.dir/CMakeCCompilerABI.c.o
 /usr/bin/cc   -v -o CMakeFiles/cmTC_7ed1c.dir/CMakeCCompilerABI.c.o -c /usr/share/cmake-3.22/Modules/CMakeCCompilerABI.c
 Using built-in specs.
@@ -813,7 +813,7 @@ LIBRARY_PATH=/usr/lib/gcc/x86_64-linux-gnu/11/:/usr/lib/gcc/x86_64-linux-gnu/11/
 COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_7ed1c' '-mtune=generic' '-march=x86-64' '-dumpdir' 'cmTC_7ed1c.'
  /usr/lib/gcc/x86_64-linux-gnu/11/collect2 -plugin /usr/lib/gcc/x86_64-linux-gnu/11/liblto_plugin.so -plugin-opt=/usr/lib/gcc/x86_64-linux-gnu/11/lto-wrapper -plugin-opt=-fresolution=/tmp/ccN1XLhZ.res -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lc -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lgcc_s --build-id --eh-frame-hdr -m elf_x86_64 --hash-style=gnu --as-needed -dynamic-linker /lib64/ld-linux-x86-64.so.2 -pie -z now -z relro -o cmTC_7ed1c /usr/lib/gcc/x86_64-linux-gnu/11/../../../x86_64-linux-gnu/Scrt1.o /usr/lib/gcc/x86_64-linux-gnu/11/../../../x86_64-linux-gnu/crti.o /usr/lib/gcc/x86_64-linux-gnu/11/crtbeginS.o -L/usr/lib/gcc/x86_64-linux-gnu/11 -L/usr/lib/gcc/x86_64-linux-gnu/11/../../../x86_64-linux-gnu -L/usr/lib/gcc/x86_64-linux-gnu/11/../../../../lib -L/lib/x86_64-linux-gnu -L/lib/../lib -L/usr/lib/x86_64-linux-gnu -L/usr/lib/../lib -L/usr/lib/gcc/x86_64-linux-gnu/11/../../.. CMakeFiles/cmTC_7ed1c.dir/CMakeCCompilerABI.c.o -lgcc --push-state --as-needed -lgcc_s --pop-state -lc -lgcc --push-state --as-needed -lgcc_s --pop-state /usr/lib/gcc/x86_64-linux-gnu/11/crtendS.o /usr/lib/gcc/x86_64-linux-gnu/11/../../../x86_64-linux-gnu/crtn.o
 COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_7ed1c' '-mtune=generic' '-march=x86-64' '-dumpdir' 'cmTC_7ed1c.'
-gmake[1]: Leaving directory '/home/atraore/gpi/try_gpi/gpispace/build/CMakeFiles/CMakeTmp'
+gmake[1]: Leaving directory '/home/atraore/gpi/try_gpi/gspc-gromovwitten/build/CMakeFiles/CMakeTmp'
 
 
 
@@ -834,10 +834,10 @@ Parsed C implicit include dir info from above output: rv=done
 
 Parsed C implicit link information from above output:
   link line regex: [^( *|.*[/\])(ld|CMAKE_LINK_STARTFILE-NOTFOUND|([^/\]+-)?ld|collect2)[^/\]*( |$)]
-  ignore line: [Change Dir: /home/atraore/gpi/try_gpi/gpispace/build/CMakeFiles/CMakeTmp]
+  ignore line: [Change Dir: /home/atraore/gpi/try_gpi/gspc-gromovwitten/build/CMakeFiles/CMakeTmp]
   ignore line: []
   ignore line: [Run Build Command(s):/usr/bin/gmake -f Makefile cmTC_7ed1c/fast && /usr/bin/gmake  -f CMakeFiles/cmTC_7ed1c.dir/build.make CMakeFiles/cmTC_7ed1c.dir/build]
-  ignore line: [gmake[1]: Entering directory '/home/atraore/gpi/try_gpi/gpispace/build/CMakeFiles/CMakeTmp']
+  ignore line: [gmake[1]: Entering directory '/home/atraore/gpi/try_gpi/gspc-gromovwitten/build/CMakeFiles/CMakeTmp']
   ignore line: [Building C object CMakeFiles/cmTC_7ed1c.dir/CMakeCCompilerABI.c.o]
   ignore line: [/usr/bin/cc   -v -o CMakeFiles/cmTC_7ed1c.dir/CMakeCCompilerABI.c.o -c /usr/share/cmake-3.22/Modules/CMakeCCompilerABI.c]
   ignore line: [Using built-in specs.]
@@ -959,10 +959,10 @@ Parsed C implicit link information from above output:
 
 
 Detecting CXX compiler ABI info compiled with the following output:
-Change Dir: /home/atraore/gpi/try_gpi/gpispace/build/CMakeFiles/CMakeTmp
+Change Dir: /home/atraore/gpi/try_gpi/gspc-gromovwitten/build/CMakeFiles/CMakeTmp
 
 Run Build Command(s):/usr/bin/gmake -f Makefile cmTC_aa159/fast && /usr/bin/gmake  -f CMakeFiles/cmTC_aa159.dir/build.make CMakeFiles/cmTC_aa159.dir/build
-gmake[1]: Entering directory '/home/atraore/gpi/try_gpi/gpispace/build/CMakeFiles/CMakeTmp'
+gmake[1]: Entering directory '/home/atraore/gpi/try_gpi/gspc-gromovwitten/build/CMakeFiles/CMakeTmp'
 Building CXX object CMakeFiles/cmTC_aa159.dir/CMakeCXXCompilerABI.cpp.o
 /usr/bin/c++   -v -o CMakeFiles/cmTC_aa159.dir/CMakeCXXCompilerABI.cpp.o -c /usr/share/cmake-3.22/Modules/CMakeCXXCompilerABI.cpp
 Using built-in specs.
@@ -1023,7 +1023,7 @@ LIBRARY_PATH=/usr/lib/gcc/x86_64-linux-gnu/11/:/usr/lib/gcc/x86_64-linux-gnu/11/
 COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_aa159' '-shared-libgcc' '-mtune=generic' '-march=x86-64' '-dumpdir' 'cmTC_aa159.'
  /usr/lib/gcc/x86_64-linux-gnu/11/collect2 -plugin /usr/lib/gcc/x86_64-linux-gnu/11/liblto_plugin.so -plugin-opt=/usr/lib/gcc/x86_64-linux-gnu/11/lto-wrapper -plugin-opt=-fresolution=/tmp/cc6crjLK.res -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lc -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc --build-id --eh-frame-hdr -m elf_x86_64 --hash-style=gnu --as-needed -dynamic-linker /lib64/ld-linux-x86-64.so.2 -pie -z now -z relro -o cmTC_aa159 /usr/lib/gcc/x86_64-linux-gnu/11/../../../x86_64-linux-gnu/Scrt1.o /usr/lib/gcc/x86_64-linux-gnu/11/../../../x86_64-linux-gnu/crti.o /usr/lib/gcc/x86_64-linux-gnu/11/crtbeginS.o -L/usr/lib/gcc/x86_64-linux-gnu/11 -L/usr/lib/gcc/x86_64-linux-gnu/11/../../../x86_64-linux-gnu -L/usr/lib/gcc/x86_64-linux-gnu/11/../../../../lib -L/lib/x86_64-linux-gnu -L/lib/../lib -L/usr/lib/x86_64-linux-gnu -L/usr/lib/../lib -L/usr/lib/gcc/x86_64-linux-gnu/11/../../.. CMakeFiles/cmTC_aa159.dir/CMakeCXXCompilerABI.cpp.o -lstdc++ -lm -lgcc_s -lgcc -lc -lgcc_s -lgcc /usr/lib/gcc/x86_64-linux-gnu/11/crtendS.o /usr/lib/gcc/x86_64-linux-gnu/11/../../../x86_64-linux-gnu/crtn.o
 COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_aa159' '-shared-libgcc' '-mtune=generic' '-march=x86-64' '-dumpdir' 'cmTC_aa159.'
-gmake[1]: Leaving directory '/home/atraore/gpi/try_gpi/gpispace/build/CMakeFiles/CMakeTmp'
+gmake[1]: Leaving directory '/home/atraore/gpi/try_gpi/gspc-gromovwitten/build/CMakeFiles/CMakeTmp'
 
 
 
@@ -1050,10 +1050,10 @@ Parsed CXX implicit include dir info from above output: rv=done
 
 Parsed CXX implicit link information from above output:
   link line regex: [^( *|.*[/\])(ld|CMAKE_LINK_STARTFILE-NOTFOUND|([^/\]+-)?ld|collect2)[^/\]*( |$)]
-  ignore line: [Change Dir: /home/atraore/gpi/try_gpi/gpispace/build/CMakeFiles/CMakeTmp]
+  ignore line: [Change Dir: /home/atraore/gpi/try_gpi/gspc-gromovwitten/build/CMakeFiles/CMakeTmp]
   ignore line: []
   ignore line: [Run Build Command(s):/usr/bin/gmake -f Makefile cmTC_aa159/fast && /usr/bin/gmake  -f CMakeFiles/cmTC_aa159.dir/build.make CMakeFiles/cmTC_aa159.dir/build]
-  ignore line: [gmake[1]: Entering directory '/home/atraore/gpi/try_gpi/gpispace/build/CMakeFiles/CMakeTmp']
+  ignore line: [gmake[1]: Entering directory '/home/atraore/gpi/try_gpi/gspc-gromovwitten/build/CMakeFiles/CMakeTmp']
   ignore line: [Building CXX object CMakeFiles/cmTC_aa159.dir/CMakeCXXCompilerABI.cpp.o]
   ignore line: [/usr/bin/c++   -v -o CMakeFiles/cmTC_aa159.dir/CMakeCXXCompilerABI.cpp.o -c /usr/share/cmake-3.22/Modules/CMakeCXXCompilerABI.cpp]
   ignore line: [Using built-in specs.]
@@ -1186,7 +1186,7 @@ The output was:
 
 Compilation of the C compiler identification source "CMakeCCompilerId.c" produced "a.out"
 
-The C compiler identification is GNU, found in "/home/atraore/gpi/try_gpi/gpispace/build/CMakeFiles/3.22.1/CompilerIdC/a.out"
+The C compiler identification is GNU, found in "/home/atraore/gpi/try_gpi/gspc-gromovwitten/build/CMakeFiles/3.22.1/CompilerIdC/a.out"
 
 Compiling the CXX compiler identification source file "CMakeCXXCompilerId.cpp" succeeded.
 Compiler: /usr/bin/c++ 
@@ -1199,13 +1199,13 @@ The output was:
 
 Compilation of the CXX compiler identification source "CMakeCXXCompilerId.cpp" produced "a.out"
 
-The CXX compiler identification is GNU, found in "/home/atraore/gpi/try_gpi/gpispace/build/CMakeFiles/3.22.1/CompilerIdCXX/a.out"
+The CXX compiler identification is GNU, found in "/home/atraore/gpi/try_gpi/gspc-gromovwitten/build/CMakeFiles/3.22.1/CompilerIdCXX/a.out"
 
 Detecting C compiler ABI info compiled with the following output:
-Change Dir: /home/atraore/gpi/try_gpi/gpispace/build/CMakeFiles/CMakeTmp
+Change Dir: /home/atraore/gpi/try_gpi/gspc-gromovwitten/build/CMakeFiles/CMakeTmp
 
 Run Build Command(s):/usr/bin/gmake -f Makefile cmTC_01ac6/fast && /usr/bin/gmake  -f CMakeFiles/cmTC_01ac6.dir/build.make CMakeFiles/cmTC_01ac6.dir/build
-gmake[1]: Entering directory '/home/atraore/gpi/try_gpi/gpispace/build/CMakeFiles/CMakeTmp'
+gmake[1]: Entering directory '/home/atraore/gpi/try_gpi/gspc-gromovwitten/build/CMakeFiles/CMakeTmp'
 Building C object CMakeFiles/cmTC_01ac6.dir/CMakeCCompilerABI.c.o
 /usr/bin/cc   -v -o CMakeFiles/cmTC_01ac6.dir/CMakeCCompilerABI.c.o -c /usr/share/cmake-3.22/Modules/CMakeCCompilerABI.c
 Using built-in specs.
@@ -1262,7 +1262,7 @@ LIBRARY_PATH=/usr/lib/gcc/x86_64-linux-gnu/11/:/usr/lib/gcc/x86_64-linux-gnu/11/
 COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_01ac6' '-mtune=generic' '-march=x86-64' '-dumpdir' 'cmTC_01ac6.'
  /usr/lib/gcc/x86_64-linux-gnu/11/collect2 -plugin /usr/lib/gcc/x86_64-linux-gnu/11/liblto_plugin.so -plugin-opt=/usr/lib/gcc/x86_64-linux-gnu/11/lto-wrapper -plugin-opt=-fresolution=/tmp/ccpVp702.res -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lc -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lgcc_s --build-id --eh-frame-hdr -m elf_x86_64 --hash-style=gnu --as-needed -dynamic-linker /lib64/ld-linux-x86-64.so.2 -pie -z now -z relro -o cmTC_01ac6 /usr/lib/gcc/x86_64-linux-gnu/11/../../../x86_64-linux-gnu/Scrt1.o /usr/lib/gcc/x86_64-linux-gnu/11/../../../x86_64-linux-gnu/crti.o /usr/lib/gcc/x86_64-linux-gnu/11/crtbeginS.o -L/usr/lib/gcc/x86_64-linux-gnu/11 -L/usr/lib/gcc/x86_64-linux-gnu/11/../../../x86_64-linux-gnu -L/usr/lib/gcc/x86_64-linux-gnu/11/../../../../lib -L/lib/x86_64-linux-gnu -L/lib/../lib -L/usr/lib/x86_64-linux-gnu -L/usr/lib/../lib -L/usr/lib/gcc/x86_64-linux-gnu/11/../../.. CMakeFiles/cmTC_01ac6.dir/CMakeCCompilerABI.c.o -lgcc --push-state --as-needed -lgcc_s --pop-state -lc -lgcc --push-state --as-needed -lgcc_s --pop-state /usr/lib/gcc/x86_64-linux-gnu/11/crtendS.o /usr/lib/gcc/x86_64-linux-gnu/11/../../../x86_64-linux-gnu/crtn.o
 COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_01ac6' '-mtune=generic' '-march=x86-64' '-dumpdir' 'cmTC_01ac6.'
-gmake[1]: Leaving directory '/home/atraore/gpi/try_gpi/gpispace/build/CMakeFiles/CMakeTmp'
+gmake[1]: Leaving directory '/home/atraore/gpi/try_gpi/gspc-gromovwitten/build/CMakeFiles/CMakeTmp'
 
 
 
@@ -1283,10 +1283,10 @@ Parsed C implicit include dir info from above output: rv=done
 
 Parsed C implicit link information from above output:
   link line regex: [^( *|.*[/\])(ld|CMAKE_LINK_STARTFILE-NOTFOUND|([^/\]+-)?ld|collect2)[^/\]*( |$)]
-  ignore line: [Change Dir: /home/atraore/gpi/try_gpi/gpispace/build/CMakeFiles/CMakeTmp]
+  ignore line: [Change Dir: /home/atraore/gpi/try_gpi/gspc-gromovwitten/build/CMakeFiles/CMakeTmp]
   ignore line: []
   ignore line: [Run Build Command(s):/usr/bin/gmake -f Makefile cmTC_01ac6/fast && /usr/bin/gmake  -f CMakeFiles/cmTC_01ac6.dir/build.make CMakeFiles/cmTC_01ac6.dir/build]
-  ignore line: [gmake[1]: Entering directory '/home/atraore/gpi/try_gpi/gpispace/build/CMakeFiles/CMakeTmp']
+  ignore line: [gmake[1]: Entering directory '/home/atraore/gpi/try_gpi/gspc-gromovwitten/build/CMakeFiles/CMakeTmp']
   ignore line: [Building C object CMakeFiles/cmTC_01ac6.dir/CMakeCCompilerABI.c.o]
   ignore line: [/usr/bin/cc   -v -o CMakeFiles/cmTC_01ac6.dir/CMakeCCompilerABI.c.o -c /usr/share/cmake-3.22/Modules/CMakeCCompilerABI.c]
   ignore line: [Using built-in specs.]
@@ -1408,10 +1408,10 @@ Parsed C implicit link information from above output:
 
 
 Detecting CXX compiler ABI info compiled with the following output:
-Change Dir: /home/atraore/gpi/try_gpi/gpispace/build/CMakeFiles/CMakeTmp
+Change Dir: /home/atraore/gpi/try_gpi/gspc-gromovwitten/build/CMakeFiles/CMakeTmp
 
 Run Build Command(s):/usr/bin/gmake -f Makefile cmTC_4bb25/fast && /usr/bin/gmake  -f CMakeFiles/cmTC_4bb25.dir/build.make CMakeFiles/cmTC_4bb25.dir/build
-gmake[1]: Entering directory '/home/atraore/gpi/try_gpi/gpispace/build/CMakeFiles/CMakeTmp'
+gmake[1]: Entering directory '/home/atraore/gpi/try_gpi/gspc-gromovwitten/build/CMakeFiles/CMakeTmp'
 Building CXX object CMakeFiles/cmTC_4bb25.dir/CMakeCXXCompilerABI.cpp.o
 /usr/bin/c++   -v -o CMakeFiles/cmTC_4bb25.dir/CMakeCXXCompilerABI.cpp.o -c /usr/share/cmake-3.22/Modules/CMakeCXXCompilerABI.cpp
 Using built-in specs.
@@ -1472,7 +1472,7 @@ LIBRARY_PATH=/usr/lib/gcc/x86_64-linux-gnu/11/:/usr/lib/gcc/x86_64-linux-gnu/11/
 COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_4bb25' '-shared-libgcc' '-mtune=generic' '-march=x86-64' '-dumpdir' 'cmTC_4bb25.'
  /usr/lib/gcc/x86_64-linux-gnu/11/collect2 -plugin /usr/lib/gcc/x86_64-linux-gnu/11/liblto_plugin.so -plugin-opt=/usr/lib/gcc/x86_64-linux-gnu/11/lto-wrapper -plugin-opt=-fresolution=/tmp/ccR4rnYr.res -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lc -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc --build-id --eh-frame-hdr -m elf_x86_64 --hash-style=gnu --as-needed -dynamic-linker /lib64/ld-linux-x86-64.so.2 -pie -z now -z relro -o cmTC_4bb25 /usr/lib/gcc/x86_64-linux-gnu/11/../../../x86_64-linux-gnu/Scrt1.o /usr/lib/gcc/x86_64-linux-gnu/11/../../../x86_64-linux-gnu/crti.o /usr/lib/gcc/x86_64-linux-gnu/11/crtbeginS.o -L/usr/lib/gcc/x86_64-linux-gnu/11 -L/usr/lib/gcc/x86_64-linux-gnu/11/../../../x86_64-linux-gnu -L/usr/lib/gcc/x86_64-linux-gnu/11/../../../../lib -L/lib/x86_64-linux-gnu -L/lib/../lib -L/usr/lib/x86_64-linux-gnu -L/usr/lib/../lib -L/usr/lib/gcc/x86_64-linux-gnu/11/../../.. CMakeFiles/cmTC_4bb25.dir/CMakeCXXCompilerABI.cpp.o -lstdc++ -lm -lgcc_s -lgcc -lc -lgcc_s -lgcc /usr/lib/gcc/x86_64-linux-gnu/11/crtendS.o /usr/lib/gcc/x86_64-linux-gnu/11/../../../x86_64-linux-gnu/crtn.o
 COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_4bb25' '-shared-libgcc' '-mtune=generic' '-march=x86-64' '-dumpdir' 'cmTC_4bb25.'
-gmake[1]: Leaving directory '/home/atraore/gpi/try_gpi/gpispace/build/CMakeFiles/CMakeTmp'
+gmake[1]: Leaving directory '/home/atraore/gpi/try_gpi/gspc-gromovwitten/build/CMakeFiles/CMakeTmp'
 
 
 
@@ -1499,10 +1499,10 @@ Parsed CXX implicit include dir info from above output: rv=done
 
 Parsed CXX implicit link information from above output:
   link line regex: [^( *|.*[/\])(ld|CMAKE_LINK_STARTFILE-NOTFOUND|([^/\]+-)?ld|collect2)[^/\]*( |$)]
-  ignore line: [Change Dir: /home/atraore/gpi/try_gpi/gpispace/build/CMakeFiles/CMakeTmp]
+  ignore line: [Change Dir: /home/atraore/gpi/try_gpi/gspc-gromovwitten/build/CMakeFiles/CMakeTmp]
   ignore line: []
   ignore line: [Run Build Command(s):/usr/bin/gmake -f Makefile cmTC_4bb25/fast && /usr/bin/gmake  -f CMakeFiles/cmTC_4bb25.dir/build.make CMakeFiles/cmTC_4bb25.dir/build]
-  ignore line: [gmake[1]: Entering directory '/home/atraore/gpi/try_gpi/gpispace/build/CMakeFiles/CMakeTmp']
+  ignore line: [gmake[1]: Entering directory '/home/atraore/gpi/try_gpi/gspc-gromovwitten/build/CMakeFiles/CMakeTmp']
   ignore line: [Building CXX object CMakeFiles/cmTC_4bb25.dir/CMakeCXXCompilerABI.cpp.o]
   ignore line: [/usr/bin/c++   -v -o CMakeFiles/cmTC_4bb25.dir/CMakeCXXCompilerABI.cpp.o -c /usr/share/cmake-3.22/Modules/CMakeCXXCompilerABI.cpp]
   ignore line: [Using built-in specs.]

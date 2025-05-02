@@ -1,7 +1,7 @@
 CMakeFiles/feynman.dir/src/ValuesOnPorts.cpp.o: \
- /home/atraore/gpi/try_gpi/gpispace/src/ValuesOnPorts.cpp \
+ /home/atraore/gpi/try_gpi/gspc-gromovwitten/src/ValuesOnPorts.cpp \
  /usr/include/stdc-predef.h \
- /home/atraore/gpi/try_gpi/gpispace/include/feynman/ValuesOnPorts.hpp \
+ /home/atraore/gpi/try_gpi/gspc-gromovwitten/include/feynman/ValuesOnPorts.hpp \
  /home/atraore/spack/opt/spack/linux-ubuntu22.04-skylake/gcc-11.3.0/gpi-space-23.06-gxye6b7ngsnbxnzjkfsfqtvanynyghdk/include/we/type/value.hpp \
  /home/atraore/spack/opt/spack/linux-ubuntu22.04-skylake/gcc-11.3.0/gpi-space-23.06-gxye6b7ngsnbxnzjkfsfqtvanynyghdk/include/we/type/bitsetofint.hpp \
  /home/atraore/spack/opt/spack/linux-ubuntu22.04-skylake/gcc-11.3.0/gpi-space-23.06-gxye6b7ngsnbxnzjkfsfqtvanynyghdk/include/gspc/detail/dllexport.hpp \

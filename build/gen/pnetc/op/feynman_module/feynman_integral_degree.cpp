@@ -31,7 +31,7 @@ namespace pnetc
         , std::string& s
         )
       {
-#line 162 "/home/atraore/gpi/try_gpi/gpispace/workflow/feynman.xpnet"
+#line 162 "/home/atraore/gpi/try_gpi/gspc-gromovwitten/workflow/feynman.xpnet"
 
           std::vector<int> xxx; // Define xxx outside the inner loop
             for (const auto &vii : G)

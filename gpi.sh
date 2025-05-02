@@ -1,2 +1,2 @@
-rm -rf ~/gpi/try_gpi/gpispace/monitor.txt
-cd ~/spack/opt/spack/linux-ubuntu22.04-skylake/gcc-11.3.0/gpi-space-23.06-gxye6b7ngsnbxnzjkfsfqtvanynyghdk/bin && ./gspc-logging-to-stdout.exe --port 9876 >> ~/gpi/try_gpi/gpispace/monitor.txt 2>&1
+rm -rf ~/gpi/try_gpi/gspc-gromovwitten/monitor.txt
+cd ~/spack/opt/spack/linux-ubuntu22.04-skylake/gcc-11.3.0/gpi-space-23.06-gxye6b7ngsnbxnzjkfsfqtvanynyghdk/bin && ./gspc-logging-to-stdout.exe --port 9876 >> ~/gpi/try_gpi/gspc-gromovwitten/monitor.txt 2>&1

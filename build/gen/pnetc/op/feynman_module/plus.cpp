@@ -25,7 +25,7 @@ namespace pnetc
         , we::type::literal::control& ns
         )
       {
-#line 263 "/home/atraore/gpi/try_gpi/gpispace/workflow/feynman.xpnet"
+#line 263 "/home/atraore/gpi/try_gpi/gspc-gromovwitten/workflow/feynman.xpnet"
 
           std::cout << "s= " << s << std::endl;
           std::cout << "sum=: " << sum << std::endl;

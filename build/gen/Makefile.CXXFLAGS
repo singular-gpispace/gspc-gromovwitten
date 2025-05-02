@@ -1,4 +1,4 @@
 CXXFLAGS += -O3
 CXXFLAGS += -std=c++17
-CXXFLAGS += -I/home/atraore/gpi/try_gpi/gpispace/include
-CXXFLAGS += -I/home/atraore/gpi/try_gpi/gpispace/include/feynman
+CXXFLAGS += -I/home/atraore/gpi/try_gpi/gspc-gromovwitten/include
+CXXFLAGS += -I/home/atraore/gpi/try_gpi/gspc-gromovwitten/include/feynman

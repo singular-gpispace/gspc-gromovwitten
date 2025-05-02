@@ -1,8 +1,8 @@
 CMakeFiles/feynman.dir/src/execute.cpp.o: \
- /home/atraore/gpi/try_gpi/gpispace/src/execute.cpp \
+ /home/atraore/gpi/try_gpi/gspc-gromovwitten/src/execute.cpp \
  /usr/include/stdc-predef.h \
- /home/atraore/gpi/try_gpi/gpispace/include/feynman/execute.hpp \
- /home/atraore/gpi/try_gpi/gpispace/include/feynman/Parameters.hpp \
+ /home/atraore/gpi/try_gpi/gspc-gromovwitten/include/feynman/execute.hpp \
+ /home/atraore/gpi/try_gpi/gspc-gromovwitten/include/feynman/Parameters.hpp \
  /home/atraore/spack/opt/spack/linux-ubuntu22.04-skylake/gcc-11.3.0/boost-1.63.0-q5xh5vlq3ihagc7f5ql4erhsofvamt6m/include/boost/program_options/options_description.hpp \
  /home/atraore/spack/opt/spack/linux-ubuntu22.04-skylake/gcc-11.3.0/boost-1.63.0-q5xh5vlq3ihagc7f5ql4erhsofvamt6m/include/boost/program_options/config.hpp \
  /home/atraore/spack/opt/spack/linux-ubuntu22.04-skylake/gcc-11.3.0/boost-1.63.0-q5xh5vlq3ihagc7f5ql4erhsofvamt6m/include/boost/config.hpp \
@@ -951,8 +951,8 @@ CMakeFiles/feynman.dir/src/execute.cpp.o: \
  /usr/include/c++/11/set /usr/include/c++/11/bits/stl_set.h \
  /usr/include/c++/11/bits/stl_multiset.h \
  /home/atraore/spack/opt/spack/linux-ubuntu22.04-skylake/gcc-11.3.0/boost-1.63.0-q5xh5vlq3ihagc7f5ql4erhsofvamt6m/include/boost/program_options/variables_map.hpp \
- /home/atraore/gpi/try_gpi/gpispace/include/feynman/WorkflowResult.hpp \
- /home/atraore/gpi/try_gpi/gpispace/include/feynman/ValuesOnPorts.hpp \
+ /home/atraore/gpi/try_gpi/gspc-gromovwitten/include/feynman/WorkflowResult.hpp \
+ /home/atraore/gpi/try_gpi/gspc-gromovwitten/include/feynman/ValuesOnPorts.hpp \
  /home/atraore/spack/opt/spack/linux-ubuntu22.04-skylake/gcc-11.3.0/gpi-space-23.06-gxye6b7ngsnbxnzjkfsfqtvanynyghdk/include/we/type/value.hpp \
  /home/atraore/spack/opt/spack/linux-ubuntu22.04-skylake/gcc-11.3.0/gpi-space-23.06-gxye6b7ngsnbxnzjkfsfqtvanynyghdk/include/we/type/bitsetofint.hpp \
  /home/atraore/spack/opt/spack/linux-ubuntu22.04-skylake/gcc-11.3.0/gpi-space-23.06-gxye6b7ngsnbxnzjkfsfqtvanynyghdk/include/gspc/detail/dllexport.hpp \
@@ -1117,7 +1117,7 @@ CMakeFiles/feynman.dir/src/execute.cpp.o: \
  /home/atraore/spack/opt/spack/linux-ubuntu22.04-skylake/gcc-11.3.0/boost-1.63.0-q5xh5vlq3ihagc7f5ql4erhsofvamt6m/include/boost/variant/bad_visit.hpp \
  /usr/include/c++/11/list /usr/include/c++/11/bits/stl_list.h \
  /usr/include/c++/11/bits/list.tcc \
- /home/atraore/gpi/try_gpi/gpispace/include/feynman/Workflow.hpp \
+ /home/atraore/gpi/try_gpi/gspc-gromovwitten/include/feynman/Workflow.hpp \
  /home/atraore/spack/opt/spack/linux-ubuntu22.04-skylake/gcc-11.3.0/gpi-space-23.06-gxye6b7ngsnbxnzjkfsfqtvanynyghdk/include/drts/client.hpp \
  /home/atraore/spack/opt/spack/linux-ubuntu22.04-skylake/gcc-11.3.0/gpi-space-23.06-gxye6b7ngsnbxnzjkfsfqtvanynyghdk/include/drts/certificates.hpp \
  /home/atraore/spack/opt/spack/linux-ubuntu22.04-skylake/gcc-11.3.0/boost-1.63.0-q5xh5vlq3ihagc7f5ql4erhsofvamt6m/include/boost/filesystem/path.hpp \

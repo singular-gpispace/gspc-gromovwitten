@@ -56,7 +56,7 @@ EQUALS = =
 CMAKE_SOURCE_DIR = /home/atraore/gpi/try_gpi/gpispace
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/atraore/gpi/try_gpi/gpispace/build
+CMAKE_BINARY_DIR = /home/atraore/gpi/try_gpi/gspc-gromovwitten/build
 
 # Utility rule file for workflow_library.
 
@@ -70,9 +70,9 @@ CMakeFiles/workflow_library: gen/pnetc/op/libfeynman_module.so
 
 gen/pnetc/op/libfeynman_module.so: ../workflow/feynman.xpnet
 gen/pnetc/op/libfeynman_module.so: libfeynman_implementation.so
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/atraore/gpi/try_gpi/gpispace/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Generating gen/pnetc/op/libfeynman_module.so"
-	/home/atraore/spack/opt/spack/linux-ubuntu22.04-skylake/gcc-11.3.0/gpi-space-23.06-gxye6b7ngsnbxnzjkfsfqtvanynyghdk/bin/pnetc --gen-cxxflags="-O3" --gen-cxxflags="-std=c++17" --gen-cxxflags="-I/home/atraore/gpi/try_gpi/gpispace/include" --gen-cxxflags="-I/home/atraore/gpi/try_gpi/gpispace/include/feynman" --gen-ldflags="-L/home/atraore/gpi/try_gpi/gpispace/build" --gen-ldflags="-lfeynman_implementation" --gen-ldflags="-Wl,-rpath=/home/atraore/gpi/try_gpi/gpispace/bin/lib" --force-overwrite-file=true --input="/home/atraore/gpi/try_gpi/gpispace/workflow/feynman.xpnet" --output="/dev/null" --path-to-cpp="/home/atraore/gpi/try_gpi/gpispace/build/gen"
-	+make -C /home/atraore/gpi/try_gpi/gpispace/build/gen
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/atraore/gpi/try_gpi/gspc-gromovwitten/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Generating gen/pnetc/op/libfeynman_module.so"
+	/home/atraore/spack/opt/spack/linux-ubuntu22.04-skylake/gcc-11.3.0/gpi-space-23.06-gxye6b7ngsnbxnzjkfsfqtvanynyghdk/bin/pnetc --gen-cxxflags="-O3" --gen-cxxflags="-std=c++17" --gen-cxxflags="-I/home/atraore/gpi/try_gpi/gspc-gromovwitten/include" --gen-cxxflags="-I/home/atraore/gpi/try_gpi/gspc-gromovwitten/include/feynman" --gen-ldflags="-L/home/atraore/gpi/try_gpi/gspc-gromovwitten/build" --gen-ldflags="-lfeynman_implementation" --gen-ldflags="-Wl,-rpath=/home/atraore/gpi/try_gpi/gspc-gromovwitten/bin/lib" --force-overwrite-file=true --input="/home/atraore/gpi/try_gpi/gspc-gromovwitten/workflow/feynman.xpnet" --output="/dev/null" --path-to-cpp="/home/atraore/gpi/try_gpi/gspc-gromovwitten/build/gen"
+	+make -C /home/atraore/gpi/try_gpi/gspc-gromovwitten/build/gen
 
 workflow_library: CMakeFiles/workflow_library
 workflow_library: gen/pnetc/op/libfeynman_module.so
@@ -88,6 +88,6 @@ CMakeFiles/workflow_library.dir/clean:
 .PHONY : CMakeFiles/workflow_library.dir/clean
 
 CMakeFiles/workflow_library.dir/depend:
-	cd /home/atraore/gpi/try_gpi/gpispace/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/atraore/gpi/try_gpi/gpispace /home/atraore/gpi/try_gpi/gpispace /home/atraore/gpi/try_gpi/gpispace/build /home/atraore/gpi/try_gpi/gpispace/build /home/atraore/gpi/try_gpi/gpispace/build/CMakeFiles/workflow_library.dir/DependInfo.cmake --color=$(COLOR)
+	cd /home/atraore/gpi/try_gpi/gspc-gromovwitten/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/atraore/gpi/try_gpi/gpispace /home/atraore/gpi/try_gpi/gpispace /home/atraore/gpi/try_gpi/gspc-gromovwitten/build /home/atraore/gpi/try_gpi/gspc-gromovwitten/build /home/atraore/gpi/try_gpi/gspc-gromovwitten/build/CMakeFiles/workflow_library.dir/DependInfo.cmake --color=$(COLOR)
 .PHONY : CMakeFiles/workflow_library.dir/depend
 

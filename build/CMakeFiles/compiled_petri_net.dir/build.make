@@ -56,7 +56,7 @@ EQUALS = =
 CMAKE_SOURCE_DIR = /home/atraore/gpi/try_gpi/gpispace
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/atraore/gpi/try_gpi/gpispace/build
+CMAKE_BINARY_DIR = /home/atraore/gpi/try_gpi/gspc-gromovwitten/build
 
 # Utility rule file for compiled_petri_net.
 
@@ -69,8 +69,8 @@ include CMakeFiles/compiled_petri_net.dir/progress.make
 CMakeFiles/compiled_petri_net: feynman.pnet
 
 feynman.pnet: ../workflow/feynman.xpnet
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/atraore/gpi/try_gpi/gpispace/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Generating feynman.pnet"
-	/home/atraore/spack/opt/spack/linux-ubuntu22.04-skylake/gcc-11.3.0/gpi-space-23.06-gxye6b7ngsnbxnzjkfsfqtvanynyghdk/bin/pnetc --input="/home/atraore/gpi/try_gpi/gpispace/workflow/feynman.xpnet" --output="/home/atraore/gpi/try_gpi/gpispace/build/feynman.pnet"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/atraore/gpi/try_gpi/gspc-gromovwitten/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Generating feynman.pnet"
+	/home/atraore/spack/opt/spack/linux-ubuntu22.04-skylake/gcc-11.3.0/gpi-space-23.06-gxye6b7ngsnbxnzjkfsfqtvanynyghdk/bin/pnetc --input="/home/atraore/gpi/try_gpi/gspc-gromovwitten/workflow/feynman.xpnet" --output="/home/atraore/gpi/try_gpi/gspc-gromovwitten/build/feynman.pnet"
 
 compiled_petri_net: CMakeFiles/compiled_petri_net
 compiled_petri_net: feynman.pnet
@@ -86,6 +86,6 @@ CMakeFiles/compiled_petri_net.dir/clean:
 .PHONY : CMakeFiles/compiled_petri_net.dir/clean
 
 CMakeFiles/compiled_petri_net.dir/depend:
-	cd /home/atraore/gpi/try_gpi/gpispace/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/atraore/gpi/try_gpi/gpispace /home/atraore/gpi/try_gpi/gpispace /home/atraore/gpi/try_gpi/gpispace/build /home/atraore/gpi/try_gpi/gpispace/build /home/atraore/gpi/try_gpi/gpispace/build/CMakeFiles/compiled_petri_net.dir/DependInfo.cmake --color=$(COLOR)
+	cd /home/atraore/gpi/try_gpi/gspc-gromovwitten/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/atraore/gpi/try_gpi/gpispace /home/atraore/gpi/try_gpi/gpispace /home/atraore/gpi/try_gpi/gspc-gromovwitten/build /home/atraore/gpi/try_gpi/gspc-gromovwitten/build /home/atraore/gpi/try_gpi/gspc-gromovwitten/build/CMakeFiles/compiled_petri_net.dir/DependInfo.cmake --color=$(COLOR)
 .PHONY : CMakeFiles/compiled_petri_net.dir/depend
 

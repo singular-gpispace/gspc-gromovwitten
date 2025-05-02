@@ -18,7 +18,7 @@ namespace pnetc
         , std::list<pnet::type::value::value_type>& v
         )
       {
-#line 74 "/home/atraore/gpi/try_gpi/gpispace/workflow/feynman.xpnet"
+#line 74 "/home/atraore/gpi/try_gpi/gspc-gromovwitten/workflow/feynman.xpnet"
 
 
           vector2d gen=gen_block(n,i);

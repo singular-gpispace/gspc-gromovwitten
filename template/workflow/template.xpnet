@@ -54,6 +54,7 @@
 
           <cinclude href="iostream" />
           <code><![CDATA[
+            std::cout << "starting compute1: " << input << std::endl;
         std::vector<std::string> result=  RESOLVE_INTERFACE_FUNCTION( singular_template_compute_parseInput) (input);
 
         degree = std::stoi(result[0]);
@@ -426,9 +427,9 @@ std::vector<int> l=RESOLVE_INTERFACE_FUNCTION(stringToVectorInt) (loop);
           <cinclude href="interface/feynman.hpp" />
 
           <code><![CDATA[
-
+std::cout << "starting Quasimodular" << std::endl;
   std::vector<fmpq_t*> Iq = RESOLVE_INTERFACE_FUNCTION( stringToVectorFmpq) (answer);
-
+std::cout << "Iq: " << answer << std::endl;
     // Maximum weight
 
     // Initialize FLINT polynomial context with 3 variables
@@ -441,7 +442,7 @@ std::vector<int> l=RESOLVE_INTERFACE_FUNCTION(stringToVectorInt) (loop);
 
 
         RESOLVE_INTERFACE_FUNCTION( quasimodular_form) (result,Iq,weightmax,ctx);
-
+std::cout << "result: " << result << std::endl;
 
     RESOLVE_INTERFACE_FUNCTION(my_mpoly_pretty) (result,ctx);
 

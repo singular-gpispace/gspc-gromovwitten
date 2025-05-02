@@ -15,7 +15,7 @@ namespace pnetc
         , unsigned long& counter_total
         )
       {
-#line 304 "/home/atraore/gpi/try_gpi/gpispace/workflow/feynman.xpnet"
+#line 304 "/home/atraore/gpi/try_gpi/gspc-gromovwitten/workflow/feynman.xpnet"
 
 
           counter_total +=1;

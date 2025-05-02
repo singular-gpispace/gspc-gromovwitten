@@ -16,7 +16,7 @@ namespace pnetc
         , std::string& answer
         )
       {
-#line 360 "/home/atraore/gpi/try_gpi/gpispace/workflow/feynman.xpnet"
+#line 360 "/home/atraore/gpi/try_gpi/gspc-gromovwitten/workflow/feynman.xpnet"
 
 
                 std::cout << "weightmax: " << weightmax << std::endl;

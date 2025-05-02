@@ -6,10 +6,9 @@ extended_add_library(NAME template_implementation
   "${CMAKE_BINARY_DIR}"
   "${CMAKE_BINARY_DIR}/gen"
   "${CMAKE_BINARY_DIR}/template"
-
-  # "${FLINT_INCLUDE_DIR}" # Add FLINT include directory
+  "${FLINT_HOME}/include/flint"
   COMPILE_DEFINITIONS SING_NDEBUG OM_NDEBUG
-  LIBRARIES GPISpace::workflow_development Singular # ${FLINT_LIB} # Link FLINT
+  LIBRARIES GPISpace::workflow_development Singular flint
   DEPENDS template.pnet_and_wrapper-library Config
   INSTALL INSTALL_DESTINATION "libexec/workflow"
 )

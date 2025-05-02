@@ -16,7 +16,7 @@ namespace pnetc
         , std::string& answer
         )
       {
-#line 328 "/home/atraore/gpi/try_gpi/gpispace/workflow/feynman.xpnet"
+#line 328 "/home/atraore/gpi/try_gpi/gspc-gromovwitten/workflow/feynman.xpnet"
 
           std::cout << "answer=: " << answer << std::endl;
           std::cout << "total=: " << total << std::endl;

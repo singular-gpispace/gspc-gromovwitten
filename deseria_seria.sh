@@ -54,7 +54,7 @@ string
 
 
 list LT = l;
-  string path = "/home//atraore/gpi/try_gpi/gpispace/example_dir/temp";  // Ensure the path ends with a "/"
+  string path = "/home//atraore/gpi/try_gpi/gspc-gromovwitten/example_dir/temp";  // Ensure the path ends with a "/"
   string filename = "Leadsyz.ssi";
   link l = "ssi:w " + path + filename;
 

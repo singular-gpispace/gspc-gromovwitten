@@ -18,7 +18,7 @@ namespace pnetc
         , std::list<pnet::type::value::value_type>& v
         )
       {
-#line 37 "/home/atraore/gpi/try_gpi/gpispace/workflow/feynman.xpnet"
+#line 37 "/home/atraore/gpi/try_gpi/gspc-gromovwitten/workflow/feynman.xpnet"
 
           int nb = number_monomial(weightmax); // Call to your number_monomial function
         if (d < nb) {

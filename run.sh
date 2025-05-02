@@ -1,15 +1,22 @@
-cd /home/atraore/gpi/try_gpi/gpispace/example_dir
-rm -rf temp/*
-spack load gpi-space@23.06
+#!/bin/bash
 
-export PATH=/home/atraore/Singular4/bin:$PATH
-FLINT_HOME="/usr/local/"
+# Navigate to example directory
+cd /home/atraore/gpi/try_gpi/gspc-gromovwitten/example_dir || exit 1
+rm -rf temp/*
+
+# Ensure only the correct version of GPI-Space is loaded
+spack load gpi-space@24.12 || { echo "Failed to load GPI-Space"; exit 1; }
+
+# Correctly set GSPC_HOME
+export GSPC_HOME="/home/atraore/singular-gpispace/spack/opt/spack/linux-ubuntu22.04-skylake/gcc-11.3.0/gpi-space-24.12-jz6b4m6ql54fmhkpq6gbico2neic3kd5/"
+
+
+# Set Singular installation path
+SINGULAR_INSTALL_DIR="/home/atraore/singular-gpispace/spack/opt/spack/linux-ubuntu22.04-skylake/gcc-11.3.0/singular-4.4.0p2-k7rgdkzo5prqsvxjckejvcdvxgjr64bk"
+export PATH=$SINGULAR_INSTALL_DIR/bin:$PATH
 
 # Set FLINT home directory
-FLINT_HOME="/usr/local/"
+FLINT_HOME="/home/atraore/singular-gpispace/spack/opt/spack/linux-ubuntu22.04-skylake/gcc-11.3.0/flint-2.6.3-pb3i4qjyjz7pqkpf6cs7wk6ro5pl564i"
+export LD_LIBRARY_PATH=$GPISPACE_ROOT/lib:$FLINT_HOME/lib:$GMP_HOME/lib:$SINGULAR_INSTALL_DIR/lib:$LD_LIBRARY_PATH
 
-# Set the library path (corrected syntax)
-export LD_LIBRARY_PATH=/home/atraore/git/Singular4/flint/flint2:$LD_LIBRARY_PATH
-
-# Run Singular with the example script
-SINGULARPATH=/home/atraore/gpi/try_gpi/gpispace/install_dir Singular example.sing
+ Singular example.sing

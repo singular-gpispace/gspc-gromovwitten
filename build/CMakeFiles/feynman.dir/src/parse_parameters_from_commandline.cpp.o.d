@@ -1,8 +1,8 @@
 CMakeFiles/feynman.dir/src/parse_parameters_from_commandline.cpp.o: \
- /home/atraore/gpi/try_gpi/gpispace/src/parse_parameters_from_commandline.cpp \
+ /home/atraore/gpi/try_gpi/gspc-gromovwitten/src/parse_parameters_from_commandline.cpp \
  /usr/include/stdc-predef.h \
- /home/atraore/gpi/try_gpi/gpispace/include/feynman/parse_parameters_from_commandline.hpp \
- /home/atraore/gpi/try_gpi/gpispace/include/feynman/Parameters.hpp \
+ /home/atraore/gpi/try_gpi/gspc-gromovwitten/include/feynman/parse_parameters_from_commandline.hpp \
+ /home/atraore/gpi/try_gpi/gspc-gromovwitten/include/feynman/Parameters.hpp \
  /home/atraore/spack/opt/spack/linux-ubuntu22.04-skylake/gcc-11.3.0/boost-1.63.0-q5xh5vlq3ihagc7f5ql4erhsofvamt6m/include/boost/program_options/options_description.hpp \
  /home/atraore/spack/opt/spack/linux-ubuntu22.04-skylake/gcc-11.3.0/boost-1.63.0-q5xh5vlq3ihagc7f5ql4erhsofvamt6m/include/boost/program_options/config.hpp \
  /home/atraore/spack/opt/spack/linux-ubuntu22.04-skylake/gcc-11.3.0/boost-1.63.0-q5xh5vlq3ihagc7f5ql4erhsofvamt6m/include/boost/config.hpp \
