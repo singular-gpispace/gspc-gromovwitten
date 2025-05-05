@@ -1,5 +1,5 @@
-rm -r ~/gpi/try_gpi/gspc-gromovwitten/build/* 
-rm -r ~/gpi/try_gpi/gspc-gromovwitten/bin/*
+#rm -r ~/gpi/try_gpi/gspc-gromovwitten/build/* 
+#rm -r ~/gpi/try_gpi/gspc-gromovwitten/bin/*
 
 # Compile and run generate_fey.cpp to generate new feynman.xpnet
  cd "/home/atraore/gpi/try_gpi/gspc-gromovwitten/cpp/" && g++ generate_fey.cpp -o generate_fey && "/home/atraore/gpi/try_gpi/gspc-gromovwitten/cpp/"generate_fey
@@ -49,7 +49,7 @@ time ~/gpi/try_gpi/gspc-gromovwitten/bin/bin/feynman \
   --rif-strategy ssh \
   --topology "worker:7" \
   --N 6 \
-  --degree 22 \
+  --degree 4 \
   --graph "{{1, 3}, {1, 2}, {1, 2}, {2, 4}, {3, 4}, {3, 4}}" \
   --log-host localhost \
   --log-port 9876

@@ -551,7 +551,7 @@ void print_petri_net(const PetriNet& net) {
 
 // Main function
 int main() {
-    int d = 22; // Can be any positive integer >= 2
+    int d = 4; // Can be any positive integer >= 2
     if (d < 2) {
         std::cerr << "Error: d must be at least 2\n";
         return 1;
