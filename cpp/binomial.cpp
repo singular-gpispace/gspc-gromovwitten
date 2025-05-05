@@ -27,7 +27,7 @@ unsigned long partialBinomialSum(int n, int d) {
 }
 
 int main() {
-    int d = 4;  // Example value of d
+    int d = 5;  // Example value of d
     int n = 6;  // Example value of n
     int dd = 3;
     unsigned long res = binomial(dd + n - 1, dd);

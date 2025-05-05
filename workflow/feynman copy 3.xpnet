@@ -21,68 +21,26 @@
         <value>0UL</value>
       </token>
     </place>
-    <place name="fey_sum" type="string"/>
+
     <place name="control_2" type="control">
-      <token>
-        <value>[]</value>
-      </token>
+      <token><value>[]</value></token>
     </place>
+    <place name="control_3" type="control">
+            <token><value>[]</value></token>
+    </place>
+    <place name="control_4" type="control">
+      <token><value>[]</value></token>
+    </place>
+    <place name="control_5" type="control">
+      <token><value>[]</value></token>
+    </place>
+    
+    <place name="fey_sum" type="string"/>
+
     <place name="d_vectors_2" type="list"/>
     <place name="branchtype_2" type="list"/>
     <place name="fey_out_2" type="string"/>
     <place name="sum_2" type="string">
-      <token>
-        <value>"0"</value>
-      </token>
-    </place>
-    <place name="control_3" type="control">
-      <token>
-        <value>[]</value>
-      </token>
-    </place>
-    <place name="d_vectors_3" type="list"/>
-    <place name="branchtype_3" type="list"/>
-    <place name="fey_out_3" type="string"/>
-    <place name="sum_3" type="string">
-      <token>
-        <value>"0"</value>
-      </token>
-    </place>
-    <place name="control_4" type="control">
-      <token>
-        <value>[]</value>
-      </token>
-    </place>
-    <place name="d_vectors_4" type="list"/>
-    <place name="branchtype_4" type="list"/>
-    <place name="fey_out_4" type="string"/>
-    <place name="sum_4" type="string">
-      <token>
-        <value>"0"</value>
-      </token>
-    </place>
-    <place name="control_5" type="control">
-      <token>
-        <value>[]</value>
-      </token>
-    </place>
-    <place name="d_vectors_5" type="list"/>
-    <place name="branchtype_5" type="list"/>
-    <place name="fey_out_5" type="string"/>
-    <place name="sum_5" type="string">
-      <token>
-        <value>"0"</value>
-      </token>
-    </place>
-    <place name="control_6" type="control">
-      <token>
-        <value>[]</value>
-      </token>
-    </place>
-    <place name="d_vectors_6" type="list"/>
-    <place name="branchtype_6" type="list"/>
-    <place name="fey_out_6" type="string"/>
-    <place name="sum_6" type="string">
       <token>
         <value>"0"</value>
       </token>
@@ -108,7 +66,7 @@
               }
               v.push_back(temp);
           }
-                  ]]>
+          ]]>
           </code>
         </module>
       </defun>
@@ -198,6 +156,9 @@
               }
           }
           unsigned long fe=feynman_integral_branch_type(Gv, av);
+         /* std::vector<unsigned long> v(deg, 0);
+          v[c-1] = fe;
+          s=vectorToStringULong(v); */
           s=std::to_string(fe);
           std::cout << " feynman_degree_2 s: " << s << std::endl;
                  ]]>
@@ -228,13 +189,16 @@
           <cinclude href="unordered_set"/>
           <cinclude href="feynman.hpp"/>
           <code><![CDATA[
+
           unsigned long s1 = std::stoul(s);
           std::cout << " Reduce_2 s1: " << s1 << std::endl;
+
           unsigned long s2 = std::stoul(sum);
           std::cout << " Reduce_2 s2: " << s2 << std::endl;
+  
           unsigned long fe = s1 + s2;
           sum = std::to_string(fe);
-          std::cout << " Reduce_2 sum: " << sum << std::endl;
+          std::cout << " Reduce_2 sum: " << sum << std::endl;   
                  ]]>
           </code>
         </module>
@@ -243,6 +207,15 @@
       <connect-inout port="sum" place="sum_2"/>
       <connect-out port="ns" place="ns"/>
     </transition>
+
+    <place name="d_vectors_3" type="list"/>
+    <place name="branchtype_3" type="list"/>
+    <place name="fey_out_3" type="string"/>
+    <place name="sum_3" type="string">
+      <token>
+        <value>"0"</value>
+      </token>
+    </place>
 
     <transition name="partition_3">
       <defun>
@@ -264,7 +237,7 @@
               }
               v.push_back(temp);
           }
-                  ]]>
+          ]]>
           </code>
         </module>
       </defun>
@@ -354,8 +327,11 @@
               }
           }
           unsigned long fe=feynman_integral_branch_type(Gv, av);
+          /* std::vector<unsigned long> v(deg, 0);
+          v[c-1] = fe;
+          s=vectorToStringULong(v); */
           s=std::to_string(fe);
-          std::cout << " feynman_degree_3 s: " << s << std::endl;
+          std::cout << " feynman_degree_3 s: " << s << std::endl;   
                  ]]>
           </code>
         </module>
@@ -386,8 +362,10 @@
           <code><![CDATA[
           unsigned long s1 = std::stoul(s);
           std::cout << " Reduce_3 s1: " << s1 << std::endl;
+
           unsigned long s2 = std::stoul(sum);
           std::cout << " Reduce_3 s2: " << s2 << std::endl;
+  
           unsigned long fe = s1 + s2;
           sum = std::to_string(fe);
           std::cout << " Reduce_3 sum: " << sum << std::endl;
@@ -399,6 +377,15 @@
       <connect-inout port="sum" place="sum_3"/>
       <connect-out port="ns" place="ns"/>
     </transition>
+
+    <place name="d_vectors_4" type="list"/>
+    <place name="branchtype_4" type="list"/>
+    <place name="fey_out_4" type="string"/>
+    <place name="sum_4" type="string">
+      <token>
+        <value>"0"</value>
+      </token>
+    </place>
 
     <transition name="partition_4">
       <defun>
@@ -420,7 +407,7 @@
               }
               v.push_back(temp);
           }
-                  ]]>
+          ]]>
           </code>
         </module>
       </defun>
@@ -510,6 +497,9 @@
               }
           }
           unsigned long fe=feynman_integral_branch_type(Gv, av);
+          /* std::vector<unsigned long> v(deg, 0);
+          v[c-1] = fe;
+          s=vectorToStringULong(v); */
           s=std::to_string(fe);
           std::cout << " feynman_degree_4 s: " << s << std::endl;
                  ]]>
@@ -542,8 +532,10 @@
           <code><![CDATA[
           unsigned long s1 = std::stoul(s);
           std::cout << " Reduce_4 s1: " << s1 << std::endl;
+
           unsigned long s2 = std::stoul(sum);
           std::cout << " Reduce_4 s2: " << s2 << std::endl;
+  
           unsigned long fe = s1 + s2;
           sum = std::to_string(fe);
           std::cout << " Reduce_4 sum: " << sum << std::endl;
@@ -555,6 +547,15 @@
       <connect-inout port="sum" place="sum_4"/>
       <connect-out port="ns" place="ns"/>
     </transition>
+
+    <place name="d_vectors_5" type="list"/>
+    <place name="branchtype_5" type="list"/>
+    <place name="fey_out_5" type="string"/>
+    <place name="sum_5" type="string">
+      <token>
+        <value>"0"</value>
+      </token>
+    </place>
 
     <transition name="partition_5">
       <defun>
@@ -576,7 +577,7 @@
               }
               v.push_back(temp);
           }
-                  ]]>
+          ]]>
           </code>
         </module>
       </defun>
@@ -666,6 +667,9 @@
               }
           }
           unsigned long fe=feynman_integral_branch_type(Gv, av);
+         /* std::vector<unsigned long> v(deg, 0);
+          v[c-1] = fe;
+          s=vectorToStringULong(v); */
           s=std::to_string(fe);
           std::cout << " feynman_degree_5 s: " << s << std::endl;
                  ]]>
@@ -696,175 +700,19 @@
           <cinclude href="unordered_set"/>
           <cinclude href="feynman.hpp"/>
           <code><![CDATA[
-          unsigned long s1 = std::stoul(s);
-          std::cout << " Reduce_5 s1: " << s1 << std::endl;
-          unsigned long s2 = std::stoul(sum);
-          std::cout << " Reduce_5 s2: " << s2 << std::endl;
-          unsigned long fe = s1 + s2;
-          sum = std::to_string(fe);
-          std::cout << " Reduce_5 sum: " << sum << std::endl;
+             unsigned long s1 = std::stoul(s);
+
+             unsigned long s2 = std::stoul(sum);
+  
+             unsigned long fe = s1 + s2;
+             sum = std::to_string(fe);
+             std::cout << " Reduce_5 sum: " << sum << std::endl;
                  ]]>
           </code>
         </module>
       </defun>
       <connect-in port="s" place="fey_out_5"/>
       <connect-inout port="sum" place="sum_5"/>
-      <connect-out port="ns" place="ns"/>
-    </transition>
-
-    <transition name="partition_6">
-      <defun>
-        <in name="control_6" type="control"/>
-        <in name="i" type="int"/>
-        <in name="n" type="int"/>
-        <out name="v" type="list"/>
-        <module name="feynman_module" function="gen_block_6(n,i,v,control_6)">
-          <cinclude href="iostream"/>
-          <cinclude href="vector"/>
-          <cinclude href="sstream"/>
-          <cinclude href="feynman.hpp"/>
-          <code><![CDATA[
-          vector2d gen=gen_block(n,6);
-          for (std::vector<int> ge:gen){
-              std::list<pnet::type::value::value_type> temp;
-              for (int xi : ge) {
-                  temp.push_back(pnet::type::value::value_type(xi));
-              }
-              v.push_back(temp);
-          }
-                  ]]>
-          </code>
-        </module>
-      </defun>
-      <connect-read port="i" place="degree"/>
-      <connect-read port="n" place="N"/>
-      <connect-in port="control_6" place="control_6"/>
-      <connect-out-many port="v" place="d_vectors_6"/>
-    </transition>
-
-    <transition name="Combination_6">
-      <defun>
-        <in name="v" type="list"/>
-        <out name="vec" type="list"/>
-        <module name="feynman_module" function="partition_6(v, vec)">
-          <cinclude href="iostream"/>
-          <cinclude href="vector"/>
-          <cinclude href="numeric"/>
-          <cinclude href="sstream"/>
-          <cinclude href="../include/feynman/feynman.hpp"/>
-          <code><![CDATA[
-          std::vector<int> x;
-          for (const auto& elem : v) {
-            auto ptr = boost::get<int>(&elem) ;
-              x.push_back(*ptr);
-          }
-          vector2d gen=iterate( x);
-          using pnet_value = pnet::type::value::value_type;
-          using pnet_list = std::list<pnet_value>;
-          for (std::vector<int> &a : gen)
-          {
-              pnet_list temp_a;
-              for (int xi : a)
-              {
-                  temp_a.push_back(pnet::type::value::value_type(xi));
-              }
-              vec.push_back(temp_a);
-          }
-                 ]]>
-          </code>
-        </module>
-      </defun>
-      <connect-in port="v" place="d_vectors_6"/>
-      <connect-out-many port="vec" place="branchtype_6"/>
-    </transition>
-
-    <transition name="feynman_degree_6">
-      <defun>
-        <in name="deg" type="int"/>
-        <in name="a" type="list"/>
-        <in name="G" type="list"/>
-        <out name="s" type="string"/>
-        <module name="feynman_module" function="feynman_integral_degree_6(deg,s,G,a)">
-          <cinclude href="iostream"/>
-          <cinclude href="vector"/>
-          <cinclude href="numeric"/>
-          <cinclude href="tuple"/>
-          <cinclude href="algorithm"/>
-          <cinclude href="unordered_map"/>
-          <cinclude href="functional"/>
-          <cinclude href="cmath"/>
-          <cinclude href="sstream"/>
-          <cinclude href="stack"/>
-          <cinclude href="unordered_set"/>
-          <cinclude href="feynman.hpp"/>
-          <code><![CDATA[
-          std::vector<int> xxx;
-          for (const auto &vii : G)
-          {
-              if (auto ptr = boost::get<int>(&vii))
-              {
-                  xxx.push_back( *ptr );
-              }
-          }
-          std::vector<std::pair<int, int>> Gv;
-          for (size_t i = 0; i < xxx.size(); i += 2)
-          {
-              Gv.push_back(std::make_pair(xxx[i], xxx[i + 1]));
-          }
-          std::vector<int> av;
-          int c=0;
-          for (const auto &xi : a)
-          {
-              if (auto ptr = boost::get<int>(&xi))
-              {
-                  av.push_back( *ptr);
-                  c+=*ptr;
-              }
-          }
-          unsigned long fe=feynman_integral_branch_type(Gv, av);
-          s=std::to_string(fe);
-          std::cout << " feynman_degree_6 s: " << s << std::endl;
-                 ]]>
-          </code>
-        </module>
-      </defun>
-      <connect-read port="deg" place="deg"/>
-      <connect-in port="a" place="branchtype_6"/>
-      <connect-read port="G" place="graph"/>
-      <connect-out port="s" place="fey_out_6"/>
-    </transition>
-
-    <transition name="Reduce_6">
-      <defun>
-        <in name="s" type="string"/>
-        <inout name="sum" type="string"/>
-        <out name="ns" type="control"/>
-        <module name="feynman_module" function="plus_6 (ns,s, sum)">
-          <cinclude href="iostream"/>
-          <cinclude href="vector"/>
-          <cinclude href="tuple"/>
-          <cinclude href="algorithm"/>
-          <cinclude href="unordered_map"/>
-          <cinclude href="functional"/>
-          <cinclude href="cmath"/>
-          <cinclude href="sstream"/>
-          <cinclude href="stack"/>
-          <cinclude href="unordered_set"/>
-          <cinclude href="feynman.hpp"/>
-          <code><![CDATA[
-          unsigned long s1 = std::stoul(s);
-          std::cout << " Reduce_6 s1: " << s1 << std::endl;
-          unsigned long s2 = std::stoul(sum);
-          std::cout << " Reduce_6 s2: " << s2 << std::endl;
-          unsigned long fe = s1 + s2;
-          sum = std::to_string(fe);
-          std::cout << " Reduce_6 sum: " << sum << std::endl;
-                 ]]>
-          </code>
-        </module>
-      </defun>
-      <connect-in port="s" place="fey_out_6"/>
-      <connect-inout port="sum" place="sum_6"/>
       <connect-out port="ns" place="ns"/>
     </transition>
 
@@ -879,6 +727,7 @@
           <code><![CDATA[
           counter_total +=1;
           std::cout << " sum_number counter_total: " << counter_total << std::endl;
+
                  ]]>
           </code>
         </module>
@@ -889,32 +738,32 @@
 
     <transition name="equality">
       <defun>
-        <in name="total" type="unsigned long"/>
-        <in name="counter_total" type="unsigned long"/>
-        <out name="fey_sum" type="string"/>
         <in name="sum_2" type="string"/>
         <in name="sum_3" type="string"/>
         <in name="sum_4" type="string"/>
         <in name="sum_5" type="string"/>
-        <in name="sum_6" type="string"/>
-        <module name="feynman_module" function="final (total,counter_total,fey_sum,sum_2,sum_3,sum_4,sum_5,sum_6)">
+        <in name="total" type="unsigned long"/>
+        <in name="counter_total" type="unsigned long"/>
+        <out name="fey_sum" type="string"/>
+        <module name="feynman_module" function="final (total,counter_total,fey_sum,sum_2,sum_3,sum_4,sum_5)">
           <cinclude href="iostream"/>
           <cinclude href="vector"/>
           <cinclude href="sstream"/>
           <cinclude href="feynman/feynman.hpp"/>
-          <code><![CDATA[
+          <code><![CDATA[    
           std::cout << " equality total: " << total << std::endl;
+          //pushing the sum_2, sum_3, sum_4, sum_5 into a vector
           std::vector<std::string> sum_vec;
           sum_vec.push_back(sum_2);
           sum_vec.push_back(sum_3);
           sum_vec.push_back(sum_4);
           sum_vec.push_back(sum_5);
-          sum_vec.push_back(sum_6);
-          
+          //convert the vector to a string
           std::string sum_vec_str = vectorToString(sum_vec," ");
           std::cout << " equality sum_vec_str: " << sum_vec_str << std::endl;
           fey_sum = sum_vec_str;
-                 ]]>
+          
+               ]]>
           </code>
         </module>
       </defun>
@@ -925,7 +774,6 @@
       <connect-in port="sum_3" place="sum_3"/>
       <connect-in port="sum_4" place="sum_4"/>
       <connect-in port="sum_5" place="sum_5"/>
-      <connect-in port="sum_6" place="sum_6"/>
       <condition>
       ${counter_total}:eq: ${total}
       </condition>
@@ -941,10 +789,10 @@
           <cinclude href="sstream"/>
           <cinclude href="Quasi.hpp"/>
           <cinclude href="feynman.hpp"/>
-          <code><![CDATA[
-          answer = fey_sum;
-          std::cout << " Quasimodular answer: " << answer << std::endl;
-                 ]]>
+          <code><![CDATA[     
+            answer = fey_sum;
+            
+              ]]>
           </code>
         </module>
       </defun>

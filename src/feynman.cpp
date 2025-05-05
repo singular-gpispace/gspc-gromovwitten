@@ -716,6 +716,17 @@ std::vector<unsigned long> stringToVectorUlong(const std::string& str) {
     return result;
 }
 
+std::string vectorToString(const std::vector<std::string>& vec, const std::string& delimiter = "") {
+    std::string result;
+    for (size_t i = 0; i < vec.size(); ++i) {
+        result += vec[i];
+        if (i != vec.size() - 1) {
+            result += delimiter;
+        }
+    }
+    return result;
+}
+
 // Convert a vector of unsigned long to a string
 std::string vectorToStringULong(const std::vector<unsigned long>& vec) {
     std::stringstream ss;

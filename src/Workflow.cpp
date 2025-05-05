@@ -67,6 +67,7 @@ namespace feynman
 
     {
         total_int = partialBinomialSum(_N, _degree);
+        std::cout << "partialBinomialSum("<<_N<<","<<_degree<<") = " << total_int << std::endl;
         G = extractIntegers(_graph);
         for (int xi : G)
         {

@@ -103,4 +103,5 @@ void proterm(const int k, const int j, int a, mp_limb_signed_t N, const int nv, 
 unsigned long feynman_integral_type(std::vector<std::pair<int, int>> Gv, int factor, std::vector<int> av);
 unsigned long feynman_integral_branch_type(std::vector<std::pair<int, int>> Gv, std::vector<int> a);
 unsigned long feynman_integral_degree(std::vector<std::pair<int, int>> Gv, int d);
+std::string vectorToString(const std::vector<std::string>& vec, const std::string& delimiter = "");
 #endif // FEYNMAN_HPP
