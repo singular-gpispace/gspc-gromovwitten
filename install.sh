@@ -1,16 +1,16 @@
 rm -r ~/gpi/try_gpi/gspc-gromovwitten/build/* 
 rm -r ~/gpi/try_gpi/gspc-gromovwitten/bin/*
 
-# Compile and run generate_fey.cpp to generate new feynman.xpnet
- cd "/home/atraore/gpi/try_gpi/gspc-gromovwitten/cpp/" && g++ generate_fey.cpp -o generate_fey && "/home/atraore/gpi/try_gpi/gspc-gromovwitten/cpp/"generate_fey
-mv ~/gpi/try_gpi/gspc-gromovwitten/cpp/feynman.xpnet ~/gpi/try_gpi/gspc-gromovwitten/workflow/feynman.xpnet
+# # Compile and run generate_fey.cpp to generate new feynman.xpnet
+#  cd "~/gpi/try_gpi/gspc-gromovwitten/cpp/" && g++ generate_fey.cpp -o generate_fey && "~/gpi/try_gpi/gspc-gromovwitten/cpp/"generate_fey
+# mv ~/gpi/try_gpi/gspc-gromovwitten/cpp/feynman.xpnet ~/gpi/try_gpi/gspc-gromovwitten/workflow/feynman.xpnet
 
 # Generate SVG workflow diagram
 spack load gpi-space@24.12
 pnetc ~/gpi/try_gpi/gspc-gromovwitten/workflow/feynman.xpnet | pnet2dot | dot -T svg > ~/gpi/try_gpi/gspc-gromovwitten/workflow/feynman.svg
 
 # Set GPISpace root path
-GPISPACE_ROOT="/home/atraore/singular-gpispace/spack/opt/spack/linux-ubuntu22.04-skylake/gcc-11.3.0/gpi-space-24.12-jz6b4m6ql54fmhkpq6gbico2neic3kd5"
+GPISPACE_ROOT="~/singular-gpispace/spack/opt/spack/linux-ubuntu22.04-skylake/gcc-11.3.0/gpi-space-24.12-jz6b4m6ql54fmhkpq6gbico2neic3kd5"
 export GSPC_HOME=$GPISPACE_ROOT
 
 cmake \
