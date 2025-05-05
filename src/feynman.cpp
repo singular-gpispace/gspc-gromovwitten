@@ -669,6 +669,15 @@ int main() {
     return 0;
 }
  */
+/* 
+ void stringToFmpq(const std::string& str, fmpq_t f) {
+    if (fmpq_set_str(f, str.c_str(), 10) != 0) {
+        std::cerr << "Error: invalid fmpq string: " << str << std::endl;
+        fmpq_zero(f); // Set to 0 as fallback
+    } else {
+        fmpq_canonicalise(f);
+    }
+} */
 
  // Function to convert fmpq_t to a string
 std::string fmpqToString(const fmpq_t f) {

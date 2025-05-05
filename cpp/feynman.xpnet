@@ -1,0 +1,344 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<defun name="feynman">
+  <net>
+    <place name="graph" type="list"/>
+    <place name="degree" type="int"/>
+    <place name="N" type="int"/>
+    <place name="g" type="int"/>
+    <place name="loop" type="string"/>
+    <place name="genus" type="string"/>
+    <place name="degrees" type="int"/>
+    <place name="d_vectors" type="list"/>
+    <place name="branchtype" type="list"/>
+    <place name="fey_out" type="string"/>
+    <place name="deg" type="int"/>
+
+    <transition name="partition_1">
+      <defun>
+        <in name="i" type="int"/>
+        <in name="n" type="int"/>
+        <out name="v" type="list"/>
+        <module name="feynman_module" function="gen_block_(n,i,v)">
+          <cinclude href="feynman.h"/>
+          <code><![CDATA[
+          vector2d gen=gen_block(n,i);
+          for (std::vector<int> ge:gen){
+              std::list<pnet::type::value::value_type> temp;
+              for (int xi : ge) {
+                  temp.push_back(pnet::type::value::value_type(xi));
+              }
+              v.push_back(temp);
+          }]]></code>
+        </module>
+      </defun>
+      <connect-read port="n" place="N"/>
+      <connect-in port="i" place="degrees"/>
+      <connect-out-many port="v" place="d_vectors"/>
+    </transition>
+
+    <transition name="combination_1">
+      <defun>
+        <in name="v" type="list"/>
+        <out name="vec" type="list"/>
+        <module name="feynman_module" function="partition(v, vec)">
+          <cinclude href="feynman.h"/>
+          <code><![CDATA[
+          std::vector<int> x;
+          for (const auto& elem : v) {
+            auto ptr = boost::get<int>(&elem);
+            x.push_back(*ptr);
+          }
+          vector2d gen=iterate(x);
+          using pnet_value = pnet::type::value::value_type;
+          using pnet_list = std::list<pnet_value>;
+          for (std::vector<int> &a : gen) {
+              pnet_list temp_a;
+              for (int xi : a) {
+                  temp_a.push_back(pnet::type::value::value_type(xi));
+              }
+              vec.push_back(temp_a);
+          }]]></code>
+        </module>
+      </defun>
+      <connect-in port="v" place="d_vectors"/>
+      <connect-out-many port="vec" place="branchtype"/>
+    </transition>
+
+    <transition name="partition_2">
+      <defun>
+        <in name="i" type="int"/>
+        <in name="n" type="int"/>
+        <out name="v" type="list"/>
+        <module name="feynman_module" function="gen_block_(n,i,v)">
+          <cinclude href="feynman.h"/>
+          <code><![CDATA[
+          vector2d gen=gen_block(n,i);
+          for (std::vector<int> ge:gen){
+              std::list<pnet::type::value::value_type> temp;
+              for (int xi : ge) {
+                  temp.push_back(pnet::type::value::value_type(xi));
+              }
+              v.push_back(temp);
+          }]]></code>
+        </module>
+      </defun>
+      <connect-read port="n" place="N"/>
+      <connect-in port="i" place="degrees"/>
+      <connect-out-many port="v" place="d_vectors"/>
+    </transition>
+
+    <transition name="combination_2">
+      <defun>
+        <in name="v" type="list"/>
+        <out name="vec" type="list"/>
+        <module name="feynman_module" function="partition(v, vec)">
+          <cinclude href="feynman.h"/>
+          <code><![CDATA[
+          std::vector<int> x;
+          for (const auto& elem : v) {
+            auto ptr = boost::get<int>(&elem);
+            x.push_back(*ptr);
+          }
+          vector2d gen=iterate(x);
+          using pnet_value = pnet::type::value::value_type;
+          using pnet_list = std::list<pnet_value>;
+          for (std::vector<int> &a : gen) {
+              pnet_list temp_a;
+              for (int xi : a) {
+                  temp_a.push_back(pnet::type::value::value_type(xi));
+              }
+              vec.push_back(temp_a);
+          }]]></code>
+        </module>
+      </defun>
+      <connect-in port="v" place="d_vectors"/>
+      <connect-out-many port="vec" place="branchtype"/>
+    </transition>
+
+    <transition name="partition_3">
+      <defun>
+        <in name="i" type="int"/>
+        <in name="n" type="int"/>
+        <out name="v" type="list"/>
+        <module name="feynman_module" function="gen_block_(n,i,v)">
+          <cinclude href="feynman.h"/>
+          <code><![CDATA[
+          vector2d gen=gen_block(n,i);
+          for (std::vector<int> ge:gen){
+              std::list<pnet::type::value::value_type> temp;
+              for (int xi : ge) {
+                  temp.push_back(pnet::type::value::value_type(xi));
+              }
+              v.push_back(temp);
+          }]]></code>
+        </module>
+      </defun>
+      <connect-read port="n" place="N"/>
+      <connect-in port="i" place="degrees"/>
+      <connect-out-many port="v" place="d_vectors"/>
+    </transition>
+
+    <transition name="combination_3">
+      <defun>
+        <in name="v" type="list"/>
+        <out name="vec" type="list"/>
+        <module name="feynman_module" function="partition(v, vec)">
+          <cinclude href="feynman.h"/>
+          <code><![CDATA[
+          std::vector<int> x;
+          for (const auto& elem : v) {
+            auto ptr = boost::get<int>(&elem);
+            x.push_back(*ptr);
+          }
+          vector2d gen=iterate(x);
+          using pnet_value = pnet::type::value::value_type;
+          using pnet_list = std::list<pnet_value>;
+          for (std::vector<int> &a : gen) {
+              pnet_list temp_a;
+              for (int xi : a) {
+                  temp_a.push_back(pnet::type::value::value_type(xi));
+              }
+              vec.push_back(temp_a);
+          }]]></code>
+        </module>
+      </defun>
+      <connect-in port="v" place="d_vectors"/>
+      <connect-out-many port="vec" place="branchtype"/>
+    </transition>
+
+    <transition name="partition_4">
+      <defun>
+        <in name="i" type="int"/>
+        <in name="n" type="int"/>
+        <out name="v" type="list"/>
+        <module name="feynman_module" function="gen_block_(n,i,v)">
+          <cinclude href="feynman.h"/>
+          <code><![CDATA[
+          vector2d gen=gen_block(n,i);
+          for (std::vector<int> ge:gen){
+              std::list<pnet::type::value::value_type> temp;
+              for (int xi : ge) {
+                  temp.push_back(pnet::type::value::value_type(xi));
+              }
+              v.push_back(temp);
+          }]]></code>
+        </module>
+      </defun>
+      <connect-read port="n" place="N"/>
+      <connect-in port="i" place="degrees"/>
+      <connect-out-many port="v" place="d_vectors"/>
+    </transition>
+
+    <transition name="combination_4">
+      <defun>
+        <in name="v" type="list"/>
+        <out name="vec" type="list"/>
+        <module name="feynman_module" function="partition(v, vec)">
+          <cinclude href="feynman.h"/>
+          <code><![CDATA[
+          std::vector<int> x;
+          for (const auto& elem : v) {
+            auto ptr = boost::get<int>(&elem);
+            x.push_back(*ptr);
+          }
+          vector2d gen=iterate(x);
+          using pnet_value = pnet::type::value::value_type;
+          using pnet_list = std::list<pnet_value>;
+          for (std::vector<int> &a : gen) {
+              pnet_list temp_a;
+              for (int xi : a) {
+                  temp_a.push_back(pnet::type::value::value_type(xi));
+              }
+              vec.push_back(temp_a);
+          }]]></code>
+        </module>
+      </defun>
+      <connect-in port="v" place="d_vectors"/>
+      <connect-out-many port="vec" place="branchtype"/>
+    </transition>
+
+    <transition name="partition_5">
+      <defun>
+        <in name="i" type="int"/>
+        <in name="n" type="int"/>
+        <out name="v" type="list"/>
+        <module name="feynman_module" function="gen_block_(n,i,v)">
+          <cinclude href="feynman.h"/>
+          <code><![CDATA[
+          vector2d gen=gen_block(n,i);
+          for (std::vector<int> ge:gen){
+              std::list<pnet::type::value::value_type> temp;
+              for (int xi : ge) {
+                  temp.push_back(pnet::type::value::value_type(xi));
+              }
+              v.push_back(temp);
+          }]]></code>
+        </module>
+      </defun>
+      <connect-read port="n" place="N"/>
+      <connect-in port="i" place="degrees"/>
+      <connect-out-many port="v" place="d_vectors"/>
+    </transition>
+
+    <transition name="combination_5">
+      <defun>
+        <in name="v" type="list"/>
+        <out name="vec" type="list"/>
+        <module name="feynman_module" function="partition(v, vec)">
+          <cinclude href="feynman.h"/>
+          <code><![CDATA[
+          std::vector<int> x;
+          for (const auto& elem : v) {
+            auto ptr = boost::get<int>(&elem);
+            x.push_back(*ptr);
+          }
+          vector2d gen=iterate(x);
+          using pnet_value = pnet::type::value::value_type;
+          using pnet_list = std::list<pnet_value>;
+          for (std::vector<int> &a : gen) {
+              pnet_list temp_a;
+              for (int xi : a) {
+                  temp_a.push_back(pnet::type::value::value_type(xi));
+              }
+              vec.push_back(temp_a);
+          }]]></code>
+        </module>
+      </defun>
+      <connect-in port="v" place="d_vectors"/>
+      <connect-out-many port="vec" place="branchtype"/>
+    </transition>
+
+    <transition name="degrees_fey">
+      <defun>
+        <in name="weightmax" type="int"/>
+        <in name="d" type="int"/>
+        <out name="v" type="list"/>
+        <module name="feynman_module" function="init(weightmax,d,v)">
+          <cinclude href="feynman.h"/>
+          <code><![CDATA[
+          int nb = number_monomial(weightmax);
+          if (d < nb) {
+              throw std::runtime_error(
+                  "d = " + std::to_string(d) + " should be equal to or greater than the number of monomials, which is " + std::to_string(nb));
+          } else {
+              for (int i = 1; i <= d; ++i) {
+                  v.emplace_back(i);
+              }
+          }]]></code>
+        </module>
+      </defun>
+      <connect-read port="weightmax" place="g"/>
+      <connect-in port="d" place="degree"/>
+      <connect-out port="v" place="degrees"/>
+    </transition>
+
+    <transition name="combine_results">
+      <defun>
+        <in name="a" type="list"/>
+        <in name="G" type="list"/>
+        <in name="gg" type="string"/>
+        <in name="l" type="string"/>
+        <in name="deg" type="int"/>
+        <out name="s" type="string"/>
+        <module name="feynman_module" function="feynman_integral_degree(s,G,a,gg,l,deg)">
+          <cinclude href="feynman.h"/>
+          <code><![CDATA[
+          std::vector<int> xxx;
+          for (const auto &vii : G) {
+              if (auto ptr = boost::get<int>(&vii)) {
+                  xxx.push_back(*ptr);
+              }
+          }
+          std::vector<std::pair<int, int>> Gv;
+          for (size_t i = 0; i < xxx.size(); i += 2) {
+              Gv.push_back(std::make_pair(xxx[i], xxx[i + 1]));
+          }
+          std::vector<int> av;
+          int c=0;
+          for (const auto &xi : a) {
+              if (auto ptr = boost::get<int>(&xi)) {
+                  av.push_back(*ptr);
+                  c+=*ptr;
+              }
+          }
+          std::vector<int> g=stringToVectorInt(gg);
+          std::vector<int> ll= stringToVectorInt(l);
+          fmpq_t result;
+          fmpq_init(result);
+          fmpq_t fey_branch_av;
+          fmpq_init(fey_branch_av);
+          feynman_integral_branch_type(fey_branch_av, Gv, av, g, ll);
+          s = fmpqToString(fey_branch_av);
+          fmpq_clear(fey_branch_av);]]></code>
+        </module>
+      </defun>
+      <connect-read port="G" place="graph"/>
+      <connect-in port="a" place="branchtype"/>
+      <connect-read port="l" place="loop"/>
+      <connect-out port="s" place="fey_out"/>
+      <connect-read port="gg" place="genus"/>
+      <connect-read port="deg" place="deg"/>
+    </transition>
+
+  </net>
+</defun>

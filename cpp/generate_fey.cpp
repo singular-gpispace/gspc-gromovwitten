@@ -24,83 +24,101 @@ struct PetriNet {
 };
 
 // Generate Petri net for Feynman workflow
-PetriNet generate_feynman_petri_net() {
+std::string generate_feynman_petri_net(int d) {
     PetriNet net;
 
     // Define places
     net.places = {
-        "degree", "deg", "N", "graph", "total", "answer",
-        "ns", "counter_total", "fey_sum"
+        "graph", "degree", "N", "g", "loop", "genus", "degrees", "d_vectors", "branchtype", "fey_out", "deg"
     };
 
     // Define place types
     net.place_types = {
-        {"degree", "int"},
-        {"deg", "int"},
-        {"N", "int"},
         {"graph", "list"},
-        {"total", "unsigned long"},
-        {"answer", "string"},
-        {"ns", "control"},
-        {"counter_total", "unsigned long"},
-        {"fey_sum", "string"}
+        {"degree", "int"},
+        {"N", "int"},
+        {"g", "int"},
+        {"loop", "string"},
+        {"genus", "string"},
+        {"degrees", "int"},
+        {"d_vectors", "list"},
+        {"branchtype", "list"},
+        {"fey_out", "string"},
+        {"deg", "int"}
     };
 
-    // Define port types
-    net.port_types = {
-        {"d", "int"},
-        {"v", "list"},
-        {"i", "int"},
-        {"n", "int"},
-        {"vec", "list"},
-        {"deg", "int"},
-        {"a", "list"},
-        {"G", "list"},
-        {"s", "string"},
-        {"sum", "string"},
-        {"ns", "control"},
-        {"counter_total", "unsigned long"},
-        {"total", "unsigned long"},
-        {"answer", "string"},
-        {"fey_sum", "string"}
-    };
+    // Define transitions
+    for (int i = 1; i <= d; i++) {
+        std::string is = std::to_string(i);
+        net.transitions.push_back("partition_" + is);
+        net.transitions.push_back("combination_" + is);
+    }
+    net.transitions.push_back("degrees_fey");
+    net.transitions.push_back("combine_results");
+
+    // Define transition inputs and outputs
+    for (int i = 1; i <= d; i++) {
+        std::string is = std::to_string(i);
+        net.transition_inputs["partition_" + is] = {"i", "n"};
+        net.transition_outputs["partition_" + is] = {"v"};
+        net.transition_inputs["combination_" + is] = {"v"};
+        net.transition_outputs["combination_" + is] = {"vec"};
+    }
+    net.transition_inputs["degrees_fey"] = {"weightmax", "d"};
+    net.transition_outputs["degrees_fey"] = {"v"};
+    net.transition_inputs["combine_results"] = {"a", "G", "gg", "l", "deg"};
+    net.transition_outputs["combine_results"] = {"s"};
 
     // Define function parameters
-    net.function_params = {
-        {"partition", {"i", "n", "v"}},
-        {"Combination", {"v", "vec"}},
-        {"feynman_degree", {"deg", "a", "G", "s"}},
-        {"Reduce", {"s", "sum", "ns"}},
-        {"sum_number", {"ns", "counter_total"}},
-        {"equality", {"total", "counter_total", "fey_sum"}},
-        {"Quasimodular", {"fey_sum", "answer"}}
-    };
+    for (int i = 1; i <= d; i++) {
+        std::string is = std::to_string(i);
+        net.function_params["partition_" + is] = {"n", "i", "v"};
+        net.function_params["combination_" + is] = {"v", "vec"};
+    }
+    net.function_params["degrees_fey"] = {"weightmax", "d", "v"};
+    net.function_params["combine_results"] = {"s", "G", "a", "gg", "l", "deg"};
+
+    // Define port types
+    for (int i = 1; i <= d; i++) {
+        std::string is = std::to_string(i);
+        net.port_types["n"] = "int";
+        net.port_types["i"] = "int";
+        net.port_types["v"] = "list";
+        net.port_types["vec"] = "list";
+    }
+    net.port_types["weightmax"] = "int";
+    net.port_types["d"] = "int";
+    net.port_types["a"] = "list";
+    net.port_types["G"] = "list";
+    net.port_types["gg"] = "string";
+    net.port_types["l"] = "string";
+    net.port_types["deg"] = "int";
+    net.port_types["s"] = "string";
 
     // Define function signatures
-    net.function_signatures = {
-        {"partition", "gen_block_(n,i,v)"},
-        {"Combination", "partition(v, vec)"},
-        {"feynman_degree", "feynman_integral_degree(deg,s,G,a)"},
-        {"Reduce", "plus (ns,s, sum)"},
-        {"sum_number", "control1 (ns,counter_total)"},
-        {"equality", "final (total,counter_total,fey_sum)"},
-        {"Quasimodular", "Quasi (fey_sum,answer)"}
-    };
+    for (int i = 1; i <= d; i++) {
+        std::string is = std::to_string(i);
+        net.function_signatures["partition_" + is] = "gen_block_(n,i,v)";
+        net.function_signatures["combination_" + is] = "partition(v, vec)";
+    }
 
-    // Define includes for each transition
-    net.includes = {
-        {"partition", {"iostream", "vector", "sstream", "feynman.hpp"}},
-        {"Combination", {"iostream", "vector", "numeric", "sstream", "../include/feynman/feynman.hpp"}},
-        {"feynman_degree", {"iostream", "vector", "numeric", "tuple", "algorithm", "unordered_map", "functional", "cmath", "sstream", "stack", "unordered_set", "feynman.hpp"}},
-        {"Reduce", {"iostream", "vector", "tuple", "algorithm", "unordered_map", "functional", "cmath", "sstream", "stack", "unordered_set", "feynman.hpp"}},
-        {"sum_number", {"iostream", "vector", "sstream"}},
-        {"equality", {"iostream", "vector", "sstream"}},
-        {"Quasimodular", {"iostream", "vector", "sstream", "Quasi.hpp", "feynman.hpp"}}
-    };
+    net.function_signatures["degrees_fey"] = "init(weightmax,d,v)";
+    std::string combine_sig = "feynman_integral_degree(s,G,a,gg,l,deg)";
+    net.function_signatures["combine_results"] = combine_sig;
 
-    // Define code blocks for each transition
-    net.code_blocks = {
-        {"partition", R"(
+    // Define includes
+    for (int i = 1; i <= d; i++) {
+        std::string is = std::to_string(i);
+        net.includes["partition_" + is] = {"feynman.h"};
+        net.includes["combination_" + is] = {"feynman.h"};
+    }
+    net.includes["degrees_fey"] = {"feynman.h"};
+    net.includes["combine_results"] = {"feynman.h"};
+
+    // Define code blocks
+    for (int i = 1; i <= d; i++) {
+        std::string is = std::to_string(i);
+        net.code_blocks["partition_" + is] = R"(
           vector2d gen=gen_block(n,i);
           for (std::vector<int> ge:gen){
               std::list<pnet::type::value::value_type> temp;
@@ -108,301 +126,162 @@ PetriNet generate_feynman_petri_net() {
                   temp.push_back(pnet::type::value::value_type(xi));
               }
               v.push_back(temp);
-          }
-        )"},
-        {"Combination", R"(
+          })";
+
+        net.code_blocks["combination_" + is] = R"(
           std::vector<int> x;
           for (const auto& elem : v) {
-            auto ptr = boost::get<int>(&elem) ;
-              x.push_back(*ptr);
+            auto ptr = boost::get<int>(&elem);
+            x.push_back(*ptr);
           }
-          vector2d gen=iterate( x);
+          vector2d gen=iterate(x);
           using pnet_value = pnet::type::value::value_type;
           using pnet_list = std::list<pnet_value>;
-          for (std::vector<int> &a : gen)
-          {
+          for (std::vector<int> &a : gen) {
               pnet_list temp_a;
-              for (int xi : a)
-              {
+              for (int xi : a) {
                   temp_a.push_back(pnet::type::value::value_type(xi));
               }
               vec.push_back(temp_a);
-          }
-        )"},
-        {"feynman_degree", R"(
+          })";
+    }
+
+    net.code_blocks["degrees_fey"] = R"(
+          int nb = number_monomial(weightmax);
+          if (d < nb) {
+              throw std::runtime_error(
+                  "d = " + std::to_string(d) + " should be equal to or greater than the number of monomials, which is " + std::to_string(nb));
+          } else {
+              for (int i = 1; i <= d; ++i) {
+                  v.emplace_back(i);
+              }
+          })";
+
+    net.code_blocks["combine_results"] = R"(
           std::vector<int> xxx;
-          for (const auto &vii : G)
-          {
-              if (auto ptr = boost::get<int>(&vii))
-              {
-                  xxx.push_back( *ptr );
+          for (const auto &vii : G) {
+              if (auto ptr = boost::get<int>(&vii)) {
+                  xxx.push_back(*ptr);
               }
           }
           std::vector<std::pair<int, int>> Gv;
-          for (size_t i = 0; i < xxx.size(); i += 2)
-          {
+          for (size_t i = 0; i < xxx.size(); i += 2) {
               Gv.push_back(std::make_pair(xxx[i], xxx[i + 1]));
           }
           std::vector<int> av;
           int c=0;
-          for (const auto &xi : a)
-          {
-              if (auto ptr = boost::get<int>(&xi))
-              {
-                  av.push_back( *ptr);
+          for (const auto &xi : a) {
+              if (auto ptr = boost::get<int>(&xi)) {
+                  av.push_back(*ptr);
                   c+=*ptr;
               }
           }
-          unsigned long fe=feynman_integral_branch_type(Gv, av);
-          std::vector<unsigned long> v(deg, 0);
-          v[c-1] = fe;
-          s=vectorToStringULong(v);
-        )"},
-        {"Reduce", R"(
-          std::vector<unsigned long> v = stringToVectorUlong(sum);
-          std::vector<unsigned long> w = stringToVectorUlong(s);
-          std::vector<unsigned long> sum_vector = sumOfVectors(v, w);
-          sum = vectorToStringULong(sum_vector);
-        )"},
-        {"sum_number", R"(
-          counter_total +=1;
-        )"},
-        {"equality", ""},
-        {"Quasimodular", ""}
-    };
+          std::vector<int> g=stringToVectorInt(gg);
+          std::vector<int> ll= stringToVectorInt(l);
+          fmpq_t result;
+          fmpq_init(result);
+          fmpq_t fey_branch_av;
+          fmpq_init(fey_branch_av);
+          feynman_integral_branch_type(fey_branch_av, Gv, av, g, ll);
+          s = fmpqToString(fey_branch_av);
+          fmpq_clear(fey_branch_av);)";
 
-    // Define transitions
-    net.transitions = {
-        "partition", "Combination", "feynman_degree", "Reduce",
-        "sum_number", "equality", "Quasimodular"
-    };
-
-    // Define transition inputs
-    net.transition_inputs = {
-        {"partition", {"i", "n"}},
-        {"Combination", {"v"}},
-        {"feynman_degree", {"deg", "a", "G"}},
-        {"Reduce", {"s"}},
-        {"sum_number", {"ns"}},
-        {"equality", {"total", "counter_total"}},
-        {"Quasimodular", {"fey_sum"}}
-    };
-
-    // Define transition outputs
-    net.transition_outputs = {
-        {"partition", {"v"}},
-        {"Combination", {"vec"}},
-        {"feynman_degree", {"s"}},
-        {"Reduce", {"ns"}},
-        {"sum_number", {}},
-        {"equality", {"fey_sum"}},
-        {"Quasimodular", {"answer"}}
-    };
-
-    // Define transition inouts
-    net.transition_inouts = {
-        {"Reduce", {"sum"}},
-        {"sum_number", {"counter_total"}},
-        {"equality", {}}
-    };
-
-    return net;
-}
-
-// Generate XML for Feynman workflow
-std::string generateFeynmanXPNetXML(const PetriNet& net, int d) {
-    std::ostringstream xml;
-
-    // XML header
+    // Generate XML
+    std::stringstream xml;
     xml << "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n";
-    xml << "<defun name=\"feynman_deg\">\n\n";
-
-    // Top-level inputs and output
-    xml << "  <in name=\"degree\" type=\"int\" place=\"degree\"/>\n";
-    xml << "  <in name=\"deg\" type=\"int\" place=\"deg\"/>\n";
-    xml << "  <in name=\"N\" type=\"int\" place=\"N\"/>\n";
-    xml << "  <in name=\"graph\" type=\"list\" place=\"graph\"/>\n";
-    xml << "  <in name=\"total\" type=\"unsigned long\" place=\"total\"/>\n";
-    xml << "  <out name=\"answer\" type=\"string\" place=\"answer\"/>\n\n";
+    xml << "<defun name=\"feynman\">\n";
     xml << "  <net>\n";
 
-    // Declare base places
+    // Add places
     for (const auto& place : net.places) {
-        xml << "    <place name=\"" << place << "\" type=\"" << net.place_types.at(place) << "\"";
-        if (place == "sum" || place == "counter_total") {
-            xml << ">\n";
-            xml << "      <token>\n";
-            xml << "        <value>" << (place == "sum" ? "\" \"" : "0UL") << "</value>\n";
-            xml << "      </token>\n";
-            xml << "    </place>\n";
-        } else {
-            xml << "/>\n";
-        }
+        xml << "    <place name=\"" << place << "\" type=\"" << net.place_types.at(place) << "\"/>\n";
     }
     xml << "\n";
 
-    // Generate transitions for each degree from 2 to d
-    for (int i = 2; i <= d; i++) {
-        // Declare degree-specific places
-        xml << "    <place name=\"d_vectors_" << i << "\" type=\"list\"/>\n";
-        xml << "    <place name=\"branchtype_" << i << "\" type=\"list\"/>\n";
-        xml << "    <place name=\"fey_out_" << i << "\" type=\"string\"/>\n";
-        xml << "    <place name=\"sum_" << i << "\" type=\"string\">\n";
-        xml << "      <token>\n";
-        xml << "        <value>\" \"</value>\n";
-        xml << "      </token>\n";
-        xml << "    </place>\n\n";
+    // Generate transitions for each degree from 1 to d
+    for (int i = 1; i <= d; i++) {
+        std::string is = std::to_string(i);
 
-        // Partition transition for this degree
-        xml << "    <transition name=\"partition_" << i << "\">\n";
+        // Partition transition
+        xml << "    <transition name=\"partition_" << is << "\">\n";
         xml << "      <defun>\n";
         xml << "        <in name=\"i\" type=\"int\"/>\n";
         xml << "        <in name=\"n\" type=\"int\"/>\n";
         xml << "        <out name=\"v\" type=\"list\"/>\n";
-        xml << "        <module name=\"feynman_module\" function=\"gen_block_" << i << "(n,i,v)\">\n";
-        for (const auto& inc : net.includes.at("partition")) {
+        xml << "        <module name=\"feynman_module\" function=\"" << net.function_signatures.at("partition_" + is) << "\">\n";
+        for (const auto& inc : net.includes.at("partition_" + is)) {
             xml << "          <cinclude href=\"" << inc << "\"/>\n";
         }
-        xml << "          <code><![CDATA[\n";
-        xml << "          vector2d gen=gen_block(n," << i << ");\n";
-        xml << "          for (std::vector<int> ge:gen){\n";
-        xml << "              std::list<pnet::type::value::value_type> temp;\n";
-        xml << "              for (int xi : ge) {\n";
-        xml << "                  temp.push_back(pnet::type::value::value_type(xi));\n";
-        xml << "              }\n";
-        xml << "              v.push_back(temp);\n";
-        xml << "          }\n";
-        xml << "          ]]>\n";
-        xml << "          </code>\n";
+        xml << "          <code><![CDATA[" << net.code_blocks.at("partition_" + is) << "]]></code>\n";
         xml << "        </module>\n";
         xml << "      </defun>\n";
-        xml << "      <connect-in port=\"i\" place=\"degree\"/>\n";
         xml << "      <connect-read port=\"n\" place=\"N\"/>\n";
-        xml << "      <connect-out-many port=\"v\" place=\"d_vectors_" << i << "\"/>\n";
+        xml << "      <connect-in port=\"i\" place=\"degrees\"/>\n";
+        xml << "      <connect-out-many port=\"v\" place=\"d_vectors\"/>\n";
         xml << "    </transition>\n\n";
 
-        // Combination transition for this degree
-        xml << "    <transition name=\"Combination_" << i << "\">\n";
+        // Combination transition
+        xml << "    <transition name=\"combination_" << is << "\">\n";
         xml << "      <defun>\n";
         xml << "        <in name=\"v\" type=\"list\"/>\n";
         xml << "        <out name=\"vec\" type=\"list\"/>\n";
-        xml << "        <module name=\"feynman_module\" function=\"partition_" << i << "(v, vec)\">\n";
-        for (const auto& inc : net.includes.at("Combination")) {
+        xml << "        <module name=\"feynman_module\" function=\"" << net.function_signatures.at("combination_" + is) << "\">\n";
+        for (const auto& inc : net.includes.at("combination_" + is)) {
             xml << "          <cinclude href=\"" << inc << "\"/>\n";
         }
-        xml << "          <code><![CDATA[" << net.code_blocks.at("Combination");
-        xml << "         ]]>\n";
-        xml << "          </code>\n";
+        xml << "          <code><![CDATA[" << net.code_blocks.at("combination_" + is) << "]]></code>\n";
         xml << "        </module>\n";
         xml << "      </defun>\n";
-        xml << "      <connect-in port=\"v\" place=\"d_vectors_" << i << "\"/>\n";
-        xml << "      <connect-out-many port=\"vec\" place=\"branchtype_" << i << "\"/>\n";
-        xml << "    </transition>\n\n";
-
-        // Feynman degree transition for this degree
-        xml << "    <transition name=\"feynman_degree_" << i << "\">\n";
-        xml << "      <defun>\n";
-        xml << "        <in name=\"deg\" type=\"int\"/>\n";
-        xml << "        <in name=\"a\" type=\"list\"/>\n";
-        xml << "        <in name=\"G\" type=\"list\"/>\n";
-        xml << "        <out name=\"s\" type=\"string\"/>\n";
-        xml << "        <module name=\"feynman_module\" function=\"feynman_integral_degree_" << i << "(deg,s,G,a)\">\n";
-        for (const auto& inc : net.includes.at("feynman_degree")) {
-            xml << "          <cinclude href=\"" << inc << "\"/>\n";
-        }
-        xml << "          <code><![CDATA[" << net.code_blocks.at("feynman_degree");
-        xml << "         ]]>\n";
-        xml << "          </code>\n";
-        xml << "        </module>\n";
-        xml << "      </defun>\n";
-        xml << "      <connect-read port=\"deg\" place=\"deg\"/>\n";
-        xml << "      <connect-in port=\"a\" place=\"branchtype_" << i << "\"/>\n";
-        xml << "      <connect-read port=\"G\" place=\"graph\"/>\n";
-        xml << "      <connect-out port=\"s\" place=\"fey_out_" << i << "\"/>\n";
-        xml << "    </transition>\n\n";
-
-        // Reduce transition for this degree
-        xml << "    <transition name=\"Reduce_" << i << "\">\n";
-        xml << "      <defun>\n";
-        xml << "        <in name=\"s\" type=\"string\"/>\n";
-        xml << "        <inout name=\"sum\" type=\"string\"/>\n";
-        xml << "        <out name=\"ns\" type=\"control\"/>\n";
-        xml << "        <module name=\"feynman_module\" function=\"plus_" << i << " (ns,s, sum)\">\n";
-        for (const auto& inc : net.includes.at("Reduce")) {
-            xml << "          <cinclude href=\"" << inc << "\"/>\n";
-        }
-        xml << "          <code><![CDATA[" << net.code_blocks.at("Reduce");
-        xml << "         ]]>\n";
-        xml << "          </code>\n";
-        xml << "        </module>\n";
-        xml << "      </defun>\n";
-        xml << "      <connect-in port=\"s\" place=\"fey_out_" << i << "\"/>\n";
-        xml << "      <connect-inout port=\"sum\" place=\"sum_" << i << "\"/>\n";
-        xml << "      <connect-out port=\"ns\" place=\"ns\"/>\n";
+        xml << "      <connect-in port=\"v\" place=\"d_vectors\"/>\n";
+        xml << "      <connect-out-many port=\"vec\" place=\"branchtype\"/>\n";
         xml << "    </transition>\n\n";
     }
 
-    // Add sum_number transition
-    xml << "    <transition name=\"sum_number\">\n";
+    // Degrees transition
+    xml << "    <transition name=\"degrees_fey\">\n";
     xml << "      <defun>\n";
-    xml << "        <in name=\"ns\" type=\"control\"/>\n";
-    xml << "        <inout name=\"counter_total\" type=\"unsigned long\"/>\n";
-    xml << "        <module name=\"feynman_module\" function=\"control1 (ns,counter_total)\">\n";
-    for (const auto& inc : net.includes.at("sum_number")) {
+    xml << "        <in name=\"weightmax\" type=\"int\"/>\n";
+    xml << "        <in name=\"d\" type=\"int\"/>\n";
+    xml << "        <out name=\"v\" type=\"list\"/>\n";
+    xml << "        <module name=\"feynman_module\" function=\"" << net.function_signatures.at("degrees_fey") << "\">\n";
+    for (const auto& inc : net.includes.at("degrees_fey")) {
         xml << "          <cinclude href=\"" << inc << "\"/>\n";
     }
-    xml << "          <code><![CDATA[" << net.code_blocks.at("sum_number");
-    xml << "         ]]>\n";
-    xml << "          </code>\n";
+    xml << "          <code><![CDATA[" << net.code_blocks.at("degrees_fey") << "]]></code>\n";
     xml << "        </module>\n";
     xml << "      </defun>\n";
-    xml << "      <connect-in port=\"ns\" place=\"ns\"/>\n";
-    xml << "      <connect-inout port=\"counter_total\" place=\"counter_total\"/>\n";
+    xml << "      <connect-read port=\"weightmax\" place=\"g\"/>\n";
+    xml << "      <connect-in port=\"d\" place=\"degree\"/>\n";
+    xml << "      <connect-out port=\"v\" place=\"degrees\"/>\n";
     xml << "    </transition>\n\n";
 
-    // Add equality transition
-    xml << "    <transition name=\"equality\">\n";
+    // Add final transition to combine results
+    xml << "    <transition name=\"combine_results\">\n";
     xml << "      <defun>\n";
-    xml << "        <in name=\"total\" type=\"unsigned long\"/>\n";
-    xml << "        <in name=\"counter_total\" type=\"unsigned long\"/>\n";
-    xml << "        <out name=\"fey_sum\" type=\"string\"/>\n";
-    xml << "        <module name=\"feynman_module\" function=\"final (total,counter_total,fey_sum)\">\n";
-    for (const auto& inc : net.includes.at("equality")) {
+    xml << "        <in name=\"a\" type=\"list\"/>\n";
+    xml << "        <in name=\"G\" type=\"list\"/>\n";
+    xml << "        <in name=\"gg\" type=\"string\"/>\n";
+    xml << "        <in name=\"l\" type=\"string\"/>\n";
+    xml << "        <in name=\"deg\" type=\"int\"/>\n";
+    xml << "        <out name=\"s\" type=\"string\"/>\n";
+    xml << "        <module name=\"feynman_module\" function=\"" << net.function_signatures.at("combine_results") << "\">\n";
+    for (const auto& inc : net.includes.at("combine_results")) {
         xml << "          <cinclude href=\"" << inc << "\"/>\n";
     }
-    xml << "          <code><![CDATA[" << net.code_blocks.at("equality");
-    xml << "         ]]>\n";
-    xml << "          </code>\n";
+    xml << "          <code><![CDATA[" << net.code_blocks.at("combine_results") << "]]></code>\n";
     xml << "        </module>\n";
     xml << "      </defun>\n";
-    xml << "      <connect-read port=\"total\" place=\"total\"/>\n";
-    xml << "      <connect-read port=\"counter_total\" place=\"counter_total\"/>\n";
-    xml << "      <connect-out port=\"fey_sum\" place=\"fey_sum\"/>\n";
-    xml << "      <condition>\n";
-    xml << "      ${counter_total}:eq: ${total}\n";
-    xml << "      </condition>\n";
-    xml << "    </transition>\n\n";
-
-    // Add Quasimodular transition
-    xml << "    <transition name=\"Quasimodular\">\n";
-    xml << "      <defun>\n";
-    xml << "        <in name=\"fey_sum\" type=\"string\"/>\n";
-    xml << "        <out name=\"answer\" type=\"string\"/>\n";
-    xml << "        <module name=\"feynman_module\" function=\"Quasi (fey_sum,answer)\">\n";
-    for (const auto& inc : net.includes.at("Quasimodular")) {
-        xml << "          <cinclude href=\"" << inc << "\"/>\n";
-    }
-    xml << "          <code><![CDATA[" << net.code_blocks.at("Quasimodular");
-    xml << "         ]]>\n";
-    xml << "          </code>\n";
-    xml << "        </module>\n";
-    xml << "      </defun>\n";
-    xml << "      <connect-in port=\"fey_sum\" place=\"fey_sum\"/>\n";
-    xml << "      <connect-out port=\"answer\" place=\"answer\"/>\n";
+    xml << "      <connect-read port=\"G\" place=\"graph\"/>\n";
+    xml << "      <connect-in port=\"a\" place=\"branchtype\"/>\n";
+    xml << "      <connect-read port=\"l\" place=\"loop\"/>\n";
+    xml << "      <connect-out port=\"s\" place=\"fey_out\"/>\n";
+    xml << "      <connect-read port=\"gg\" place=\"genus\"/>\n";
+    xml << "      <connect-read port=\"deg\" place=\"deg\"/>\n";
     xml << "    </transition>\n\n";
 
     xml << "  </net>\n";
     xml << "</defun>\n";
+
     return xml.str();
 }
 
@@ -439,12 +318,9 @@ void print_petri_net(const PetriNet& net) {
 
 // Main function
 int main() {
-    int d=5;
-    PetriNet myPetriNet = generate_feynman_petri_net();
-    print_petri_net(myPetriNet);
-
-    std::string xml = generateFeynmanXPNetXML(myPetriNet,d);
-    std::ofstream file("generated_feynman.xpnet");
+    int d = 5;  // Example value for d
+    std::string xml = generate_feynman_petri_net(d);
+    std::ofstream file("feynman.xpnet");
     file << xml;
     file.close();
 

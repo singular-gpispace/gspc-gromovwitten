@@ -327,6 +327,7 @@ fmpq_t result;
           <cinclude href="sstream"/>
           <code><![CDATA[
           std::cout << "answer=: " << answer << std::endl;
+          std::cout << "total=: " << total << std::endl;
 
 
          ]]>
@@ -334,7 +335,7 @@ fmpq_t result;
         </module>
       </defun>
       <condition>
-      ${counter_total}:eq: ${total}
+      ${counter_total} :eq: ${total}
       </condition>
       <connect-read port="total" place="total"/>
       <connect-out port="answer" place="fey_sum"/>
@@ -344,7 +345,6 @@ fmpq_t result;
     </transition>
 
     <place name="fey_sum" type="string" />
-
 
     <transition name="Quasimodular">
       <defun>
@@ -358,7 +358,41 @@ fmpq_t result;
           <cinclude href="feynman.hpp"/>
 
           <code><![CDATA[
-         
+
+                std::cout << "weightmax: " << weightmax << std::endl;
+
+             std::vector<fmpq_t*>Iq = stringToVectorFmpq(answer);
+    // Maximum weight
+
+    // Initialize FLINT polynomial context with 3 variables
+    slong nv = 3;  // Number of variables
+    fmpq_mpoly_ctx_t ctx;
+    fmpq_mpoly_ctx_init(ctx, nv, ORD_DEGLEX);
+
+    // Variable to hold the result
+    fmpq_mpoly_t result;
+    fmpq_mpoly_init(result, ctx);
+
+    // Call the quasimodular_form function with Iq and weightmax
+    quasimodular_form(result, Iq, weightmax, ctx);
+
+    // Print the result in a pretty format
+    std::cout << "Quasimodular form result: ";
+    fmpq_mpoly_print_pretty(result, NULL, ctx);
+    std::cout << std::endl;
+
+    // Convert polynomial result to string
+    std::string fey = fmpq_mpolyToString(result, ctx);
+    std::cout << "Polynomial as string: " << fey << std::endl;
+
+    answer=fey;
+
+    // Clear polynomials and context
+    fmpq_mpoly_clear(result, ctx);
+    fmpq_mpoly_ctx_clear(ctx);
+
+
+   
          ]]>
           </code>
         </module>
