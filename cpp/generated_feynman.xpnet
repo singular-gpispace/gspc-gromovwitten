@@ -9,9 +9,7 @@
   <out name="answer" type="string" place="answer"/>
 
   <net>
-      <place name="degree" type="int"/>
-
-    <place name="d" type="int"/>
+    <place name="degree" type="int"/>
     <place name="deg" type="int"/>
     <place name="N" type="int"/>
     <place name="graph" type="list"/>
@@ -24,49 +22,6 @@
       </token>
     </place>
     <place name="fey_sum" type="string"/>
-    <place name="g" type="int"/>
-    <place name="genus" type="string"/>
-    <place name="loop" type="string"/>
-    <place name="fey_out" type="string"/>
-    <place name="d_vectors" type="list"/>
-    <place name="branchtype" type="list"/>
-    <place name="sum" type="string">
-      <token>
-        <value>" "</value>
-      </token>
-    </place>
-
-
-    <transition name="degrees_fey">
-      <defun>
-        <in name="weightmax" type="int"/>
-
-        <inout name="d" type="int"/>
-
-        <module name="feynman_module" function=" init(weightmax,d)">
-          <cinclude href="iostream"/>
-          <cinclude href="vector"/>
-          <cinclude href="sstream"/>
-          <cinclude href="feynman.hpp"/>
-
-          <code><![CDATA[
-          int nb = number_monomial(weightmax); // Call to your number_monomial function
-        if (d < nb) {
-            // Throw an exception with a proper message
-            throw std::runtime_error(
-                "d = " + std::to_string(d) + " should be equal to or greater than the number of monomials, which is " + std::to_string(nb));
-        } 
-
-
-         ]]>
-          </code>
-        </module>
-      </defun>
-      <connect-read port="weightmax" place="g"/>
-      <connect-in port="d" place="degree"/>
-      <connect-out port="d" place="d"/>
-    </transition>
-
 
     <place name="control_1" type="control">
       <token><value>[]</value></token>
@@ -80,9 +35,6 @@
         <value>"0"</value>
       </token>
     </place>
-
-
-
 
     <transition name="partition_1">
       <defun>
@@ -108,7 +60,7 @@
           </code>
         </module>
       </defun>
-      <connect-read port="i" place="d"/>
+      <connect-read port="i" place="degree"/>
       <connect-read port="n" place="N"/>
       <connect-in port="control_1" place="control_1"/>
       <connect-out-many port="v" place="d_vectors_1"/>
@@ -271,7 +223,7 @@
           </code>
         </module>
       </defun>
-      <connect-read port="i" place="d"/>
+      <connect-read port="i" place="degree"/>
       <connect-read port="n" place="N"/>
       <connect-in port="control_2" place="control_2"/>
       <connect-out-many port="v" place="d_vectors_2"/>
@@ -434,7 +386,7 @@
           </code>
         </module>
       </defun>
-      <connect-read port="i" place="d"/>
+      <connect-read port="i" place="degree"/>
       <connect-read port="n" place="N"/>
       <connect-in port="control_3" place="control_3"/>
       <connect-out-many port="v" place="d_vectors_3"/>
@@ -597,7 +549,7 @@
           </code>
         </module>
       </defun>
-      <connect-read port="i" place="d"/>
+      <connect-read port="i" place="degree"/>
       <connect-read port="n" place="N"/>
       <connect-in port="control_4" place="control_4"/>
       <connect-out-many port="v" place="d_vectors_4"/>
@@ -760,7 +712,7 @@
           </code>
         </module>
       </defun>
-      <connect-read port="i" place="d"/>
+      <connect-read port="i" place="degree"/>
       <connect-read port="n" place="N"/>
       <connect-in port="control_5" place="control_5"/>
       <connect-out-many port="v" place="d_vectors_5"/>
@@ -963,8 +915,6 @@
       <connect-in port="fey_sum" place="fey_sum"/>
       <connect-out port="answer" place="answer"/>
     </transition>
-
-   
 
   </net>
 </defun>

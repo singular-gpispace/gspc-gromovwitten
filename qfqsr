@@ -4,4 +4,4 @@ pnetc ~/gpi/try_gpi/gspc-gromovwitten/cpp/generated_feynman.xpnet | pnet2dot | d
 
 
 spack load gpi-space@24.12
-pnetc ~/gpi/try_gpi/gspc-gromovwitten/cpp/feynman.xpnet | pnet2dot | dot -T svg > ~/gpi/try_gpi/gspc-gromovwitten/workflow/feynman.svg
+pnetc ~/gpi/try_gpi/gspc-gromovwitten/cpp/feynman.xpnet | pnet2dot | dot -T svg > ~/gpi/try_gpi/gspc-gromovwitten/cpp/feynman.svg
