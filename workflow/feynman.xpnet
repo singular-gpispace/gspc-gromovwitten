@@ -205,12 +205,9 @@ fmpq_t result;
 
     // Compute Feynman integral of degree d
   feynman_integral_branch_type(fey_branch_av, Gv, av, g, ll);
+   
 
-  //convert to string
-s = fmpqToString(fey_branch_av);
-
-std::cout << "fey_branch_av: " << s << std::endl;
-     /*    std::vector<fmpq_t*> v(deg+1, nullptr);
+        std::vector<fmpq_t*> v(deg+1, nullptr);
      v[c] = (fmpq_t*)malloc(sizeof(fmpq_t));
     fmpq_init(*v[c]);
 
@@ -218,14 +215,14 @@ std::cout << "fey_branch_av: " << s << std::endl;
     fmpq_set(*v[c], fey_branch_av);
 
     // Convert the vector to a string
-     s = vectorToStringFmpq(v); */
+     s = vectorToStringFmpq(v);
     //std::cout << "c= " << c << "deg "<<deg<<std::endl;
     //std::cout << "V==: " << s << std::endl;
 
     // Clear the fmpq value after usage
     fmpq_clear(fey_branch_av);
-      //fmpq_clear(*v[c]);
-      //free(v[c]);
+    fmpq_clear(*v[c]);
+    free(v[c]);
 
       ]]>
           </code>
@@ -242,7 +239,7 @@ std::cout << "fey_branch_av: " << s << std::endl;
 
     <place name="sum" type="string">
       <token>
-        <value>"0"</value>
+        <value>" "</value>
       </token>
     </place>
 
@@ -264,27 +261,22 @@ std::cout << "fey_branch_av: " << s << std::endl;
           <cinclude href="unordered_set"/>
           <cinclude href="feynman.hpp"/>
           <code><![CDATA[
-          fmpq_t s1, s2;
-          fmpq_init(s1);
-          fmpq_init(s2);
-          
-          std::cout << "Reduce_15 before s1: " << s << std::endl;
-          stringToFmpq(s1, s);
-          std::cout << "Reduce_15 after s1: " << fmpqToString(s1) << std::endl;
+          std::cout << "s= " << s << std::endl;
+          std::cout << "sum=: " << sum << std::endl;
 
-          std::cout << "Reduce_15 before s2: " << sum << std::endl;
-          stringToFmpq(s2, sum);
-          std::cout << "Reduce_15 after s2: " << fmpqToString(s2) << std::endl;
+           std::vector<fmpq_t*>v = stringToVectorFmpq(sum);
+              std::vector<fmpq_t*> w = stringToVectorFmpq(s);
 
-          fmpq_add(s1, s1, s2);
-          sum = fmpqToString(s1);
+                // Perform the sum of the vectors
+               std::vector<fmpq_t*> sum_vector = sumOfVectorsFmpq(v, w);
 
-          std::cout << "sum_computed after sum: " << sum << std::endl;
+                // Convert the result back to a string
+                sum = vectorToStringFmpq(sum_vector);
+          std::cout << "sum2=: " << sum << std::endl;
 
-          fmpq_clear(s1);
-          fmpq_clear(s2);
           ]]>
           </code>
+
         </module>
       </defun>
       <connect-in port="s" place="fey_out"/>
