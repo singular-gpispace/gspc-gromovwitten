@@ -1,5 +1,7 @@
 #pragma once
 #include <string>
+#include <vector>
+#include <list>
 #include <feynman/Parameters.hpp>
 #include <feynman/ValuesOnPorts.hpp>
 #include <feynman/WorkflowResult.hpp>
@@ -26,5 +28,17 @@ namespace feynman
     std::string _graph;
     std::vector<int> G;
     pnet_list graph_int;
+    
+    // Additional member variables
+    int _m;          // for composition
+    int _g;          // for quasi_psi
+    int _deg;        // for quasi, sum, sum_psi
+    std::string _genus;  // for quasi_psi, sum_psi
+    std::string _loop;   // for quasi_psi, sum_psi
+    
+    // Helper variables
+    int total_int;
+    int deg_int;
+    int genus_int;
   };
 }

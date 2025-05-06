@@ -8,34 +8,43 @@
 namespace feynman
 {
   Parameters parse_parameters_from_commandline
-    (ParametersDescription const& driver_opts,
-     ParametersDescription const& workflow_opts,
-     int argc,
-     char** argv
+    ( ParametersDescription const& driver_opts
+    , ParametersDescription const& workflow_opts
+    , ParametersDescription const& workflow_type_opts
+    , int argc
+    , char** argv
     )
   {
     namespace po = boost::program_options;
 
-    ParametersDescription options;
-    options.add_options()("help", "this message");
-    options.add (driver_opts);
-    options.add (workflow_opts);
+    po::options_description visible_options;
+    visible_options.add(driver_opts);
+    visible_options.add(workflow_opts);
+    visible_options.add(workflow_type_opts);
 
-    Parameters parameters;
-    po::store ( po::command_line_parser (argc, argv)
-              . options (options)
-              . run()
-              , parameters
-              );
+    po::variables_map vm;
+    po::store (po::parse_command_line (argc, argv, visible_options), vm);
 
-    if (parameters.count ("help"))
+    if (vm.count ("help"))
     {
-      std::cout << options << std::endl;
+      std::cout << visible_options << std::endl;
       std::exit (EXIT_SUCCESS);
     }
 
-    parameters.notify();
+    po::notify (vm);
 
-    return parameters;
+    return Parameters (vm);
+  }
+
+  Parameters parse_parameters_from_commandline
+    ( ParametersDescription const& driver_opts
+    , ParametersDescription const& workflow_opts
+    , int argc
+    , char** argv
+    )
+  {
+    namespace po = boost::program_options;
+    po::options_description empty_opts;
+    return parse_parameters_from_commandline(driver_opts, workflow_opts, empty_opts, argc, argv);
   }
 }

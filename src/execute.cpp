@@ -11,6 +11,7 @@
 #include <boost/filesystem/path.hpp>
 
 #include <string>
+#include <iostream>
 
 namespace feynman
 {
@@ -22,6 +23,7 @@ namespace feynman
 
       ParametersDescription driver_opts ("Worker Topology");
       driver_opts.add_options()("topology", po::value<std::string>()->required());
+      driver_opts.add_options()("workflow_path", po::value<std::string>());
       driver_opts.add (gspc::options::installation());
       driver_opts.add (gspc::options::drts());
       driver_opts.add (gspc::options::logging());
@@ -33,8 +35,19 @@ namespace feynman
 
   WorkflowResult execute (Parameters parameters, Workflow const& workflow)
   {
-    auto const feynman_installation_path
-      (fhg::util::executable_path().parent_path().parent_path());
+    // Get the executable path and use its parent directory as installation path
+    auto const executable_path = fhg::util::executable_path();
+    auto const installation_path = std::filesystem::path(executable_path.parent_path().parent_path().string());
+    auto const library_path = installation_path / "lib";
+    
+    // Get workflow path from parameters
+    auto const workflow_path = std::filesystem::path(parameters.at("workflow_path").as<std::string>());
+
+    std::cout << "Debug - executable_path: " << executable_path << std::endl;
+    std::cout << "Debug - installation_path: " << installation_path << std::endl;
+    std::cout << "Debug - library_path: " << library_path << std::endl;
+    std::cout << "Debug - workflow_path: " << workflow_path << std::endl;
+    std::cout << "Debug - workflow_path exists: " << std::filesystem::exists(workflow_path) << std::endl;
 
     gspc::installation installation (parameters);
     gspc::scoped_rifds rifds(gspc::rifd::strategy {parameters},
@@ -42,17 +55,13 @@ namespace feynman
                              gspc::rifd::port {parameters},
                              installation);
 
-    // Convert boost::filesystem::path to std::filesystem::path
-    std::filesystem::path lib_path = std::filesystem::path(feynman_installation_path.string()) / "lib";
-    gspc::set_application_search_path(parameters, lib_path);
+    gspc::set_application_search_path(parameters, library_path);
 
     gspc::scoped_runtime_system drts (parameters,
                                       installation,
                                       parameters.at ("topology").as<std::string>(),
                                       rifds.entry_points());
 
-    // Convert boost::filesystem::path to std::filesystem::path
-    std::filesystem::path workflow_path = std::filesystem::path(feynman_installation_path.string()) / "pnet" / "feynman.pnet";
     gspc::workflow const workflow_obj(workflow_path);
 
     return gspc::client {drts}.put_and_run (workflow_obj, workflow.inputs().map());
