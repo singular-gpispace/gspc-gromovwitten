@@ -4,7 +4,7 @@
 if [ $# -eq 0 ]; then
     echo "Usage: $0 <workflow_type>"
     echo "Available workflow types:"
-    echo "  base (uses feynman.xpnet)"
+    echo "  base (uses feynman_base.xpnet)"
     echo "  composition (uses feynman_composition.xpnet)"
     echo "  doubles (uses feynman_doubles_edges.xpnet)"
     echo "  quasi_psi (uses feynman_quasi_psi.xpnet)"
@@ -38,7 +38,7 @@ spack load gpi-space@24.12
 # Map workflow type to actual file name
 case $WORKFLOW_TYPE in
     "base")
-        WORKFLOW_FILE="feynman.xpnet"
+        WORKFLOW_FILE="feynman_base.xpnet"
         ;;
     "composition")
         WORKFLOW_FILE="feynman_composition.xpnet"
@@ -118,6 +118,9 @@ COMMON_PARAMS="--gspc-home $GPISPACE_ROOT \
   --topology worker:7 \
   --log-host localhost \
   --log-port 9876"
+
+# Set library path
+export LD_LIBRARY_PATH="$INSTALL_DIR/lib:$LD_LIBRARY_PATH"
 
 # Run the selected workflow
 case $WORKFLOW_TYPE in

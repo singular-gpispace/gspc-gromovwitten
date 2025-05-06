@@ -1,33 +1,69 @@
 <defun name="feynman_deg">
 
   <in name="degree" type="int" place="degree"/>
+  <in name="deg" type="int" place="deg"/>
   <in name="N" type="int" place="N"/>
   <in name="graph" type="list" place="graph"/>
+  <in name="total" type="unsigned long" place="total"/>
   <in name="genus" type="string" place="genus"/>
   <in name="loop" type="string" place="loop"/>
-  <out name="fey_out" type="string" place="fey_out"/>
-  <out name="sum" type="string" place="sum"/>
-
+  <out name="answer" type="string" place="answer"/>
 
   <net>
     <place name="degree" type="int"/>
+    <place name="deg" type="int"/>
     <place name="N" type="int"/>
     <place name="fey_out" type="string" />
+    <place name="total" type="unsigned long"/>
+    <place name="loop" type="string"/>
+    <place name="genus" type="string"/>
+
+
+    <transition name="degrees_fey">
+      <defun>
+
+        <in name="d" type="int"/>
+        <out name="v" type="list"/>
+
+        <module name="feynman_module" function=" init(d,v)">
+          <cinclude href="iostream"/>
+          <cinclude href="vector"/>
+          <cinclude href="sstream"/>
+          <cinclude href="feynman.hpp"/>
+
+          <code><![CDATA[
+
+            // Populate the vector v with integers from 2 to d
+            for (int i = 1; i <= d; ++i) {
+                v.emplace_back(i);
+            }
+        
+
+
+         ]]>
+          </code>
+        </module>
+      </defun>
+      <connect-in port="d" place="degree"/>
+      <connect-out-many port="v" place="degrees"/>
+    </transition>
+
+    <place name="degrees" type="int"/>
 
     <transition name="partition">
       <defun>
-        <in name="d" type="int"/>
+        <in name="i" type="int"/>
         <in name="n" type="int"/>
         <out name="v" type="list"/>
 
-        <module name="feynman_module" function=" gen_block_(n,d,v)">
+        <module name="feynman_module" function=" gen_block_(n,i,v)">
           <cinclude href="iostream"/>
           <cinclude href="vector"/>
           <cinclude href="sstream"/>
           <cinclude href="feynman.hpp"/>
           <code><![CDATA[
 
-          vector2d gen=gen_block(n,d);
+          vector2d gen=gen_block(n,i);
           for (std::vector<int> ge:gen){
               std::list<pnet::type::value::value_type> temp;
               for (int xi : ge) {
@@ -39,8 +75,8 @@
          ]]>          </code>
         </module>
       </defun>
-      <connect-in port="n" place="N"/>
-      <connect-in port="d" place="degree"/>
+      <connect-read port="n" place="N"/>
+      <connect-in port="i" place="degrees"/>
       <connect-out-many port="v" place="d_vectors"/>
     </transition>
 
@@ -49,10 +85,9 @@
     <transition name="Combination">
       <defun>
         <in name="v" type="list"/>
-        <in name="G" type="list"/>
         <out name="vec" type="list"/>
 
-        <module name="feynman_module" function=" partition(G, v, vec)">
+        <module name="feynman_module" function=" partition(v, vec)">
           <cinclude href="iostream"/>
           <cinclude href="vector"/>
           <cinclude href="numeric"/>
@@ -60,32 +95,14 @@
           <cinclude href="../include/feynman/feynman.hpp"/>
 
           <code><![CDATA[
-             std::vector<int> xxx; // Define xxx outside the inner loop
-            for (const auto &vii : G)
-            {
-                if (auto ptr = boost::get<int>(&vii))
-                {                             // Check if the element is an integer
-                    xxx.push_back( *ptr ); // Push the integer to the vector xx
-                }
-            }
-         std::vector<std::pair<int, int>> Gv;
-        
-            // Iterate over the vector of integers, creating pairs from consecutive elements
-            for (size_t i = 0; i < xxx.size(); i += 2)
-            {
-                Gv.push_back(std::make_pair(xxx[i], xxx[i + 1]));
-            }
-
-            /**************************************************************************
-            ***************************************************************************
-            **************************************************************************/
-                              
-            std::vector<int> x;
+          std::vector<int> x;
           for (const auto& elem : v) {
             auto ptr = boost::get<int>(&elem) ;
               x.push_back(*ptr);
+            
           }
-    vector2d gen=iterate_permutation(Gv, x);
+      
+    vector2d gen=iterate( x);
       using pnet_value = pnet::type::value::value_type;
     using pnet_list = std::list<pnet_value>;
         for (std::vector<int> &a : gen)
@@ -95,23 +112,19 @@
         {
             temp_a.push_back(pnet::type::value::value_type(xi));
         }
-
         vec.push_back(temp_a);
     }
 
-          ]]>
-          </code>
+          ]]>          </code>
         </module>
       </defun>
       <connect-in port="v" place="d_vectors"/>
-      <connect-read port="G" place="graph"/>
       <connect-out-many port="vec" place="branchtype"/>
     </transition>
 
+
     <place name="branchtype" type="list"/>
     <place name="graph" type="list"/>
-    <place name="genus" type="string"/>
-    <place name="loop" type="string"/>
 
     <transition name="feynman_degree">
       <defun>
@@ -119,10 +132,11 @@
         <in name="G" type="list"/>
         <in name="gg" type="string"/>
         <in name="l" type="string"/>
-
         <out name="s" type="string"/>
+        <in name="deg" type="int"/>
 
-        <module name="feynman_module" function="feynman_integral_degree(s,G,a,gg,l)">
+        <module name="feynman_module" function="feynman_integral_degree(s,G,a,gg,l,deg)">
+          <cinclude href="iostream"/>
           <cinclude href="iostream"/>
           <cinclude href="vector"/>
           <cinclude href="numeric"/>
@@ -144,27 +158,27 @@
                     xxx.push_back( *ptr ); // Push the integer to the vector xx
                 }
             }
-         std::vector<std::pair<int, int>> Gv;
+          std::vector<std::pair<int, int>> Gv;
         
             // Iterate over the vector of integers, creating pairs from consecutive elements
             for (size_t i = 0; i < xxx.size(); i += 2)
             {
                 Gv.push_back(std::make_pair(xxx[i], xxx[i + 1]));
             }
-/**************************************************************************
-***************************************************************************
-**************************************************************************/
 
-                auto factor = boost::get<int>(*a.begin()); // Get the factor
-                std::vector<int> av;
 
-                  for (auto it = std::next(a.begin()); it != a.end(); ++it)
-                  {
-                      auto intValue = boost::get<int>(*it);
-                      av.push_back(intValue);
+          std::vector<int> av;
+          int c=0;
+          for (const auto &xi : a)
+          {
+              if (auto ptr = boost::get<int>(&xi))
+              {
+                  av.push_back( *ptr);
+                  c+=*ptr;
+              }
+          }
 
-                  }
-
+    
 /*************************************************************************
 **************************************************************************/
 std::vector<int> g=stringToVectorInt(gg);
@@ -182,62 +196,168 @@ fmpq_t result;
     // Compute Feynman integral of degree d
   feynman_integral_branch_type(fey_branch_av, Gv, av, g, ll);
    
-   // Multiply fey_branch_av by factor
-        fmpq_mul_ui(result, fey_branch_av, factor);
 
-       std::string fey= fmpqToString(result);
-      fmpq_clear(fey_branch_av);
+        std::vector<fmpq_t*> v(deg+1, nullptr);
+     v[c] = (fmpq_t*)malloc(sizeof(fmpq_t));
+    fmpq_init(*v[c]);
 
-    s=fey;
-    
+    // Copy the value of fey_branch_av to v[c]
+    fmpq_set(*v[c], fey_branch_av);
+
+    // Convert the vector to a string
+     s = vectorToStringFmpq(v);
+    //std::cout << "c= " << c << "deg "<<deg<<std::endl;
+    //std::cout << "V==: " << s << std::endl;
+
+    // Clear the fmpq value after usage
+    fmpq_clear(fey_branch_av);
+    fmpq_clear(*v[c]);
+    free(v[c]);
+
       ]]>
           </code>
         </module>
       </defun>
       <connect-read port="G" place="graph"/>
       <connect-in port="a" place="branchtype"/>
-      <connect-read port="gg" place="genus"/>
       <connect-read port="l" place="loop"/>
-
       <connect-out port="s" place="fey_out"/>
+      <connect-read port="gg" place="genus"/>
+      <connect-read port="deg" place="deg"/>
+
     </transition>
+
     <place name="sum" type="string">
       <token>
-        <value>"0"</value>
+        <value>" "</value>
       </token>
     </place>
+
     <transition name="Reduce">
       <defun>
+        <out name="ns" type="control"/>
         <in name="s" type="string"/>
-        <out name="sum_frac" type="string"/>
-
-        <in name="sum" type="string"/>
-        <module name="feynman_module" function="sum_frac plus (s, sum)">
+        <inout name="sum" type="string"/>
+        <module name="feynman_module" function="plus (ns,s, sum)">
+          <cinclude href="iostream"/>
+          <cinclude href="vector"/>
+          <cinclude href="tuple"/>
+          <cinclude href="algorithm"/>
+          <cinclude href="unordered_map"/>
+          <cinclude href="functional"/>
+          <cinclude href="cmath"/>
+          <cinclude href="sstream"/>
+          <cinclude href="stack"/>
+          <cinclude href="unordered_set"/>
           <cinclude href="feynman.hpp"/>
-
           <code><![CDATA[
-           fmpq_t f1, f2, result;
-              fmpq_init(f1);
-              fmpq_init(f2);
-              fmpq_init(result);
+         // std::cout << "s= " << s << std::endl;
+         // std::cout << "sum=: " << sum << std::endl;
 
-            stringToFmpq(f1, s); 
-            stringToFmpq(f2, sum);
-            fmpq_add(result, f1, f2);
-            std::string sum_frac= fmpqToString(result);
-            fmpq_clear(f1);
-            fmpq_clear(f2);
-            fmpq_clear(result);
-            return sum_frac;
+           std::vector<fmpq_t*>v = stringToVectorFmpq(sum);
+           std::vector<fmpq_t*> w = stringToVectorFmpq(s);
+
+                // Perform the sum of the vectors
+               std::vector<fmpq_t*> sum_vector = sumOfVectorsFmpq(v, w);
+
+                // Convert the result back to a string
+                sum = vectorToStringFmpq(sum_vector);
+         // std::cout << "sum2=: " << sum << std::endl;
+
           ]]>
           </code>
+
         </module>
       </defun>
       <connect-in port="s" place="fey_out"/>
-      <connect-in port="sum" place="sum"/>
-      <connect-out port="sum_frac" place="sum"/>
+      <connect-inout port="sum" place="sum"/>
+      <connect-out port="ns" place="ns"/>
+    </transition>
+
+
+    <place name="ns" type="control"/>
+
+    <place name="counter_total" type="unsigned long">
+      <token>
+        <value>0UL</value>
+      </token>
+    </place>
+
+    <transition name="transition6">
+      <defun>
+        <in name="ns" type="control"/>
+        <inout name="counter_total" type="unsigned long"/>
+        <module name="feynman_module" function=" control1 (ns,counter_total)">
+          <cinclude href="iostream"/>
+          <cinclude href="vector"/>
+          <cinclude href="sstream"/>
+          <code><![CDATA[
+
+          counter_total +=1;
+          //std::cout << "counter_total=: " << counter_total << std::endl;
+
+         ]]>
+          </code>
+        </module>
+      </defun>
+      <connect-in port="ns" place="ns"/>
+      <connect-inout port="counter_total" place="counter_total"/>
+    </transition>
+
+
+    <transition name="transition7">
+      <defun>
+        <in name="total" type="unsigned long"/>
+        <in name="counter_total" type="unsigned long"/>
+        <inout name="answer" type="string"/>
+
+        <module name="feynman_module" function=" final (answer,total,counter_total)">
+          <cinclude href="iostream"/>
+          <cinclude href="vector"/>
+          <cinclude href="sstream"/>
+          <code><![CDATA[
+         // std::cout << "answer=: " << answer << std::endl;
+         // std::cout << "total=: " << total << std::endl;
+
+
+         ]]>
+          </code>
+        </module>
+      </defun>
+      <condition>
+      ${counter_total} :eq: ${total}
+      </condition>
+      <connect-read port="total" place="total"/>
+      <connect-out port="answer" place="fey_sum"/>
+      <connect-in port="counter_total" place="counter_total"/>
+      <connect-in port="answer" place="sum"/>
 
     </transition>
+
+    <place name="fey_sum" type="string" />
+
+    <transition name="Quasimodular">
+      <defun>
+        <inout name="answer" type="string"/>
+
+        <module name="feynman_module" function=" Quasi (answer,)">
+          <cinclude href="iostream"/>
+          <cinclude href="vector"/>
+          <cinclude href="sstream"/>
+          <cinclude href="feynman.hpp"/>
+
+          <code><![CDATA[
+         
+   
+         ]]>
+          </code>
+        </module>
+      </defun>
+      <connect-in port="answer" place="fey_sum"/>
+
+      <connect-out port="answer" place="answer"/>
+    </transition>
+    <place name="answer" type="string" />
 
   </net>
 

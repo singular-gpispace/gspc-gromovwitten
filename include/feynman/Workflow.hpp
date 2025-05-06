@@ -37,7 +37,9 @@ namespace feynman
     std::string _loop;   // for quasi_psi, sum_psi
     
     // Helper variables
-    int total_int;
+
+
+    unsigned long total_int;
     int deg_int;
     int genus_int;
   };

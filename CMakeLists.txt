@@ -12,8 +12,8 @@ set(WORKFLOW_TYPE "base" CACHE STRING "Type of workflow to build (base, composit
 # Set RPATH settings
 set(CMAKE_SKIP_BUILD_RPATH FALSE)
 set(CMAKE_BUILD_WITH_INSTALL_RPATH TRUE)
-set(CMAKE_INSTALL_RPATH "\$ORIGIN/../lib:\$ORIGIN/../libexec/bundle/lib:\$ORIGIN/../libexec/bundle/gpispace/lib:\$ORIGIN/../libexec/bundle/gpispace/libexec/iml")
 set(CMAKE_INSTALL_RPATH_USE_LINK_PATH TRUE)
+set(CMAKE_INSTALL_RPATH "\$ORIGIN/../lib:\$ORIGIN/../libexec/bundle/lib:\$ORIGIN/../libexec/bundle/gpispace/lib:\$ORIGIN/../libexec/bundle/gpispace/libexec/iml:/usr/local/lib")
 
 # Debug messages
 message("--------------------------------")
@@ -41,19 +41,20 @@ bundle_GPISpace(DESTINATION "${BUNDLE_ROOT}/gpispace"
   COMPONENTS runtime
 )
 
-# FLINT include and library directories
-set(FLINT_INCLUDE_DIR "/usr/local/include/flint/")
-set(FLINT_LIB_DIR "/usr/local/lib/")
+# Find required libraries
+find_library(FLINT_LIBRARY NAMES flint PATHS "/usr/local/lib" REQUIRED)
+find_library(GMP_LIBRARY NAMES gmp REQUIRED)
+find_library(MPFR_LIBRARY NAMES mpfr REQUIRED)
+find_library(GF2X_LIBRARY NAMES gf2x)
+find_library(NTL_LIBRARY NAMES ntl)
 
-# FLINT include directory
-include_directories(${FLINT_INCLUDE_DIR})
-
-# FLINT library directory
-link_directories(${FLINT_LIB_DIR})
+# Find FLINT headers
+find_path(FLINT_INCLUDE_DIR NAMES flint/flint.h PATHS "/usr/local/include" REQUIRED)
+get_filename_component(FLINT_INCLUDE_PARENT ${FLINT_INCLUDE_DIR} DIRECTORY)
 
 # Configure and add implementation library target
 if(WORKFLOW_TYPE STREQUAL "base")
-    set(IMPLEMENTATION_SOURCE "src/feynman.cpp")
+    set(IMPLEMENTATION_SOURCE "src/feynman_base.cpp")
 elseif(WORKFLOW_TYPE STREQUAL "doubles")
     set(IMPLEMENTATION_SOURCE "src/feynman_double_edges.cpp")
 elseif(WORKFLOW_TYPE STREQUAL "composition")
@@ -69,8 +70,24 @@ elseif(WORKFLOW_TYPE STREQUAL "sum")
 endif()
 
 add_library(feynman_implementation SHARED ${IMPLEMENTATION_SOURCE})
-target_include_directories(feynman_implementation PUBLIC "${CMAKE_SOURCE_DIR}/include")
-target_link_libraries(feynman_implementation PRIVATE flint)
+target_include_directories(feynman_implementation PUBLIC 
+    "${CMAKE_SOURCE_DIR}/include"
+    ${FLINT_INCLUDE_PARENT}
+)
+target_link_libraries(feynman_implementation PRIVATE 
+    ${FLINT_LIBRARY}
+    ${GMP_LIBRARY}
+    ${MPFR_LIBRARY}
+)
+if(GF2X_LIBRARY)
+    target_link_libraries(feynman_implementation PRIVATE ${GF2X_LIBRARY})
+endif()
+if(NTL_LIBRARY)
+    target_link_libraries(feynman_implementation PRIVATE ${NTL_LIBRARY})
+endif()
+target_link_options(feynman_implementation PRIVATE
+    "-Wl,--enable-new-dtags"
+)
 
 # Set RPATH for the implementation library
 set_target_properties(feynman_implementation
@@ -81,9 +98,9 @@ set_target_properties(feynman_implementation
 
 # Set Petri net paths based on workflow type
 if(WORKFLOW_TYPE STREQUAL "base")
-    set(PETRI_NET "${PROJECT_SOURCE_DIR}/workflow/feynman.xpnet")
-    set(COMPILED_PETRI_NET "${PROJECT_BINARY_DIR}/feynman.pnet")
-    set(WORKFLOW_SOURCE "src/Workflow.cpp")
+    set(PETRI_NET "${PROJECT_SOURCE_DIR}/workflow/feynman_base.xpnet")
+    set(COMPILED_PETRI_NET "${PROJECT_BINARY_DIR}/feynman_base.pnet")
+    set(WORKFLOW_SOURCE "src/Workflow_base.cpp")
 elseif(WORKFLOW_TYPE STREQUAL "composition")
     set(PETRI_NET "${PROJECT_SOURCE_DIR}/workflow/feynman_composition.xpnet")
     set(COMPILED_PETRI_NET "${PROJECT_BINARY_DIR}/feynman_composition.pnet")
@@ -137,10 +154,18 @@ add_custom_command(
   --gen-cxxflags="-std=c++17"
   --gen-cxxflags="-I${PROJECT_SOURCE_DIR}/include"
   --gen-cxxflags="-I${PROJECT_SOURCE_DIR}/include/feynman"
+  --gen-cxxflags="-I${FLINT_INCLUDE_PARENT}"
   --gen-ldflags="-L${CMAKE_BINARY_DIR}"
+  --gen-ldflags="-L${CMAKE_INSTALL_PREFIX}/lib"
   --gen-ldflags="-lfeynman_implementation"
-  --gen-ldflags="-Wl,-rpath='\$\$ORIGIN/../lib'"
+  --gen-ldflags="-Wl,--enable-new-dtags"
+  --gen-ldflags="-Wl,-rpath=\$ORIGIN/../lib"
+  --gen-ldflags="-Wl,-rpath=${CMAKE_INSTALL_PREFIX}/lib"
   --gen-ldflags="-Wl,--no-as-needed"
+  --gen-ldflags="-L/usr/local/lib"
+  --gen-ldflags="-lflint"
+  --gen-ldflags="-lgmp"
+  --gen-ldflags="-lmpfr"
   --force-overwrite-file=true
   --input="${PETRI_NET}"
   --output="/dev/null"
@@ -150,13 +175,19 @@ add_custom_command(
   OUTPUT "${WRAPPER_LIBRARY}"
   DEPENDS "${PETRI_NET}"
   feynman_implementation
-  compiled_petri_net
 )
 
 add_custom_target(workflow_library
   ALL
   DEPENDS
   "${WRAPPER_LIBRARY}"
+)
+
+# Set RPATH for the module library
+set_target_properties(workflow_library
+  PROPERTIES
+  INSTALL_RPATH_USE_LINK_PATH TRUE
+  INSTALL_RPATH "\$ORIGIN/../lib:\$ORIGIN/../libexec/bundle/lib:\$ORIGIN/../libexec/bundle/gpispace/lib:\$ORIGIN/../libexec/bundle/gpispace/libexec/iml"
 )
 
 # Add workflow library based on selected type
@@ -172,11 +203,8 @@ target_link_libraries(feynman_workflow PRIVATE
   Boost::filesystem
   GPISpace::execution
 )
-
-set_target_properties(feynman_workflow
-  PROPERTIES
-  INSTALL_RPATH_USE_LINK_PATH TRUE
-  INSTALL_RPATH "\$ORIGIN/../lib:\$ORIGIN/../libexec/bundle/lib:\$ORIGIN/../libexec/bundle/gpispace/lib:\$ORIGIN/../libexec/bundle/gpispace/libexec/iml"
+target_link_options(feynman_workflow PRIVATE
+    "-Wl,--enable-new-dtags"
 )
 
 # Make sure the module depends on the implementation
@@ -184,9 +212,38 @@ add_dependencies(workflow_library feynman_implementation)
 
 # Install targets
 install(FILES "${COMPILED_PETRI_NET}" DESTINATION pnet)
-install(TARGETS feynman_implementation DESTINATION lib)
+
+# Install implementation library first
+install(TARGETS feynman_implementation 
+  RUNTIME DESTINATION bin
+  LIBRARY DESTINATION lib
+)
+install(TARGETS feynman_implementation 
+  RUNTIME DESTINATION "${BUNDLE_ROOT}/lib"
+  LIBRARY DESTINATION "${BUNDLE_ROOT}/lib"
+)
+
+# Then install module and workflow
 install(FILES "${WRAPPER_LIBRARY}" DESTINATION lib)
 install(TARGETS feynman_workflow DESTINATION lib)
+
+# Copy system libraries to bundle
+install(FILES 
+    ${FLINT_LIBRARY}
+    ${GMP_LIBRARY}
+    ${MPFR_LIBRARY}
+    ${GF2X_LIBRARY}
+    ${NTL_LIBRARY}
+    DESTINATION "${BUNDLE_ROOT}/lib"
+    OPTIONAL
+)
+
+# Create a custom target to install implementation library before building module
+add_custom_target(install_implementation
+  COMMAND ${CMAKE_COMMAND} -DCOMPONENT=Runtime -P ${CMAKE_BINARY_DIR}/cmake_install.cmake
+  DEPENDS feynman_implementation
+)
+add_dependencies(workflow_library install_implementation)
 
 # Add executable
 extended_add_executable(NAME "feynman"
@@ -208,12 +265,22 @@ extended_add_executable(NAME "feynman"
   INSTALL_DESTINATION bin
 )
 
-# Make sure the executable depends on the implementation and workflow
-add_dependencies(feynman feynman_implementation feynman_workflow)
+# Set RPATH for libraries
+foreach(target feynman_implementation feynman_workflow)
+  set_target_properties(${target}
+    PROPERTIES
+    INSTALL_RPATH_USE_LINK_PATH TRUE
+    BUILD_WITH_INSTALL_RPATH TRUE
+    INSTALL_RPATH "\$ORIGIN/../lib:\$ORIGIN/../libexec/bundle/lib:\$ORIGIN/../libexec/bundle/gpispace/lib:\$ORIGIN/../libexec/bundle/gpispace/libexec/iml:/usr/local/lib"
+  )
+endforeach()
 
-# Set executable RPATH
+# Set RPATH for executable
 set_target_properties(feynman
   PROPERTIES
   INSTALL_RPATH_USE_LINK_PATH TRUE
-  INSTALL_RPATH "\$ORIGIN/../lib:\$ORIGIN/../libexec/bundle/lib:\$ORIGIN/../libexec/bundle/gpispace/lib:\$ORIGIN/../libexec/bundle/gpispace/libexec/iml"
+  BUILD_WITH_INSTALL_RPATH TRUE
+  INSTALL_RPATH "\$ORIGIN/../lib:\$ORIGIN/../libexec/bundle/lib:\$ORIGIN/../libexec/bundle/gpispace/lib:\$ORIGIN/../libexec/bundle/gpispace/libexec/iml:/usr/local/lib"
 )
+
+bundle_GPISpace_add_rpath(TARGET "feynman" INSTALL_DIRECTORY "bin")

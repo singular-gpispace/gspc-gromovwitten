@@ -55,7 +55,7 @@ std::string getWorkflowPath(WorkflowType type, const std::filesystem::path& base
             filename = "feynman_sum.pnet";
             break;
         case WorkflowType::BASE:
-            filename = "feynman.pnet";
+            filename = "feynman_base.pnet";
             break;
     }
     return (base_path / "pnet" / filename).string();

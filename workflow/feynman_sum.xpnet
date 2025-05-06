@@ -208,14 +208,13 @@
           <cinclude href="feynman.hpp"/>
           <code><![CDATA[
             std::vector<unsigned long> v = stringToVectorUlong(sum);
-                std::vector<unsigned long> w = stringToVectorUlong(s);
+            std::vector<unsigned long> w = stringToVectorUlong(s);
 
-                // Perform the sum of the vectors
-                std::vector<unsigned long> sum_vector = sumOfVectors(v, w);
+            // Perform the sum of the vectors
+            std::vector<unsigned long> sum_vector = sumOfVectors(v, w);
 
-                // Convert the result back to a string
-                sum = vectorToStringULong(sum_vector);
-
+            // Convert the result back to a string
+            sum = vectorToStringULong(sum_vector);
           ]]>
           </code>
 
@@ -294,7 +293,6 @@
           <cinclude href="iostream"/>
           <cinclude href="vector"/>
           <cinclude href="sstream"/>
-          <cinclude href="Quasi.hpp"/>
           <cinclude href="feynman.hpp"/>
 
           <code><![CDATA[
