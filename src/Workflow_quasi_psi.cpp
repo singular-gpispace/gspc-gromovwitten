@@ -1,4 +1,4 @@
-#include <../include/feynman/Workflow.hpp>
+#include <../include/feynman/Workflow_quasi_psi.hpp>
 #include <iostream>
 
 namespace feynman
@@ -91,7 +91,7 @@ namespace feynman
         , _loop(args.at("loop").as<std::string>()) // graph.
 
     {
-        std::vector<int> genusVector = stringToVectorInt(std::get<std::string>(_genus));
+        std::vector<int> genusVector = stringToVectorInt(_genus);
 
         // Sum the integers in the vector
         int gs = sumVector(genusVector);

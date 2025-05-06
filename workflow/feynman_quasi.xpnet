@@ -310,35 +310,49 @@
           <cinclude href="feynman.hpp"/>
 
           <code><![CDATA[
-           std::vector<unsigned long> Iq=stringToVectorUlong(answer);
+           std::vector<unsigned long> Iq_ulong = stringToVectorUlong(answer);
 
+           // Convert unsigned long vector to fmpq_t* vector
+           std::vector<fmpq_t*> Iq;
+           for (unsigned long val : Iq_ulong) {
+               fmpq_t* coeff = (fmpq_t*)malloc(sizeof(fmpq_t));
+               fmpq_init(*coeff);
+               fmpq_set_ui(*coeff, val, 1);
+               Iq.push_back(coeff);
+           }
 
-    // Maximum weight
+           // Initialize FLINT polynomial context with 3 variables
+           slong nv = 3;  // Number of variables
+           fmpq_mpoly_ctx_t ctx;
+           fmpq_mpoly_ctx_init(ctx, nv, ORD_DEGLEX);
 
-    // Initialize FLINT polynomial context with 3 variables
-    slong nv = 3;  // Number of variables
-    fmpq_mpoly_ctx_t ctx;
-    fmpq_mpoly_ctx_init(ctx, nv, ORD_DEGLEX);
+           // Variable to hold the result
+           fmpq_mpoly_t result;
+           fmpq_mpoly_init(result, ctx);
 
-    // Variable to hold the result
-    fmpq_mpoly_t result;
-    fmpq_mpoly_init(result, ctx);
+           // Call the quasimodular_form function with Iq and weightmax
+           quasimodular_form(result, Iq, weightmax, ctx);
 
-    // Call the quasimodular_form function with Iq and weightmax
-    feynman_quasimodular_form(result, Iq, weightmax, ctx);
+           // Print the result in a pretty format
+           std::cout << "Quasimodular form result: ";
+           fmpq_mpoly_print_pretty(result, NULL, ctx);
+           std::cout << std::endl;
 
-    // Print the result
-    feynman_fmpq_mpoly_print_pretty(result, NULL, ctx);
+           // Convert polynomial result to string
+           std::string fey = fmpq_mpolyToString(result, ctx);
+           std::cout << "Polynomial as string: " << fey << std::endl;
 
-    // Convert to string
-    std::string fey = feynman_fmpq_mpolyToString(result, ctx);
+           answer = fey;
 
-    answer=fey;
+           // Clean up allocated memory
+           for (auto coeff : Iq) {
+               fmpq_clear(*coeff);
+               free(coeff);
+           }
 
-    // Clear polynomials and context
-    fmpq_mpoly_clear(result, ctx);
-    fmpq_mpoly_ctx_clear(ctx);
-
+           // Clear polynomials and context
+           fmpq_mpoly_clear(result, ctx);
+           fmpq_mpoly_ctx_clear(ctx);
          ]]>
           </code>
         </module>
