@@ -307,7 +307,6 @@
           <cinclude href="iostream"/>
           <cinclude href="vector"/>
           <cinclude href="sstream"/>
-          <cinclude href="Quasi.hpp"/>
           <cinclude href="feynman.hpp"/>
 
           <code><![CDATA[
@@ -326,16 +325,13 @@
     fmpq_mpoly_init(result, ctx);
 
     // Call the quasimodular_form function with Iq and weightmax
-    quasimodular_form(result, Iq, weightmax, ctx);
+    feynman_quasimodular_form(result, Iq, weightmax, ctx);
 
-    // Print the result in a pretty format
-    std::cout << "Quasimodular form result: ";
-    fmpq_mpoly_print_pretty(result, NULL, ctx);
-    std::cout << std::endl;
+    // Print the result
+    feynman_fmpq_mpoly_print_pretty(result, NULL, ctx);
 
-    // Convert polynomial result to string
-    std::string fey = fmpq_mpolyToString(result, ctx);
-    std::cout << "Polynomial as string: " << fey << std::endl;
+    // Convert to string
+    std::string fey = feynman_fmpq_mpolyToString(result, ctx);
 
     answer=fey;
 

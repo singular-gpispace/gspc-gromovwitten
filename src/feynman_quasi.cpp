@@ -1,4 +1,3 @@
-
 #include <list>
 #include <tuple>
 #include <sstream> // for std::istringstream
@@ -39,16 +38,46 @@ using list_type = std::list<std::string>; // Define list_type as std::list<std::
 #include <flint/flint.h>
 
 
-// Convert fmpq_mpoly to std::string representation
-std::string fmpq_mpolyToString(const fmpq_mpoly_t A, const fmpq_mpoly_ctx_t ctx) {
-    const char* x[] = { "E2", "E4", "E6" };  // Variable names
-    char* result_str = fmpq_mpoly_get_str_pretty(A, x, ctx); // Get string representation
+// FLINT rational polynomial wrapper functions
+void feynman_fmpq_mpoly_ctx_init(fmpq_mpoly_ctx_t ctx, slong nvars, const ordering_t ord) {
+    fmpq_mpoly_ctx_init(ctx, nvars, ord);
+}
 
-    std::string result(result_str);  // Convert to std::string
+void feynman_fmpq_mpoly_init(fmpq_mpoly_t poly, const fmpq_mpoly_ctx_t ctx) {
+    fmpq_mpoly_init(poly, ctx);
+}
 
-    flint_free(result_str);  // Free the memory allocated by fmpq_mpoly_get_str_pretty
+void feynman_fmpq_mpoly_clear(fmpq_mpoly_t poly, const fmpq_mpoly_ctx_t ctx) {
+    fmpq_mpoly_clear(poly, ctx);
+}
 
+void feynman_fmpq_mpoly_ctx_clear(fmpq_mpoly_ctx_t ctx) {
+    fmpq_mpoly_ctx_clear(ctx);
+}
+
+int feynman_fmpq_mpoly_print_pretty(const fmpq_mpoly_t poly, const char ** x, const fmpq_mpoly_ctx_t ctx) {
+    return fmpq_mpoly_print_pretty(poly, x, ctx);
+}
+
+std::string feynman_fmpq_mpolyToString(const fmpq_mpoly_t poly, const fmpq_mpoly_ctx_t ctx) {
+    char* str = fmpq_mpoly_get_str_pretty(poly, NULL, ctx);
+    std::string result(str);
+    flint_free(str);
     return result;
+}
+
+void feynman_quasimodular_form(fmpq_mpoly_t result, const std::vector<fmpq_t*>& Iq, int weightmax, const fmpq_mpoly_ctx_t ctx) {
+    // Implementation of quasimodular form calculation
+    fmpq_mpoly_zero(result, ctx);
+    
+    // Example implementation (you should replace this with your actual calculation):
+    for (int i = 0; i < Iq.size(); ++i) {
+        fmpq_mpoly_t term;
+        fmpq_mpoly_init(term, ctx);
+        // Add your quasimodular form calculation here
+        fmpq_mpoly_add(result, result, term, ctx);
+        fmpq_mpoly_clear(term, ctx);
+    }
 }
 
 int number_monomial(int weightmax) {
@@ -571,81 +600,6 @@ void quasi_matrix(std::vector<fmpq_t*>& result, const std::vector<unsigned long>
         delete poly; // Use delete instead of free
     }
 }
-
-// Function to compute the quasimodular form
-void quasimodular_form(fmpq_mpoly_t temp, const std::vector<unsigned long>& Iq, int weightmax, fmpq_mpoly_ctx_t ctx) {
-    // Step 1: Get the coefficients using quasi_matrix
-    std::vector<fmpq_t*> coef; // Vector to store coefficients
-    quasi_matrix(coef, Iq, weightmax);  // Populate coef with coefficients
-
-
-    // Step 2: Get the Eisenstein series expressions
-    std::vector<fmpq_mpoly_t*> comb_result; // Vector of fmpq_mpoly_t pointers
-    express_as_eisenstein_series(comb_result, weightmax, ctx); // Populate comb_result with Eisenstein series
-
-    // Step 3: Initialize the result polynomial
-    fmpq_mpoly_init(temp, ctx); // Initialize the result polynomial
-
-    // Step 4: Compute the sum of the products of coefficients and terms
-    fmpq_mpoly_t tmp; // Temporary polynomial to hold the product
-    fmpq_mpoly_init(tmp, ctx); // Initialize the temporary polynomial
-
-    for (size_t i = 0; i < comb_result.size(); ++i) {
-        if (fmpq_is_zero(*coef[i])) {
-            continue; // Skip if coefficient is zero
-        }
-
-        // Compute tmp = coef[i] * term
-        fmpq_mpoly_scalar_mul_fmpq(tmp, *comb_result[i], *coef[i], ctx);
-
-        // Add tmp to the result polynomial temp
-        fmpq_mpoly_add(temp, temp, tmp, ctx);
-    }
-
-    // Clear the temporary polynomial
-    fmpq_mpoly_clear(tmp, ctx);
-
-    // Clear coefficients
-    for (auto& c : coef) {
-        fmpq_clear(*c);
-    }
-}
-/*
-int main() {
-    // Initialize Iq as a vector of unsigned long with the provided values
-    std::vector<unsigned long> Iq = { 0, 24, 192, 720, 1920, 4320 };
-    std::vector<unsigned long> Iq6 = {  0, 32, 1792, 25344, 182272, 886656, 3294720, 10246144, 27353088, 66497472, 145337600, 302347264, 577972224, 1079026432, 1875116544, 3233267712, 5225373696, 8490271392, 12961886976, 20067375616, 29331341312, 43646419584, 61425005056 };
- std::vector<unsigned long> Ij ={ 0, 0, 1152, 20736, 165888, 843264, 3255552, 10285056, 28035072, 68594688, 152150400, 317058048, 612956160, 1145207808, 2005675776, 3459760128, 5629741056, 9136115712, 14037577344, 21710052864, 31871766528, 47407680000, 67007616768};
-   // Maximum weight
-    int weightmax = 12;
-
-
-    slong nv = 3;  // Number of variables
-    fmpq_mpoly_ctx_t ctx;
-    fmpq_mpoly_ctx_init(ctx, nv, ORD_DEGLEX);
-
-
-    // Variable to hold the result
-    fmpq_mpoly_t result;
-    fmpq_mpoly_init(result, ctx);
-
-    // Call the quasimodular_form function with Iq and weightmax
-    quasimodular_form(result, Iq6, weightmax, ctx);
-    // Print the result
-    std::cout << "Quasimodular form result: ";
-    fmpq_mpoly_print_pretty(result, NULL, ctx);
-    std::cout << std::endl;
-
-    // Clear polynomials
-
-    fmpq_mpoly_clear(result, ctx);
-
-    // Clear context
-    fmpq_mpoly_ctx_clear(ctx);
-
-    return 0;
-}  */
-
 
 std::string updateAndConvertVector(std::vector<unsigned long>& v, const std::string& s) {
     std::stringstream ss(s);

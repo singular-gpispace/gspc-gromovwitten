@@ -12,6 +12,7 @@
 #include <flint/fmpq.h>
 #include <flint/fmpq_mat.h>
 #include <flint/fmpq_poly.h>
+#include <flint/fmpq_mpoly.h>  // Add this for rational polynomial functions
 #include <stdlib.h> // for malloc and free
 #include <flint/fmpz.h>
 #include <fstream>
@@ -50,11 +51,21 @@ std::string vectorToStringFmpq(const std::vector<fmpq_t*>& vec);
 std::vector<fmpq_t*> stringToVectorFmpq(const std::string& str);
 std::vector<fmpq_t*> sumOfVectorsFmpq(const std::vector<fmpq_t*>& v1, const std::vector<fmpq_t*>& v2);
 
+// FLINT rational polynomial wrapper functions
+void feynman_fmpq_mpoly_ctx_init(fmpq_mpoly_ctx_t ctx, slong nvars, const ordering_t ord);
+void feynman_fmpq_mpoly_init(fmpq_mpoly_t poly, const fmpq_mpoly_ctx_t ctx);
+void feynman_fmpq_mpoly_clear(fmpq_mpoly_t poly, const fmpq_mpoly_ctx_t ctx);
+void feynman_fmpq_mpoly_ctx_clear(fmpq_mpoly_ctx_t ctx);
+int feynman_fmpq_mpoly_print_pretty(const fmpq_mpoly_t poly, const char ** x, const fmpq_mpoly_ctx_t ctx);
+std::string feynman_fmpq_mpolyToString(const fmpq_mpoly_t poly, const fmpq_mpoly_ctx_t ctx);
+void feynman_quasimodular_form(fmpq_mpoly_t result, const std::vector<fmpq_t*>& Iq, int weightmax, const fmpq_mpoly_ctx_t ctx);
+
 // Basic functions
 vector2d gen_block(int d, int n);
 int binomial(int n, int k);
 std::vector<int> next_partition(std::vector<int> a);
 vector2d iterate(std::vector<int> xa);
+ int number_monomial(int weightmax);
 std::vector<std::tuple<int, std::vector<int>>> signature_and_multiplicitie(std::vector<std::pair<int, int>> G, const std::vector<int> a);
 
 // Feynman integral functions

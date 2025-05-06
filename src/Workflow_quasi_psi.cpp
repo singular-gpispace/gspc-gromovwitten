@@ -91,7 +91,7 @@ namespace feynman
         , _loop(args.at("loop").as<std::string>()) // graph.
 
     {
-        std::vector<int> genusVector = stringToVectorInt(_genus);
+        std::vector<int> genusVector = stringToVectorInt(std::get<std::string>(_genus));
 
         // Sum the integers in the vector
         int gs = sumVector(genusVector);
