@@ -82,7 +82,6 @@
       <connect-out-many port="vec" place="branchtype"/>
     </transition>
 
-
     <place name="branchtype" type="list"/>
     <place name="graph" type="list"/>
 
@@ -130,8 +129,8 @@
               }
           }
 
-unsigned long fe=feynman_integral_branch_type(Gv, av);
-return fe;
+        unsigned long fe=feynman_integral_branch_type(Gv, av);
+        return fe;
 
       ]]>          </code>
         </module>
@@ -160,5 +159,4 @@ return fe;
       <connect-inout port="sum" place="sum"/>
     </transition>
   </net>
-
 </defun>

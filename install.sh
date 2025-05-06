@@ -29,16 +29,16 @@ cmake \
   -j $(nproc)
 
 
-time ~/gpi/try_gpi/gspc-gromovwitten/bin/bin/feynman \
-  --gspc-home ~/singular-gpispace/spack/opt/spack/linux-ubuntu22.04-skylake/gcc-11.3.0/gpi-space-24.12-jz6b4m6ql54fmhkpq6gbico2neic3kd5/ \
-  --nodefile ~/gpi/try_gpi/gspc-gromovwitten/nodefile \
-  --rif-strategy ssh \
-  --topology "worker:7" \
-  --N 6 \
-  --degree 4 \
-  --graph "{{1, 3}, {1, 2}, {1, 2}, {2, 4}, {3, 4}, {3, 4}}" \
-  --log-host localhost \
-  --log-port 9876
+# time ~/gpi/try_gpi/gspc-gromovwitten/bin/bin/feynman \
+#   --gspc-home ~/singular-gpispace/spack/opt/spack/linux-ubuntu22.04-skylake/gcc-11.3.0/gpi-space-24.12-jz6b4m6ql54fmhkpq6gbico2neic3kd5/ \
+#   --nodefile ~/gpi/try_gpi/gspc-gromovwitten/nodefile \
+#   --rif-strategy ssh \
+#   --topology "worker:7" \
+#   --N 6 \
+#   --degree 4 \
+#   --graph "{{1, 3}, {1, 2}, {1, 2}, {2, 4}, {3, 4}, {3, 4}}" \
+#   --log-host localhost \
+#   --log-port 9876
 
 
 time ~/gpi/try_gpi/gspc-gromovwitten/bin/bin/feynman \
