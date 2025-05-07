@@ -28,7 +28,7 @@
           <cinclude href="iostream"/>
           <cinclude href="vector"/>
           <cinclude href="sstream"/>
-          <cinclude href="feynman.hpp"/>
+          <cinclude href="feynman_quasi.hpp"/>
 
           <code><![CDATA[
           int nb = number_monomial(weightmax); // Call to your number_monomial function
@@ -66,7 +66,7 @@
           <cinclude href="iostream"/>
           <cinclude href="vector"/>
           <cinclude href="sstream"/>
-          <cinclude href="feynman.hpp"/>
+          <cinclude href="feynman_quasi.hpp"/>
           <code><![CDATA[
 
           vector2d gen=gen_block(n,i);
@@ -98,7 +98,7 @@
           <cinclude href="vector"/>
           <cinclude href="numeric"/>
           <cinclude href="sstream"/>
-          <cinclude href="../include/feynman/feynman.hpp"/>
+          <cinclude href="../include/feynman/feynman_quasi.hpp"/>
 
           <code><![CDATA[
           std::vector<int> x;
@@ -151,7 +151,7 @@
           <cinclude href="sstream"/>
           <cinclude href="stack"/>
           <cinclude href="unordered_set"/>
-          <cinclude href="feynman.hpp"/>
+          <cinclude href="feynman_quasi.hpp"/>
           <code><![CDATA[
           std::vector<int> xxx; // Define xxx outside the inner loop
             for (const auto &vii : G)
@@ -217,7 +217,7 @@
           <cinclude href="sstream"/>
           <cinclude href="stack"/>
           <cinclude href="unordered_set"/>
-          <cinclude href="feynman.hpp"/>
+          <cinclude href="feynman_quasi.hpp"/>
           <code><![CDATA[
             std::vector<unsigned long> v = stringToVectorUlong(sum);
                 std::vector<unsigned long> w = stringToVectorUlong(s);
@@ -307,52 +307,42 @@
           <cinclude href="iostream"/>
           <cinclude href="vector"/>
           <cinclude href="sstream"/>
-          <cinclude href="feynman.hpp"/>
+          <cinclude href="Quasi.hpp"/>
+          <cinclude href="feynman_quasi.hpp"/>
 
           <code><![CDATA[
-           std::vector<unsigned long> Iq_ulong = stringToVectorUlong(answer);
+           std::vector<unsigned long> Iq=stringToVectorUlong(answer);
 
-           // Convert unsigned long vector to fmpq_t* vector
-           std::vector<fmpq_t*> Iq;
-           for (unsigned long val : Iq_ulong) {
-               fmpq_t* coeff = (fmpq_t*)malloc(sizeof(fmpq_t));
-               fmpq_init(*coeff);
-               fmpq_set_ui(*coeff, val, 1);
-               Iq.push_back(coeff);
-           }
 
-           // Initialize FLINT polynomial context with 3 variables
-           slong nv = 3;  // Number of variables
-           fmpq_mpoly_ctx_t ctx;
-           fmpq_mpoly_ctx_init(ctx, nv, ORD_DEGLEX);
+    // Maximum weight
 
-           // Variable to hold the result
-           fmpq_mpoly_t result;
-           fmpq_mpoly_init(result, ctx);
+    // Initialize FLINT polynomial context with 3 variables
+    slong nv = 3;  // Number of variables
+    fmpq_mpoly_ctx_t ctx;
+    fmpq_mpoly_ctx_init(ctx, nv, ORD_DEGLEX);
 
-           // Call the quasimodular_form function with Iq and weightmax
-           quasimodular_form(result, Iq, weightmax, ctx);
+    // Variable to hold the result
+    fmpq_mpoly_t result;
+    fmpq_mpoly_init(result, ctx);
 
-           // Print the result in a pretty format
-           std::cout << "Quasimodular form result: ";
-           fmpq_mpoly_print_pretty(result, NULL, ctx);
-           std::cout << std::endl;
+    // Call the quasimodular_form function with Iq and weightmax
+    quasimodular_form(result, Iq, weightmax, ctx);
 
-           // Convert polynomial result to string
-           std::string fey = fmpq_mpolyToString(result, ctx);
-           std::cout << "Polynomial as string: " << fey << std::endl;
+    // Print the result in a pretty format
+    std::cout << "Quasimodular form result: ";
+    fmpq_mpoly_print_pretty(result, NULL, ctx);
+    std::cout << std::endl;
 
-           answer = fey;
+    // Convert polynomial result to string
+    std::string fey = fmpq_mpolyToString(result, ctx);
+    std::cout << "Polynomial as string: " << fey << std::endl;
 
-           // Clean up allocated memory
-           for (auto coeff : Iq) {
-               fmpq_clear(*coeff);
-               free(coeff);
-           }
+    answer=fey;
 
-           // Clear polynomials and context
-           fmpq_mpoly_clear(result, ctx);
-           fmpq_mpoly_ctx_clear(ctx);
+    // Clear polynomials and context
+    fmpq_mpoly_clear(result, ctx);
+    fmpq_mpoly_ctx_clear(ctx);
+
          ]]>
           </code>
         </module>

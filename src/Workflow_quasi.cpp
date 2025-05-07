@@ -1,4 +1,4 @@
-#include <../include/feynman/Workflow.hpp>
+#include <../include/feynman/Workflow_quasi.hpp>
 #include <iostream>
 
 namespace feynman
@@ -75,7 +75,8 @@ namespace feynman
             graph_int.emplace_back(pnet_value(xi));
         }
         deg_int = _degree;
-        genus_int = 6 * std::get<int>(_genus) - 6;
+        genus_int = 6 * _genus - 6;
+
     }
 
     ValuesOnPorts Workflow::inputs() const
