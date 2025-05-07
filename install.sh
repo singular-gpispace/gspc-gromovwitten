@@ -5,7 +5,7 @@ spack load gpi-space@24.12
 pnetc ~/gpi/try_gpi/gspc-gromovwitten/workflow/feynman.xpnet | pnet2dot | dot -T svg > ~/gpi/try_gpi/gspc-gromovwitten/workflow/feynman.svg
 
 # Set GPISpace root path
-GPISPACE_ROOT="/home/atraore/singular-gspc-gromovwitten/spack/opt/spack/linux-ubuntu22.04-skylake/gcc-11.3.0/gpi-space-24.12-jz6b4m6ql54fmhkpq6gbico2neic3kd5"
+GPISPACE_ROOT="/home/atraore/singular-gpispace/spack/opt/spack/linux-ubuntu22.04-skylake/gcc-11.3.0/gpi-space-24.12-jz6b4m6ql54fmhkpq6gbico2neic3kd5"
 export GSPC_HOME=$GPISPACE_ROOT
 
 cmake \
